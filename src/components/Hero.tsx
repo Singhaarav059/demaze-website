@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { site } from "@/content/site";
 
 export function Hero() {
@@ -35,23 +34,9 @@ export function Hero() {
         </div>
       </div>
 
-      <div className="relative flex items-end justify-between gap-6 border-t border-paper/10 pt-6">
-        <div className="flex items-center gap-3">
-          <Image
-            src={site.founder.photo}
-            alt={site.founder.name}
-            width={44}
-            height={44}
-            className="rounded-full object-cover"
-          />
-          <div className="text-sm">
-            <p className="text-paper">{site.founder.name}</p>
-            <p className="text-paper-dim">{site.founder.title}</p>
-          </div>
-        </div>
-        <p className="hidden max-w-sm text-right text-sm text-paper-dim italic md:block">
-          &ldquo;{site.founder.quote}&rdquo;
-        </p>
+      <div className="relative flex items-center justify-between gap-6 border-t border-paper/10 pt-6 text-xs tracking-[0.3em] text-paper-dim uppercase">
+        <span>{site.name}</span>
+        <span>Scroll to explore</span>
       </div>
     </section>
   );

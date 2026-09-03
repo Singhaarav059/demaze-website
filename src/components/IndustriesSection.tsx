@@ -5,7 +5,7 @@ export function IndustriesSection() {
   return (
     <section className="px-6 py-20 md:px-10">
       <div className="mx-auto flex max-w-6xl flex-col gap-10">
-        <SectionLabel index="007" label="Industries We Serve" />
+        <SectionLabel index="009" label="Industries We Serve" />
         <div className="grid gap-x-8 md:grid-cols-2">
           {industries.map((industry) => (
             <details

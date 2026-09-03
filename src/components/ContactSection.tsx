@@ -6,7 +6,7 @@ export function ContactSection() {
   return (
     <section className="px-6 py-20 md:px-10">
       <div className="mx-auto flex max-w-6xl flex-col gap-10">
-        <SectionLabel index="008" label="Contact" />
+        <SectionLabel index="011" label="Contact" />
         <h2 className="max-w-3xl font-display text-4xl leading-tight font-light text-paper md:text-6xl">
           Let&apos;s connect and build smarter, faster, and stronger together.
         </h2>

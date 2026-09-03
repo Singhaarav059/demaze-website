@@ -220,3 +220,18 @@ export const projects: Project[] = [
 ];
 
 export const featuredProjects = projects.filter((p) => p.featured);
+
+// The three flagship builds get a dedicated, individually art-directed chapter
+// on the homepage. Everything else (including other "featured" work) lives in
+// the archive index.
+const flagshipSlugs = [
+  "luxury-car-dealer-software",
+  "investigative-case-management",
+  "luxury-ecommerce-platform",
+] as const;
+
+export const flagshipProjects = flagshipSlugs.map(
+  (slug) => projects.find((p) => p.slug === slug)!,
+);
+
+export const archiveProjects = projects.filter((p) => !flagshipSlugs.includes(p.slug as (typeof flagshipSlugs)[number]));

@@ -1,20 +1,26 @@
 import { SectionLabel } from "@/components/SectionLabel";
+import { Reveal } from "@/components/Reveal";
 import { process } from "@/content/about";
 
 export function ProcessSection() {
   return (
-    <section className="px-6 py-10 md:px-10 md:py-16">
-      <div className="mx-auto flex max-w-6xl flex-col gap-12 rounded-[2.5rem] bg-ink-soft px-6 py-16 shadow-soft md:px-14 md:py-20">
-        <SectionLabel index="006" label="How We Work" />
-        <div className="grid gap-12 md:grid-cols-4">
-          {process.map((step) => (
-            <div key={step.step} className="flex flex-col gap-4 border-t border-paper/10 pt-6">
-              <span className="font-display text-3xl text-accent">
-                {String(step.step).padStart(2, "0")}
-              </span>
+    <section className="px-6 py-24 md:px-10">
+      <div className="mx-auto max-w-6xl">
+        <SectionLabel index="007" label="How We Work" />
+
+        <div className="relative mt-20 grid gap-12 md:grid-cols-4 md:gap-10">
+          <div
+            aria-hidden
+            className="absolute top-[13px] right-0 left-0 hidden h-px bg-paper/15 md:block"
+          />
+          {process.map((step, i) => (
+            <Reveal key={step.step} delay={i * 100} className="relative flex flex-col gap-4">
+              <div className="relative z-10 flex h-7 w-7 items-center justify-center rounded-full border border-accent/50 bg-ink font-display text-xs text-accent">
+                {step.step}
+              </div>
               <h3 className="font-display text-lg text-paper">{step.title}</h3>
               <p className="text-sm leading-relaxed text-paper-dim">{step.description}</p>
-            </div>
+            </Reveal>
           ))}
         </div>
       </div>

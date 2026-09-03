@@ -34,7 +34,7 @@ export function ServicesShowcase() {
     });
 
     // Content above this section (project screenshots, the 3D texture in
-    // FlagshipProject) loads asynchronously and can shift page height after
+    // the flagship 3D stage) loads asynchronously and can shift page height after
     // this trigger's start position was first measured. Refresh once things
     // have settled so the pin locks in at the right scroll offset instead of
     // drifting mid-scroll on GSAP's own resize-triggered refresh.
@@ -51,7 +51,7 @@ export function ServicesShowcase() {
   return (
     <section ref={sectionRef} className="relative flex h-screen flex-col px-6 pt-24 pb-10 md:px-10">
       <div className="mx-auto w-full max-w-6xl">
-        <SectionLabel index="004" label="Apps, Websites, AI & More" />
+        <SectionLabel index="006" label="Capabilities" />
       </div>
       <div className="relative mx-auto mt-6 flex w-full max-w-6xl flex-1 items-center overflow-hidden">
         <div className="relative h-[280px] w-full">
