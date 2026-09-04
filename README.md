@@ -1,36 +1,98 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Demaze Technologies — marketing site
 
-## Getting Started
+The public site for [Demaze Technologies](https://www.demazetech.com), an AI and
+software studio in Ahmedabad. A scroll-driven single narrative on the homepage,
+plus four supporting pages, built as a static Next.js app with no backend.
 
-First, run the development server:
+## Stack
+
+| | |
+|---|---|
+| Framework | Next.js 16 (App Router, Turbopack), React 19 |
+| Styling | Tailwind CSS v4, configured in `src/app/globals.css` via `@theme` |
+| Scroll | [Lenis](https://github.com/darkroomengineering/lenis) for smoothing, GSAP ScrollTrigger for pins and scrubs |
+| 3D | three.js via `@react-three/fiber` and `drei`, behind a dynamic import |
+| Fonts | Bricolage Grotesque (display) and Inter Tight (body), self-hosted by `next/font` |
+
+There is no database, API route or CMS. Copy lives in `src/content`, images in
+`public`, and the contact form composes a `mailto:` draft rather than posting
+anywhere.
+
+## Getting started
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The site runs at [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Judge motion and scroll smoothness on a production build, not on `next dev` —
+the dev server ships an unminified React, Turbopack instrumentation and
+on-demand image optimisation, and is materially choppier than what deploys:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build && npm start
+```
 
-## Learn More
+## Scripts
 
-To learn more about Next.js, take a look at the following resources:
+| Command | What it does |
+|---|---|
+| `npm run dev` | Dev server with HMR |
+| `npm run build` | Production build |
+| `npm start` | Serve the production build |
+| `npm run lint` | ESLint |
+| `npm run optimize-images` | Dry run of the image pipeline below |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Layout
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+src/
+  app/            Routes. One page per directory, plus robots, sitemap and the OG image.
+  components/     Every section is a component; the homepage composes them in order.
+  content/        All copy and project data. Edit here, not in components.
+public/
+  projects/       Case-study imagery, .webp only.
+scripts/
+  optimize-images.mjs
+```
 
-## Deploy on Vercel
+## Conventions worth knowing
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**Copy lives in `src/content`.** `site.ts` carries the studio's own details and
+is the single source for metadata, the JSON-LD organisation schema and the
+footer. Changing a headline should never mean touching a component.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Images are committed as `.webp`.** Mockups arrive as 1–2MB PNG exports for
+slots at most ~620 CSS px wide. Run the pipeline before committing new ones:
+
+```bash
+node scripts/optimize-images.mjs public/projects --apply
+```
+
+It caps width at 1600px, re-encodes at quality 86 and deletes the source PNG.
+Dry-run it first — without `--apply` it only prints the savings.
+
+**Every scroll set-piece has a fallback.** The three flagship chapters, the
+process track and the WebGL hero all check `prefers-reduced-motion` and a
+viewport width before they pin or animate, and render a static stacked layout
+otherwise. The fallback is not an afterthought: it is what phones get.
+
+**Pinned sections size against their container's height, not the column
+width.** They are locked to `100vh`, so a stage sized only from its width
+letterboxes on a short screen and its contents then overrun the copy around it.
+The stages cap their width in container-query units (`cqh`) so they keep their
+aspect ratio and fit instead of cropping.
+
+**Scroll smoothing compounds.** Lenis damps the scroll position and every
+scrubbed ScrollTrigger damps again on top of it. Both are tuned together in
+`SmoothScroll.tsx` and the chapter components; raising one without looking at
+the other is what makes the page feel slow rather than smooth.
+
+## Deployment
+
+Static output, deployable anywhere that runs Next.js. Set
+`NEXT_PUBLIC_SITE_URL` in the environment so canonical URLs, the sitemap and the
+OG image resolve against the right origin; it defaults to
+`https://www.demazetech.com`.
