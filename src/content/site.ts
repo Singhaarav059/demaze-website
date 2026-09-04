@@ -1,3 +1,12 @@
+/**
+ * Absolute origin, needed for canonical URLs, OG image URLs and the sitemap.
+ * Override per environment; the default is the domain the contact address
+ * already points at.
+ */
+export const siteUrl = (
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.demazetech.com"
+).replace(/\/$/, "");
+
 export const site = {
   name: "Demaze Technologies",
   eyebrow: "EXPERTISE / INNOVATION / PARTNERSHIP",
@@ -37,3 +46,22 @@ export const site = {
     { label: "Contact us", href: "/contact-us" },
   ],
 };
+
+/**
+ * Every page needs a canonical and its own share card. Building them from one
+ * helper keeps a new page from silently shipping with neither.
+ */
+export function pageMeta(title: string, description: string, path: string) {
+  const url = `${siteUrl}${path}`;
+  // The generated card has to be named explicitly. Next only auto-attaches
+  // opengraph-image.tsx to its own segment, and declaring `openGraph` here
+  // replaces the inherited object, so sub-pages would ship with no image.
+  const images = [{ url: "/opengraph-image", width: 1200, height: 630, alt: title }];
+  return {
+    title,
+    description,
+    alternates: { canonical: path },
+    openGraph: { title, description, url, siteName: site.name, type: "website" as const, images },
+    twitter: { card: "summary_large_image" as const, title, description, images },
+  };
+}

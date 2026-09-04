@@ -8,11 +8,14 @@ export default function Footer() {
       <div className="mx-auto max-w-5xl px-6 py-9">
         <div className="flex flex-wrap items-start justify-between gap-7">
           <div>
+            {/* Sized to what it renders at. The intrinsic 1344px asked Next
+                for a 1920px source to paint a 77px logo. */}
             <Image
               src="/demaze-logo-dark.png"
               alt={site.name}
-              width={1344}
-              height={420}
+              width={224}
+              height={70}
+              sizes="112px"
               className="h-6 w-auto"
             />
             <p className="text-void-dim mt-3.5 max-w-xs text-xs leading-relaxed font-semibold">

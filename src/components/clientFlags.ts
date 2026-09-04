@@ -14,15 +14,19 @@ export function useMounted() {
   );
 }
 
-/** Subscribes to the media query rather than sampling it inside an effect. */
-export function useReducedMotion() {
+/** Subscribes to a media query rather than sampling it inside an effect. */
+export function useMediaQuery(query: string) {
   return useSyncExternalStore(
     (onChange) => {
-      const mq = window.matchMedia(QUERY);
+      const mq = window.matchMedia(query);
       mq.addEventListener("change", onChange);
       return () => mq.removeEventListener("change", onChange);
     },
-    () => window.matchMedia(QUERY).matches,
+    () => window.matchMedia(query).matches,
     () => false,
   );
+}
+
+export function useReducedMotion() {
+  return useMediaQuery(QUERY);
 }

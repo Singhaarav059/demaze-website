@@ -17,17 +17,23 @@ import { process } from "@/content/about";
 export default function ProcessTrack() {
   const pin = useRef<HTMLDivElement>(null);
   const track = useRef<HTMLDivElement>(null);
+  const frame = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const el = pin.current;
     const rail = track.current;
-    if (!el || !rail) return;
+    const box = frame.current;
+    if (!el || !rail || !box) return;
 
     gsap.registerPlugin(ScrollTrigger);
     const mm = gsap.matchMedia();
 
     mm.add("(min-width: 768px) and (prefers-reduced-motion: no-preference)", () => {
-      const distance = () => Math.max(rail.scrollWidth - window.innerWidth, 0);
+      // Measured against the grid column, not the window. The track starts on
+      // the same gutter as every other section and ends with the last card's
+      // right edge back on that gutter, so the run stays inside the layout
+      // instead of sliding out to touch the bare screen edge.
+      const distance = () => Math.max(rail.scrollWidth - box.clientWidth, 0);
 
       gsap.to(rail, {
         x: () => -distance(),
@@ -52,41 +58,50 @@ export default function ProcessTrack() {
     <section className="bg-paper">
       <div
         ref={pin}
-        className="overflow-hidden py-14 md:flex md:h-screen md:flex-col md:py-0 md:pt-24 md:pb-8"
+        className="overflow-hidden py-14 md:flex md:h-screen md:flex-col md:py-0 md:pt-24 md:pb-10"
       >
         <div className="mx-auto w-full max-w-5xl shrink-0 px-6">
           <SectionLabel index="005">How we work</SectionLabel>
           <h2 className="display d-lg mt-2.5 max-w-xl">Four phases, no handover cliff.</h2>
         </div>
 
-        <div className="mt-8 flex snap-x snap-mandatory overflow-x-auto md:mt-0 md:flex-1 md:snap-none md:items-center md:overflow-visible">
-          <div ref={track} className="flex gap-8 px-6 md:gap-14 md:pr-[18vw]">
-            {process.map((phase) => (
-              <article
-                key={phase.step}
-                className="w-[80vw] shrink-0 snap-start sm:w-[58vw] md:w-[46vw] lg:w-[38rem]"
-              >
-                <div className="flex items-center gap-3">
-                  <span className="bg-accent h-1.5 w-1.5 shrink-0 rounded-full" />
-                  <span className="bg-line h-px flex-1" />
-                  <span className="text-muted/70 font-display text-[0.65rem]">
-                    {String(phase.step).padStart(2, "0")} / 04
-                  </span>
-                </div>
-
-                <p
-                  className="display text-ink/8 mt-5 text-[5.5rem] leading-none select-none"
-                  aria-hidden
+        <div className="mt-8 flex snap-x snap-mandatory overflow-x-auto md:mt-8 md:min-h-0 md:flex-1 md:snap-none md:overflow-visible">
+          {/* This box is the measuring stick: its width is the grid column, so
+              the track can align to the gutter at both ends. */}
+          <div ref={frame} className="mx-auto w-full max-w-5xl px-6">
+            <div ref={track} className="flex h-full gap-8 md:gap-14">
+              {process.map((phase) => (
+                <article
+                  key={phase.step}
+                  className="flex w-[80vw] shrink-0 snap-start flex-col sm:w-[58vw] md:w-[46vw] md:pb-2 lg:w-[34rem]"
                 >
-                  {String(phase.step).padStart(2, "0")}
-                </p>
+                  <div className="flex shrink-0 items-center gap-3">
+                    <span className="bg-accent h-1.5 w-1.5 shrink-0 rounded-full" />
+                    <span className="bg-line h-px flex-1" />
+                    <span className="text-muted/70 font-display text-[0.65rem]">
+                      {String(phase.step).padStart(2, "0")} / 04
+                    </span>
+                  </div>
 
-                <h3 className="display d-md -mt-6">{phase.title}</h3>
-                <p className="text-muted mt-3 text-[0.82rem] leading-relaxed font-medium">
-                  {phase.description}
-                </p>
-              </article>
-            ))}
+                  {/* Rule at the top, everything else anchored to the bottom.
+                      The slack sits in one block between them, which reads as
+                      an editorial column; spreading it between the number and
+                      the title just pulled the two apart. */}
+                  <div className="mt-6 md:mt-auto md:pt-10">
+                    <p
+                      className="display text-ink/[0.07] text-[clamp(4.5rem,11vh,9rem)] leading-[0.78] select-none"
+                      aria-hidden
+                    >
+                      {String(phase.step).padStart(2, "0")}
+                    </p>
+                    <h3 className="display d-md mt-3">{phase.title}</h3>
+                    <p className="text-muted mt-3 max-w-md text-[0.82rem] leading-relaxed font-medium">
+                      {phase.description}
+                    </p>
+                  </div>
+                </article>
+              ))}
+            </div>
           </div>
         </div>
       </div>

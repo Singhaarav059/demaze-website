@@ -28,8 +28,10 @@ export default function ContactForm() {
     )}&body=${encodeURIComponent(body)}`;
   };
 
+  // outline-none on its own leaves keyboard users with no focus indicator at
+  // all, so the ring replaces the outline rather than removing it.
   const field =
-    "border-line focus:border-accent w-full rounded-[14px] border bg-white/60 px-4 py-3 text-sm font-semibold outline-none transition-colors placeholder:text-muted/60";
+    "border-line focus:border-accent focus-visible:ring-accent/35 w-full rounded-[14px] border bg-white/60 px-4 py-3 text-sm font-semibold outline-none transition-colors focus-visible:ring-[3px] placeholder:text-muted/60";
 
   return (
     <form onSubmit={onSubmit} className="grid gap-4">

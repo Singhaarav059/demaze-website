@@ -21,17 +21,24 @@ export default function HeroSequence() {
       {/* ---------- Hero, pinned ---------- */}
       <section className="bg-void text-void-fg grain sticky top-0 z-0 flex h-screen flex-col overflow-hidden">
         <div className="hero-glow bg-accent/25 pointer-events-none absolute top-[-20%] left-1/2 h-[70vh] w-[70vw] -translate-x-1/2 rounded-full blur-[140px]" />
+        {/* Second, slower blob. Below lg there is no knot, and one centred glow
+            on flat black leaves the top half of the hero empty. */}
+        <div
+          className="hero-glow bg-accent-deep/30 pointer-events-none absolute top-[6%] right-[-20%] h-[45vh] w-[80vw] rounded-full blur-[120px] lg:hidden"
+          style={{ animationDelay: "-12s", animationDuration: "38s" }}
+        />
         <HeroScene />
         <div className="from-void via-void/20 pointer-events-none absolute inset-0 bg-gradient-to-t to-transparent" />
         {/* Keeps the headline off the knot's bright lobes without dimming the
-            whole scene. */}
-        <div className="from-void/95 via-void/55 pointer-events-none absolute inset-0 bg-gradient-to-r to-transparent lg:to-60%" />
+            whole scene. Only lg renders the knot, so below that this scrim has
+            nothing to protect against and would just flatten the hero. */}
+        <div className="from-void via-void/75 pointer-events-none absolute inset-0 hidden bg-gradient-to-r to-transparent to-70% lg:block" />
 
         <div className="relative z-10 mx-auto flex w-full max-w-5xl flex-1 flex-col justify-end px-6 pt-24 pb-6">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-2xl">
               <p className="label text-accent">{site.eyebrow}</p>
-              <h1 className="display d-xl mt-3">{site.tagline}</h1>
+              <h1 className="display d-xl mt-3 text-balance">{site.tagline}</h1>
               <p className="lede text-void-fg/65 mt-4 max-w-lg">{site.intro}</p>
 
               <div className="mt-6 flex flex-wrap items-center gap-2.5">

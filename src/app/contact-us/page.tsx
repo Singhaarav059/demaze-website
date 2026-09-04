@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import ContactForm from "@/components/ContactForm";
-import { site } from "@/content/site";
+import { pageMeta, site } from "@/content/site";
 
-export const metadata: Metadata = {
-  title: `Contact · ${site.name}`,
-  description: `Talk to ${site.name} about your project.`,
-};
+export const metadata: Metadata = pageMeta(
+  "Contact",
+  `Talk to ${site.name} about your project. Describe the problem and we will tell you honestly whether we are the right team for it.`,
+  "/contact-us",
+);
 
 export default function ContactPage() {
   return (

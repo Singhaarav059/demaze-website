@@ -2,13 +2,10 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Reveal from "@/components/Reveal";
 import StatsSection from "@/components/StatsSection";
-import { site } from "@/content/site";
+import { pageMeta, site } from "@/content/site";
 import { whoWeAre, whatDrivesUs, whyChooseUsAbout, whatWeAreTags } from "@/content/about";
 
-export const metadata: Metadata = {
-  title: `About us · ${site.name}`,
-  description: whoWeAre.paragraphs[0],
-};
+export const metadata: Metadata = pageMeta("About us", whoWeAre.paragraphs[0], "/about-us");
 
 export default function AboutPage() {
   return (

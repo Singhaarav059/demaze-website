@@ -47,7 +47,15 @@ export default function ContactSection() {
       </div>
 
       <div className="mx-auto max-w-5xl px-6 pt-2 pb-14 md:pb-20">
-        <h2 className="display d-xl max-w-2xl">Tell us what you are trying to build.</h2>
+        {/* Two columns: the headline alone left half of a wide viewport empty,
+            which read as an unfinished block rather than a deliberate pause. */}
+        <div className="grid gap-6 md:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)] md:items-end md:gap-12">
+          <h2 className="display d-xl">Tell us what you are trying to build.</h2>
+          <p className="max-w-sm text-sm leading-relaxed font-medium text-white/75">
+            No pitch deck required. Describe the problem and the constraints, and we will tell you
+            honestly whether we are the right team for it.
+          </p>
+        </div>
 
         <div className="mt-7 flex flex-wrap items-center gap-2.5">
           <Link

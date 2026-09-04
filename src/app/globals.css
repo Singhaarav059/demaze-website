@@ -55,6 +55,20 @@ body {
   color: var(--color-paper);
 }
 
+/* The site never sets an outline of its own, and the browser default ring is
+   invisible against the accent and void surfaces. One rule covers every
+   control on every background. */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+.bg-accent :focus-visible,
+.bg-void :focus-visible,
+.bg-ink :focus-visible {
+  outline-color: var(--color-void-fg);
+}
+
 /* Display type. The premium read comes from lightness at large size,
    not weight, so display never goes above 400. */
 .display {

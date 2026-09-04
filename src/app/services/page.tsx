@@ -3,12 +3,13 @@ import Link from "next/link";
 import Reveal from "@/components/Reveal";
 import { serviceCategories, platformTabs, techStackFlat } from "@/content/services";
 import { process } from "@/content/about";
-import { site } from "@/content/site";
+import { pageMeta } from "@/content/site";
 
-export const metadata: Metadata = {
-  title: `Services · ${site.name}`,
-  description: "AI and ML, web, mobile and SaaS, e-commerce, and cloud engineering.",
-};
+export const metadata: Metadata = pageMeta(
+  "Services",
+  "AI and ML, web, mobile and SaaS, e-commerce, and cloud engineering.",
+  "/services",
+);
 
 export default function ServicesPage() {
   return (

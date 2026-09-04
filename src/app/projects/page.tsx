@@ -3,12 +3,13 @@ import Image from "next/image";
 import Reveal from "@/components/Reveal";
 import Parallax from "@/components/Parallax";
 import { projects } from "@/content/projects";
-import { site } from "@/content/site";
+import { pageMeta } from "@/content/site";
 
-export const metadata: Metadata = {
-  title: `Projects · ${site.name}`,
-  description: "Selected systems Demaze Technologies has designed, built and shipped.",
-};
+export const metadata: Metadata = pageMeta(
+  "Projects",
+  "Selected systems Demaze Technologies has designed, built and shipped.",
+  "/projects",
+);
 
 export default function ProjectsPage() {
   return (
