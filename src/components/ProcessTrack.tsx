@@ -64,7 +64,7 @@ export default function ProcessTrack() {
             {process.map((phase) => (
               <article
                 key={phase.step}
-                className="w-[76vw] shrink-0 snap-start sm:w-[52vw] md:w-[38vw] lg:w-[30rem]"
+                className="w-[80vw] shrink-0 snap-start sm:w-[58vw] md:w-[46vw] lg:w-[38rem]"
               >
                 <div className="flex items-center gap-3">
                   <span className="bg-accent h-1.5 w-1.5 shrink-0 rounded-full" />
