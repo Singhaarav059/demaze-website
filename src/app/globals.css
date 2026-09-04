@@ -29,6 +29,10 @@
   --radius-inner: 20px;
 
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  /* Expo-out covers about 90% of its distance in the first third, which lands
+     as a flinch rather than an arrival. This keeps the deceleration but starts
+     gently, so entrances drift into place. */
+  --ease-soft: cubic-bezier(0.3, 0.72, 0.28, 1);
 }
 
 * {
@@ -116,15 +120,28 @@ body {
 /* Scroll-reveal primitive, driven by Reveal.tsx */
 .reveal {
   opacity: 0;
-  transform: translateY(24px) scale(var(--reveal-scale, 1));
+  /* Shorter travel as well as a softer curve. 24px over a fast ease reads as a
+     jump; 16px over a gentle one reads as settling. */
+  transform: translateY(16px) scale(var(--reveal-scale, 1));
   transition:
-    opacity 1s var(--ease-out-expo),
-    transform 1.1s var(--ease-out-expo);
+    opacity 1.1s var(--ease-soft),
+    transform 1.25s var(--ease-soft);
   will-change: opacity, transform;
 }
 .reveal.is-in {
   opacity: 1;
   transform: translateY(0) scale(1);
+}
+
+/* A full desktop dashboard shrunk to phone width is an unreadable thumbnail:
+   1536 source px across ~390 CSS px renders 11px UI text at under 3px. Below md
+   the frame zooms to a single card instead, so the figure the copy names is
+   actually legible. Per-screen focal points come in as custom properties. */
+@media (max-width: 767px) {
+  .zoom-focus {
+    transform: scale(var(--zoom, 4));
+    transform-origin: var(--zoom-x, 50%) var(--zoom-y, 50%);
+  }
 }
 
 /* Infinite ticker */

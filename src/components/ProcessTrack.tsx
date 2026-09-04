@@ -43,7 +43,7 @@ export default function ProcessTrack() {
           start: "top top",
           end: () => `+=${distance()}`,
           pin: el,
-          scrub: 0.5,
+          scrub: 1.15,
           invalidateOnRefresh: true,
         },
       });
@@ -65,11 +65,17 @@ export default function ProcessTrack() {
           <h2 className="display d-lg mt-2.5 max-w-xl">Four phases, no handover cliff.</h2>
         </div>
 
-        <div className="mt-8 flex snap-x snap-mandatory overflow-x-auto md:mt-8 md:min-h-0 md:flex-1 md:snap-none md:overflow-visible">
+        {/* items-center is what keeps this dense. Left to fill the pinned
+            frame, the track took the whole remaining viewport height and the
+            card text anchored to the bottom of it, which pooled every pixel of
+            slack into one empty band across the middle of the screen. The card
+            is sized to its own content instead, and the leftover height splits
+            evenly above and below it. */}
+        <div className="mt-8 flex snap-x snap-mandatory overflow-x-auto md:mt-8 md:min-h-0 md:flex-1 md:snap-none md:items-center md:overflow-visible">
           {/* This box is the measuring stick: its width is the grid column, so
               the track can align to the gutter at both ends. */}
           <div ref={frame} className="mx-auto w-full max-w-5xl px-6">
-            <div ref={track} className="flex h-full gap-8 md:gap-14">
+            <div ref={track} className="flex gap-8 md:gap-14">
               {process.map((phase) => (
                 <article
                   key={phase.step}
@@ -83,10 +89,12 @@ export default function ProcessTrack() {
                     </span>
                   </div>
 
-                  {/* Rule at the top, everything else anchored to the bottom.
-                      The slack sits in one block between them, which reads as
-                      an editorial column; spreading it between the number and
-                      the title just pulled the two apart. */}
+                  {/* mt-auto bottom-aligns the shorter cards against the
+                      tallest one, so titles and descriptions share a baseline
+                      across the run. It only reads as a hole when the card is
+                      forced to a viewport height instead of its content's, so
+                      the cards carry no explicit height and the leftover frame
+                      space is centred outside the track instead. */}
                   <div className="mt-6 md:mt-auto md:pt-10">
                     <p
                       className="display text-ink/[0.07] text-[clamp(4.5rem,11vh,9rem)] leading-[0.78] select-none"

@@ -230,6 +230,10 @@ const flagshipSlugs = [
   "luxury-ecommerce-platform",
 ] as const;
 
+// Each of these now has its own art-directed chapter component on the homepage
+// (FlagshipAutomotive, FlagshipInvestigative, FlagshipEcommerce). They are
+// deliberately not driven off a shared template: the whole point of a flagship
+// is that its treatment is built around what that project actually did.
 export const flagshipProjects = flagshipSlugs.map(
   (slug) => projects.find((p) => p.slug === slug)!,
 );

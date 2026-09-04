@@ -20,11 +20,17 @@ export default function HeroSequence() {
     <div className="relative">
       {/* ---------- Hero, pinned ---------- */}
       <section className="bg-void text-void-fg grain sticky top-0 z-0 flex h-screen flex-col overflow-hidden">
-        <div className="hero-glow bg-accent/25 pointer-events-none absolute top-[-20%] left-1/2 h-[70vh] w-[70vw] -translate-x-1/2 rounded-full blur-[140px]" />
+        {/* A 140px blur on a phone-width element is over half its own width, so
+            the glow dissolves instead of reading as a field. Below lg the blobs
+            are sized past the viewport and the blur is pulled back, which is
+            what actually makes them visible there. */}
+        <div className="hero-glow bg-accent/35 pointer-events-none absolute top-[-18%] left-1/2 h-[60vh] w-[135vw] -translate-x-1/2 rounded-full blur-[90px] lg:h-[70vh] lg:w-[70vw] lg:bg-accent/25 lg:blur-[140px]" />
         {/* Second, slower blob. Below lg there is no knot, and one centred glow
-            on flat black leaves the top half of the hero empty. */}
+            on flat black leaves the top half of the hero empty. Bright accent,
+            not accent-deep: a dark blue at low alpha over near-black void has
+            almost no luminance to contribute and reads as nothing. */}
         <div
-          className="hero-glow bg-accent-deep/30 pointer-events-none absolute top-[6%] right-[-20%] h-[45vh] w-[80vw] rounded-full blur-[120px] lg:hidden"
+          className="hero-glow bg-accent/28 pointer-events-none absolute top-[2%] right-[-35%] h-[42vh] w-[105vw] rounded-full blur-[80px] lg:hidden"
           style={{ animationDelay: "-12s", animationDuration: "38s" }}
         />
         <HeroScene />
@@ -62,14 +68,24 @@ export default function HeroSequence() {
               href={`/projects#${lead.slug}`}
               className="border-void-fg/12 bg-void-fg/6 hover:bg-void-fg/10 group hidden w-64 shrink-0 rounded-[18px] border p-2.5 backdrop-blur-xl transition-colors lg:block"
             >
+              {/* The real product screen, cropped to its headline figure, not
+                  the old stock mockup. Chapter 01 sits immediately below this
+                  card showing the same platform, and advertising it here with a
+                  tilted phone render made the two read as different projects.
+                  Cropped because a whole dashboard at 256px is illegible. */}
               <div className="relative aspect-[16/10] overflow-hidden rounded-[12px]">
-                <Image
-                  src={lead.image}
-                  alt={lead.title}
-                  fill
-                  sizes="256px"
-                  className="scale-[1.18] object-cover saturate-[0.5] transition-transform duration-700 group-hover:scale-[1.24]"
-                />
+                <div
+                  className="absolute inset-0"
+                  style={{ transform: "scale(2)", transformOrigin: "66% 29%" }}
+                >
+                  <Image
+                    src="/projects/flagship/automotive-valuation.webp"
+                    alt={lead.title}
+                    fill
+                    sizes="512px"
+                    className="object-cover transition-transform duration-700 group-hover:scale-[1.06]"
+                  />
+                </div>
               </div>
               <div className="flex items-end justify-between gap-3 px-1.5 pt-2.5 pb-0.5">
                 <div>

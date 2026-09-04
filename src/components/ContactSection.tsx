@@ -27,7 +27,7 @@ export default function ContactSection() {
       {
         scale: 1,
         ease: "none",
-        scrollTrigger: { trigger: el, start: "top bottom", end: "bottom bottom", scrub: 0.4 },
+        scrollTrigger: { trigger: el, start: "top bottom", end: "bottom bottom", scrub: 1 },
       },
     );
 

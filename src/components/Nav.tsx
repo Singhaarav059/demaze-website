@@ -28,14 +28,27 @@ export default function Nav() {
   const [open, setOpen] = useState(false);
   const [solid, setSolid] = useState(false);
   const [onDark, setOnDark] = useState(true);
+  const [hidden, setHidden] = useState(false);
+  const lastY = useRef(0);
   const toggle = useRef<HTMLButtonElement>(null);
   const sheet = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const onScroll = () => {
-      setSolid(window.scrollY > 40);
+      const y = window.scrollY;
+      setSolid(y > 40);
       // Just under the bar, so it reports what the bar is sitting on.
       setOnDark(surfaceIsDark(80));
+
+      // A fixed bar has nowhere to go, so whatever headline happens to scroll
+      // under it stays covered for as long as it is there. Reading downward
+      // retracts it; any upward intent brings it straight back. The 5px
+      // deadzone stops smooth-scroll sub-pixel jitter flipping it every frame.
+      const dy = y - lastY.current;
+      if (Math.abs(dy) > 5) {
+        setHidden(y > 160 && dy > 0);
+        lastY.current = y;
+      }
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -92,7 +105,11 @@ export default function Nav() {
 
   return (
     <>
-      <header className="fixed inset-x-0 top-0 z-50 flex justify-center px-4 pt-4 sm:pt-5">
+      <header
+        className={`fixed inset-x-0 top-0 z-50 flex justify-center px-4 pt-4 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] sm:pt-5 ${
+          hidden && !open ? "-translate-y-[150%]" : "translate-y-0"
+        }`}
+      >
         <nav
           className={`flex w-full max-w-5xl items-center justify-between gap-4 rounded-full py-2 pr-2 pl-4 transition-[background-color,color,box-shadow] duration-500 sm:pl-6 ${barTone}`}
         >

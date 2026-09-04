@@ -24,26 +24,33 @@ export default function ProofSection() {
         <Reveal>
           <blockquote className="display d-lg mt-4 max-w-3xl">“{founder.quote}”</blockquote>
 
-          <figcaption className="mt-6 flex flex-wrap items-center gap-3">
-            <span className="relative h-9 w-9 shrink-0 overflow-hidden rounded-full">
+          {/* The person carrying the quote was a 36px thumbnail sitting in a
+              row of inline labels, which is smaller than the bullet next to it
+              and reads as a favicon rather than a face. Attribution on a
+              founder quote is the credibility, so it gets a real portrait and
+              its own stacked block. */}
+          <figcaption className="mt-7 flex items-center gap-4">
+            <span className="border-void-fg/15 relative h-16 w-16 shrink-0 overflow-hidden rounded-full border md:h-[4.5rem] md:w-[4.5rem]">
               <Image
                 src={founder.photo}
                 alt={founder.name}
                 fill
-                sizes="36px"
+                sizes="72px"
                 className="object-cover"
               />
             </span>
-            <span className="text-sm font-semibold">{founder.name}</span>
-            <span className="text-void-dim text-xs font-semibold">{founder.title}</span>
-            <a
-              href={founder.linkedin}
-              target="_blank"
-              rel="noreferrer noopener"
-              className="text-accent text-xs font-semibold hover:underline"
-            >
-              LinkedIn ↗
-            </a>
+            <span className="min-w-0">
+              <span className="block text-base font-semibold">{founder.name}</span>
+              <span className="text-void-dim block text-xs font-semibold">{founder.title}</span>
+              <a
+                href={founder.linkedin}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="text-accent mt-1 inline-block text-xs font-semibold hover:underline"
+              >
+                LinkedIn ↗
+              </a>
+            </span>
           </figcaption>
         </Reveal>
 

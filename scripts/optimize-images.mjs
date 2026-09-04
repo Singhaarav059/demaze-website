@@ -8,11 +8,12 @@ import path from "node:path";
  * request anyway, so the source resolution only costs repo weight and first-hit
  * optimisation time.
  *
- *   node scripts/optimize-images.mjs          dry run, prints the savings
- *   node scripts/optimize-images.mjs --apply  writes .webp and drops the .png
+ *   node scripts/optimize-images.mjs                    dry run, prints the savings
+ *   node scripts/optimize-images.mjs --apply            writes .webp and drops the .png
+ *   node scripts/optimize-images.mjs <dir> --apply      same, on another folder
  */
-const dir = "public/projects";
 const apply = process.argv.includes("--apply");
+const dir = process.argv[2] && !process.argv[2].startsWith("--") ? process.argv[2] : "public/projects";
 
 // The widest slot any of these fills is ~620 CSS px, so 1600 still covers a 2x
 // render with room to spare.
