@@ -6,16 +6,16 @@ import { process } from "@/content/about";
 import { site } from "@/content/site";
 
 export const metadata: Metadata = {
-  title: `Services — ${site.name}`,
+  title: `Services · ${site.name}`,
   description: "AI and ML, web, mobile and SaaS, e-commerce, and cloud engineering.",
 };
 
 export default function ServicesPage() {
   return (
     <main className="bg-paper">
-      <header className="bg-void text-void-fg grain relative overflow-hidden px-6 pt-40 pb-20">
+      <header className="bg-void text-void-fg grain relative overflow-hidden px-6 pt-32 pb-12">
         <div className="bg-accent/18 pointer-events-none absolute top-0 left-1/2 h-[50vh] w-[70vw] -translate-x-1/2 rounded-full blur-[150px]" />
-        <div className="relative mx-auto max-w-6xl">
+        <div className="relative mx-auto max-w-5xl">
           <p className="label text-accent">Services</p>
           <h1 className="display d-xl mt-6 max-w-4xl">
             Four practices, delivered by one team.
@@ -33,7 +33,7 @@ export default function ServicesPage() {
         </div>
       </header>
 
-      <div className="mx-auto max-w-6xl px-6 py-20 md:py-28">
+      <div className="mx-auto max-w-5xl px-6 section-y">
         {serviceCategories.map((cat, i) => (
           <Reveal key={cat.key}>
             <section className="border-line grid gap-8 border-b py-14 first:pt-0 md:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] md:gap-14">
@@ -62,8 +62,8 @@ export default function ServicesPage() {
         ))}
       </div>
 
-      <section className="bg-ink text-void-fg px-6 py-20">
-        <div className="mx-auto max-w-6xl">
+      <section className="bg-ink text-void-fg px-6 section-y">
+        <div className="mx-auto max-w-5xl">
           <p className="label text-void-dim">Core stack</p>
           <ul className="mt-8 flex flex-wrap gap-x-10 gap-y-4">
             {techStackFlat.map((tech) => (
@@ -75,7 +75,7 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-6 py-20 md:py-28">
+      <section className="mx-auto max-w-5xl px-6 section-y">
         <h2 className="display d-lg max-w-2xl">How an engagement runs.</h2>
         <ol className="mt-12 grid gap-x-8 gap-y-10 md:grid-cols-4">
           {process.map((phase, i) => (

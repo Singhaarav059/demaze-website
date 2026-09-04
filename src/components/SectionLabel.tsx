@@ -8,12 +8,9 @@ export default function SectionLabel({
   tone?: "ink" | "void";
 }) {
   return (
-    <div
-      className={`label flex items-center gap-3 ${tone === "void" ? "text-void-dim" : "text-muted"}`}
-    >
-      <span className="text-accent">{index}</span>
-      <span className={`h-px w-8 ${tone === "void" ? "bg-void-fg/20" : "bg-line"}`} />
+    <p className={`label flex items-center gap-3 ${tone === "void" ? "text-void-dim" : "text-muted"}`}>
+      <span className="text-accent tabular-nums">{index}</span>
       <span>{children}</span>
-    </div>
+    </p>
   );
 }

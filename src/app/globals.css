@@ -65,28 +65,38 @@ body {
 }
 
 .d-xl {
-  font-size: clamp(2.6rem, 7.2vw, 6.4rem);
+  font-size: clamp(2.1rem, 4.4vw, 4rem);
 }
 .d-lg {
-  font-size: clamp(2.1rem, 5vw, 4rem);
+  font-size: clamp(1.65rem, 2.9vw, 2.5rem);
 }
 .d-md {
-  font-size: clamp(1.6rem, 3.1vw, 2.6rem);
-  line-height: 1.06;
+  font-size: clamp(1.2rem, 1.8vw, 1.6rem);
+  line-height: 1.08;
 }
 
 .lede {
-  font-size: clamp(1.05rem, 1.45vw, 1.3rem);
-  line-height: 1.45;
+  font-size: clamp(0.95rem, 1.02vw, 1.08rem);
+  line-height: 1.5;
   font-weight: 600;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.02em;
 }
 
 .label {
-  font-size: 0.72rem;
+  font-size: 0.66rem;
   font-weight: 600;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
+}
+
+/* One knob for vertical rhythm, so the whole site tightens together. */
+.section-y {
+  padding-block: 3.25rem;
+}
+@media (min-width: 768px) {
+  .section-y {
+    padding-block: 4.5rem;
+  }
 }
 
 /* Scroll-reveal primitive, driven by Reveal.tsx */

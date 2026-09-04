@@ -39,52 +39,52 @@ export default function ContactSection() {
 
   return (
     <section className="bg-accent text-white">
-      <div ref={zone} className="bg-paper relative h-[40vh] overflow-hidden">
+      <div ref={zone} className="bg-paper relative h-[26vh] overflow-hidden">
         <div
           ref={circle}
           className="bg-accent absolute bottom-0 left-1/2 aspect-square w-[150vw] -translate-x-1/2 translate-y-1/2 rounded-full"
         />
       </div>
 
-      <div className="mx-auto max-w-6xl px-6 pt-4 pb-24 md:pb-32">
-        <h2 className="display d-xl max-w-4xl">Tell us what you are trying to build.</h2>
+      <div className="mx-auto max-w-5xl px-6 pt-2 pb-14 md:pb-20">
+        <h2 className="display d-xl max-w-2xl">Tell us what you are trying to build.</h2>
 
-        <div className="mt-12 flex flex-wrap items-center gap-3">
+        <div className="mt-7 flex flex-wrap items-center gap-2.5">
           <Link
             href="/contact-us"
-            className="text-accent rounded-full bg-white px-7 py-3.5 text-sm font-semibold transition-transform duration-300 hover:-translate-y-0.5"
+            className="text-accent rounded-full bg-white px-6 py-3 text-sm font-semibold transition-transform duration-300 hover:-translate-y-0.5"
           >
             Start a project
           </Link>
           <a
             href={`mailto:${site.email}`}
-            className="rounded-full border border-white/40 px-7 py-3.5 text-sm font-semibold transition-colors hover:border-white"
+            className="rounded-full border border-white/40 px-6 py-3 text-sm font-semibold transition-colors hover:border-white"
           >
             {site.email}
           </a>
         </div>
 
-        <div className="mt-20 grid gap-10 border-t border-white/20 pt-10 md:grid-cols-3">
+        <div className="mt-12 grid gap-6 border-t border-white/20 pt-6 md:grid-cols-3">
           <div>
             <p className="label text-white/60">Studio</p>
             <a
               href={site.mapsHref}
               target="_blank"
               rel="noreferrer noopener"
-              className="mt-3 block max-w-xs text-sm leading-relaxed font-semibold hover:underline"
+              className="mt-2 block max-w-xs text-xs leading-relaxed font-semibold hover:underline"
             >
               {site.address}
             </a>
           </div>
           <div>
             <p className="label text-white/60">Response time</p>
-            <p className="mt-3 text-sm leading-relaxed font-semibold">
+            <p className="mt-2 text-xs leading-relaxed font-semibold">
               We reply to every project enquiry within one working day.
             </p>
           </div>
           <div>
             <p className="label text-white/60">Team</p>
-            <p className="mt-3 text-sm leading-relaxed font-semibold">
+            <p className="mt-2 text-xs leading-relaxed font-semibold">
               {site.stats[2].value}
               {site.stats[2].suffix} engineers, designers and strategists in Ahmedabad.
             </p>

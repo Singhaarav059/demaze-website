@@ -6,16 +6,16 @@ import { projects } from "@/content/projects";
 import { site } from "@/content/site";
 
 export const metadata: Metadata = {
-  title: `Projects — ${site.name}`,
+  title: `Projects · ${site.name}`,
   description: "Selected systems Demaze Technologies has designed, built and shipped.",
 };
 
 export default function ProjectsPage() {
   return (
     <main className="bg-paper">
-      <header className="bg-void text-void-fg grain relative overflow-hidden px-6 pt-40 pb-20">
+      <header className="bg-void text-void-fg grain relative overflow-hidden px-6 pt-32 pb-12">
         <div className="bg-accent/18 pointer-events-none absolute top-0 left-1/2 h-[50vh] w-[70vw] -translate-x-1/2 rounded-full blur-[150px]" />
-        <div className="relative mx-auto max-w-6xl">
+        <div className="relative mx-auto max-w-5xl">
           <p className="label text-accent">Work</p>
           <h1 className="display d-xl mt-6 max-w-4xl">
             {projects.length} systems, built to stay in production.
@@ -27,7 +27,7 @@ export default function ProjectsPage() {
         </div>
       </header>
 
-      <div className="mx-auto max-w-6xl px-6 py-20 md:py-28">
+      <div className="mx-auto max-w-5xl px-6 section-y">
         {projects.map((p, i) => (
           <article
             key={p.slug}

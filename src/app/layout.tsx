@@ -19,7 +19,7 @@ const interTight = Inter_Tight({
 });
 
 export const metadata: Metadata = {
-  title: `${site.name} — ${site.tagline}`,
+  title: `${site.name} · ${site.tagline}`,
   description: site.intro,
 };
 

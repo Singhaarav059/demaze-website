@@ -27,7 +27,7 @@ export default function Nav() {
     <>
       <header className="fixed inset-x-0 top-0 z-50 flex justify-center px-4 pt-4 sm:pt-5">
         <nav
-          className={`flex w-full max-w-6xl items-center justify-between gap-4 rounded-full py-2 pr-2 pl-4 transition-all duration-500 sm:pl-6 ${
+          className={`flex w-full max-w-5xl items-center justify-between gap-4 rounded-full py-2 pr-2 pl-4 transition-all duration-500 sm:pl-6 ${
             solid
               ? "bg-void/85 shadow-[0_10px_40px_-18px_rgba(0,0,0,0.7)] backdrop-blur-xl"
               : "bg-void/35 backdrop-blur-md"

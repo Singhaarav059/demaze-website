@@ -6,16 +6,16 @@ import { site } from "@/content/site";
 import { whoWeAre, whatDrivesUs, whyChooseUsAbout, whatWeAreTags } from "@/content/about";
 
 export const metadata: Metadata = {
-  title: `About us — ${site.name}`,
+  title: `About us · ${site.name}`,
   description: whoWeAre.paragraphs[0],
 };
 
 export default function AboutPage() {
   return (
     <main className="bg-paper">
-      <header className="bg-void text-void-fg grain relative overflow-hidden px-6 pt-40 pb-20">
+      <header className="bg-void text-void-fg grain relative overflow-hidden px-6 pt-32 pb-12">
         <div className="bg-accent/18 pointer-events-none absolute top-0 left-1/2 h-[50vh] w-[70vw] -translate-x-1/2 rounded-full blur-[150px]" />
-        <div className="relative mx-auto max-w-6xl">
+        <div className="relative mx-auto max-w-5xl">
           <p className="label text-accent">About us</p>
           <h1 className="display d-xl mt-6 max-w-4xl">{whoWeAre.heading}</h1>
           <div className="mt-10 grid gap-8 md:grid-cols-2">
@@ -28,7 +28,7 @@ export default function AboutPage() {
         </div>
       </header>
 
-      <section className="mx-auto max-w-6xl px-6 py-20 md:py-28">
+      <section className="mx-auto max-w-5xl px-6 section-y">
         <p className="label text-muted">What drives us</p>
         <div className="border-line mt-10 grid gap-x-14 border-t md:grid-cols-2">
           {whatDrivesUs.map((item, i) => (
@@ -47,8 +47,8 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="bg-sand px-6 py-20 md:py-28">
-        <div className="mx-auto grid max-w-6xl gap-10 md:grid-cols-[minmax(0,0.7fr)_minmax(0,1.6fr)] md:items-center md:gap-16">
+      <section className="bg-sand px-6 section-y">
+        <div className="mx-auto grid max-w-5xl gap-10 md:grid-cols-[minmax(0,0.7fr)_minmax(0,1.6fr)] md:items-center md:gap-16">
           <Reveal scale>
             <div className="relative aspect-[4/5] overflow-hidden rounded-[30px]">
               <Image
@@ -70,7 +70,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-6 py-20 md:py-28">
+      <section className="mx-auto max-w-5xl px-6 section-y">
         <p className="label text-muted">Why choose us</p>
         <div className="mt-10 grid gap-8 md:grid-cols-3">
           {whyChooseUsAbout.map((item, i) => (

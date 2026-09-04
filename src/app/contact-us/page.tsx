@@ -4,16 +4,16 @@ import ContactForm from "@/components/ContactForm";
 import { site } from "@/content/site";
 
 export const metadata: Metadata = {
-  title: `Contact — ${site.name}`,
+  title: `Contact · ${site.name}`,
   description: `Talk to ${site.name} about your project.`,
 };
 
 export default function ContactPage() {
   return (
     <main className="bg-paper">
-      <header className="bg-void text-void-fg grain relative overflow-hidden px-6 pt-40 pb-20">
+      <header className="bg-void text-void-fg grain relative overflow-hidden px-6 pt-32 pb-12">
         <div className="bg-accent/18 pointer-events-none absolute top-0 left-1/2 h-[50vh] w-[70vw] -translate-x-1/2 rounded-full blur-[150px]" />
-        <div className="relative mx-auto max-w-6xl">
+        <div className="relative mx-auto max-w-5xl">
           <p className="label text-accent">Contact</p>
           <h1 className="display d-xl mt-6 max-w-3xl">Tell us what you are trying to build.</h1>
           <p className="lede text-void-fg/60 mt-6 max-w-xl">
@@ -23,7 +23,7 @@ export default function ContactPage() {
         </div>
       </header>
 
-      <section className="mx-auto grid max-w-6xl gap-14 px-6 py-20 md:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)] md:py-28">
+      <section className="mx-auto grid max-w-5xl gap-10 px-6 section-y md:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)]">
         <ContactForm />
 
         <aside className="flex flex-col gap-10">

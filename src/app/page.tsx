@@ -1,8 +1,6 @@
 import HeroSequence from "@/components/HeroSequence";
 import WhyUs from "@/components/WhyUs";
-import ChapterAutomotive from "@/components/ChapterAutomotive";
-import ChapterInvestigative from "@/components/ChapterInvestigative";
-import ChapterEcommerce from "@/components/ChapterEcommerce";
+import FlagshipSequence from "@/components/FlagshipSequence";
 import ProjectArchive from "@/components/ProjectArchive";
 import ServicesStack from "@/components/ServicesStack";
 import TechMarquee from "@/components/TechMarquee";
@@ -17,9 +15,7 @@ export default function Home() {
     <main>
       <HeroSequence />
       <WhyUs />
-      <ChapterAutomotive />
-      <ChapterInvestigative />
-      <ChapterEcommerce />
+      <FlagshipSequence />
       <ProjectArchive />
       <ServicesStack />
       <TechMarquee />

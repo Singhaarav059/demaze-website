@@ -5,17 +5,17 @@ import { site } from "@/content/site";
 export default function Footer() {
   return (
     <footer className="bg-void text-void-fg grain relative overflow-hidden">
-      <div className="mx-auto max-w-6xl px-6 py-14">
-        <div className="flex flex-wrap items-start justify-between gap-10">
+      <div className="mx-auto max-w-5xl px-6 py-9">
+        <div className="flex flex-wrap items-start justify-between gap-7">
           <div>
             <Image
               src="/demaze-logo-dark.png"
               alt={site.name}
               width={1344}
               height={420}
-              className="h-7 w-auto"
+              className="h-6 w-auto"
             />
-            <p className="text-void-dim mt-5 max-w-xs text-sm leading-relaxed font-semibold">
+            <p className="text-void-dim mt-3.5 max-w-xs text-xs leading-relaxed font-semibold">
               {site.eyebrow.split(" / ").join("  ·  ")}
             </p>
           </div>
@@ -49,13 +49,13 @@ export default function Footer() {
 
         {/* Oversized wordmark as the closing beat. */}
         <p
-          className="display text-void-fg/8 mt-16 text-[clamp(3.5rem,15vw,13rem)] leading-[0.8] select-none"
+          className="display text-void-fg/8 mt-10 text-[clamp(2.5rem,10vw,7.5rem)] leading-[0.8] select-none"
           aria-hidden
         >
           Demaze
         </p>
 
-        <div className="border-void-fg/10 text-void-dim mt-8 flex flex-wrap justify-between gap-4 border-t pt-6 text-xs font-semibold">
+        <div className="border-void-fg/10 text-void-dim mt-5 flex flex-wrap justify-between gap-4 border-t pt-4 text-xs font-semibold">
           <span>
             © {new Date().getFullYear()} {site.name}
           </span>
