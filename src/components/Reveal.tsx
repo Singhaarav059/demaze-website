@@ -1,50 +1,48 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 
-export function Reveal({
-  children,
-  className = "",
-  delay = 0,
-  scale = false,
-}: {
+type Props = {
   children: React.ReactNode;
   className?: string;
   delay?: number;
   scale?: boolean;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
+  as?: "div" | "li" | "section" | "span";
+};
+
+/** threshold 0 + rootMargin so a fast scroll fling can never skip the fire. */
+export default function Reveal({ children, className = "", delay = 0, scale, as = "div" }: Props) {
+  const ref = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const observer = new IntersectionObserver(
+    const io = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setVisible(true);
-          observer.disconnect();
+          el.classList.add("is-in");
+          io.disconnect();
         }
       },
-      { threshold: 0, rootMargin: "200px 0px" },
+      { threshold: 0, rootMargin: "0px 0px -80px 0px" },
     );
-    observer.observe(el);
-    return () => observer.disconnect();
+    io.observe(el);
+    return () => io.disconnect();
   }, []);
 
+  const Tag = as as "div";
   return (
-    <div
-      ref={ref}
-      style={{ transitionDelay: `${delay}ms` }}
-      className={`transition-all duration-700 ease-out ${
-        visible
-          ? "translate-y-0 scale-100 opacity-100"
-          : scale
-            ? "translate-y-0 scale-95 opacity-0"
-            : "translate-y-8 scale-100 opacity-0"
-      } ${className}`}
+    <Tag
+      ref={ref as React.RefObject<HTMLDivElement>}
+      className={`reveal ${className}`}
+      style={
+        {
+          transitionDelay: `${delay}ms`,
+          ...(scale ? { "--reveal-scale": 0.96 } : null),
+        } as React.CSSProperties
+      }
     >
       {children}
-    </div>
+    </Tag>
   );
 }

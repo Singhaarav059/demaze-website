@@ -1,27 +1,27 @@
-import { Hero } from "@/components/Hero";
-import { IntroTransition } from "@/components/IntroTransition";
-import { FlagshipAutomotive } from "@/components/FlagshipAutomotive";
-import { FlagshipInvestigative } from "@/components/FlagshipInvestigative";
-import { FlagshipEcommerce } from "@/components/FlagshipEcommerce";
-import { ProjectArchive } from "@/components/ProjectArchive";
-import { ServicesShowcase } from "@/components/ServicesShowcase";
-import { TechMarquee } from "@/components/TechMarquee";
-import { ProcessSection } from "@/components/ProcessSection";
-import { StatsSection } from "@/components/StatsSection";
-import { IndustriesSection } from "@/components/IndustriesSection";
-import { FounderSection } from "@/components/FounderSection";
-import { ContactSection } from "@/components/ContactSection";
+import HeroSequence from "@/components/HeroSequence";
+import WhyUs from "@/components/WhyUs";
+import ChapterAutomotive from "@/components/ChapterAutomotive";
+import ChapterInvestigative from "@/components/ChapterInvestigative";
+import ChapterEcommerce from "@/components/ChapterEcommerce";
+import ProjectArchive from "@/components/ProjectArchive";
+import ServicesStack from "@/components/ServicesStack";
+import TechMarquee from "@/components/TechMarquee";
+import ProcessSection from "@/components/ProcessSection";
+import StatsSection from "@/components/StatsSection";
+import IndustriesSection from "@/components/IndustriesSection";
+import FounderSection from "@/components/FounderSection";
+import ContactSection from "@/components/ContactSection";
 
 export default function Home() {
   return (
     <main>
-      <Hero />
-      <IntroTransition />
-      <FlagshipAutomotive />
-      <FlagshipInvestigative />
-      <FlagshipEcommerce />
+      <HeroSequence />
+      <WhyUs />
+      <ChapterAutomotive />
+      <ChapterInvestigative />
+      <ChapterEcommerce />
       <ProjectArchive />
-      <ServicesShowcase />
+      <ServicesStack />
       <TechMarquee />
       <ProcessSection />
       <StatsSection />

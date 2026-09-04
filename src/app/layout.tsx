@@ -1,47 +1,36 @@
 import type { Metadata } from "next";
-import { Manrope } from "next/font/google";
-import Script from "next/script";
-import { SmoothScroll } from "@/components/SmoothScroll";
-import { Nav } from "@/components/Nav";
-import { Footer } from "@/components/Footer";
-import { BlobDefs } from "@/components/BlobDefs";
-import { site } from "@/content/site";
+import { Bricolage_Grotesque, Inter_Tight } from "next/font/google";
 import "./globals.css";
+import SmoothScroll from "@/components/SmoothScroll";
+import Nav from "@/components/Nav";
+import Footer from "@/components/Footer";
+import { site } from "@/content/site";
 
-const display = Manrope({
-  variable: "--font-display",
+const bricolage = Bricolage_Grotesque({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: ["400", "500"],
+  variable: "--font-bricolage",
 });
 
-const body = Manrope({
-  variable: "--font-body",
+const interTight = Inter_Tight({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "500", "600"],
+  variable: "--font-inter-tight",
 });
 
 export const metadata: Metadata = {
-  title: `${site.name} | ${site.tagline}`,
+  title: `${site.name} — ${site.tagline}`,
   description: site.intro,
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html
-      lang="en"
-      className={`${display.variable} ${body.variable} h-full`}
-      suppressHydrationWarning
-    >
-      <body className="min-h-full bg-ink text-paper font-body antialiased transition-colors">
-        <Script id="theme-init" strategy="beforeInteractive">
-          {`try{var t=localStorage.getItem("theme");if(t==="dark")document.documentElement.dataset.theme="dark";}catch(e){}`}
-        </Script>
-        <BlobDefs />
-        <SmoothScroll>
-          <Nav />
-          {children}
-          <Footer />
-        </SmoothScroll>
+    <html lang="en" className={`${bricolage.variable} ${interTight.variable}`}>
+      <body>
+        <SmoothScroll />
+        <Nav />
+        {children}
+        <Footer />
       </body>
     </html>
   );

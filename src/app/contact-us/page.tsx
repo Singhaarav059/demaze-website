@@ -1,54 +1,85 @@
 import type { Metadata } from "next";
-import { SectionLabel } from "@/components/SectionLabel";
-import { ContactForm } from "@/components/ContactForm";
+import Image from "next/image";
+import ContactForm from "@/components/ContactForm";
 import { site } from "@/content/site";
 
 export const metadata: Metadata = {
-  title: `Contact Us | ${site.name}`,
-  description: "Reach Demaze Technologies anytime.",
+  title: `Contact — ${site.name}`,
+  description: `Talk to ${site.name} about your project.`,
 };
 
-export default function ContactUsPage() {
+export default function ContactPage() {
   return (
-    <main className="px-6 pt-28 pb-20 md:px-10">
-      <div className="mx-auto flex max-w-6xl flex-col gap-12">
-        <div className="flex flex-col gap-6">
-          <SectionLabel index="001" label="Contact" />
-          <h1 className="max-w-2xl font-display text-4xl leading-tight font-normal text-paper md:text-6xl">
-            Reach us anytime
-          </h1>
-          <p className="max-w-md text-sm leading-relaxed text-paper-dim">
-            Feel free to email us if you have any questions or need more details.
+    <main className="bg-paper">
+      <header className="bg-void text-void-fg grain relative overflow-hidden px-6 pt-40 pb-20">
+        <div className="bg-accent/18 pointer-events-none absolute top-0 left-1/2 h-[50vh] w-[70vw] -translate-x-1/2 rounded-full blur-[150px]" />
+        <div className="relative mx-auto max-w-6xl">
+          <p className="label text-accent">Contact</p>
+          <h1 className="display d-xl mt-6 max-w-3xl">Tell us what you are trying to build.</h1>
+          <p className="lede text-void-fg/60 mt-6 max-w-xl">
+            No pitch deck required. Describe the problem and we will tell you honestly whether we
+            are the right team for it.
           </p>
         </div>
+      </header>
 
-        <div className="grid gap-12 md:grid-cols-2">
-          <ContactForm />
+      <section className="mx-auto grid max-w-6xl gap-14 px-6 py-20 md:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)] md:py-28">
+        <ContactForm />
 
-          <div className="flex flex-col gap-8">
-            <div className="flex flex-col gap-1">
-              <span className="text-xs tracking-wide text-paper-dim uppercase">Email</span>
-              <a
-                href={`mailto:${site.email}`}
-                className="font-display text-xl text-paper transition-colors hover:text-accent"
-              >
-                {site.email}
-              </a>
+        <aside className="flex flex-col gap-10">
+          <div className="border-line rounded-[24px] border p-6">
+            <div className="flex items-center gap-4">
+              <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full">
+                <Image
+                  src={site.founder.photo}
+                  alt={site.founder.name}
+                  fill
+                  sizes="56px"
+                  className="object-cover"
+                />
+              </div>
+              <div>
+                <p className="font-semibold">{site.founder.name}</p>
+                <p className="text-muted text-sm font-semibold">{site.founder.title}</p>
+              </div>
             </div>
-            <div className="flex flex-col gap-1">
-              <span className="text-xs tracking-wide text-paper-dim uppercase">Office</span>
-              <a
-                href={site.mapsHref}
-                target="_blank"
-                rel="noreferrer"
-                className="max-w-sm text-paper transition-colors hover:text-accent"
-              >
-                {site.address}
-              </a>
-            </div>
+            <p className="text-muted mt-5 text-sm leading-relaxed font-medium">
+              {site.founder.quote}
+            </p>
           </div>
-        </div>
-      </div>
+
+          <div>
+            <p className="label text-muted">Email</p>
+            <a
+              href={`mailto:${site.email}`}
+              className="hover:text-accent mt-2 block font-semibold transition-colors"
+            >
+              {site.email}
+            </a>
+          </div>
+
+          <div>
+            <p className="label text-muted">Studio</p>
+            <a
+              href={site.mapsHref}
+              target="_blank"
+              rel="noreferrer noopener"
+              className="hover:text-accent mt-2 block max-w-xs text-sm leading-relaxed font-semibold transition-colors"
+            >
+              {site.address}
+            </a>
+          </div>
+
+          <div>
+            <p className="label text-muted">Team</p>
+            <p className="mt-2 text-sm font-semibold">
+              {site.stats[2].value}
+              {site.stats[2].suffix} specialists · {site.stats[3].value}
+              {site.stats[3].suffix} years
+            </p>
+          </div>
+        </aside>
+      </section>
     </main>
   );
 }

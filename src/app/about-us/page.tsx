@@ -1,103 +1,103 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { SectionLabel } from "@/components/SectionLabel";
-import { WordReveal } from "@/components/WordReveal";
+import Reveal from "@/components/Reveal";
+import StatsSection from "@/components/StatsSection";
 import { site } from "@/content/site";
-import {
-  whoWeAre,
-  whatWeAreTags,
-  whatDrivesUs,
-  whyChooseUsAbout,
-  process,
-} from "@/content/about";
+import { whoWeAre, whatDrivesUs, whyChooseUsAbout, whatWeAreTags } from "@/content/about";
 
 export const metadata: Metadata = {
-  title: `About Us | ${site.name}`,
+  title: `About us — ${site.name}`,
   description: whoWeAre.paragraphs[0],
 };
 
-export default function AboutUsPage() {
+export default function AboutPage() {
   return (
-    <main className="px-6 pt-28 pb-20 md:px-10">
-      <div className="mx-auto flex max-w-6xl flex-col gap-20">
-        <section className="flex flex-col gap-8">
-          <SectionLabel index="001" label="Who We Are" />
-          <WordReveal
-            text={whoWeAre.paragraphs.join(" ")}
-            className="max-w-4xl font-display text-3xl leading-[1.15] font-normal text-paper md:text-5xl"
-          />
-          <div className="flex flex-wrap gap-3 pt-4">
-            {whatWeAreTags.map((tag) => (
-              <span
-                key={tag}
-                className="min-w-0 max-w-full rounded-full border border-paper/15 px-4 py-2 text-xs break-words text-paper-dim"
-              >
-                {tag}
-              </span>
+    <main className="bg-paper">
+      <header className="bg-void text-void-fg grain relative overflow-hidden px-6 pt-40 pb-20">
+        <div className="bg-accent/18 pointer-events-none absolute top-0 left-1/2 h-[50vh] w-[70vw] -translate-x-1/2 rounded-full blur-[150px]" />
+        <div className="relative mx-auto max-w-6xl">
+          <p className="label text-accent">About us</p>
+          <h1 className="display d-xl mt-6 max-w-4xl">{whoWeAre.heading}</h1>
+          <div className="mt-10 grid gap-8 md:grid-cols-2">
+            {whoWeAre.paragraphs.map((p, i) => (
+              <p key={i} className="lede text-void-fg/60">
+                {p}
+              </p>
             ))}
           </div>
-        </section>
+        </div>
+      </header>
 
-        <section className="flex flex-col gap-10">
-          <SectionLabel index="002" label="What Drives Us" />
-          <div className="grid gap-10 md:grid-cols-2">
-            {whatDrivesUs.map((item) => (
-              <div key={item.title} className="flex flex-col gap-3 border-t border-paper/10 pt-6">
-                <h3 className="font-display text-xl text-paper">{item.title}</h3>
-                <p className="text-sm leading-relaxed text-paper-dim">{item.description}</p>
+      <section className="mx-auto max-w-6xl px-6 py-20 md:py-28">
+        <p className="label text-muted">What drives us</p>
+        <div className="border-line mt-10 grid gap-x-14 border-t md:grid-cols-2">
+          {whatDrivesUs.map((item, i) => (
+            <Reveal key={item.title} delay={i * 90}>
+              <div className="border-line border-b py-8">
+                <div className="flex items-baseline gap-4">
+                  <span className="text-muted/50 font-display text-xs">0{i + 1}</span>
+                  <h2 className="display d-md">{item.title}</h2>
+                </div>
+                <p className="text-muted mt-3 text-sm leading-relaxed font-medium">
+                  {item.description}
+                </p>
               </div>
-            ))}
-          </div>
-        </section>
+            </Reveal>
+          ))}
+        </div>
+      </section>
 
-        <section className="flex flex-col gap-10 rounded-3xl bg-ink-soft px-8 py-10 shadow-soft md:px-14">
-          <SectionLabel index="003" label="Meet the Founder" />
-          <div className="flex flex-col items-start gap-8 md:flex-row md:items-center">
-            <Image
-              src={site.founder.photo}
-              alt={site.founder.name}
-              width={140}
-              height={140}
-              className="blob-1 object-cover"
-            />
-            <div className="flex flex-col gap-3">
-              <p className="max-w-2xl font-display text-2xl leading-snug font-normal text-paper md:text-3xl">
-                &ldquo;{site.founder.quote}&rdquo;
-              </p>
-              <p className="text-sm text-paper-dim">
-                {site.founder.name}, {site.founder.title}
-              </p>
+      <section className="bg-sand px-6 py-20 md:py-28">
+        <div className="mx-auto grid max-w-6xl gap-10 md:grid-cols-[minmax(0,0.7fr)_minmax(0,1.6fr)] md:items-center md:gap-16">
+          <Reveal scale>
+            <div className="relative aspect-[4/5] overflow-hidden rounded-[30px]">
+              <Image
+                src={site.founder.photo}
+                alt={site.founder.name}
+                fill
+                sizes="(max-width: 768px) 100vw, 340px"
+                className="object-cover"
+              />
             </div>
-          </div>
-        </section>
+          </Reveal>
+          <Reveal delay={120}>
+            <blockquote className="display d-md max-w-2xl">“{site.founder.quote}”</blockquote>
+            <p className="border-line mt-8 border-t pt-6 font-semibold">
+              {site.founder.name}
+              <span className="text-muted ml-3 text-sm">{site.founder.title}</span>
+            </p>
+          </Reveal>
+        </div>
+      </section>
 
-        <section className="flex flex-col gap-10">
-          <SectionLabel index="004" label="Why Choose Us" />
-          <div className="grid gap-10 md:grid-cols-3">
-            {whyChooseUsAbout.map((item) => (
-              <div key={item.title} className="flex flex-col gap-3">
-                <h3 className="font-display text-lg text-paper">{item.title}</h3>
-                <p className="text-sm leading-relaxed text-paper-dim">{item.description}</p>
+      <section className="mx-auto max-w-6xl px-6 py-20 md:py-28">
+        <p className="label text-muted">Why choose us</p>
+        <div className="mt-10 grid gap-8 md:grid-cols-3">
+          {whyChooseUsAbout.map((item, i) => (
+            <Reveal key={item.title} delay={i * 90}>
+              <div className="border-line border-t pt-6">
+                <h3 className="display text-2xl">{item.title}</h3>
+                <p className="text-muted mt-3 text-sm leading-relaxed font-medium">
+                  {item.description}
+                </p>
               </div>
-            ))}
-          </div>
-        </section>
+            </Reveal>
+          ))}
+        </div>
 
-        <section className="flex flex-col gap-10">
-          <SectionLabel index="005" label="How We Work" />
-          <div className="grid gap-12 md:grid-cols-4">
-            {process.map((step) => (
-              <div key={step.step} className="flex flex-col gap-4 border-t border-paper/10 pt-6">
-                <span className="font-display text-3xl text-accent">
-                  {String(step.step).padStart(2, "0")}
-                </span>
-                <h3 className="font-display text-lg text-paper">{step.title}</h3>
-                <p className="text-sm leading-relaxed text-paper-dim">{step.description}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-      </div>
+        <ul className="mt-16 flex flex-wrap gap-2">
+          {whatWeAreTags.map((tag) => (
+            <li
+              key={tag}
+              className="border-line text-muted rounded-full border px-4 py-2 text-xs font-semibold"
+            >
+              {tag}
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <StatsSection />
     </main>
   );
 }

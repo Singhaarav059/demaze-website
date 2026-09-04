@@ -1,45 +1,66 @@
+import Image from "next/image";
 import Link from "next/link";
 import { site } from "@/content/site";
 
-export function Footer() {
+export default function Footer() {
   return (
-    <footer className="border-t border-paper/10 px-6 py-12 md:px-10">
-      <div className="mx-auto flex max-w-6xl flex-col gap-8">
-        <p className="max-w-xl font-display text-2xl leading-tight text-paper md:text-3xl">
-          {site.intro}
-        </p>
+    <footer className="bg-void text-void-fg grain relative overflow-hidden">
+      <div className="mx-auto max-w-6xl px-6 py-14">
+        <div className="flex flex-wrap items-start justify-between gap-10">
+          <div>
+            <Image
+              src="/demaze-logo-dark.png"
+              alt={site.name}
+              width={1344}
+              height={420}
+              className="h-7 w-auto"
+            />
+            <p className="text-void-dim mt-5 max-w-xs text-sm leading-relaxed font-semibold">
+              {site.eyebrow.split(" / ").join("  ·  ")}
+            </p>
+          </div>
 
-        <div className="flex flex-col justify-between gap-10 md:flex-row">
-          <nav className="flex flex-wrap gap-x-8 gap-y-2">
+          <nav className="flex flex-wrap gap-x-10 gap-y-3">
             {site.footerNav.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className="text-sm text-paper-dim transition-colors hover:text-paper"
+                className="text-void-fg/70 hover:text-accent text-sm font-semibold transition-colors"
               >
                 {item.label}
               </Link>
             ))}
           </nav>
 
-          <div className="flex flex-col gap-1 text-sm text-paper-dim">
-            <a href={`mailto:${site.email}`} className="transition-colors hover:text-paper">
+          <div className="text-sm font-semibold">
+            <a href={`mailto:${site.email}`} className="hover:text-accent transition-colors">
               {site.email}
             </a>
             <a
-              href={site.mapsHref}
+              href={site.founder.linkedin}
               target="_blank"
-              rel="noreferrer"
-              className="max-w-xs transition-colors hover:text-paper"
+              rel="noreferrer noopener"
+              className="text-void-dim hover:text-accent mt-2 block transition-colors"
             >
-              {site.address}
+              LinkedIn ↗
             </a>
           </div>
         </div>
 
-        <p className="text-xs text-paper-dim/70">
-          {site.name} © {new Date().getFullYear()}. All rights reserved.
+        {/* Oversized wordmark as the closing beat. */}
+        <p
+          className="display text-void-fg/8 mt-16 text-[clamp(3.5rem,15vw,13rem)] leading-[0.8] select-none"
+          aria-hidden
+        >
+          Demaze
         </p>
+
+        <div className="border-void-fg/10 text-void-dim mt-8 flex flex-wrap justify-between gap-4 border-t pt-6 text-xs font-semibold">
+          <span>
+            © {new Date().getFullYear()} {site.name}
+          </span>
+          <span>Ahmedabad, India</span>
+        </div>
       </div>
     </footer>
   );

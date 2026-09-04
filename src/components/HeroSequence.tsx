@@ -1,0 +1,130 @@
+import Image from "next/image";
+import Link from "next/link";
+import HeroScene from "./HeroScene";
+import WordReveal from "./WordReveal";
+import Reveal from "./Reveal";
+import { site } from "@/content/site";
+import { whoWeAre, whatWeAreTags } from "@/content/about";
+import { flagshipProjects } from "@/content/projects";
+
+/**
+ * Sticky hero with a full-bleed colour curtain riding up over it.
+ * The wipe is pure CSS: the hero is `sticky`, the accent panel is its next
+ * sibling with a higher stacking context, so scrolling slides one over the
+ * other with no scroll listener involved.
+ */
+export default function HeroSequence() {
+  const lead = flagshipProjects[0];
+
+  return (
+    <div className="relative">
+      {/* ---------- Hero, pinned ---------- */}
+      <section className="bg-void text-void-fg grain sticky top-0 z-0 flex h-screen flex-col overflow-hidden">
+        <div className="hero-glow bg-accent/25 pointer-events-none absolute top-[-20%] left-1/2 h-[70vh] w-[70vw] -translate-x-1/2 rounded-full blur-[140px]" />
+        <HeroScene />
+        <div className="from-void via-void/20 pointer-events-none absolute inset-0 bg-gradient-to-t to-transparent" />
+        {/* Keeps the headline off the knot's bright lobes without dimming the
+            whole scene. */}
+        <div className="from-void/95 via-void/55 pointer-events-none absolute inset-0 bg-gradient-to-r to-transparent lg:to-60%" />
+
+        <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-1 flex-col justify-end px-6 pt-28 pb-10">
+          <div className="flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
+            <div className="max-w-3xl">
+              <p className="label text-accent">{site.eyebrow}</p>
+              <h1 className="display d-xl mt-6">{site.tagline}</h1>
+              <p className="lede text-void-fg/65 mt-6 max-w-xl">{site.intro}</p>
+
+              <div className="mt-9 flex flex-wrap items-center gap-3">
+                <Link
+                  href="/contact-us"
+                  className="bg-accent hover:bg-accent-deep rounded-full px-7 py-3.5 text-sm font-semibold text-white transition-colors"
+                >
+                  Start a project
+                </Link>
+                <Link
+                  href="/projects"
+                  className="border-void-fg/25 hover:border-void-fg/60 rounded-full border px-7 py-3.5 text-sm font-semibold transition-colors"
+                >
+                  See our work
+                </Link>
+              </div>
+            </div>
+
+            {/* Floating proof card */}
+            <Link
+              href={`/projects#${lead.slug}`}
+              className="border-void-fg/12 bg-void-fg/6 hover:bg-void-fg/10 group w-full max-w-sm rounded-[24px] border p-3 backdrop-blur-xl transition-colors lg:w-80"
+            >
+              <div className="relative aspect-[16/10] overflow-hidden rounded-[16px]">
+                <Image
+                  src={lead.image}
+                  alt={lead.title}
+                  fill
+                  sizes="320px"
+                  className="scale-[1.18] object-cover saturate-[0.5] transition-transform duration-700 group-hover:scale-[1.24]"
+                />
+              </div>
+              <div className="flex items-end justify-between gap-4 px-2 pt-3 pb-1">
+                <div>
+                  <p className="label text-accent">Flagship</p>
+                  <p className="mt-1.5 text-sm leading-snug font-semibold">{lead.title}</p>
+                </div>
+                <span className="text-void-dim shrink-0 text-2xl leading-none">↗</span>
+              </div>
+            </Link>
+          </div>
+
+          <div className="border-void-fg/10 mt-10 flex items-center justify-between border-t pt-5">
+            <p className="text-void-dim text-xs font-semibold">
+              {site.stats[0].value}
+              {site.stats[0].suffix} projects delivered · {site.stats[3].value}
+              {site.stats[3].suffix} years
+            </p>
+            <p className="text-void-dim text-xs font-semibold tracking-[0.2em] uppercase">
+              Scroll
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ---------- Curtain: full-bleed accent rides up over the hero ---------- */}
+      <section className="bg-accent relative z-10 text-white">
+        {/* A held beat of pure colour before any content, on purpose. */}
+        <div className="h-[45vh]" />
+
+        <div className="mx-auto max-w-6xl px-6 pb-24">
+          <WordReveal
+            as="h2"
+            text="We are digital transformation architects, not just developers."
+            className="display d-lg max-w-4xl"
+          />
+          <div className="mt-14 grid gap-10 md:grid-cols-2">
+            {whoWeAre.paragraphs.map((p, i) => (
+              <Reveal key={i} delay={i * 120}>
+                <p className="lede text-white/70">{p}</p>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+
+        <div className="overflow-hidden border-t border-white/15 py-5">
+          <div className="ticker-track" style={{ ["--ticker-duration" as string]: "48s" }}>
+            {[0, 1].map((dup) => (
+              <div key={dup} className="flex shrink-0 items-center" aria-hidden={dup === 1}>
+                {whatWeAreTags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="flex items-center gap-6 px-6 text-sm font-semibold whitespace-nowrap text-white/85"
+                  >
+                    {tag}
+                    <span className="h-1 w-1 rounded-full bg-white/40" />
+                  </span>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}

@@ -23,7 +23,7 @@ export const site = {
     { value: 10, prefix: "$", suffix: "M+", label: "Client Value Generated" },
     { value: 35, suffix: "+", label: "Expert Team Members" },
     { value: 6, suffix: "+", label: "Years of Excellence" },
-  ],
+  ] as { value: number; prefix?: string; suffix: string; label: string }[],
   nav: [
     { label: "Projects", href: "/projects" },
     { label: "Services", href: "/services" },

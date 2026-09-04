@@ -1,48 +1,55 @@
 "use client";
 
-import { useRef, useEffect } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useEffect, useRef, useState } from "react";
 
-gsap.registerPlugin(ScrollTrigger);
-
-export function WordReveal({ text, className = "" }: { text: string; className?: string }) {
-  const ref = useRef<HTMLParagraphElement>(null);
+/** Word-by-word rise. Splits on spaces and staggers each word's transform. */
+export default function WordReveal({
+  text,
+  className = "",
+  stagger = 45,
+  as: Tag = "p",
+}: {
+  text: string;
+  className?: string;
+  stagger?: number;
+  as?: "p" | "h2" | "h3";
+}) {
+  const ref = useRef<HTMLElement>(null);
+  const [shown, setShown] = useState(false);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const words = el.querySelectorAll("span");
-
-    const tween = gsap.fromTo(
-      words,
-      { opacity: 0.15 },
-      {
-        opacity: 1,
-        stagger: 0.03,
-        ease: "none",
-        scrollTrigger: {
-          trigger: el,
-          start: "top 80%",
-          end: "bottom 40%",
-          scrub: true,
-        },
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) {
+          setShown(true);
+          io.disconnect();
+        }
       },
+      { threshold: 0, rootMargin: "0px 0px -100px 0px" },
     );
-
-    return () => {
-      tween.scrollTrigger?.kill();
-      tween.kill();
-    };
+    io.observe(el);
+    return () => io.disconnect();
   }, []);
 
   return (
-    <p ref={ref} className={className}>
+    <Tag ref={ref as React.RefObject<HTMLParagraphElement>} className={className}>
       {text.split(" ").map((word, i) => (
-        <span key={i} className="inline-block">
-          {word}&nbsp;
+        <span key={i} className="inline-block overflow-hidden align-bottom">
+          <span
+            className="inline-block will-change-transform"
+            style={{
+              transform: shown ? "translateY(0)" : "translateY(105%)",
+              opacity: shown ? 1 : 0,
+              transition: `transform .9s cubic-bezier(.16,1,.3,1) ${i * stagger}ms, opacity .6s ease ${i * stagger}ms`,
+            }}
+          >
+            {word}
+          </span>
+          {" "}
         </span>
       ))}
-    </p>
+    </Tag>
   );
 }

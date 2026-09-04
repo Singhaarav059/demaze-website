@@ -1,32 +1,36 @@
 "use client";
 
-import { useEffect, useRef, type ReactNode } from "react";
+import { useEffect } from "react";
 import Lenis from "lenis";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-gsap.registerPlugin(ScrollTrigger);
-
-export function SmoothScroll({ children }: { children: ReactNode }) {
-  const lenisRef = useRef<Lenis | null>(null);
-
+/** Lenis drives the scroll, GSAP ScrollTrigger reads from it. */
+export default function SmoothScroll() {
   useEffect(() => {
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => 1 - Math.pow(1 - t, 3),
-      smoothWheel: true,
-    });
-    lenisRef.current = lenis;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    gsap.registerPlugin(ScrollTrigger);
+    const lenis = new Lenis({ duration: 1.1, smoothWheel: true });
 
     lenis.on("scroll", ScrollTrigger.update);
-    gsap.ticker.add((time) => lenis.raf(time * 1000));
+    const tick = (time: number) => lenis.raf(time * 1000);
+    gsap.ticker.add(tick);
     gsap.ticker.lagSmoothing(0);
 
+    // Pinned triggers sit below async images, so settle the measurements
+    // once everything has actually loaded rather than continuously.
+    const refresh = () => ScrollTrigger.refresh();
+    window.addEventListener("load", refresh);
+    const t = window.setTimeout(refresh, 2000);
+
     return () => {
+      window.removeEventListener("load", refresh);
+      clearTimeout(t);
+      gsap.ticker.remove(tick);
       lenis.destroy();
-      lenisRef.current = null;
     };
   }, []);
 
-  return children;
+  return null;
 }
