@@ -126,7 +126,10 @@ body {
   transition:
     opacity 1.1s var(--ease-soft),
     transform 1.25s var(--ease-soft);
-  will-change: opacity, transform;
+  /* No will-change. The browser promotes an element for the duration of a
+     running opacity/transform transition on its own, and there are ~30 of
+     these on the homepage: hinting them all permanently keeps that many
+     compositor layers alive for the whole session to save one promotion. */
 }
 .reveal.is-in {
   opacity: 1;

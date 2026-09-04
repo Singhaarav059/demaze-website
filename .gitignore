@@ -41,5 +41,4 @@ yarn-error.log*
 next-env.d.ts
 
 # audit scratch
-/audit-2026-09-04/
 /.playwright-mcp/

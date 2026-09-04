@@ -37,8 +37,12 @@ export default function WordReveal({
     <Tag ref={ref as React.RefObject<HTMLParagraphElement>} className={className}>
       {text.split(" ").map((word, i) => (
         <span key={i} className="inline-block overflow-hidden align-bottom">
+          {/* No will-change: the browser promotes these for the duration of
+              the transition anyway, and hinting a permanent layer per word
+              leaves a dozen of them alive over the hero for the whole
+              session. */}
           <span
-            className="inline-block will-change-transform"
+            className="inline-block"
             style={{
               transform: shown ? "translateY(0)" : "translateY(105%)",
               opacity: shown ? 1 : 0,

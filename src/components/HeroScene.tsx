@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useMediaQuery, useMounted, useReducedMotion } from "./clientFlags";
 
 const HeroKnot = dynamic(() => import("./HeroKnot"), { ssr: false });
@@ -17,26 +17,27 @@ const HeroKnot = dynamic(() => import("./HeroKnot"), { ssr: false });
  */
 export default function HeroScene() {
   const wrap = useRef<HTMLDivElement>(null);
-  const paused = useRef(false);
+  const [onScreen, setOnScreen] = useState(true);
   const mounted = useMounted();
   const reduced = useReducedMotion();
   const wide = useMediaQuery("(min-width: 1024px)");
   const enabled = mounted && !reduced && wide;
 
-  // Stop rendering frames once the hero has scrolled away.
+  // State, not a ref that the frame loop reads. Skipping the animation inside
+  // useFrame still left r3f rendering the scene every frame, so a 65k-triangle
+  // metal knot with an environment map was being drawn for the entire length
+  // of a 15,000px page while nobody could see it. This stops the loop instead.
   useEffect(() => {
     const el = wrap.current;
     if (!el || !enabled) return;
-    const io = new IntersectionObserver(([e]) => (paused.current = !e.isIntersecting), {
-      threshold: 0,
-    });
+    const io = new IntersectionObserver(([e]) => setOnScreen(e.isIntersecting), { threshold: 0 });
     io.observe(el);
     return () => io.disconnect();
   }, [enabled]);
 
   return (
     <div ref={wrap} className="absolute inset-0" aria-hidden>
-      {enabled && <HeroKnot paused={paused} />}
+      {enabled && <HeroKnot active={onScreen} />}
     </div>
   );
 }

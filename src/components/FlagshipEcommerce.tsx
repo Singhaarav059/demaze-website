@@ -83,7 +83,7 @@ export default function FlagshipEcommerce() {
           start: "top top",
           end: () => `+=${window.innerHeight * TRAVEL}`,
           pin: el,
-          scrub: 1.15,
+          scrub: 0.8,
           invalidateOnRefresh: true,
         },
       });
@@ -102,7 +102,7 @@ export default function FlagshipEcommerce() {
       <p className="label text-accent">03 / 0{flagshipProjects.length} · Luxe &amp; Co.</p>
       {/* Height-derived, like the other two chapters: a width clamp holds the
           headline at full size on exactly the short screens with least room. */}
-      <h3 className="display mt-2 max-w-2xl text-[clamp(1.45rem,4.2vh,2.5rem)] leading-[1.02]">
+      <h3 className="display mt-2 max-w-2xl text-[clamp(1.45rem,min(4.2vh,6.5vw),2.5rem)] leading-[1.02]">
         Luxury retail, rebuilt to personalise itself.
       </h3>
       <p className="text-void-fg/55 mt-3 max-w-xl text-[0.82rem] leading-relaxed font-medium">
@@ -114,8 +114,11 @@ export default function FlagshipEcommerce() {
 
   return (
     // The section stays put so React keeps owning main's child list. GSAP wraps
-    // the inner div in its pin-spacer instead.
-    <section className="bg-void text-void-fg grain">
+    // the inner div in its pin-spacer instead. relative because .grain's
+    // overlay is absolute: without a positioned ancestor it sizes against the
+    // initial containing block and lands as a viewport-sized blend layer over
+    // the top of the document instead of over this section.
+    <section className="bg-void text-void-fg grain relative">
       <div
         ref={pin}
         className={
@@ -151,35 +154,45 @@ export default function FlagshipEcommerce() {
             ))}
           </div>
         ) : (
-          <div className="mx-auto flex w-full max-w-5xl min-h-0 flex-1 flex-col justify-center px-6">
-            <div className="border-void-fg/12 relative aspect-[16/9] max-h-full overflow-hidden rounded-[14px] border">
-              <div className="absolute inset-0">
-                <Image
-                  src={PDP}
-                  alt="Product page showing the item, price, colour options and add to bag."
-                  fill
-                  sizes={SIZES}
-                  priority
-                  className="object-cover object-top"
-                />
+          <div className="mx-auto flex w-full max-w-5xl min-h-0 flex-1 flex-col justify-center px-6 [container-type:size]">
+            {/* Fits inside the pinned frame instead of being cropped to it.
+                `max-h-full` capped the height and left the width alone, so on a
+                short screen the 16:9 frame flattened to nearly 3:1 and
+                object-cover ate another third of the screenshot off the bottom
+                — on the one section whose whole argument is what is on screen.
+                cqh is this row's own height; the 2rem is the caption strip
+                below, which shares the width so it stays under the frame's
+                edges rather than the column's. */}
+            <div className="mx-auto flex w-full max-w-[calc((100cqh-2rem)*1.7778)] flex-col">
+              <div className="border-void-fg/12 relative aspect-[16/9] overflow-hidden rounded-[14px] border">
+                <div className="absolute inset-0">
+                  <Image
+                    src={PDP}
+                    alt="Product page showing the item, price, colour options and add to bag."
+                    fill
+                    sizes={SIZES}
+                    priority
+                    className="object-cover object-top"
+                  />
+                </div>
+                {/* Clipped from the left, so the divider is simply the edge of
+                    this layer. A separate line element would have to be
+                    animated in step with it and can drift; this cannot. */}
+                <div ref={top} className="absolute inset-0">
+                  <Image
+                    src={DASH}
+                    alt="Merchandising view showing AI product search and per-customer recommendations."
+                    fill
+                    sizes={SIZES}
+                    className="object-cover object-top"
+                  />
+                </div>
               </div>
-              {/* Clipped from the left, so the divider is simply the edge of
-                  this layer. A separate line element would have to be animated
-                  in step with it and can drift; this cannot. */}
-              <div ref={top} className="absolute inset-0">
-                <Image
-                  src={DASH}
-                  alt="Merchandising view showing AI product search and per-customer recommendations."
-                  fill
-                  sizes={SIZES}
-                  className="object-cover object-top"
-                />
-              </div>
-            </div>
 
-            <div className="text-void-dim mt-3 flex shrink-0 items-center justify-between text-[0.7rem] font-semibold">
-              <span>What the shopper sees</span>
-              <span>What the system knows</span>
+              <div className="text-void-dim mt-3 flex shrink-0 items-center justify-between text-[0.7rem] font-semibold">
+                <span>What the shopper sees</span>
+                <span>What the system knows</span>
+              </div>
             </div>
           </div>
         )}

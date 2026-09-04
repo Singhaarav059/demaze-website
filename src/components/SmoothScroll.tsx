@@ -15,7 +15,12 @@ export default function SmoothScroll() {
     // so a burst of events restarts the curve repeatedly and the page moves in
     // little shoves. lerp damps continuously toward the target instead, which
     // is what reads as gliding rather than stepping.
-    const lenis = new Lenis({ lerp: 0.075, smoothWheel: true });
+    // 0.1 is Lenis's own default and is here on purpose. At 0.075 the page
+    // needed roughly a third longer to catch up with the wheel, and every
+    // pinned section adds its own scrub smoothing on top of that, so the two
+    // compounded into content that visibly trailed the input — which reads as
+    // the page being slow rather than as it being smooth.
+    const lenis = new Lenis({ lerp: 0.1, smoothWheel: true });
 
     lenis.on("scroll", ScrollTrigger.update);
     const tick = (time: number) => lenis.raf(time * 1000);

@@ -14,7 +14,7 @@ import type { Group, Mesh } from "three";
  * a dynamic import. Together they are the single largest chunk in the build,
  * and nothing here is worth downloading on a viewport that will not show it.
  */
-function Knot({ paused }: { paused: React.RefObject<boolean> }) {
+function Knot() {
   const group = useRef<Group>(null);
   const mesh = useRef<Mesh>(null);
   const pointer = useRef({ x: 0, y: 0 });
@@ -37,7 +37,7 @@ function Knot({ paused }: { paused: React.RefObject<boolean> }) {
   }, []);
 
   useFrame((state, delta) => {
-    if (paused.current || !group.current || !mesh.current) return;
+    if (!group.current || !mesh.current) return;
     const t = state.clock.elapsedTime;
 
     // Continuous slow tumble, accelerated by scroll depth.
@@ -63,15 +63,19 @@ function Knot({ paused }: { paused: React.RefObject<boolean> }) {
   );
 }
 
-export default function HeroKnot({ paused }: { paused: React.RefObject<boolean> }) {
+export default function HeroKnot({ active }: { active: boolean }) {
   return (
     <Canvas
       camera={{ position: [0, 0, 4.6], fov: 42 }}
       dpr={[1, 1.75]}
       gl={{ antialias: true, alpha: true }}
       resize={{ debounce: 0 }}
+      // "never" stops the render loop outright while the hero is off screen.
+      // The context and the compiled scene stay warm, so coming back is a
+      // resumed loop rather than a rebuild.
+      frameloop={active ? "always" : "never"}
     >
-      <Knot paused={paused} />
+      <Knot />
       <Environment resolution={256}>
         <Lightformer intensity={5} position={[0, 3, 2]} scale={[8, 3, 1]} color="#ffffff" />
         <Lightformer

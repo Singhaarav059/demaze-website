@@ -6,7 +6,7 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import SectionLabel from "./SectionLabel";
-import { useReducedMotion } from "./clientFlags";
+import { useMediaQuery, useReducedMotion } from "./clientFlags";
 import { flagshipProjects } from "@/content/projects";
 
 /**
@@ -94,12 +94,19 @@ export default function FlagshipAutomotive() {
   const rows = useRef<HTMLLIElement[]>([]);
   const shots = useRef<HTMLDivElement[]>([]);
   const reduced = useReducedMotion();
+  const wide = useMediaQuery("(min-width: 768px)");
+
+  // Below md this was still pinning: a two-column ledger collapsed to one
+  // column, plus a 3:2 frame, inside 100vh, which came to about twice the
+  // height available and got clipped. Chapters 02 and 03 already fall back
+  // here, and the stacked layout below is the same one they use.
+  const flat = reduced || !wide;
 
   useEffect(() => {
     const el = pin.current;
     const ledger = rows.current.filter(Boolean);
     const frames = shots.current.filter(Boolean);
-    if (!el || frames.length === 0 || reduced) return;
+    if (!el || frames.length === 0 || flat) return;
 
     gsap.registerPlugin(ScrollTrigger);
 
@@ -116,7 +123,7 @@ export default function FlagshipAutomotive() {
           start: "top top",
           end: () => `+=${window.innerHeight * TRAVEL}`,
           pin: el,
-          scrub: 1.15,
+          scrub: 0.8,
           invalidateOnRefresh: true,
         },
       });
@@ -138,15 +145,18 @@ export default function FlagshipAutomotive() {
     }, el);
 
     return () => ctx.revert();
-  }, [reduced]);
+  }, [flat]);
 
   const heading = (
     <>
       <p className="label text-accent">01 / 0{flagshipProjects.length} · Demaze Automotive</p>
       {/* Not .d-lg. That clamp is width-derived, so on a short wide screen the
           headline stays at its maximum while the frame it has to fit inside is
-          the one thing that shrank. Height-derived here, same ceiling. */}
-      <h3 className="display mt-2 max-w-2xl text-[clamp(1.45rem,4.2vh,2.5rem)] leading-[1.02]">
+          the one thing that shrank. Height-derived here, same ceiling — but
+          with a width term too, because height alone on a tall narrow phone
+          sets this larger than every h2 on the site and wraps it to five
+          lines. min() means whichever axis is tighter wins. */}
+      <h3 className="display mt-2 max-w-2xl text-[clamp(1.45rem,min(4.2vh,6.5vw),2.5rem)] leading-[1.02]">
         One system behind every valuation, EMI and refurbishment on the floor.
       </h3>
     </>
@@ -185,11 +195,14 @@ export default function FlagshipAutomotive() {
 
   return (
     // The section stays put so React keeps owning main's child list. GSAP wraps
-    // the inner div in its pin-spacer instead.
-    <section className="bg-void text-void-fg grain">
+    // the inner div in its pin-spacer instead. relative because .grain's
+    // overlay is absolute: without a positioned ancestor it sizes against the
+    // initial containing block and lands as a viewport-sized blend layer over
+    // the top of the document instead of over this section.
+    <section className="bg-void text-void-fg grain relative">
       <div
         ref={pin}
-        className={reduced ? "section-y" : "flex h-screen flex-col overflow-hidden pt-[clamp(4.5rem,10vh,6rem)] pb-6"}
+        className={flat ? "section-y" : "flex h-screen flex-col overflow-hidden pt-[clamp(4.5rem,10vh,6rem)] pb-6"}
       >
         <div className="mx-auto flex w-full max-w-5xl shrink-0 items-center justify-between gap-4 px-6">
           <SectionLabel index="002" tone="void">
@@ -203,7 +216,7 @@ export default function FlagshipAutomotive() {
           </Link>
         </div>
 
-        {reduced ? (
+        {flat ? (
           <div className="mx-auto mt-8 w-full max-w-5xl px-6">
             {heading}
             <div className="mt-8 grid gap-8 md:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
@@ -229,32 +242,37 @@ export default function FlagshipAutomotive() {
           <div className="mx-auto flex w-full max-w-5xl min-h-0 flex-1 flex-col justify-center px-6">
             <div className="shrink-0">{heading}</div>
 
-            <div className="mt-[clamp(1rem,2.6vh,1.75rem)] grid min-h-0 gap-8 md:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] md:gap-10">
-              {ledgerList}
+            <div className="mt-[clamp(1rem,2.6vh,1.75rem)] flex min-h-0 flex-1 items-center [container-type:size]">
+              <div className="grid w-full gap-8 md:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] md:gap-10">
+                {ledgerList}
 
-              {/* Aspect-locked to the 3:2 source so the frame never crops the
-                  chrome off a screen that is already only 1536px wide. */}
-              <div className="border-void-fg/10 relative aspect-[3/2] self-center overflow-hidden rounded-[18px] border">
-                {stages.map((stage, i) => (
-                  <div
-                    key={stage.shot}
-                    ref={(node) => {
-                      if (node) shots.current[i] = node;
-                    }}
-                    className="bg-void absolute inset-0"
-                    style={{ zIndex: i + 1 }}
-                  >
-                    <div className="zoom-focus absolute inset-0" style={zoomStyle(stage.focus)}>
-                      <Image
-                        src={stage.shot}
-                        alt={stage.alt}
-                        fill
-                        sizes={SIZES}
-                        priority={i === 0}
-                      />
+                {/* Aspect-locked to the 3:2 source so the frame never crops the
+                    chrome off a screen that is already only 1536px wide, and
+                    width-capped by the row's own height (cqh) so the lock
+                    survives a short screen. Taking the column width alone put
+                    the frame 10px over the caption below it at 1280x590. */}
+                <div className="border-void-fg/10 relative aspect-[3/2] w-[min(100%,150cqh)] self-center justify-self-center overflow-hidden rounded-[18px] border">
+                  {stages.map((stage, i) => (
+                    <div
+                      key={stage.shot}
+                      ref={(node) => {
+                        if (node) shots.current[i] = node;
+                      }}
+                      className="bg-void absolute inset-0"
+                      style={{ zIndex: i + 1 }}
+                    >
+                      <div className="zoom-focus absolute inset-0" style={zoomStyle(stage.focus)}>
+                        <Image
+                          src={stage.shot}
+                          alt={stage.alt}
+                          fill
+                          sizes={SIZES}
+                          priority={i === 0}
+                        />
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             </div>
           </div>

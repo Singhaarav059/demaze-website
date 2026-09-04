@@ -40,7 +40,11 @@ export default function HeroSequence() {
             nothing to protect against and would just flatten the hero. */}
         <div className="from-void via-void/75 pointer-events-none absolute inset-0 hidden bg-gradient-to-r to-transparent to-70% lg:block" />
 
-        <div className="relative z-10 mx-auto flex w-full max-w-5xl flex-1 flex-col justify-end px-6 pt-24 pb-6">
+        {/* Height-derived top padding, same clamp the pinned sections use. A
+            flat pt-24 is 96px of clearance for a 76px bar, which is fine until
+            the viewport is short: at 520px tall the hero's own content ran 5px
+            past the frame and the eyebrow was clipped by overflow-hidden. */}
+        <div className="relative z-10 mx-auto flex w-full max-w-5xl flex-1 flex-col justify-end px-6 pt-[clamp(4.5rem,10vh,6rem)] pb-6">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-2xl">
               <p className="label text-accent">{site.eyebrow}</p>

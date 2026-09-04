@@ -34,11 +34,22 @@ export default function Nav() {
   const sheet = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    let sampled = 0;
     const onScroll = () => {
       const y = window.scrollY;
       setSolid(y > 40);
-      // Just under the bar, so it reports what the bar is sitting on.
-      setOnDark(surfaceIsDark(80));
+
+      // Just under the bar, so it reports what the bar is sitting on. Rate
+      // limited because elementsFromPoint has to flush style and layout to
+      // answer, and Lenis emits a scroll event every frame: sampling on each
+      // one bought a forced synchronous layout per frame for the whole page,
+      // in front of every scrubbed animation on it. The bar's tint is not
+      // worth that, and 120ms of lag on a background colour is invisible.
+      const now = performance.now();
+      if (now - sampled > 120) {
+        sampled = now;
+        setOnDark(surfaceIsDark(80));
+      }
 
       // A fixed bar has nowhere to go, so whatever headline happens to scroll
       // under it stays covered for as long as it is there. Reading downward

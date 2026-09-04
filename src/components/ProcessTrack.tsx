@@ -43,7 +43,7 @@ export default function ProcessTrack() {
           start: "top top",
           end: () => `+=${distance()}`,
           pin: el,
-          scrub: 1.15,
+          scrub: 0.8,
           invalidateOnRefresh: true,
         },
       });

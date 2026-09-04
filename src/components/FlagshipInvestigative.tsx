@@ -115,7 +115,7 @@ export default function FlagshipInvestigative() {
           start: "top top",
           end: () => `+=${window.innerHeight * TRAVEL}`,
           pin: el,
-          scrub: 1.15,
+          scrub: 0.8,
           invalidateOnRefresh: true,
         },
       });
@@ -139,10 +139,13 @@ export default function FlagshipInvestigative() {
         LEAD,
       );
 
-      // Order matters here. The case file reaches full opacity underneath the
-      // landed cards, and only then do they dissolve off it, so at no point are
-      // two dense interfaces both half-transparent on the same rect.
-      tl.to(file, { autoAlpha: 1, ease: "power1.inOut", duration: 0.45 }, LEAD + 1.2);
+      // The two moves run together, and they have to. Bringing the case file up
+      // first and dissolving the cards afterwards avoids a crossfade, but the
+      // cards only cover the middle of the stage, so the file spent half a
+      // screen of scroll sitting at full opacity around them: it read as a
+      // second image arriving behind the first rather than as a transition.
+      // The cards land by LEAD+1.45, hold, and then hand over.
+      tl.to(file, { autoAlpha: 1, ease: "power1.inOut", duration: 0.4 }, LEAD + 1.6);
       tl.to(
         strewn,
         {
@@ -152,7 +155,7 @@ export default function FlagshipInvestigative() {
           duration: 0.3,
           stagger: { each: 0.03, from: "random" },
         },
-        LEAD + 1.7,
+        LEAD + 1.6,
       );
     }, el);
 
@@ -189,7 +192,7 @@ export default function FlagshipInvestigative() {
       {/* Height-derived rather than .d-lg, for the same reason as chapter 01:
           a width clamp holds the headline at full size on exactly the short
           wide screens where the pinned frame has least room. */}
-      <h3 className="display mt-2 max-w-2xl text-[clamp(1.45rem,4.2vh,2.5rem)] leading-[1.02]">
+      <h3 className="display mt-2 max-w-2xl text-[clamp(1.45rem,min(4.2vh,6.5vw),2.5rem)] leading-[1.02]">
         Investigators running on evidence instead of paperwork.
       </h3>
       <p className="text-muted mt-3 max-w-xl text-[0.82rem] leading-relaxed font-medium">
@@ -242,20 +245,17 @@ export default function FlagshipInvestigative() {
             </div>
           </div>
         ) : (
-          <div className="mx-auto flex w-full max-w-5xl min-h-0 flex-1 items-center justify-center px-6">
-            {/* Sized from the viewport height, not the column width, so the
-                stage and the scatter shrink together on a short laptop screen
-                instead of the cards overrunning the copy above them. The grid
-                sits inside the case file's footprint rather than matching it:
-                a 4x2 run of 218:197 cards is far wider than 3:2, so sharing one
-                rect would have meant cropping the case file to a letterbox. */}
-            {/* Width-driven with a height cap, not the reverse. Deriving the
-                stage from viewport height made it collapse to about 460px wide
-                on a short laptop screen, which put the evidence cards at ~89px
-                and threw away the 976px of column actually available. This
-                takes the width first and only gives back height when there is
-                not enough, so the frame stays as large as it can be. */}
-            <div className="relative aspect-[16/9] max-h-full w-full">
+          <div className="mx-auto flex w-full max-w-5xl min-h-0 flex-1 items-center justify-center px-6 [container-type:size]">
+            {/* The stage takes the column width, but never more than its own
+                height allows, so it stays 16:9 instead of being squashed into a
+                letterbox on a short screen. `max-h-full` did the opposite: it
+                capped the height and left the width alone, so at 1280x590 the
+                frame flattened to 2.7:1 while the card grid inside it kept
+                sizing off the full 976px and overran the copy above by 18px.
+                cqh is the containing row's own height, so this is the same
+                "fit, don't crop" rule the box would have had with `object-fit`
+                — expressed for a box rather than an image. */}
+            <div className="relative aspect-[16/9] w-[min(100%,177.78cqh)]">
               {/* Case file first, so it sits *under* the artifacts. It reaches
                   full opacity while the opaque cards still cover most of it,
                   and the cards then dissolve to reveal it. Fading it in on top
