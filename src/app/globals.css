@@ -1,23 +1,33 @@
 @import "tailwindcss";
 
 :root {
-  --color-ink: #f7f1e4;
-  --color-ink-soft: #eee3cd;
-  --color-paper: #24231a;
-  --color-paper-dim: #756e5c;
-  --color-accent: #6f5bff;
-  --color-accent-soft: #ece8ff;
-  --color-shadow: rgba(64, 48, 22, 0.16);
+  --color-ink: #faf9f6;
+  --color-ink-soft: #f0eee8;
+  --color-paper: #141414;
+  --color-paper-dim: #6b6a66;
+  --color-accent: #7c6cff;
+  --color-accent-2: #ff6cab;
+  --color-accent-soft: #efe9ff;
+  --color-shadow: rgba(20, 20, 20, 0.1);
+
+  /* Fixed, theme-independent dark register for the opening sequence
+     (Hero + Transition). Always dark regardless of the light/dark toggle,
+     since the site should always OPEN dark and resolve into whichever
+     theme is active. */
+  --color-void: #0a0a0b;
+  --color-void-fg: #faf9f6;
+  --color-void-fg-dim: #8f8d8a;
 }
 
 [data-theme="dark"] {
-  --color-ink: #191b13;
-  --color-ink-soft: #23261b;
-  --color-paper: #f2e9d8;
-  --color-paper-dim: #a89f89;
-  --color-accent: #6f5bff;
-  --color-accent-soft: #d9d2ff;
-  --color-shadow: rgba(0, 0, 0, 0.45);
+  --color-ink: #141414;
+  --color-ink-soft: #1e1e1e;
+  --color-paper: #faf9f6;
+  --color-paper-dim: #96948e;
+  --color-accent: #8f7bff;
+  --color-accent-2: #ff6cab;
+  --color-accent-soft: #2a2540;
+  --color-shadow: rgba(0, 0, 0, 0.5);
 }
 
 @theme inline {
@@ -26,7 +36,11 @@
   --color-paper: var(--color-paper);
   --color-paper-dim: var(--color-paper-dim);
   --color-accent: var(--color-accent);
+  --color-accent-2: var(--color-accent-2);
   --color-accent-soft: var(--color-accent-soft);
+  --color-void: var(--color-void);
+  --color-void-fg: var(--color-void-fg);
+  --color-void-fg-dim: var(--color-void-fg-dim);
   --font-display: var(--font-display);
   --font-body: var(--font-body);
 }
@@ -53,18 +67,6 @@ body {
   color: var(--color-ink);
 }
 
-.logo-dark {
-  display: none;
-}
-
-[data-theme="dark"] .logo-light {
-  display: none;
-}
-
-[data-theme="dark"] .logo-dark {
-  display: block;
-}
-
 .blob-1 {
   clip-path: url(#blob-1);
 }
@@ -79,11 +81,74 @@ body {
     0 8px 24px -12px var(--color-shadow);
 }
 
+.text-gradient {
+  background: linear-gradient(100deg, var(--color-accent) 10%, var(--color-accent-2) 90%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.dot-grid {
+  background-image: radial-gradient(circle, rgba(250, 249, 246, 0.14) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+
+.aurora {
+  background:
+    radial-gradient(38% 55% at 15% 20%, color-mix(in srgb, var(--color-accent) 30%, transparent), transparent 70%),
+    radial-gradient(45% 60% at 85% 15%, color-mix(in srgb, var(--color-accent-2) 26%, transparent), transparent 70%),
+    radial-gradient(50% 65% at 50% 100%, color-mix(in srgb, var(--color-accent) 20%, transparent), transparent 70%),
+    var(--color-ink-soft);
+}
+
 @keyframes marquee {
   from {
     transform: translateX(0);
   }
   to {
     transform: translateX(-50%);
+  }
+}
+
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate(-6%, -4%) scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translate(4%, 3%) scale(1.15);
+    opacity: 0.85;
+  }
+}
+
+.hero-glow {
+  animation: drift 26s ease-in-out infinite;
+}
+
+@keyframes word-up {
+  from {
+    opacity: 0;
+    transform: translateY(0.4em);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-word {
+  opacity: 0;
+  animation: word-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-glow {
+    animation: none;
+  }
+
+  .hero-word {
+    opacity: 1;
+    animation: none;
   }
 }

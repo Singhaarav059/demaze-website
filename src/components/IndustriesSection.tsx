@@ -6,17 +6,24 @@ export function IndustriesSection() {
     <section className="px-6 py-20 md:px-10">
       <div className="mx-auto flex max-w-6xl flex-col gap-10">
         <SectionLabel index="009" label="Industries We Serve" />
-        <div className="grid gap-x-8 md:grid-cols-2">
-          {industries.map((industry) => (
+        <div className="flex flex-col border-t border-paper/10">
+          {industries.map((industry, i) => (
             <details
               key={industry.name}
-              className="group border-b border-paper/10 py-5 [&_summary::-webkit-details-marker]:hidden"
+              className="group border-b border-paper/10 py-6 [&_summary::-webkit-details-marker]:hidden md:py-8"
             >
-              <summary className="flex cursor-pointer list-none items-center justify-between font-display text-lg text-paper">
-                {industry.name}
-                <span className="text-accent transition-transform group-open:rotate-45">+</span>
+              <summary className="flex cursor-pointer list-none items-baseline gap-4 md:gap-8">
+                <span className="font-display text-sm text-accent md:w-12">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <h3 className="font-display flex-1 text-2xl font-medium text-paper transition-opacity group-hover:opacity-60 md:text-4xl">
+                  {industry.name}
+                </h3>
+                <span className="font-display text-2xl text-paper-dim transition-transform group-open:rotate-45">
+                  +
+                </span>
               </summary>
-              <div className="flex flex-wrap gap-2 pt-4">
+              <div className="flex flex-wrap gap-2 pt-6 pl-0 md:pl-20">
                 {industry.items.map((item) => (
                   <span
                     key={item}

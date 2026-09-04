@@ -19,7 +19,7 @@ export function FlagshipEcommerce() {
         <SectionLabel index="004" label="Product Three / Luxury eCommerce" />
 
         <Reveal className="mt-10 flex flex-col gap-4">
-          <h3 className="max-w-3xl font-display text-3xl font-light text-paper md:text-5xl">
+          <h3 className="max-w-3xl font-display text-3xl font-normal text-paper md:text-5xl">
             {project.title}
           </h3>
           <p className="max-w-2xl text-sm leading-relaxed text-paper-dim md:text-base">

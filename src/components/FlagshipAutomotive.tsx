@@ -1,30 +1,49 @@
 import Link from "next/link";
-import { ProjectStage } from "@/components/ProjectStage";
+import Image from "next/image";
 import { SectionLabel } from "@/components/SectionLabel";
 import { Reveal } from "@/components/Reveal";
 import { projects } from "@/content/projects";
 
 const project = projects.find((p) => p.slug === "luxury-car-dealer-software")!;
+const [statement, ...rest] = project.description.split(". ");
 
 export function FlagshipAutomotive() {
   return (
-    <section className="relative overflow-hidden px-6 pt-24 pb-14 md:px-10">
-      <div className="mx-auto mb-10 flex max-w-6xl items-end justify-between gap-6">
+    <section className="px-6 pt-24 pb-24 md:px-10">
+      <div className="mx-auto max-w-5xl">
         <SectionLabel index="002" label="Product One / Automotive" />
-        <span className="hidden text-xs text-paper-dim md:block">Drag to look around</span>
+
+        <Reveal className="mt-10">
+          <h3 className="max-w-3xl font-display text-3xl leading-[1.15] font-normal text-paper md:text-5xl">
+            {statement}.
+          </h3>
+        </Reveal>
       </div>
 
-      <Reveal>
-        <ProjectStage image={project.image} />
+      <Reveal scale delay={100} className="relative mx-auto mt-14 aspect-[6/5] max-w-5xl overflow-hidden rounded-lg bg-ink-soft">
+        <Image
+          src={project.image}
+          alt={project.title}
+          fill
+          sizes="(min-width: 1024px) 960px, 100vw"
+          className="object-cover"
+          style={{ filter: "saturate(0.55) sepia(0.12) contrast(1.05)" }}
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse at center, transparent 55%, var(--color-ink) 135%)",
+            opacity: 0.5,
+          }}
+        />
       </Reveal>
 
-      <div className="mx-auto mt-10 grid max-w-6xl gap-10 md:grid-cols-[1.2fr_0.8fr] md:gap-16">
+      <div className="mx-auto mt-14 grid max-w-5xl gap-10 md:grid-cols-[1fr_1px_1fr] md:gap-14">
         <Reveal className="flex flex-col gap-4">
-          <h3 className="font-display text-3xl font-light text-paper md:text-5xl">
-            {project.title}
-          </h3>
-          <p className="max-w-2xl text-sm leading-relaxed text-paper-dim md:text-base">
-            {project.description}
+          <p className="text-sm leading-relaxed text-paper-dim md:text-base">
+            {rest.join(". ")}
           </p>
           <Link
             href={`/projects#${project.slug}`}
@@ -34,7 +53,9 @@ export function FlagshipAutomotive() {
           </Link>
         </Reveal>
 
-        <Reveal delay={120} className="flex flex-col gap-2 border-l border-paper/10 pl-6 md:pl-10">
+        <div className="hidden bg-paper/10 md:block" />
+
+        <Reveal delay={120} className="flex flex-col gap-2">
           <span className="text-xs tracking-[0.3em] text-paper-dim uppercase">What it does</span>
           <ol className="mt-2 flex flex-col gap-3">
             {project.tags.map((tag, i) => (

@@ -24,7 +24,7 @@ export default function AboutUsPage() {
           <SectionLabel index="001" label="Who We Are" />
           <WordReveal
             text={whoWeAre.paragraphs.join(" ")}
-            className="max-w-4xl font-display text-3xl leading-[1.15] font-light text-paper md:text-5xl"
+            className="max-w-4xl font-display text-3xl leading-[1.15] font-normal text-paper md:text-5xl"
           />
           <div className="flex flex-wrap gap-3 pt-4">
             {whatWeAreTags.map((tag) => (
@@ -61,7 +61,7 @@ export default function AboutUsPage() {
               className="blob-1 object-cover"
             />
             <div className="flex flex-col gap-3">
-              <p className="max-w-2xl font-display text-2xl leading-snug font-light text-paper md:text-3xl">
+              <p className="max-w-2xl font-display text-2xl leading-snug font-normal text-paper md:text-3xl">
                 &ldquo;{site.founder.quote}&rdquo;
               </p>
               <p className="text-sm text-paper-dim">

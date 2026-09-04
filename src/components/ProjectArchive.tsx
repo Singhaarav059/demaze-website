@@ -39,12 +39,12 @@ export function ProjectArchive() {
               href={`/projects#${project.slug}`}
               onMouseEnter={() => setHovered(project.slug)}
               onMouseLeave={() => setHovered(null)}
-              className="group flex flex-col gap-2 border-b border-paper/10 py-5 transition-colors hover:bg-ink-soft/50 md:flex-row md:items-baseline md:gap-6 md:px-4"
+              className="group flex flex-col gap-3 border-b border-paper/10 py-8 transition-colors hover:bg-ink-soft/50 md:flex-row md:items-center md:gap-8 md:px-4"
             >
-              <span className="font-display text-sm text-accent md:w-10">
+              <span className="font-display text-2xl text-paper-dim/40 transition-colors group-hover:text-accent md:w-16 md:text-3xl">
                 {String(i + 1).padStart(2, "0")}
               </span>
-              <h3 className="font-display flex-1 text-xl font-light text-paper md:text-2xl">
+              <h3 className="font-display flex-1 text-2xl font-medium text-paper transition-transform md:text-4xl md:group-hover:translate-x-3">
                 {project.title}
               </h3>
               <div className="hidden max-w-xs flex-wrap justify-end gap-x-3 gap-y-1 text-right text-xs text-paper-dim md:flex">

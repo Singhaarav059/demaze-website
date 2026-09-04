@@ -61,20 +61,20 @@ export function ServicesShowcase() {
               ref={(el) => {
                 cardRefs.current[i] = el;
               }}
-              className="absolute inset-0 flex flex-col gap-3 overflow-y-auto rounded-3xl bg-ink-soft px-8 py-6 shadow-soft md:flex-row md:items-center md:px-14 md:py-10"
+              className="dot-grid absolute inset-0 flex flex-col gap-3 overflow-y-auto rounded-3xl bg-paper px-8 py-6 shadow-soft md:flex-row md:items-center md:px-14 md:py-10"
             >
               <div className="flex flex-1 flex-col gap-2">
-                <span className="font-display text-sm text-accent">
+                <span className="text-gradient font-display text-sm">
                   0{i + 1} / 0{serviceCategories.length}
                 </span>
-                <h3 className="font-display text-2xl font-light text-paper md:text-3xl">
+                <h3 className="font-display text-2xl font-medium text-ink md:text-3xl">
                   {cat.name}
                 </h3>
-                <p className="max-w-lg text-sm leading-snug text-paper-dim">{cat.summary}</p>
+                <p className="max-w-lg text-sm leading-snug text-ink/60">{cat.summary}</p>
               </div>
-              <ul className="grid flex-1 grid-cols-1 gap-x-6 gap-y-2 border-t border-paper/10 pt-3 md:grid-cols-2 md:border-t-0 md:border-l md:pt-0 md:pl-10">
+              <ul className="grid flex-1 grid-cols-1 gap-x-6 gap-y-2 border-t border-ink/15 pt-3 md:grid-cols-2 md:border-t-0 md:border-l md:pt-0 md:pl-10">
                 {cat.items.map((item) => (
-                  <li key={item} className="text-sm text-paper-dim">
+                  <li key={item} className="text-sm text-ink/60">
                     {item}
                   </li>
                 ))}

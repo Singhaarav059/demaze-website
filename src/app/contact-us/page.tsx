@@ -14,7 +14,7 @@ export default function ContactUsPage() {
       <div className="mx-auto flex max-w-6xl flex-col gap-12">
         <div className="flex flex-col gap-6">
           <SectionLabel index="001" label="Contact" />
-          <h1 className="max-w-2xl font-display text-4xl leading-tight font-light text-paper md:text-6xl">
+          <h1 className="max-w-2xl font-display text-4xl leading-tight font-normal text-paper md:text-6xl">
             Reach us anytime
           </h1>
           <p className="max-w-md text-sm leading-relaxed text-paper-dim">

@@ -24,12 +24,16 @@ export function StatsSection() {
           ))}
         </div>
 
-        <div className="mt-20 grid gap-10 border-t border-paper/10 pt-12 md:grid-cols-3">
+        <div className="mt-20 grid gap-4 md:grid-cols-3">
           {whyChooseUsHome.map((item, i) => (
-            <Reveal key={item.title} delay={i * 100} className="flex flex-col gap-3">
-              <span className="font-display text-sm text-accent">0{i + 1}</span>
-              <h3 className="font-display text-xl text-paper">{item.title}</h3>
-              <p className="text-sm leading-relaxed text-paper-dim">{item.description}</p>
+            <Reveal
+              key={item.title}
+              delay={i * 100}
+              className="dot-grid flex flex-col gap-3 rounded-3xl bg-paper px-7 py-8"
+            >
+              <span className="text-gradient font-display text-sm">0{i + 1}</span>
+              <h3 className="font-display text-xl font-medium text-ink">{item.title}</h3>
+              <p className="text-sm leading-relaxed text-ink/60">{item.description}</p>
             </Reveal>
           ))}
         </div>

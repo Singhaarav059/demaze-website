@@ -14,7 +14,7 @@ export default function ServicesPage() {
     <main className="px-6 pt-28 pb-20 md:px-10">
       <div className="mx-auto flex max-w-6xl flex-col gap-8 pb-12">
         <SectionLabel index="001" label="What We Do" />
-        <h1 className="max-w-3xl font-display text-4xl leading-tight font-light text-paper md:text-6xl">
+        <h1 className="max-w-3xl font-display text-4xl leading-tight font-normal text-paper md:text-6xl">
           Apps, websites, AI and more
         </h1>
       </div>
@@ -29,7 +29,7 @@ export default function ServicesPage() {
               <span className="font-display text-sm text-accent">
                 0{i + 1} / 0{serviceCategories.length}
               </span>
-              <h2 className="font-display text-4xl font-light text-paper md:text-5xl">
+              <h2 className="font-display text-4xl font-normal text-paper md:text-5xl">
                 {cat.name}
               </h2>
               <p className="max-w-md text-sm leading-relaxed text-paper-dim">{cat.summary}</p>

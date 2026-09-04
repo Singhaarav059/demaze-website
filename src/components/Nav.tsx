@@ -10,60 +10,63 @@ export function Nav() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 flex items-center justify-between border-b border-paper/10 bg-ink/80 px-6 py-4 backdrop-blur-md md:px-10">
-      <Link href="/" onClick={() => setOpen(false)} className="relative block h-7 w-28">
-        <Image
-          src={site.logo}
-          alt={site.name}
-          width={112}
-          height={35}
-          className="logo-light absolute inset-0 h-7 w-auto"
-          priority
-        />
-        <Image
-          src="/demaze-logo-dark.png"
-          alt={site.name}
-          width={112}
-          height={35}
-          className="logo-dark absolute inset-0 h-7 w-auto"
-          priority
-        />
-      </Link>
+    <header className="fixed inset-x-3 top-3 z-50 md:inset-x-6 md:top-6">
+      <div className="flex items-center justify-between gap-4 rounded-full border border-void-fg/10 bg-void/80 py-2 pr-2 pl-5 shadow-soft backdrop-blur-xl md:pr-3">
+        <Link href="/" onClick={() => setOpen(false)} className="relative block h-6 w-24 shrink-0">
+          <Image
+            src="/demaze-logo-dark.png"
+            alt={site.name}
+            width={112}
+            height={35}
+            className="absolute inset-0 h-6 w-auto"
+            priority
+          />
+        </Link>
 
-      <button
-        type="button"
-        onClick={() => setOpen((v) => !v)}
-        className="font-display text-sm tracking-tight text-paper md:hidden"
-      >
-        {open ? "Close" : "Menu"}
-      </button>
+        <nav className="hidden items-center gap-1 md:flex">
+          {site.nav.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="rounded-full px-4 py-2 font-display text-sm text-void-fg-dim transition-colors hover:bg-void-fg/10 hover:text-void-fg"
+            >
+              {item.label}
+            </Link>
+          ))}
+        </nav>
 
-      <nav className="hidden items-center gap-8 md:flex">
-        {site.nav.map((item) => (
+        <div className="hidden items-center gap-2 md:flex">
+          <ThemeToggle />
           <Link
-            key={item.href}
-            href={item.href}
-            className="font-display text-sm tracking-tight text-paper transition-opacity hover:opacity-60"
+            href="/contact-us"
+            className="rounded-full bg-accent px-5 py-2.5 font-display text-sm text-white transition-transform hover:scale-105"
           >
-            {item.label}
+            Let&apos;s Talk
           </Link>
-        ))}
-        <ThemeToggle />
-      </nav>
+        </div>
+
+        <button
+          type="button"
+          onClick={() => setOpen((v) => !v)}
+          className="rounded-full bg-void-fg/10 px-4 py-2 font-display text-sm text-void-fg md:hidden"
+        >
+          {open ? "Close" : "Menu"}
+        </button>
+      </div>
 
       {open && (
-        <nav className="absolute inset-x-0 top-full flex flex-col gap-1 bg-ink px-6 py-4 md:hidden">
+        <nav className="mt-2 flex flex-col gap-1 rounded-3xl border border-void-fg/10 bg-void/95 p-4 backdrop-blur-xl md:hidden">
           {site.nav.map((item) => (
             <Link
               key={item.href}
               href={item.href}
               onClick={() => setOpen(false)}
-              className="py-2 font-display text-lg text-paper"
+              className="rounded-2xl px-4 py-3 font-display text-lg text-void-fg"
             >
               {item.label}
             </Link>
           ))}
-          <div className="pt-2">
+          <div className="flex items-center justify-between px-4 pt-2">
             <ThemeToggle />
           </div>
         </nav>

@@ -1,5 +1,5 @@
 import { Hero } from "@/components/Hero";
-import { WhoWeAre } from "@/components/WhoWeAre";
+import { IntroTransition } from "@/components/IntroTransition";
 import { FlagshipAutomotive } from "@/components/FlagshipAutomotive";
 import { FlagshipInvestigative } from "@/components/FlagshipInvestigative";
 import { FlagshipEcommerce } from "@/components/FlagshipEcommerce";
@@ -16,7 +16,7 @@ export default function Home() {
   return (
     <main>
       <Hero />
-      <WhoWeAre />
+      <IntroTransition />
       <FlagshipAutomotive />
       <FlagshipInvestigative />
       <FlagshipEcommerce />

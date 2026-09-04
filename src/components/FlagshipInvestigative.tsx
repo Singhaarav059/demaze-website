@@ -14,7 +14,7 @@ export function FlagshipInvestigative() {
 
         <div className="mt-10 grid gap-8 md:grid-cols-[1.1fr_1fr] md:items-start md:gap-10">
           <Reveal>
-            <h3 className="font-display text-[12vw] leading-[0.9] font-light text-paper md:text-[5.5vw]">
+            <h3 className="font-display text-[12vw] leading-[0.9] font-normal text-paper md:text-[5.5vw]">
               A case file
               <br />
               that builds

@@ -18,7 +18,7 @@ export function FounderSection() {
             className="rounded-full object-cover"
           />
           <div className="flex flex-col gap-4">
-            <p className="max-w-2xl font-display text-2xl leading-snug font-light text-paper md:text-3xl">
+            <p className="max-w-2xl font-display text-2xl leading-snug font-normal text-paper md:text-3xl">
               &ldquo;{site.founder.quote}&rdquo;
             </p>
             <p className="text-sm text-paper-dim">
