@@ -1,21 +1,34 @@
 import type { Metadata } from "next";
-import { Bricolage_Grotesque, Inter_Tight } from "next/font/google";
+import { Instrument_Serif, Inter_Tight, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import { pageMeta, site, siteUrl } from "@/content/site";
 
-const bricolage = Bricolage_Grotesque({
+/**
+ * Three faces, three jobs. The previous pair was Bricolage Grotesque over
+ * Inter Tight: two grotesques, so the site paid for two downloads and got one
+ * voice, and a section headline was indistinguishable from a card headline.
+ * A serif display against a sans UI is the contrast that was missing, and the
+ * mono carries every index, eyebrow and figure number.
+ */
+const instrument = Instrument_Serif({
   subsets: ["latin"],
-  weight: ["400", "500"],
-  variable: "--font-bricolage",
+  weight: ["400"],
+  variable: "--font-instrument",
 });
 
 const interTight = Inter_Tight({
   subsets: ["latin"],
   weight: ["400", "500", "600"],
   variable: "--font-inter-tight",
+});
+
+const jetbrains = JetBrains_Mono({
+  subsets: ["latin"],
+  weight: ["500"],
+  variable: "--font-jetbrains",
 });
 
 export const metadata: Metadata = {
@@ -60,7 +73,10 @@ const orgSchema = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${bricolage.variable} ${interTight.variable}`}>
+    <html
+      lang="en"
+      className={`${instrument.variable} ${interTight.variable} ${jetbrains.variable}`}
+    >
       <body>
         <script
           type="application/ld+json"

@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import HeroScene from "./HeroScene";
 import WordReveal from "./WordReveal";
 import Reveal from "./Reveal";
 import { site } from "@/content/site";
@@ -8,8 +7,8 @@ import { whoWeAre, whatWeAreTags } from "@/content/about";
 import { flagshipProjects } from "@/content/projects";
 
 /**
- * Sticky hero with a full-bleed colour curtain riding up over it.
- * The wipe is pure CSS: the hero is `sticky`, the accent panel is its next
+ * Sticky hero with a curtain riding up over it.
+ * The wipe is pure CSS: the hero is `sticky`, the paper panel is its next
  * sibling with a higher stacking context, so scrolling slides one over the
  * other with no scroll listener involved.
  */
@@ -23,28 +22,34 @@ export default function HeroSequence() {
         {/* A 140px blur on a phone-width element is over half its own width, so
             the glow dissolves instead of reading as a field. Below lg the blobs
             are sized past the viewport and the blur is pulled back, which is
-            what actually makes them visible there. */}
-        <div className="hero-glow bg-accent/35 pointer-events-none absolute top-[-18%] left-1/2 h-[60vh] w-[135vw] -translate-x-1/2 rounded-full blur-[90px] lg:h-[70vh] lg:w-[70vw] lg:bg-accent/25 lg:blur-[140px]" />
-        {/* Second, slower blob. Below lg there is no knot, and one centred glow
-            on flat black leaves the top half of the hero empty. Bright accent,
-            not accent-deep: a dark blue at low alpha over near-black void has
-            almost no luminance to contribute and reads as nothing. */}
+            what actually makes them visible there.
+
+            Both blobs were tuned as a backdrop for the WebGL knot, where they
+            were the dimmest thing in the frame. With the knot gone they became
+            the loudest — a flat saturated wash, in the one colour the rest of
+            the site no longer uses as a surface. Alpha is roughly halved so the
+            hero reads as ink carrying type, with the product card as its only
+            image. */}
+        <div className="hero-glow bg-accent/20 pointer-events-none absolute top-[-18%] left-1/2 h-[60vh] w-[135vw] -translate-x-1/2 rounded-full blur-[90px] lg:h-[70vh] lg:w-[70vw] lg:bg-accent/12 lg:blur-[140px]" />
+        {/* Second, slower blob. One centred glow on flat ink leaves the top half
+            of the hero empty, which is what this fills. It used to be mobile-only
+            because the WebGL knot occupied that space at lg; the knot is gone, so
+            the treatment that was already designed for its absence now runs
+            everywhere. Bright accent, not accent-deep: a dark blue at low alpha
+            over near-black has almost no luminance to contribute and reads as
+            nothing. Sized in the same width-aware way as the first blob — a
+            fixed blur on a 105vw element is a hard-edged disc on a wide screen. */}
         <div
-          className="hero-glow bg-accent/28 pointer-events-none absolute top-[2%] right-[-35%] h-[42vh] w-[105vw] rounded-full blur-[80px] lg:hidden"
+          className="hero-glow bg-accent/16 pointer-events-none absolute top-[2%] right-[-35%] h-[42vh] w-[105vw] rounded-full blur-[80px] lg:right-[-14%] lg:h-[54vh] lg:w-[52vw] lg:blur-[130px]"
           style={{ animationDelay: "-12s", animationDuration: "38s" }}
         />
-        <HeroScene />
         <div className="from-void via-void/20 pointer-events-none absolute inset-0 bg-gradient-to-t to-transparent" />
-        {/* Keeps the headline off the knot's bright lobes without dimming the
-            whole scene. Only lg renders the knot, so below that this scrim has
-            nothing to protect against and would just flatten the hero. */}
-        <div className="from-void via-void/75 pointer-events-none absolute inset-0 hidden bg-gradient-to-r to-transparent to-70% lg:block" />
 
         {/* Height-derived top padding, same clamp the pinned sections use. A
             flat pt-24 is 96px of clearance for a 76px bar, which is fine until
             the viewport is short: at 520px tall the hero's own content ran 5px
             past the frame and the eyebrow was clipped by overflow-hidden. */}
-        <div className="relative z-10 mx-auto flex w-full max-w-5xl flex-1 flex-col justify-end px-6 pt-[clamp(4.5rem,10vh,6rem)] pb-6">
+        <div className="relative z-10 mx-auto flex w-full max-w-page flex-1 flex-col justify-end px-6 pt-[clamp(4.5rem,10vh,6rem)] pb-6">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-2xl">
               <p className="label text-accent">{site.eyebrow}</p>
@@ -112,12 +117,16 @@ export default function HeroSequence() {
         </div>
       </section>
 
-      {/* ---------- Curtain: full-bleed accent rides up over the hero ---------- */}
-      <section className="bg-accent relative z-10 text-white">
-        {/* A held beat of pure colour before any content, on purpose. */}
+      {/* ---------- Curtain: paper rides up over the dark hero ----------
+          Was a full-bleed accent slab. A saturated brand-blue surface is the
+          loudest template tell on a page like this, and the wipe reads better
+          light-over-dark anyway: it hands the reader the page's real surface
+          rather than a third one they will never see again. */}
+      <section className="bg-paper relative z-10">
+        {/* A held beat of empty paper before any content, on purpose. */}
         <div className="h-[28vh]" />
 
-        <div className="mx-auto max-w-5xl px-6 pb-14">
+        <div className="mx-auto max-w-page px-6 pb-14">
           <WordReveal
             as="h2"
             text="We are digital transformation architects, not just developers."
@@ -126,23 +135,23 @@ export default function HeroSequence() {
           <div className="mt-8 grid gap-6 md:grid-cols-2">
             {whoWeAre.paragraphs.map((p, i) => (
               <Reveal key={i} delay={i * 120}>
-                <p className="text-sm leading-relaxed font-medium text-white/70">{p}</p>
+                <p className="text-sm leading-relaxed font-medium text-muted">{p}</p>
               </Reveal>
             ))}
           </div>
         </div>
 
-        <div className="overflow-hidden border-t border-white/15 py-4">
+        <div className="overflow-hidden border-t border-line py-4">
           <div className="ticker-track" style={{ ["--ticker-duration" as string]: "48s" }}>
             {[0, 1].map((dup) => (
               <div key={dup} className="flex shrink-0 items-center" aria-hidden={dup === 1}>
                 {whatWeAreTags.map((tag) => (
                   <span
                     key={tag}
-                    className="flex items-center gap-6 px-6 text-sm font-semibold whitespace-nowrap text-white/85"
+                    className="flex items-center gap-6 px-6 text-sm font-semibold whitespace-nowrap text-ink"
                   >
                     {tag}
-                    <span className="h-1 w-1 rounded-full bg-white/40" />
+                    <span className="h-1 w-1 rounded-full bg-accent/45" />
                   </span>
                 ))}
               </div>

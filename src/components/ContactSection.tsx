@@ -38,20 +38,22 @@ export default function ContactSection() {
   }, []);
 
   return (
-    <section className="bg-accent text-white">
+    // Ink, not accent: the closer bookends the dark hero instead of
+    // introducing a third full-bleed surface at the bottom of the page.
+    <section className="bg-ink text-void-fg">
       <div ref={zone} className="bg-paper relative h-[26vh] overflow-hidden">
         <div
           ref={circle}
-          className="bg-accent absolute bottom-0 left-1/2 aspect-square w-[150vw] -translate-x-1/2 translate-y-1/2 rounded-full"
+          className="bg-ink absolute bottom-0 left-1/2 aspect-square w-[150vw] -translate-x-1/2 translate-y-1/2 rounded-full"
         />
       </div>
 
-      <div className="mx-auto max-w-5xl px-6 pt-2 pb-14 md:pb-20">
+      <div className="mx-auto max-w-page px-6 pt-2 pb-14 md:pb-20">
         {/* Two columns: the headline alone left half of a wide viewport empty,
             which read as an unfinished block rather than a deliberate pause. */}
         <div className="grid gap-6 md:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)] md:items-end md:gap-12">
           <h2 className="display d-xl">Tell us what you are trying to build.</h2>
-          <p className="max-w-sm text-sm leading-relaxed font-medium text-white/75">
+          <p className="max-w-sm text-sm leading-relaxed font-medium text-void-dim">
             No pitch deck required. Describe the problem and the constraints, and we will tell you
             honestly whether we are the right team for it.
           </p>
@@ -60,21 +62,21 @@ export default function ContactSection() {
         <div className="mt-7 flex flex-wrap items-center gap-2.5">
           <Link
             href="/contact-us"
-            className="text-accent rounded-full bg-white px-6 py-3 text-sm font-semibold transition-transform duration-300 hover:-translate-y-0.5"
+            className="text-ink rounded-full bg-void-fg px-6 py-3 text-sm font-semibold transition-transform duration-300 hover:-translate-y-0.5"
           >
             Start a project
           </Link>
           <a
             href={`mailto:${site.email}`}
-            className="rounded-full border border-white/40 px-6 py-3 text-sm font-semibold transition-colors hover:border-white"
+            className="rounded-full border border-void-fg/30 px-6 py-3 text-sm font-semibold transition-colors hover:border-void-fg"
           >
             {site.email}
           </a>
         </div>
 
-        <div className="mt-12 grid gap-6 border-t border-white/20 pt-6 md:grid-cols-3">
+        <div className="mt-12 grid gap-6 border-t border-void-fg/15 pt-6 md:grid-cols-3">
           <div>
-            <p className="label text-white/60">Studio</p>
+            <p className="label text-void-dim">Studio</p>
             <a
               href={site.mapsHref}
               target="_blank"
@@ -85,13 +87,13 @@ export default function ContactSection() {
             </a>
           </div>
           <div>
-            <p className="label text-white/60">Response time</p>
+            <p className="label text-void-dim">Response time</p>
             <p className="mt-2 text-xs leading-relaxed font-semibold">
               We reply to every project enquiry within one working day.
             </p>
           </div>
           <div>
-            <p className="label text-white/60">Team</p>
+            <p className="label text-void-dim">Team</p>
             <p className="mt-2 text-xs leading-relaxed font-semibold">
               {site.stats[2].value}
               {site.stats[2].suffix} engineers, designers and strategists in Ahmedabad.

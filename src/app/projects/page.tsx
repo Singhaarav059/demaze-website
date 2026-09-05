@@ -1,9 +1,14 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Reveal from "@/components/Reveal";
-import Parallax from "@/components/Parallax";
-import { projects } from "@/content/projects";
+import { projects, flagshipProjects } from "@/content/projects";
 import { pageMeta } from "@/content/site";
+
+/**
+ * Driven off flagshipProjects, not the `featured` flag. `featured` is true on
+ * four entries; only three have an art-directed chapter on the homepage, so
+ * labelling by that flag promises a chapter that does not exist.
+ */
+const flagshipSlugs = new Set(flagshipProjects.map((p) => p.slug));
 
 export const metadata: Metadata = pageMeta(
   "Projects",
@@ -11,12 +16,23 @@ export const metadata: Metadata = pageMeta(
   "/projects",
 );
 
+/**
+ * A register, not a gallery.
+ *
+ * Every entry here used to lead with a 520px stock marketing mockup — the same
+ * sixteen renders the homepage archive was showing, at four times the size, so
+ * removing them from the homepage alone would only have moved the problem one
+ * click away. The client work is under NDA and is described in the client's own
+ * words; the three systems we can show in full have their own chapters on the
+ * homepage. So the page commits to text, and reads as an index of work rather
+ * than a portfolio of pictures we do not have.
+ */
 export default function ProjectsPage() {
   return (
     <main className="bg-paper">
       <header className="bg-void text-void-fg grain relative overflow-hidden px-6 pt-32 pb-12">
-        <div className="bg-accent/18 pointer-events-none absolute top-0 left-1/2 h-[50vh] w-[70vw] -translate-x-1/2 rounded-full blur-[150px]" />
-        <div className="relative mx-auto max-w-5xl">
+        <div className="bg-accent/12 pointer-events-none absolute top-0 left-1/2 h-[50vh] w-[70vw] -translate-x-1/2 rounded-full blur-[150px]" />
+        <div className="relative mx-auto max-w-page">
           <p className="label text-accent">Work</p>
           <h1 className="display d-xl mt-6 max-w-4xl">
             {projects.length} systems, built to stay in production.
@@ -28,35 +44,24 @@ export default function ProjectsPage() {
         </div>
       </header>
 
-      <div className="mx-auto max-w-5xl px-6 section-y">
+      <div className="border-line mx-auto max-w-page border-t px-6 section-y">
         {projects.map((p, i) => (
           <article
             key={p.slug}
             id={p.slug}
-            className="border-line grid scroll-mt-28 gap-8 border-b py-14 first:pt-0 last:border-b-0 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:gap-14"
+            className="border-line grid scroll-mt-28 gap-x-8 gap-y-4 border-b py-10 first:pt-0 md:grid-cols-[7rem_minmax(0,1fr)_minmax(0,1fr)] md:gap-x-14 md:py-14"
           >
-            <Parallax distance={20} className={i % 2 === 1 ? "md:order-2" : undefined}>
-              <Reveal scale>
-                <div className="bg-sand relative aspect-[4/3] overflow-hidden rounded-[24px]">
-                  <Image
-                    src={p.image}
-                    alt={p.title}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 520px"
-                    className="object-cover"
-                  />
-                </div>
-              </Reveal>
-            </Parallax>
-
-            <Reveal delay={100} className="flex flex-col justify-center">
-              <p className="text-muted/60 font-display text-xs">
+            <Reveal>
+              <p className="text-muted/60 font-mono text-xs">
                 {String(i + 1).padStart(2, "0")}
-                {p.featured ? "  ·  Featured" : ""}
               </p>
-              <h2 className="display d-md mt-3">{p.title}</h2>
-              <p className="text-muted mt-4 text-sm leading-relaxed font-medium">{p.description}</p>
-              <ul className="mt-6 flex flex-wrap gap-2">
+              <p className="label text-muted/70 mt-2">{p.sector}</p>
+              {flagshipSlugs.has(p.slug) && <p className="label text-accent mt-2">Flagship</p>}
+            </Reveal>
+
+            <Reveal delay={80}>
+              <h2 className="h-card">{p.title}</h2>
+              <ul className="mt-5 flex flex-wrap gap-2">
                 {p.tags.map((tag) => (
                   <li
                     key={tag}
@@ -66,6 +71,10 @@ export default function ProjectsPage() {
                   </li>
                 ))}
               </ul>
+            </Reveal>
+
+            <Reveal delay={140}>
+              <p className="text-muted text-sm leading-relaxed font-medium">{p.description}</p>
             </Reveal>
           </article>
         ))}

@@ -210,7 +210,7 @@ export default function FlagshipInvestigative() {
         ref={pin}
         className={flat ? "section-y" : "flex h-screen flex-col overflow-hidden pt-[clamp(4.5rem,10vh,6rem)] pb-6"}
       >
-        <div className="mx-auto flex w-full max-w-5xl shrink-0 items-start justify-between gap-6 px-6">
+        <div className="mx-auto flex w-full max-w-page shrink-0 items-start justify-between gap-6 px-6">
           <div>{heading}</div>
           <Link
             href="/projects"
@@ -221,7 +221,7 @@ export default function FlagshipInvestigative() {
         </div>
 
         {flat ? (
-          <div className="mx-auto mt-8 w-full max-w-5xl space-y-5 px-6">
+          <div className="mx-auto mt-8 w-full max-w-page space-y-5 px-6">
             {grid}
             {/* Same reasoning as chapter 01's phone crop: the whole case file
                 at 342px is an unreadable thumbnail, so below md it zooms to the
@@ -245,7 +245,7 @@ export default function FlagshipInvestigative() {
             </div>
           </div>
         ) : (
-          <div className="mx-auto flex w-full max-w-5xl min-h-0 flex-1 items-center justify-center px-6 [container-type:size]">
+          <div className="mx-auto flex w-full max-w-page min-h-0 flex-1 items-center justify-center px-6 [container-type:size]">
             {/* The stage takes the column width, but never more than its own
                 height allows, so it stays 16:9 instead of being squashed into a
                 letterbox on a short screen. `max-h-full` did the opposite: it
@@ -283,7 +283,7 @@ export default function FlagshipInvestigative() {
           </div>
         )}
 
-        <p className="text-muted mx-auto w-full max-w-5xl shrink-0 px-6 pt-5 text-[0.65rem] font-semibold">
+        <p className="text-muted mx-auto w-full max-w-page shrink-0 px-6 pt-5 text-[0.65rem] font-semibold">
           Interface shown is a representative build.
         </p>
       </div>
