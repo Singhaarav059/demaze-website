@@ -14,7 +14,7 @@ export const projects: Project[] = [
     sector: "Automotive",
     title: "AI-Based software for luxury car dealers",
     description:
-      "This comprehensive AI-based software solution was developed for one of India's largest luxury car dealerships to streamline various operations, including used car valuation, new car EMI calculations, car refurbishment management, and serving as a powerful backend system for the sales team. The tool enhances operational efficiency and significantly improves the customer experience, making it an indispensable asset for the dealership.",
+      "A dealer operations platform covering used-car valuation against live market data, new-car EMI calculation, refurbishment costing and the sales team's backend, so a vehicle moves from intake through valuation and reconditioning to sale inside one system rather than four. Built for luxury dealership groups in India.",
     tags: [
       "Accurate Used Car Valuations",
       "Instant New Car EMIs",
