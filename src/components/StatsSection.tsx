@@ -6,7 +6,7 @@ export default function StatsSection() {
     <section className="bg-void text-void-fg grain section-y relative overflow-hidden">
       <div className="bg-accent/12 pointer-events-none absolute bottom-0 left-1/2 h-[40vh] w-[70vw] -translate-x-1/2 rounded-full blur-[150px]" />
 
-      <div className="relative mx-auto max-w-5xl px-6">
+      <div className="relative mx-auto max-w-page px-6">
         <p className="text-void-fg/50 max-w-xl text-sm font-semibold">
           Six years, one delivery team, and a record we can point at.
         </p>

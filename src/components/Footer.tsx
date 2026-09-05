@@ -5,7 +5,7 @@ import { site } from "@/content/site";
 export default function Footer() {
   return (
     <footer className="bg-void text-void-fg grain relative overflow-hidden">
-      <div className="mx-auto max-w-5xl px-6 py-9">
+      <div className="mx-auto max-w-page px-6 py-9">
         <div className="flex flex-wrap items-start justify-between gap-7">
           <div>
             {/* Sized to what it renders at. The intrinsic 1344px asked Next

@@ -2,17 +2,26 @@
 
 /* ------------------------------------------------------------------
    Demaze design system
-   Warm cream paper, near-black void, one copper accent used as a
-   full-bleed surface (not just a button colour).
+
+   Two surfaces, not five. Warm cream carries the page; one ink appears
+   only for the flagship chapters and the two bookends, so going dark
+   means "this is a product moment" rather than "a new section began".
+   The accent is a rule, a chip and a hover state — never a surface.
 ------------------------------------------------------------------ */
 
 @theme {
-  --color-void: #07080f;
+  /* void and ink were #07080f and #131420: near enough to read as a defect
+     where two dark sections met, far enough apart to stop the page feeling
+     like one object. Both names now resolve to the same ink, so the seam
+     between e.g. the services list and the tech ticker simply disappears. */
+  --color-void: #131420;
   --color-void-fg: #f4f2ec;
   --color-void-dim: #8b8a93;
 
   --color-paper: #f4f2ec;
-  --color-sand: #e6e2d7;
+  /* Was #e6e2d7, which read as a third surface. Pulled close to paper so it
+     separates a block without starting a new page. */
+  --color-sand: #edeae1;
   --color-ink: #131420;
   --color-muted: #6a675f;
   --color-line: #d7d2c4;
@@ -22,8 +31,13 @@
   --color-accent-deep: #2c3fc4;
   --color-accent-tint: #dfe4fc;
 
-  --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-instrument), ui-serif, Georgia, serif;
   --font-sans: var(--font-inter-tight), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+
+  /* 1024px of content inside a 1440px viewport left 208px of margin either
+     side, which reads as a blog column. The reference sites all sit at 1240. */
+  --container-page: 77.5rem;
 
   --radius-card: 30px;
   --radius-inner: 20px;
@@ -45,12 +59,15 @@ html {
   text-rendering: optimizeLegibility;
 }
 
+/* Negative tracking belongs to display sizes only. Applied globally it was
+   crushing 12-16px UI text, which is where it costs legibility and buys
+   nothing. */
 body {
   background: var(--color-paper);
   color: var(--color-ink);
   font-family: var(--font-sans);
-  font-weight: 500;
-  letter-spacing: -0.015em;
+  font-weight: 400;
+  line-height: 1.6;
   overflow-x: clip;
 }
 
@@ -78,42 +95,60 @@ body {
 .display {
   font-family: var(--font-display);
   font-weight: 400;
-  letter-spacing: -0.04em;
-  line-height: 0.98;
+  letter-spacing: -0.03em;
+  line-height: 0.96;
 }
 
+/* A 63px H1 in a 1024px column is what read as "not up to the mark". The
+   references run their display type 1.5-2.5x larger than instinct suggests:
+   Wispr Flow sets its H1 at 96px, weight 400. */
 .d-xl {
-  font-size: clamp(2.1rem, 4.4vw, 4rem);
+  font-size: clamp(2.6rem, 6.6vw, 6rem);
 }
 .d-lg {
-  font-size: clamp(1.65rem, 2.9vw, 2.5rem);
+  font-size: clamp(2rem, 4.4vw, 4rem);
 }
+/* Serif, and now reserved for pull quotes. Card headings use .h-card. */
 .d-md {
-  font-size: clamp(1.2rem, 1.8vw, 1.6rem);
-  line-height: 1.08;
+  font-size: clamp(1.35rem, 2vw, 1.75rem);
+  line-height: 1.05;
+}
+
+/* Card and list headings. Section heading was 40px and card heading 37.8px —
+   a 5% gap, so there was no hierarchy between them at all. The distinction is
+   now a family switch (serif section, sans card), which holds at every size. */
+.h-card {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: clamp(1.2rem, 1.95vw, 1.75rem);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
 }
 
 .lede {
-  font-size: clamp(0.95rem, 1.02vw, 1.08rem);
+  font-size: clamp(1.0625rem, 1.4vw, 1.25rem);
   line-height: 1.5;
-  font-weight: 600;
-  letter-spacing: -0.02em;
+  font-weight: 500;
 }
 
+/* Mono, uppercase. Every index, eyebrow and figure number on the site runs
+   through this class, and mono metadata is the engineering-credibility signal
+   a software studio should be spending. */
 .label {
-  font-size: 0.66rem;
-  font-weight: 600;
-  letter-spacing: 0.18em;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
 }
 
 /* One knob for vertical rhythm, so the whole site tightens together. */
 .section-y {
-  padding-block: 3.25rem;
+  padding-block: 4.5rem;
 }
 @media (min-width: 768px) {
   .section-y {
-    padding-block: 4.5rem;
+    padding-block: 7.5rem;
   }
 }
 

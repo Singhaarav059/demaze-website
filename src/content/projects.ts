@@ -1,6 +1,6 @@
 export type Project = {
   slug: string;
-  image: string;
+  sector: string;
   title: string;
   description: string;
   tags: string[];
@@ -11,7 +11,7 @@ export type Project = {
 export const projects: Project[] = [
   {
     slug: "luxury-car-dealer-software",
-    image: "/projects/luxury-car-dealer-software.webp",
+    sector: "Automotive",
     title: "AI-Based software for luxury car dealers",
     description:
       "This comprehensive AI-based software solution was developed for one of India's largest luxury car dealerships to streamline various operations, including used car valuation, new car EMI calculations, car refurbishment management, and serving as a powerful backend system for the sales team. The tool enhances operational efficiency and significantly improves the customer experience, making it an indispensable asset for the dealership.",
@@ -25,7 +25,7 @@ export const projects: Project[] = [
   },
   {
     slug: "investigative-case-management",
-    image: "/projects/investigative-case-management.webp",
+    sector: "Legal & Investigation",
     title: "Investigative Case Management Software",
     description:
       "It is an advanced web-based software designed to enhance the capabilities of private investigators with AI-powered tools and comprehensive case management features. It supports seamless organization of case information and media, secure data storage, and automated workflow management, accessible from anywhere.",
@@ -39,7 +39,7 @@ export const projects: Project[] = [
   },
   {
     slug: "luxury-ecommerce-platform",
-    image: "/projects/luxury-ecommerce-platform.webp",
+    sector: "Retail",
     title: "AI-Powered luxury eCommerce Platform",
     description:
       "Developed a modern e-commerce and lifestyle platform focused on sustainability and luxury retail. The project involved designing and implementing intuitive user journeys, personalization mechanisms, and secure data handling to ensure a premium digital experience. The result was a scalable, user-friendly solution aligned with the client's vision for innovation and environmental responsibility.",
@@ -53,7 +53,7 @@ export const projects: Project[] = [
   },
   {
     slug: "senior-engagement-platform",
-    image: "/projects/senior-engagement-platform.webp",
+    sector: "Healthcare",
     title: "Senior Engagement & Support platform",
     description:
       "Sukoon Unlimited is an innovative platform designed to help seniors lead a connected, purposeful, and fulfilled life by providing access to support, meaningful conversations, and activities. The platform offers various services including personalized coaching, meetups, and a community of compassionate individuals, all aimed at reducing isolation and fostering connections. Sukoon Unlimited serves as a dedicated space for seniors to share experiences, seek guidance, and participate in enriching discussions that enhance mental and emotional well-being.",
@@ -67,7 +67,7 @@ export const projects: Project[] = [
   },
   {
     slug: "multi-vendor-ecommerce-marketplace",
-    image: "/projects/multi-vendor-ecommerce-marketplace.webp",
+    sector: "Retail",
     title: "Multi-vendor eCommerce Marketplace",
     description:
       "It is Australian and New Zealand's leading online marketplace where shoppers, good causes and retailers can do better shopping to get the latest trends, shoes, dresses, accessories and more. This app contains many features like category-wise products, easy searching, wishlist, brands, drop auction, currency converter, add to cart and buy with many payment options.",
@@ -80,7 +80,7 @@ export const projects: Project[] = [
   },
   {
     slug: "food-grocery-delivery-app",
-    image: "/projects/food-grocery-delivery-app.webp",
+    sector: "Logistics",
     title: "Multi-shoppers Food & Grocery Delivery App",
     description:
       "It is a cross-platform application developed using Flutter for user-facing apps and ReactJS for the admin panel. The platform is designed to empower local shop vendors by enabling them to sell their products online and manage their digital stores efficiently. It provides a seamless experience for both customers and shop owners, offering features that facilitate easy product listing, inventory management, and customer interaction.",
@@ -93,7 +93,7 @@ export const projects: Project[] = [
   },
   {
     slug: "car-service-engagement-platform",
-    image: "/projects/car-service-engagement-platform.webp",
+    sector: "Automotive",
     title: "Car service & customer engagement platform",
     description:
       "The platform is a web and mobile-based application designed to enhance the efficiency of the service department of an authorized car dealership in India. The platform streamlines customer data management, service tracking, automated communication, and role-based access to improve operational efficiency and enhance customer experience. The application automates service reminders, tracks customer interactions, and provides real-time analytics to optimize the dealership's Preventive Maintenance (PM), General Repairs (GR), and Body & Paint (BP) services.",
@@ -106,7 +106,7 @@ export const projects: Project[] = [
   },
   {
     slug: "b2b-gift-marketplace",
-    image: "/projects/b2b-gift-marketplace.webp",
+    sector: "Retail",
     title: "B2B Gift Marketplace",
     description:
       "It is a comprehensive multi-vendor e-commerce platform developed to streamline the gifting business by connecting resellers and manufacturers in a seamless ecosystem. Designed with scalability, automation, and efficiency in mind, it enables resellers to grow their business, manufacturers to scale production, and administrators to oversee the entire system effortlessly.",
@@ -119,7 +119,7 @@ export const projects: Project[] = [
   },
   {
     slug: "global-payment-transfer-platform",
-    image: "/projects/global-payment-transfer-platform.webp",
+    sector: "Fintech",
     title: "Global Payment transfer platform",
     description:
       "It is an advanced digital payment platform that utilizes blockchain technology to simplify global money transfers. With a focus on efficiency and security, it enables fast, low-cost, and seamless cross-border transactions using stablecoins. By removing traditional banking intermediaries, it reduces transaction costs and processing times. Whether for personal or business transactions, it ensures funds are transferred quickly, safely, and affordably, offering a more accessible financial solution for individuals and businesses worldwide.",
@@ -127,7 +127,7 @@ export const projects: Project[] = [
   },
   {
     slug: "cma-report-generation-software",
-    image: "/projects/cma-report-generation-software.webp",
+    sector: "Fintech",
     title: "CMA Report Generation Software",
     description:
       "The Credit Monitoring Arrangement (CMA) Report Generation Software is a cloud-based platform designed to streamline and automate the preparation of CMA reports. Developed using ReactJS and NodeJS, this platform includes comprehensive features that enable users to create detailed reports with all necessary data tables and charts. The software allows users to prepare, edit, and finalize CMA reports efficiently and provides options to download the reports in PDF and Excel formats.",
@@ -140,7 +140,7 @@ export const projects: Project[] = [
   },
   {
     slug: "recruitment-platform",
-    image: "/projects/recruitment-platform.webp",
+    sector: "Human Resources",
     title: "Recruitment platform",
     description:
       "This is a recruitment consultancy platform that streamlines the hiring process for businesses of all types. With its user-friendly interface and powerful features, it makes it easy for employers to find, manage, and track the progress of job candidates. The platform allows employers to create job listings and provides a real-time chat feature for communication between employers and employees. Businesses can track the progress of candidates throughout the hiring process, from application to offer letter, while candidates can find their best employers to join.",
@@ -153,7 +153,7 @@ export const projects: Project[] = [
   },
   {
     slug: "task-staff-document-platform",
-    image: "/projects/task-staff-document-platform.webp",
+    sector: "Operations",
     title: "Task, Staff & Document management platform",
     description:
       "It is a cross-platform application designed to digitally transform insurance and investment agencies by streamlining tasks, staff, and document management. Built for admins, heads, and field & office staff, the platform enables seamless task assignment, real-time communication, and document handling. With real-time messaging powered by WebSockets, team members can collaborate efficiently, while heads can track progress and follow up on tasks. The system ensures secure document storage, categorizing files under respective policy or investment holders, making retrieval quick and organized.",
@@ -166,7 +166,7 @@ export const projects: Project[] = [
   },
   {
     slug: "educational-courses-lms-platform",
-    image: "/projects/educational-courses-lms-platform.webp",
+    sector: "Education",
     title: "Educational courses & LMS platform",
     description:
       "A learning management platform built to bring courses, learner progress, and content discovery into one place. It gives learners a personal dashboard to track their courses, uses AI-powered search to help them find the right content faster, and includes VR-based modules for a more immersive way to learn.",
@@ -180,7 +180,7 @@ export const projects: Project[] = [
   },
   {
     slug: "ai-storyboard-platform",
-    image: "/projects/ai-storyboard-platform.webp",
+    sector: "Media & Film",
     title: "Storyboard creation for films with AI",
     description:
       "It is a cutting-edge platform designed to transform the storyboard creation process using generative AI and advanced algorithms. This innovative tool allows filmmakers, advertisers, and content creators to convert scripts into stunning visual storyboards within minutes. It analyzes scripts, breaks them down scene by scene, and provides powerful editing tools to ensure narrative coherence and creative control.",
@@ -193,7 +193,7 @@ export const projects: Project[] = [
   },
   {
     slug: "insurance-management-platform",
-    image: "/projects/insurance-management-platform.webp",
+    sector: "Insurance",
     title: "Insurance management platform",
     description:
       "Introducing InsureTech, the ultimate cross-platform Flutter application designed to revolutionize insurance management. With its sleek and modern UI, users can seamlessly store and access all their insurance details in one centralized hub. Gone are the days of missing premium due dates. InsureTech keeps users informed with timely notifications, ensuring they never overlook important payments or coverage updates. From health to auto and everything in between, users can effortlessly manage all types of insurances within this powerful app.",
@@ -206,7 +206,7 @@ export const projects: Project[] = [
   },
   {
     slug: "social-commerce-platform",
-    image: "/projects/social-commerce-platform.webp",
+    sector: "Retail",
     title: "Social media & social commerce platform",
     description:
       "It is a social media and social commerce platform where users can connect through shared interests like singing, dancing, sports, and more. Join community groups, share content, engage with others, and shop directly from peer-to-peer listings using in-app crypto wallets. With features like leaderboards, brand promotions, and a personalized user profile, it creates a dynamic space for creators, consumers, and brands to interact.",

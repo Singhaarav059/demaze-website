@@ -125,7 +125,7 @@ export default function FlagshipEcommerce() {
           flat ? "section-y" : "flex h-screen flex-col overflow-hidden pt-[clamp(4.5rem,10vh,6rem)] pb-6"
         }
       >
-        <div className="mx-auto flex w-full max-w-5xl shrink-0 items-start justify-between gap-6 px-6">
+        <div className="mx-auto flex w-full max-w-page shrink-0 items-start justify-between gap-6 px-6">
           <div>{heading}</div>
           <Link
             href="/projects"
@@ -136,7 +136,7 @@ export default function FlagshipEcommerce() {
         </div>
 
         {flat ? (
-          <div className="mx-auto mt-8 w-full max-w-5xl space-y-6 px-6">
+          <div className="mx-auto mt-8 w-full max-w-page space-y-6 px-6">
             {[
               { src: PDP, label: "What the shopper sees", z: 1.75, cx: 0.46, cy: 0.35,
                 alt: "Product page showing the item, price, colour options and add to bag." },
@@ -154,7 +154,7 @@ export default function FlagshipEcommerce() {
             ))}
           </div>
         ) : (
-          <div className="mx-auto flex w-full max-w-5xl min-h-0 flex-1 flex-col justify-center px-6 [container-type:size]">
+          <div className="mx-auto flex w-full max-w-page min-h-0 flex-1 flex-col justify-center px-6 [container-type:size]">
             {/* Fits inside the pinned frame instead of being cropped to it.
                 `max-h-full` capped the height and left the width alone, so on a
                 short screen the 16:9 frame flattened to nearly 3:1 and
@@ -197,7 +197,7 @@ export default function FlagshipEcommerce() {
           </div>
         )}
 
-        <p className="text-void-dim mx-auto w-full max-w-5xl shrink-0 px-6 pt-4 text-[0.65rem] font-semibold">
+        <p className="text-void-dim mx-auto w-full max-w-page shrink-0 px-6 pt-4 text-[0.65rem] font-semibold">
           Interface shown is a representative build.
         </p>
       </div>

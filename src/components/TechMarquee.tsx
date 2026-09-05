@@ -1,8 +1,12 @@
 import { techStackFlat } from "@/content/services";
 
+/**
+ * A 93px dark strip between two cream sections generated two surface changes
+ * to say nothing. Rules do the separating instead.
+ */
 export default function TechMarquee() {
   return (
-    <section className="bg-ink text-void-fg overflow-hidden py-8">
+    <section className="bg-paper border-line overflow-hidden border-y py-8">
       <div className="ticker-track" style={{ ["--ticker-duration" as string]: "38s" }}>
         {[0, 1].map((dup) => (
           <div key={dup} className="flex shrink-0 items-center" aria-hidden={dup === 1}>

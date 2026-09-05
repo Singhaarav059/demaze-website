@@ -14,7 +14,7 @@ export default function ContactPage() {
     <main className="bg-paper">
       <header className="bg-void text-void-fg grain relative overflow-hidden px-6 pt-32 pb-12">
         <div className="bg-accent/18 pointer-events-none absolute top-0 left-1/2 h-[50vh] w-[70vw] -translate-x-1/2 rounded-full blur-[150px]" />
-        <div className="relative mx-auto max-w-5xl">
+        <div className="relative mx-auto max-w-page">
           <p className="label text-accent">Contact</p>
           <h1 className="display d-xl mt-6 max-w-3xl">Tell us what you are trying to build.</h1>
           <p className="lede text-void-fg/60 mt-6 max-w-xl">
@@ -24,7 +24,7 @@ export default function ContactPage() {
         </div>
       </header>
 
-      <section className="mx-auto grid max-w-5xl gap-10 px-6 section-y md:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)]">
+      <section className="mx-auto grid max-w-page gap-10 px-6 section-y md:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)]">
         <ContactForm />
 
         <aside className="flex flex-col gap-10">

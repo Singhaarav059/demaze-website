@@ -204,8 +204,8 @@ export default function FlagshipAutomotive() {
         ref={pin}
         className={flat ? "section-y" : "flex h-screen flex-col overflow-hidden pt-[clamp(4.5rem,10vh,6rem)] pb-6"}
       >
-        <div className="mx-auto flex w-full max-w-5xl shrink-0 items-center justify-between gap-4 px-6">
-          <SectionLabel index="002" tone="void">
+        <div className="mx-auto flex w-full max-w-page shrink-0 items-center justify-between gap-4 px-6">
+          <SectionLabel index="001" tone="void">
             Flagship work
           </SectionLabel>
           <Link
@@ -217,7 +217,7 @@ export default function FlagshipAutomotive() {
         </div>
 
         {flat ? (
-          <div className="mx-auto mt-8 w-full max-w-5xl px-6">
+          <div className="mx-auto mt-8 w-full max-w-page px-6">
             {heading}
             <div className="mt-8 grid gap-8 md:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
               {ledgerList}
@@ -239,7 +239,7 @@ export default function FlagshipAutomotive() {
             </div>
           </div>
         ) : (
-          <div className="mx-auto flex w-full max-w-5xl min-h-0 flex-1 flex-col justify-center px-6">
+          <div className="mx-auto flex w-full max-w-page min-h-0 flex-1 flex-col justify-center px-6">
             <div className="shrink-0">{heading}</div>
 
             <div className="mt-[clamp(1rem,2.6vh,1.75rem)] flex min-h-0 flex-1 items-center [container-type:size]">
@@ -278,7 +278,7 @@ export default function FlagshipAutomotive() {
           </div>
         )}
 
-        <p className="text-void-dim mx-auto w-full max-w-5xl shrink-0 px-6 pt-5 text-[0.65rem] font-semibold">
+        <p className="text-void-dim mx-auto w-full max-w-page shrink-0 px-6 pt-5 text-[0.65rem] font-semibold">
           Interface shown is a representative build.
         </p>
       </div>

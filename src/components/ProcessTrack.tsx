@@ -4,7 +4,10 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import SectionLabel from "./SectionLabel";
+import Glyph, { type GlyphName } from "./Glyph";
 import { process } from "@/content/about";
+
+const PHASE_GLYPHS: GlyphName[] = ["discover", "design", "build", "scale"];
 
 /**
  * The four phases travel sideways while the section is pinned. Deliberately a
@@ -60,8 +63,8 @@ export default function ProcessTrack() {
         ref={pin}
         className="overflow-hidden py-14 md:flex md:h-screen md:flex-col md:py-0 md:pt-24 md:pb-10"
       >
-        <div className="mx-auto w-full max-w-5xl shrink-0 px-6">
-          <SectionLabel index="005">How we work</SectionLabel>
+        <div className="mx-auto w-full max-w-page shrink-0 px-6">
+          <SectionLabel index="004">How we work</SectionLabel>
           <h2 className="display d-lg mt-2.5 max-w-xl">Four phases, no handover cliff.</h2>
         </div>
 
@@ -74,7 +77,7 @@ export default function ProcessTrack() {
         <div className="mt-8 flex snap-x snap-mandatory overflow-x-auto md:mt-8 md:min-h-0 md:flex-1 md:snap-none md:items-center md:overflow-visible">
           {/* This box is the measuring stick: its width is the grid column, so
               the track can align to the gutter at both ends. */}
-          <div ref={frame} className="mx-auto w-full max-w-5xl px-6">
+          <div ref={frame} className="mx-auto w-full max-w-page px-6">
             <div ref={track} className="flex gap-8 md:gap-14">
               {process.map((phase) => (
                 <article
@@ -84,7 +87,7 @@ export default function ProcessTrack() {
                   <div className="flex shrink-0 items-center gap-3">
                     <span className="bg-accent h-1.5 w-1.5 shrink-0 rounded-full" />
                     <span className="bg-line h-px flex-1" />
-                    <span className="text-muted/70 font-display text-[0.65rem]">
+                    <span className="text-muted/70 font-mono text-[0.65rem]">
                       {String(phase.step).padStart(2, "0")} / 04
                     </span>
                   </div>
@@ -96,13 +99,14 @@ export default function ProcessTrack() {
                       the cards carry no explicit height and the leftover frame
                       space is centred outside the track instead. */}
                   <div className="mt-6 md:mt-auto md:pt-10">
-                    <p
-                      className="display text-ink/[0.07] text-[clamp(4.5rem,11vh,9rem)] leading-[0.78] select-none"
-                      aria-hidden
-                    >
-                      {String(phase.step).padStart(2, "0")}
-                    </p>
-                    <h3 className="display d-md mt-3">{phase.title}</h3>
+                    {/* The ghost numeral said nothing the mono counter above it
+                        had not already said. The mark diagrams the phase, which
+                        is the one thing on this card that is not a sentence. */}
+                    <Glyph
+                      name={PHASE_GLYPHS[phase.step - 1]}
+                      className="text-accent h-[clamp(2.75rem,6.5vh,4rem)] w-[clamp(2.75rem,6.5vh,4rem)]"
+                    />
+                    <h3 className="h-card mt-5">{phase.title}</h3>
                     <p className="text-muted mt-3 max-w-md text-[0.82rem] leading-relaxed font-medium">
                       {phase.description}
                     </p>

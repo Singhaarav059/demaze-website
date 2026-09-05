@@ -122,7 +122,7 @@ export default function Nav() {
         }`}
       >
         <nav
-          className={`flex w-full max-w-5xl items-center justify-between gap-4 rounded-full py-2 pr-2 pl-4 transition-[background-color,color,box-shadow] duration-500 sm:pl-6 ${barTone}`}
+          className={`flex w-full max-w-page items-center justify-between gap-4 rounded-full py-2 pr-2 pl-4 transition-[background-color,color,box-shadow] duration-500 sm:pl-6 ${barTone}`}
         >
           <Link href="/" className="shrink-0" aria-label={site.name}>
             <Image

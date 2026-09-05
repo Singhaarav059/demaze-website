@@ -36,7 +36,14 @@ export default function WordReveal({
   return (
     <Tag ref={ref as React.RefObject<HTMLParagraphElement>} className={className}>
       {text.split(" ").map((word, i) => (
-        <span key={i} className="inline-block overflow-hidden align-bottom">
+        // The mask is exactly one line box tall, and display line-height is
+        // 0.96, so the serif's descenders sit ~0.08em below it and get cut
+        // ("g", "j", "p" all lost their tails). The padding gives the mask
+        // room; the matching negative margin keeps the layout identical.
+        <span
+          key={i}
+          className="inline-block overflow-hidden pb-[0.12em] align-bottom -mb-[0.12em]"
+        >
           {/* No will-change: the browser promotes these for the duration of
               the transition anyway, and hinting a permanent layer per word
               leaves a dozen of them alive over the hero for the whole
