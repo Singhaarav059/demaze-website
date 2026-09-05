@@ -27,7 +27,7 @@ export default function ProofSection() {
   return (
     <section className="bg-paper section-y relative overflow-hidden">
       <div className="relative mx-auto max-w-page px-6">
-        <SectionLabel index="005">Why teams choose us</SectionLabel>
+        <SectionLabel index="004">Why teams choose us</SectionLabel>
         <h2 className="display d-lg mt-2.5 max-w-2xl">
           The difference shows up after the handover.
         </h2>

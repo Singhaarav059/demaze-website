@@ -2,7 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Reveal from "@/components/Reveal";
 import { serviceCategories, platformTabs, techStackFlat } from "@/content/services";
+import Glyph, { type GlyphName } from "@/components/Glyph";
 import { process } from "@/content/about";
+
+const PHASE_GLYPHS: GlyphName[] = ["discover", "design", "build", "scale"];
 import { pageMeta } from "@/content/site";
 
 export const metadata: Metadata = pageMeta(
@@ -84,7 +87,12 @@ export default function ServicesPage() {
               <p className="text-muted/70 font-mono text-xs">
                 Phase {String(phase.step).padStart(2, "0")}
               </p>
-              <h3 className="display mt-2 text-2xl">{phase.title}</h3>
+              {/* These four marks were drawn for the homepage's process track.
+                  That section is gone, but the phases it illustrated live on
+                  here, so the glyphs follow the content rather than being
+                  deleted alongside the component that happened to hold them. */}
+              <Glyph name={PHASE_GLYPHS[phase.step - 1]} className="text-accent mt-4 h-10 w-10" />
+              <h3 className="display mt-3 text-2xl">{phase.title}</h3>
               <p className="text-muted mt-3 text-sm leading-relaxed font-medium">
                 {phase.description}
               </p>
