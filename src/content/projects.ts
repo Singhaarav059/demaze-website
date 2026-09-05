@@ -4,7 +4,6 @@ export type Project = {
   title: string;
   description: string;
   tags: string[];
-  featured?: boolean;
   note?: string;
 };
 
@@ -21,7 +20,6 @@ export const projects: Project[] = [
       "Seamless Car Refurbishment",
       "Efficient Sales Team Backend",
     ],
-    featured: true,
   },
   {
     slug: "investigative-case-management",
@@ -35,7 +33,6 @@ export const projects: Project[] = [
       "Document Automation, Subscription-based Auto Deposit Pricing Model",
       "Web-Based Access & Data Security",
     ],
-    featured: true,
   },
   {
     slug: "luxury-ecommerce-platform",
@@ -49,7 +46,6 @@ export const projects: Project[] = [
       "Live Selling, Workflow Automations, Product Authentication",
       "Smart Order & Inventory Management",
     ],
-    featured: true,
   },
   {
     slug: "senior-engagement-platform",
@@ -63,7 +59,6 @@ export const projects: Project[] = [
       "Meetups and Social Engagements",
       "Sukoon Corner Blog",
     ],
-    featured: true,
   },
   {
     slug: "multi-vendor-ecommerce-marketplace",
@@ -219,11 +214,9 @@ export const projects: Project[] = [
   },
 ];
 
-export const featuredProjects = projects.filter((p) => p.featured);
 
 // The three flagship builds get a dedicated, individually art-directed chapter
-// on the homepage. Everything else (including other "featured" work) lives in
-// the archive index.
+// on the homepage. Everything else lives in the archive index.
 const flagshipSlugs = [
   "luxury-car-dealer-software",
   "investigative-case-management",

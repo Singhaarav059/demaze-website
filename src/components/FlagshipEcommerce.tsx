@@ -55,7 +55,8 @@ const zoomStyle = (cx: number, cy: number, z: number) =>
     "--zoom-y": originFor(cy, z),
   }) as React.CSSProperties;
 
-const SIZES = "(max-width: 767px) 1536px, 1000px";
+// 1074px rendered in the 1240px column; 1000px was tuned against the old 1024.
+const SIZES = "(max-width: 767px) 1536px, 1100px";
 
 export default function FlagshipEcommerce() {
   const pin = useRef<HTMLDivElement>(null);

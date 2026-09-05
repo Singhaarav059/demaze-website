@@ -87,7 +87,10 @@ const zoomStyle = (focus: number[]) =>
 // The phone frame shows the asset at 4x, so it needs the full-size source. A
 // slot-width `sizes` would have Next serve a ~390px variant and then magnify
 // that, which is where the blur would come from.
-const SIZES = "(max-width: 767px) 1536px, 620px";
+// Rendered width is 690px inside the 1240px column. Was 620px, tuned when the
+// container was 1024px; an under-declared `sizes` makes Next pick a variant
+// below the slot and the screen renders soft.
+const SIZES = "(max-width: 767px) 1536px, 700px";
 
 export default function FlagshipAutomotive() {
   const pin = useRef<HTMLDivElement>(null);

@@ -239,7 +239,7 @@ export default function FlagshipInvestigative() {
                   src="/projects/flagship/investigative-casefile.webp"
                   alt="Case file overview showing an AI summary, key entities and a case timeline."
                   fill
-                  sizes="(max-width: 767px) 1536px, 900px"
+                  sizes="(max-width: 767px) 1536px, 1150px"
                 />
               </div>
             </div>
@@ -270,7 +270,7 @@ export default function FlagshipInvestigative() {
                   src="/projects/flagship/investigative-casefile.webp"
                   alt="Case file overview showing an AI summary, key entities and a case timeline."
                   fill
-                  sizes="(max-width: 768px) 100vw, 900px"
+                  sizes="(max-width: 768px) 100vw, 1150px"
                   className="object-cover object-top"
                 />
               </div>

@@ -48,7 +48,7 @@ export default function ServicesStack() {
                   {/* Same mark language as the process phases, so the two
                       indexes read as one system rather than two lists. */}
                   <Glyph
-                    name={PRACTICE_GLYPHS[i] ?? "cloud"}
+                    name={PRACTICE_GLYPHS[i]}
                     className="text-accent mt-4 h-11 w-11"
                   />
                   <h3 className="h-card mt-4">{cat.name}</h3>

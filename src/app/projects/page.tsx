@@ -3,11 +3,7 @@ import Reveal from "@/components/Reveal";
 import { projects, flagshipProjects } from "@/content/projects";
 import { pageMeta } from "@/content/site";
 
-/**
- * Driven off flagshipProjects, not the `featured` flag. `featured` is true on
- * four entries; only three have an art-directed chapter on the homepage, so
- * labelling by that flag promises a chapter that does not exist.
- */
+/** The three builds that have an art-directed chapter on the homepage. */
 const flagshipSlugs = new Set(flagshipProjects.map((p) => p.slug));
 
 export const metadata: Metadata = pageMeta(

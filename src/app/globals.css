@@ -29,7 +29,6 @@
   /* Taken from the chevron in the client's own logo mark. */
   --color-accent: #5271f6;
   --color-accent-deep: #2c3fc4;
-  --color-accent-tint: #dfe4fc;
 
   --font-display: var(--font-instrument), ui-serif, Georgia, serif;
   --font-sans: var(--font-inter-tight), ui-sans-serif, system-ui, sans-serif;
@@ -39,13 +38,9 @@
      side, which reads as a blog column. The reference sites all sit at 1240. */
   --container-page: 77.5rem;
 
-  --radius-card: 30px;
-  --radius-inner: 20px;
-
-  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   /* Expo-out covers about 90% of its distance in the first third, which lands
-     as a flinch rather than an arrival. This keeps the deceleration but starts
-     gently, so entrances drift into place. */
+     as a flinch rather than an arrival. This starts gently and keeps the
+     deceleration, so entrances drift into place. */
   --ease-soft: cubic-bezier(0.3, 0.72, 0.28, 1);
 }
 
