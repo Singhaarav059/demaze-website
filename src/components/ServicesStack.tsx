@@ -52,7 +52,7 @@ export default function ServicesStack() {
                     className="text-accent mt-4 h-11 w-11"
                   />
                   <h3 className="h-card mt-4">{cat.name}</h3>
-                  <p className="text-muted mt-2.5 max-w-md text-[0.82rem] leading-relaxed font-medium">
+                  <p className="text-muted mt-2.5 max-w-md text-sm leading-relaxed font-medium">
                     {cat.summary}
                   </p>
                 </div>
@@ -61,9 +61,9 @@ export default function ServicesStack() {
                   {cat.items.map((item) => (
                     <li
                       key={item}
-                      className="border-line flex items-start gap-2.5 border-b py-2.5 text-[0.76rem] font-semibold"
+                      className="border-line flex items-start gap-2.5 border-b py-2.5 text-xs font-semibold"
                     >
-                      <span className="bg-accent mt-1.5 h-1 w-1 shrink-0 rounded-full" />
+                      <span className="bg-accent-deep mt-1.5 h-1 w-1 shrink-0 rounded-full" />
                       <span>{item}</span>
                     </li>
                   ))}
@@ -79,7 +79,7 @@ export default function ServicesStack() {
             it is one beat, so it runs as a strip at the foot of this one. */}
         <Reveal>
           <div className="border-line mt-14 border-t pt-8">
-            <p className="label text-muted/70">Sectors · {industries.length}</p>
+            <p className="label text-muted">Sectors · {industries.length}</p>
             {/* Plain text, so no hover colour: these are names, not links, and a
                 colour change on hover promises a click that never happens. */}
             <ul className="text-ink/80 mt-4 flex flex-wrap items-center gap-x-1 gap-y-2">

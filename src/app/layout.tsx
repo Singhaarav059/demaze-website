@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Instrument_Serif, Inter_Tight, JetBrains_Mono } from "next/font/google";
+import { Fraunces, Inter_Tight, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 import Nav from "@/components/Nav";
@@ -12,11 +12,19 @@ import { pageMeta, site, siteUrl } from "@/content/site";
  * voice, and a section headline was indistinguishable from a card headline.
  * A serif display against a sans UI is the contrast that was missing, and the
  * mono carries every index, eyebrow and figure number.
+ *
+ * The display face was Instrument Serif, which is well drawn but is currently
+ * the default display serif of every AI studio site — the exact "another
+ * variation of a website" reading the founder pushed back on. Fraunces is the
+ * same editorial high-contrast register with three axes the site can tune:
+ * `opsz` for hairline contrast at display size, `SOFT` for terminal sharpness
+ * and `WONK` for the swashed alternates that make it recognisably itself.
+ * Variable, so no `weight` — the whole range arrives in one file.
  */
-const instrument = Instrument_Serif({
+const fraunces = Fraunces({
   subsets: ["latin"],
-  weight: ["400"],
-  variable: "--font-instrument",
+  axes: ["SOFT", "WONK", "opsz"],
+  variable: "--font-fraunces",
 });
 
 const interTight = Inter_Tight({
@@ -75,7 +83,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en"
-      className={`${instrument.variable} ${interTight.variable} ${jetbrains.variable}`}
+      className={`${fraunces.variable} ${interTight.variable} ${jetbrains.variable}`}
     >
       <body>
         <script

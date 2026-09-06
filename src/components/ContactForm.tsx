@@ -30,8 +30,14 @@ export default function ContactForm() {
 
   // outline-none on its own leaves keyboard users with no focus indicator at
   // all, so the ring replaces the outline rather than removing it.
+  //
+  // 16px on phones, 14px from sm up. iOS Safari zooms the whole page in on any
+  // input it focuses whose text is under 16px, and it does not zoom back out —
+  // so a 14px field turned the enquiry form into a pinch-and-pan exercise
+  // halfway through filling it. Nothing else on the site sets 16px body text,
+  // which is why this is on the field rather than in the type scale.
   const field =
-    "border-line focus:border-accent focus-visible:ring-accent/35 w-full rounded-[14px] border bg-white/60 px-4 py-3 text-sm font-semibold outline-none transition-colors focus-visible:ring-[3px] placeholder:text-muted/60";
+    "border-line focus:border-accent focus-visible:ring-accent/35 w-full rounded-[14px] border bg-white/60 px-4 py-3 text-base font-semibold outline-none transition-colors focus-visible:ring-[3px] placeholder:text-muted sm:text-sm";
 
   return (
     <form onSubmit={onSubmit} className="grid gap-4">
@@ -70,7 +76,7 @@ export default function ContactForm() {
               aria-pressed={service === cat.name}
               className={`rounded-full border px-4 py-2 text-xs font-semibold transition-colors ${
                 service === cat.name
-                  ? "border-accent bg-accent text-white"
+                  ? "border-accent-deep bg-accent-deep text-white"
                   : "border-line text-muted hover:border-ink"
               }`}
             >
@@ -93,7 +99,7 @@ export default function ContactForm() {
 
       <button
         type="submit"
-        className="bg-accent hover:bg-accent-deep mt-2 justify-self-start rounded-full px-7 py-3.5 text-sm font-semibold text-white transition-colors"
+        className="bg-accent-deep hover:bg-accent-press mt-2 justify-self-start rounded-full px-7 py-3.5 text-sm font-semibold text-white transition-colors"
       >
         Send enquiry
       </button>

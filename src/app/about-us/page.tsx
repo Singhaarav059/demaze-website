@@ -32,7 +32,7 @@ export default function AboutPage() {
             <Reveal key={item.title} delay={i * 90}>
               <div className="border-line border-b py-8">
                 <div className="flex items-baseline gap-4">
-                  <span className="text-muted/50 font-mono text-xs">0{i + 1}</span>
+                  <span className="text-muted font-mono text-xs">0{i + 1}</span>
                   <h2 className="h-card">{item.title}</h2>
                 </div>
                 <p className="text-muted mt-3 text-sm leading-relaxed font-medium">

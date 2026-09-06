@@ -49,15 +49,15 @@ export default function ProjectArchive() {
               href={`/projects#${p.slug}`}
               className="group border-line grid grid-cols-[2.5rem_minmax(0,1fr)_auto] items-baseline gap-x-4 border-b py-5 md:grid-cols-[3.5rem_minmax(0,1fr)_12rem_auto] md:gap-x-8 md:py-6"
             >
-              <span className="text-muted/60 font-mono text-[0.7rem]">
+              <span className="text-muted font-mono text-xs">
                 {String(i + 1).padStart(2, "0")}
               </span>
-              <span className="group-hover:text-accent text-[0.95rem] leading-snug font-semibold transition-colors md:text-[1.05rem]">
+              <span className="group-hover:text-accent text-sm leading-snug font-semibold transition-colors md:text-base">
                 {p.title}
               </span>
               {/* Sector sits in its own column above md. Below it, a second line
                   under the title beats squeezing a third column into 390px. */}
-              <span className="label text-muted/70 col-start-2 md:col-start-3 md:pt-0.5">
+              <span className="label text-muted col-start-2 md:col-start-3 md:pt-0.5">
                 {p.sector}
               </span>
               <span
