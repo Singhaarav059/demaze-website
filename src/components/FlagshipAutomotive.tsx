@@ -40,7 +40,11 @@ const stages = [
     value: "₹72,848",
     unit: "/ month",
     note: "Forty-eight months at 8.75%, pre-qualified before the customer has left the showroom.",
-    focus: [0.84, 0.3],
+    // The Estimated EMI card runs x 0.745–0.987 of the source; a 0.25-wide
+    // window centred on 0.84 ended at 0.965 and sliced the "Pre-approved"
+    // chip in half. 0.86 puts the window at 0.735–0.985, which is the whole
+    // card with 10px to spare.
+    focus: [0.86, 0.3],
   },
   {
     shot: "/projects/flagship/automotive-refurbishment.webp",
@@ -48,7 +52,9 @@ const stages = [
     label: "Refurbishment held to estimate",
     value: "−5.1%",
     note: "₹1,42,300 actual against a ₹1,50,000 estimate, tracked task by task through to handover.",
-    focus: [0.85, 0.33],
+    // Same card geometry as the EMI screen (x 0.744–0.987): 0.85 clipped
+    // "View Details" and pulled in a sliver of the Timeline card on the left.
+    focus: [0.86, 0.305],
   },
 ];
 
@@ -179,16 +185,24 @@ export default function FlagshipAutomotive() {
           // top of the caption below it.
           className="border-void-fg/12 border-t py-[clamp(0.45rem,1.5vh,1rem)] first:border-t-0 first:pt-0"
         >
-          <p className="text-void-dim text-[0.7rem] font-semibold tracking-[0.04em]">
+          <p className="text-void-dim text-xs font-semibold tracking-[0.04em]">
             0{i + 1} · {stage.label}
           </p>
-          <p className="display mt-1 text-[clamp(1.4rem,3.6vh,2.15rem)] leading-none">
+          {/* Sans, not display. These were Instrument Serif at 32.4px against a
+              37.8px serif chapter heading directly above — a 17% gap in the same
+              family, which is the same non-hierarchy the 40/37.8px h2/h3 pair
+              had. The fix is the one the system already uses: serif states,
+              sans measures. tabular-nums so the three figures align as a
+              column rather than drifting. */}
+          <p className="mt-1 text-[clamp(1.4rem,3.6vh,2.15rem)] leading-none font-semibold tracking-tight tabular-nums">
             {stage.value}
             {stage.unit && (
-              <span className="text-void-dim ml-1.5 text-[0.5em] tracking-normal">{stage.unit}</span>
+              <span className="text-void-dim ml-1.5 text-[0.5em] font-medium tracking-normal">
+                {stage.unit}
+              </span>
             )}
           </p>
-          <p className="text-void-fg/55 mt-1.5 max-w-sm text-[0.78rem] leading-relaxed font-medium">
+          <p className="text-void-fg/70 mt-1.5 max-w-sm text-xs leading-relaxed font-medium">
             {stage.note}
           </p>
         </li>
@@ -213,7 +227,7 @@ export default function FlagshipAutomotive() {
           </SectionLabel>
           <Link
             href="/projects"
-            className="text-void-dim hover:text-accent text-xs font-semibold transition-colors"
+            className="text-void-dim hover:text-accent -my-2.5 inline-flex items-center py-2.5 text-xs font-semibold transition-colors"
           >
             All projects
           </Link>
@@ -281,7 +295,7 @@ export default function FlagshipAutomotive() {
           </div>
         )}
 
-        <p className="text-void-dim mx-auto w-full max-w-page shrink-0 px-6 pt-5 text-[0.65rem] font-semibold">
+        <p className="text-void-dim mx-auto w-full max-w-page shrink-0 px-6 pt-5 text-xs font-semibold">
           Interface shown is a representative build.
         </p>
       </div>

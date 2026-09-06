@@ -48,10 +48,10 @@ export default function ProjectsPage() {
             className="border-line grid scroll-mt-28 gap-x-8 gap-y-4 border-b py-10 first:pt-0 md:grid-cols-[7rem_minmax(0,1fr)_minmax(0,1fr)] md:gap-x-14 md:py-14"
           >
             <Reveal>
-              <p className="text-muted/60 font-mono text-xs">
+              <p className="text-muted font-mono text-xs">
                 {String(i + 1).padStart(2, "0")}
               </p>
-              <p className="label text-muted/70 mt-2">{p.sector}</p>
+              <p className="label text-muted mt-2">{p.sector}</p>
               {flagshipSlugs.has(p.slug) && <p className="label text-accent mt-2">Flagship</p>}
             </Reveal>
 

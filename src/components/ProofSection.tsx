@@ -35,9 +35,9 @@ export default function ProofSection() {
         <ol className="border-line mt-10 grid gap-x-12 gap-y-9 border-t pt-8 md:grid-cols-2">
           {differentiators.map((item, i) => (
             <Reveal as="li" key={item.title} delay={i * 90}>
-              <span className="text-muted/50 font-mono text-[0.65rem]">0{i + 1}</span>
+              <span className="text-muted font-mono text-xs">0{i + 1}</span>
               <h3 className="h-card mt-2">{item.title}</h3>
-              <p className="text-muted mt-2.5 max-w-md text-[0.82rem] leading-relaxed font-medium">
+              <p className="text-muted mt-2.5 max-w-md text-sm leading-relaxed font-medium">
                 {item.description}
               </p>
             </Reveal>
@@ -69,7 +69,7 @@ export default function ProofSection() {
                 href={founder.linkedin}
                 target="_blank"
                 rel="noreferrer noopener"
-                className="text-accent mt-1 inline-block text-xs font-semibold hover:underline"
+                className="text-accent -mb-3 mt-1 inline-flex min-h-11 items-center text-xs font-semibold hover:underline"
               >
                 LinkedIn ↗
               </a>

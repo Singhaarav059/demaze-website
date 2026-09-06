@@ -43,16 +43,24 @@ export const whatDrivesUs = [
 ];
 
 // "Why Choose Us" on the homepage, the primary differentiators + stats.
+//
+// The first two carry the homepage, directly under three chapters of real
+// product screens. They used to read "we don't just build software, we create
+// intelligent solutions that learn, adapt, and evolve" and "we're your
+// dedicated tech partner" — claims with no object, of the kind every agency
+// site makes, sitting at the largest type on the page. Both now say something
+// falsifiable instead, and stay under 40 words so the section stops being a
+// wall.
 export const whyChooseUsHome = [
   {
-    title: "AI-First Innovation",
+    title: "We ship to production, then stay",
     description:
-      "We don't just build software, we create intelligent solutions that learn, adapt, and evolve. Our deep expertise in AI, machine learning, and emerging technologies ensures your business stays ahead of the curve with future-ready solutions that drive automation and growth.",
+      "The valuation, case-file and commerce systems above are live and carrying daily traffic. We run them after handover too: monitoring, incidents and the changes the first six months of real usage always demand.",
   },
   {
-    title: "End-to-End Partnership",
+    title: "One team, from the data model out",
     description:
-      "From concept to deployment and beyond, we're your dedicated tech partner. We work as an extension of your team, providing comprehensive support across the entire development lifecycle while focusing on long-term success rather than just project delivery.",
+      "The same engineers who scope the schema build the interface and wire up the models. No handoff between an agency, an AI vendor and whoever inherits it, which is where most of these projects quietly stall.",
   },
   {
     title: "Proven Track Record",

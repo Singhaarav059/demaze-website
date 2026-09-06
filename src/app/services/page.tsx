@@ -56,7 +56,7 @@ export default function ServicesPage() {
                     key={item}
                     className="border-line flex items-start gap-3 border-b py-3.5 text-sm font-semibold"
                   >
-                    <span className="bg-accent mt-2 h-1 w-1 shrink-0 rounded-full" />
+                    <span className="bg-accent-deep mt-2 h-1 w-1 shrink-0 rounded-full" />
                     <span className="min-w-0">{item}</span>
                   </li>
                 ))}
@@ -84,7 +84,7 @@ export default function ServicesPage() {
         <ol className="mt-12 grid gap-x-8 gap-y-10 md:grid-cols-4">
           {process.map((phase, i) => (
             <Reveal as="li" key={phase.step} delay={i * 100}>
-              <p className="text-muted/70 font-mono text-xs">
+              <p className="text-muted font-mono text-xs">
                 Phase {String(phase.step).padStart(2, "0")}
               </p>
               {/* These four marks were drawn for the homepage's process track.
@@ -102,7 +102,7 @@ export default function ServicesPage() {
 
         <Link
           href="/contact-us"
-          className="bg-accent hover:bg-accent-deep mt-14 inline-flex rounded-full px-7 py-3.5 text-sm font-semibold text-white transition-colors"
+          className="bg-accent-deep hover:bg-accent-press mt-14 inline-flex rounded-full px-7 py-3.5 text-sm font-semibold text-white transition-colors"
         >
           Scope a project with us
         </Link>

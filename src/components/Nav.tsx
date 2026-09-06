@@ -124,7 +124,14 @@ export default function Nav() {
         <nav
           className={`flex w-full max-w-page items-center justify-between gap-4 rounded-full py-2 pr-2 pl-4 transition-[background-color,color,box-shadow] duration-500 sm:pl-6 ${barTone}`}
         >
-          <Link href="/" className="shrink-0" aria-label={site.name}>
+          {/* The wordmark is a 24px-tall image, so the home link was a 24px tap
+              target. Negative margin cancels the padding, so the bar keeps its
+              height and only the hit area grows. */}
+          <Link
+            href="/"
+            className="-my-2.5 flex shrink-0 items-center py-2.5"
+            aria-label={site.name}
+          >
             <Image
               src={onDark ? "/demaze-logo-dark.png" : "/demaze-logo.png"}
               alt={site.name}
@@ -152,7 +159,7 @@ export default function Nav() {
           <div className="flex items-center gap-2">
             <Link
               href="/contact-us"
-              className="bg-accent hover:bg-accent-deep hidden rounded-full px-5 py-2.5 text-sm font-semibold text-white transition-colors sm:inline-flex"
+              className="bg-accent-deep hover:bg-accent-press hidden rounded-full px-5 py-2.5 text-sm font-semibold text-white transition-colors sm:inline-flex"
             >
               Start a project
             </Link>
@@ -163,7 +170,7 @@ export default function Nav() {
               aria-expanded={open}
               aria-controls="mobile-menu"
               aria-label={open ? "Close menu" : "Open menu"}
-              className={`grid h-10 w-10 place-items-center rounded-full border md:hidden ${
+              className={`grid h-11 w-11 place-items-center rounded-full border md:hidden ${
                 open || onDark ? "border-void-fg/20 text-void-fg" : "border-ink/20 text-ink"
               }`}
             >
@@ -218,7 +225,7 @@ export default function Nav() {
         <Link
           href="/contact-us"
           onClick={() => setOpen(false)}
-          className="bg-accent hover:bg-accent-deep mt-8 inline-flex w-fit rounded-full px-6 py-3 text-sm font-semibold text-white transition-colors"
+          className="bg-accent-deep hover:bg-accent-press mt-8 inline-flex w-fit rounded-full px-6 py-3 text-sm font-semibold text-white transition-colors"
         >
           Start a project
         </Link>

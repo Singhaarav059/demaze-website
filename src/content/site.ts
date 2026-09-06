@@ -24,8 +24,13 @@ export const site = {
     title: "Founder & CEO",
     linkedin: "https://www.linkedin.com/in/krupalchaudhary-ai/",
     photo: "/krupal-chaudhary.jpg",
+    // Set at ~60px, the largest sustained block of text on the site, so it has
+    // to be worth that size. The previous version — "through strategic use of
+    // your vision and data, we design AI solutions that make your brand stand
+    // out and drive revenue growth" — was six lines of buzzwords at display
+    // scale, which made the biggest thing on the page the emptiest.
     quote:
-      "Through strategic use of your vision and data, we design AI solutions that make your brand stand out and drive revenue growth, leading execution with focus and accountability.",
+      "Most AI projects die between the demo and production. We take the boring half seriously: the data model, the edge cases, the handover. That is the half that decides whether any of it is still running a year later.",
   },
   stats: [
     { value: 45, suffix: "+", label: "Projects Delivered" },

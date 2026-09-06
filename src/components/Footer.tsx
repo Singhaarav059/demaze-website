@@ -23,36 +23,48 @@ export default function Footer() {
             </p>
           </div>
 
-          <nav className="flex flex-wrap gap-x-10 gap-y-3">
+          {/* Measured at 390px: these links were 20px tall, the email 17px, all
+              of them well under the 44px a thumb needs. The rows are also the
+              full column wide on a phone so the target is not just tall but
+              reachable, and they collapse back to an inline row from sm up where
+              a cursor makes the padding unnecessary. */}
+          <nav className="-mx-2 flex w-full flex-col sm:mx-0 sm:w-auto sm:flex-row sm:flex-wrap sm:gap-x-10 sm:gap-y-3">
             {site.footerNav.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className="text-void-fg/70 hover:text-accent text-sm font-semibold transition-colors"
+                className="text-void-fg/70 hover:text-accent flex min-h-11 items-center px-2 text-sm font-semibold transition-colors sm:min-h-0 sm:px-0"
               >
                 {item.label}
               </Link>
             ))}
           </nav>
 
-          <div className="text-sm font-semibold">
-            <a href={`mailto:${site.email}`} className="hover:text-accent transition-colors">
+          <div className="-mx-2 flex w-full flex-col text-sm font-semibold sm:mx-0 sm:w-auto">
+            <a
+              href={`mailto:${site.email}`}
+              className="hover:text-accent flex min-h-11 items-center px-2 transition-colors sm:min-h-0 sm:px-0"
+            >
               {site.email}
             </a>
             <a
               href={site.founder.linkedin}
               target="_blank"
               rel="noreferrer noopener"
-              className="text-void-dim hover:text-accent mt-2 block transition-colors"
+              className="text-void-dim hover:text-accent flex min-h-11 items-center px-2 transition-colors sm:mt-2 sm:min-h-0 sm:px-0"
             >
               LinkedIn ↗
             </a>
           </div>
         </div>
 
-        {/* Oversized wordmark as the closing beat. */}
+        {/* Oversized wordmark as the closing beat. The 2.5rem floor made it
+            40px on a phone — not oversized, just a stray grey label, since 10vw
+            of 390px never reaches the floor. 16vw with a 4rem floor keeps it
+            reading as a wordmark all the way down to 320px, where it sets at
+            about 210px wide inside a 272px column. */}
         <p
-          className="display text-void-fg/8 mt-10 text-[clamp(2.5rem,10vw,7.5rem)] leading-[0.8] select-none"
+          className="display text-void-fg/8 mt-10 text-[clamp(4rem,16vw,7.5rem)] leading-[0.8] select-none"
           aria-hidden
         >
           Demaze

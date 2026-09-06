@@ -29,8 +29,13 @@
   /* Taken from the chevron in the client's own logo mark. */
   --color-accent: #5271f6;
   --color-accent-deep: #2c3fc4;
+  /* Pressed/hover state for accent-deep buttons. accent-deep became the button
+     surface (see below), which left `hover:bg-accent-deep` a no-op. */
+  --color-accent-press: #22319e;
+  /* The accent lifted far enough to clear AA on ink. See .text-accent. */
+  --color-accent-lift: #6480f7;
 
-  --font-display: var(--font-instrument), ui-serif, Georgia, serif;
+  --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
   --font-sans: var(--font-inter-tight), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-jetbrains), ui-monospace, monospace;
 
@@ -85,6 +90,32 @@ body {
   outline-color: var(--color-void-fg);
 }
 
+/* ------------------------------------------------------------------
+   Accent as text.
+
+   Measured on the built page: #5271f6 is 3.71:1 on paper and 4.40:1 on
+   ink at 11px, and the whole label system (every index, eyebrow and
+   figure suffix) is 11px, so both sit under the 4.5:1 AA needs. No one
+   blue clears both surfaces — deep enough for paper is 2.3:1 on ink —
+   so the colour resolves against whatever surface it lands on instead:
+   7.17:1 on paper, 5.20:1 on ink.
+
+   Unlayered on purpose. Tailwind's own utilities are inside
+   @layer utilities, so these plain rules win without !important.
+------------------------------------------------------------------ */
+:root {
+  --accent-text: var(--color-accent-deep);
+}
+.bg-void,
+.bg-ink {
+  --accent-text: var(--color-accent-lift);
+}
+[class~="text-accent"],
+[class~="hover:text-accent"]:hover,
+.group:hover [class~="group-hover:text-accent"] {
+  color: var(--accent-text);
+}
+
 /* Display type. The premium read comes from lightness at large size,
    not weight, so display never goes above 400. */
 .display {
@@ -92,6 +123,20 @@ body {
   font-weight: 400;
   letter-spacing: -0.03em;
   line-height: 0.96;
+  /* SOFT 0 keeps terminals cut rather than rounded, which is where the
+     seriousness lives, and WONK 1 turns on the swashed alternates that are the
+     reason to be on this face at all.
+
+     `opsz` is deliberately NOT listed. Pinning it to 144 gave a 96px headline
+     the right hairlines and then handed the same hairlines to the 15px sector
+     list, which went visibly fragile. Left out of this declaration, the
+     default `font-optical-sizing: auto` sets opsz from the rendered size, so
+     the display gets its contrast and small serif text gets sturdy stems —
+     which is the axis doing the job it was cut for. wght is absent for the
+     same reason: `font-weight` above still drives it. */
+  font-variation-settings:
+    "SOFT" 0,
+    "WONK" 1;
 }
 
 /* A 63px H1 in a 1024px column is what read as "not up to the mark". The
@@ -153,9 +198,13 @@ body {
   /* Shorter travel as well as a softer curve. 24px over a fast ease reads as a
      jump; 16px over a gentle one reads as settling. */
   transform: translateY(16px) scale(var(--reveal-scale, 1));
+  /* Was 1.1s/1.25s. With ~30 of these on the homepage, anything longer than
+     about a second means a normal scroll never outruns the fade: captured
+     mid-scroll, half the archive and the whole Cloud block sat grey. The
+     entrance should finish while the element is still arriving. */
   transition:
-    opacity 1.1s var(--ease-soft),
-    transform 1.25s var(--ease-soft);
+    opacity 0.6s var(--ease-soft),
+    transform 0.7s var(--ease-soft);
   /* No will-change. The browser promotes an element for the duration of a
      running opacity/transform transition on its own, and there are ~30 of
      these on the homepage: hinting them all permanently keeps that many

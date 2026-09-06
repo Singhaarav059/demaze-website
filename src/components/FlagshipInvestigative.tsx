@@ -19,10 +19,15 @@ import { flagshipProjects } from "@/content/projects";
  * is cheaper than animating layout, and it means the resting layout is the one
  * the browser would have produced anyway.
  *
- * On sand rather than void on purpose. Chapter 01 and the remaining sequence
- * are both dark, and three dark sections in a row is the flat rhythm the whole
- * exercise is meant to fix. A warm surface also reads as a desk, which is where
- * documents belong.
+ * Light rather than void on purpose. Chapter 01 and the remaining sequence are
+ * both dark, and three dark sections in a row is the flat rhythm the whole
+ * exercise is meant to fix. A light surface also reads as a desk, which is
+ * where documents belong.
+ *
+ * Paper, not sand. sand was #edeae1 against paper's #f4f2ec — about 3% apart in
+ * luminance, which is neither the same surface nor a different one, so it read
+ * as a rendering artifact rather than a decision. The homepage is now the two
+ * surfaces globals.css claims it has.
  *
  * The disordered state is a stack, not a scatter. Scattering outward meant
  * throwing cards into the margins, where they covered the headline on some
@@ -71,7 +76,11 @@ const JITTER = [
  * has settled at the top of the screen. TAIL leaves the finished case file up
  * rather than releasing the pin the instant it resolves.
  */
-const LEAD = 0.45;
+/* Was 0.45. Held that long, the opening state is one ~280px pile alone in a
+   1440px field — the emptiest frame on the page, sitting directly after
+   chapter 01's full-width product screen. Long enough to register the pile,
+   short enough not to present it as the composition. */
+const LEAD = 0.18;
 const TAIL = 0.25;
 const TRAVEL = LEAD + 2 + TAIL;
 
@@ -131,7 +140,9 @@ export default function FlagshipInvestigative() {
           x: (i: number, el: HTMLElement) => toCentreX(el) + JITTER[i][0],
           y: (i: number, el: HTMLElement) => toCentreY(el) + JITTER[i][1],
           rotate: (i: number) => TILT[i],
-          scale: 0.86,
+          // 0.86 shrank the pile on top of collapsing it, which is what made
+          // the held state read as small rather than as dense.
+          scale: 0.95,
           ease: "power2.inOut",
           duration: 1.1,
           stagger: { each: 0.05, from: "center" },
@@ -195,7 +206,7 @@ export default function FlagshipInvestigative() {
       <h3 className="display mt-2 max-w-2xl text-[clamp(1.45rem,min(4.2vh,6.5vw),2.5rem)] leading-[1.02]">
         Investigators running on evidence instead of paperwork.
       </h3>
-      <p className="text-muted mt-3 max-w-xl text-[0.82rem] leading-relaxed font-medium">
+      <p className="text-muted mt-3 max-w-xl text-sm leading-relaxed font-medium">
         Case files, media and chain of custody in one place, with AI tooling doing the paperwork
         private investigators used to do by hand.
       </p>
@@ -205,7 +216,7 @@ export default function FlagshipInvestigative() {
   return (
     // The section stays put so React keeps owning main's child list. GSAP wraps
     // the inner div in its pin-spacer instead.
-    <section className="bg-sand">
+    <section className="bg-paper">
       <div
         ref={pin}
         className={flat ? "section-y" : "flex h-screen flex-col overflow-hidden pt-[clamp(4.5rem,10vh,6rem)] pb-6"}
@@ -214,7 +225,7 @@ export default function FlagshipInvestigative() {
           <div>{heading}</div>
           <Link
             href="/projects"
-            className="text-muted hover:text-accent shrink-0 text-xs font-semibold transition-colors"
+            className="text-muted hover:text-accent -my-2.5 inline-flex shrink-0 items-center py-2.5 text-xs font-semibold transition-colors"
           >
             All projects
           </Link>
@@ -283,7 +294,7 @@ export default function FlagshipInvestigative() {
           </div>
         )}
 
-        <p className="text-muted mx-auto w-full max-w-page shrink-0 px-6 pt-5 text-[0.65rem] font-semibold">
+        <p className="text-muted mx-auto w-full max-w-page shrink-0 px-6 pt-5 text-xs font-semibold">
           Interface shown is a representative build.
         </p>
       </div>

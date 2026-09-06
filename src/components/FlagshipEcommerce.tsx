@@ -106,7 +106,7 @@ export default function FlagshipEcommerce() {
       <h3 className="display mt-2 max-w-2xl text-[clamp(1.45rem,min(4.2vh,6.5vw),2.5rem)] leading-[1.02]">
         Luxury retail, rebuilt to personalise itself.
       </h3>
-      <p className="text-void-fg/55 mt-3 max-w-xl text-[0.82rem] leading-relaxed font-medium">
+      <p className="text-void-fg/55 mt-3 max-w-xl text-sm leading-relaxed font-medium">
         A sustainable luxury marketplace that personalises itself around each shopper, from search
         and try-on through to live selling.
       </p>
@@ -130,7 +130,7 @@ export default function FlagshipEcommerce() {
           <div>{heading}</div>
           <Link
             href="/projects"
-            className="text-void-dim hover:text-accent shrink-0 text-xs font-semibold transition-colors"
+            className="text-void-dim hover:text-accent -my-2.5 inline-flex shrink-0 items-center py-2.5 text-xs font-semibold transition-colors"
           >
             All projects
           </Link>
@@ -145,7 +145,7 @@ export default function FlagshipEcommerce() {
                 alt: "Merchandising view showing AI product search and per-customer recommendations." },
             ].map((s) => (
               <div key={s.src}>
-                <p className="text-void-dim mb-2 text-[0.7rem] font-semibold">{s.label}</p>
+                <p className="text-void-dim mb-2 text-xs font-semibold">{s.label}</p>
                 <div className="border-void-fg/12 relative aspect-[16/9] overflow-hidden rounded-[14px] border">
                   <div className="zoom-focus absolute inset-0" style={zoomStyle(s.cx, s.cy, s.z)}>
                     <Image src={s.src} alt={s.alt} fill sizes={SIZES} className="object-cover object-top" />
@@ -190,7 +190,7 @@ export default function FlagshipEcommerce() {
                 </div>
               </div>
 
-              <div className="text-void-dim mt-3 flex shrink-0 items-center justify-between text-[0.7rem] font-semibold">
+              <div className="text-void-dim mt-3 flex shrink-0 items-center justify-between text-xs font-semibold">
                 <span>What the shopper sees</span>
                 <span>What the system knows</span>
               </div>
@@ -198,7 +198,7 @@ export default function FlagshipEcommerce() {
           </div>
         )}
 
-        <p className="text-void-dim mx-auto w-full max-w-page shrink-0 px-6 pt-4 text-[0.65rem] font-semibold">
+        <p className="text-void-dim mx-auto w-full max-w-page shrink-0 px-6 pt-4 text-xs font-semibold">
           Interface shown is a representative build.
         </p>
       </div>
