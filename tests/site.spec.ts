@@ -76,13 +76,13 @@ test("gallery filters and search narrow the portfolio", async ({ page }) => {
 test("hero module tabs move with arrow keys", async ({ page }) => {
   await page.goto("/");
   const tabs = page.getByRole("tab");
-  await expect(tabs).toHaveCount(3);
+  await expect(tabs).toHaveCount(4);
   await tabs.nth(0).focus();
   await page.keyboard.press("ArrowRight");
   await expect(tabs.nth(1)).toHaveAttribute("aria-selected", "true");
   await expect(tabs.nth(1)).toBeFocused();
   await page.keyboard.press("End");
-  await expect(tabs.nth(2)).toHaveAttribute("aria-selected", "true");
+  await expect(tabs.nth(3)).toHaveAttribute("aria-selected", "true");
 });
 
 test("evidence story links and unlinks the artefacts", async ({ page }) => {

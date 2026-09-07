@@ -286,11 +286,6 @@ main:focus {
   align-items: center;
   padding-block: 43px 44px;
 }
-.hero-small {
-  font-size: 13px;
-  color: var(--color-muted);
-  margin-bottom: 22px;
-}
 .hero-copy h1 {
   font-size: clamp(60px, 7.25vw, 108px);
   font-weight: 500;
@@ -318,26 +313,13 @@ main:focus {
   gap: 24px;
   margin-top: 30px;
 }
-.hero-footnote {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  margin-top: 54px;
-  font-size: 12px;
-  color: var(--color-muted);
-}
-.hero-footnote-mark {
-  font-size: 36px;
-  line-height: 1;
-  color: var(--color-accent);
-}
 .hero-bottomline {
   display: flex;
   justify-content: space-between;
   gap: 20px;
   border-top: 1px solid var(--color-line);
   padding-block: 20px;
-  font-size: 11px;
+  font-size: 12px;
   color: var(--color-muted);
 }
 .hero-bottomline a {
@@ -373,33 +355,69 @@ main:focus {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 16px;
 }
-.system-dot {
-  width: 7px;
-  height: 7px;
-  border: 1px solid white;
-  border-radius: 50%;
+.system-meta .eyebrow:last-child {
+  color: #c9d5ff;
 }
-.system-flow {
+/* The pipeline strip is the tab list: stages done are solid, the active one
+   carries a marker, and a track underneath fills to the active stage. */
+.system-stages {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin-block: 26px 22px;
+  padding-bottom: 14px;
+}
+.system-stages button {
+  position: relative;
   display: flex;
-  gap: 10px;
   align-items: center;
-  justify-content: center;
-  font-size: 10px;
-  margin-block: 27px;
-  color: #e2e9ff;
+  gap: 8px;
+  min-height: 32px;
+  font-size: 11px;
+  letter-spacing: 0.01em;
+  color: #c9d5ff;
+  transition: color 0.25s;
 }
-.system-flow i {
+.system-stages button i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1px solid currentColor;
+  flex: none;
+  transition:
+    background 0.25s,
+    transform 0.25s;
+}
+.system-stages button[data-done] i {
+  background: currentColor;
+}
+.system-stages button[aria-selected="true"] {
+  color: white;
+}
+.system-stages button[aria-selected="true"] i {
+  background: white;
+  transform: scale(1.35);
+  box-shadow: 0 0 0 4px rgb(255 255 255 / 22%);
+}
+.system-stages button:hover {
+  color: white;
+}
+.system-stages-track {
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  bottom: 0;
   height: 1px;
-  background: #ffffff60;
-  flex: 1;
-  max-width: 35px;
+  background: rgb(255 255 255 / 28%);
 }
-.system-flow i::after {
-  content: "›";
+.system-stages-track span {
   display: block;
-  margin-top: -9px;
-  float: right;
+  height: 100%;
+  background: white;
+  width: calc((var(--stage) + 0.5) / 4 * 100%);
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .system-window {
   background: #f8f9f6;
@@ -425,9 +443,19 @@ main:focus {
 .system-brand span {
   color: var(--color-accent);
 }
+.system-toolbar-vehicle {
+  font-size: 11px;
+  color: var(--color-muted);
+  padding-left: 12px;
+  border-left: 1px solid #dfe4dc;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .system-sample {
   margin-left: auto;
-  font-size: 8px;
+  flex: none;
+  font-size: 9px;
   padding: 3px 7px;
   background: #e9ece4;
   border-radius: 2px;
@@ -475,7 +503,7 @@ main:focus {
   gap: 9px;
 }
 .system-vehicle .eyebrow {
-  font-size: 8px;
+  font-size: 9px;
   color: var(--color-muted);
 }
 .system-vehicle strong {
@@ -485,8 +513,8 @@ main:focus {
   letter-spacing: -0.025em;
 }
 .system-status {
-  font-size: 9px;
-  color: #397049;
+  font-size: 10px;
+  color: var(--color-muted);
 }
 .system-metric {
   display: flex;
@@ -496,7 +524,7 @@ main:focus {
 }
 .system-metric p {
   color: var(--color-muted);
-  font-size: 10px;
+  font-size: 11px;
 }
 .system-metric strong {
   font-size: 39px;
@@ -518,7 +546,7 @@ main:focus {
 .system-chart > div {
   display: flex;
   justify-content: space-between;
-  font-size: 8px;
+  font-size: 9px;
   color: var(--color-muted);
   margin-top: 4px;
 }
@@ -537,53 +565,12 @@ main:focus {
   gap: 4px;
 }
 .system-finance span {
-  font-size: 10px;
+  font-size: 11px;
   color: var(--color-muted);
 }
 .system-finance strong {
   font-size: 17px;
   font-weight: 500;
-}
-.system-tasks {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  font-size: 9px;
-  gap: 10px;
-  color: #49614b;
-  border-top: 1px solid #dbe0d7;
-  margin-top: 8px;
-  padding-top: 14px;
-  min-height: 75px;
-}
-.system-tabs {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  margin-top: 24px;
-  gap: 8px;
-}
-.system-tabs button {
-  text-align: left;
-  font-size: 11px;
-  color: #dee7ff;
-  border-top: 1px solid #ffffff40;
-  min-height: 44px;
-  padding-top: 10px;
-  transition:
-    border 0.2s,
-    color 0.2s;
-}
-.system-tabs button span {
-  font-size: 8px;
-  display: inline-block;
-  margin-right: 8px;
-  opacity: 0.75;
-}
-.system-tabs button[aria-selected="true"] {
-  border-top: 2px solid white;
-  color: white;
-}
-.system-tabs button:hover {
-  border-color: white;
 }
 .system-study :focus-visible {
   outline-color: white;
@@ -592,10 +579,24 @@ main:focus {
   outline-color: #284ee8;
 }
 .system-caption {
-  font-size: 8px;
-  margin-top: 12px;
+  font-size: 10px;
+  margin-top: 14px;
   color: #d4dfff;
   text-align: center;
+}
+.system-scan-line {
+  animation: scan-sweep 2.4s ease-in-out infinite alternate;
+}
+@keyframes scan-sweep {
+  to {
+    transform: translateY(48px);
+  }
+}
+.system-study[data-motion="paused"] .system-scan-line,
+.system-study[data-motion="off"] .system-scan-line,
+html:not([data-js]) .system-scan-line {
+  animation: none;
+  transform: translateY(24px);
 }
 @keyframes panel-in {
   from {
@@ -1197,9 +1198,6 @@ main:focus {
   .hero-actions .text-link {
     font-size: 12px;
   }
-  .hero-footnote {
-    margin-top: 36px;
-  }
   .system-study {
     padding-inline: 22px;
   }
@@ -1317,10 +1315,6 @@ main:focus {
     padding-top: 29px;
     padding-bottom: 28px;
   }
-  .hero-small {
-    font-size: 11px;
-    margin-bottom: 18px;
-  }
   .hero-copy h1 {
     font-size: clamp(53px, 11.6vw, 88px);
     line-height: 1.02;
@@ -1343,21 +1337,24 @@ main:focus {
   .hero-actions .text-link {
     font-size: 12px;
   }
-  .hero-footnote {
-    display: none;
-  }
   .system-study {
     max-width: 540px;
     width: 100%;
     justify-self: center;
     padding: 20px 23px 15px;
   }
-  .system-flow {
-    margin-block: 21px;
-    font-size: 9px;
+  .system-stages {
+    margin-block: 20px 18px;
   }
-  .system-meta .eyebrow {
-    font-size: 8px;
+  .system-stages button {
+    font-size: 10px;
+    gap: 6px;
+  }
+  .system-toolbar-vehicle {
+    display: none;
+  }
+  .system-meta .eyebrow:last-child {
+    display: none;
   }
   .system-panel {
     min-height: 340px;
@@ -1374,15 +1371,6 @@ main:focus {
   }
   .system-metric strong {
     font-size: 34px;
-  }
-  .system-tabs {
-    margin-top: 19px;
-  }
-  .system-tabs button {
-    font-size: 10px;
-  }
-  .system-tabs button span {
-    margin-right: 6px;
   }
   .hero-bottomline {
     flex-direction: column;
@@ -1629,9 +1617,6 @@ main:focus {
   }
   .system-panel {
     padding-inline: 11px;
-  }
-  .system-tasks {
-    font-size: 8px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
