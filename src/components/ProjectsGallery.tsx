@@ -13,7 +13,8 @@ type Entry = {
  * Search and sector filtering over cards rendered by the server. The cards
  * arrive as children so the gallery never re-renders their visuals; it only
  * decides which are shown. Without JavaScript every card is visible and the
- * controls are absent, which is the right fallback for a portfolio.
+ * controls stay hidden (see projects.css), which is the right fallback for a
+ * portfolio.
  */
 export default function ProjectsGallery({ entries }: { entries: Entry[] }) {
   const [query, setQuery] = useState("");
@@ -27,7 +28,9 @@ export default function ProjectsGallery({ entries }: { entries: Entry[] }) {
     }
     return [
       ["All", entries.length] as const,
-      ...Array.from(counts.entries()).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])),
+      ...Array.from(counts.entries()).sort(
+        (a, b) => b[1] - a[1] || a[0].localeCompare(b[0]),
+      ),
     ];
   }, [entries]);
 
@@ -41,7 +44,11 @@ export default function ProjectsGallery({ entries }: { entries: Entry[] }) {
   return (
     <div className="shell gallery">
       <div className="gallery-controls">
-        <div className="gallery-filters" role="group" aria-label="Filter by sector">
+        <div
+          className="gallery-filters"
+          role="group"
+          aria-label="Filter by sector"
+        >
           {sectors.map(([name, count]) => (
             <button
               key={name}

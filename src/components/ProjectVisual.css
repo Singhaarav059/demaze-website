@@ -300,12 +300,16 @@
   align-items: flex-end;
   padding-bottom: 0;
   gap: 0;
+  overflow: hidden;
 }
 .pv-phone {
   position: relative;
   width: 46%;
   max-width: 190px;
   aspect-ratio: 0.62;
+  /* Narrow cards are short; let height cap the width so the phone never
+     climbs over the brand bar. */
+  max-height: 100%;
   background: var(--pv-card);
   color: var(--pv-card-fg);
   border-radius: 18px 18px 0 0;

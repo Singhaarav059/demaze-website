@@ -61,7 +61,7 @@ do not replace manual visual and accessibility review.
 src/app/                  Routes, metadata, sitemap and global styles
 src/components/           Page sections, interactions and product illustrations
 src/content/              Studio, services, project data and editorial summaries
-public/                   Company logos and Krupal's unchanged original portrait
+public/                   Company logo and Krupal's unchanged original portrait
 design/source-assets/     Original assets retained outside the public directory
 scripts/                  Image preparation utilities
 tests/                    Browser regression checks

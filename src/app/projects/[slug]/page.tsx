@@ -36,7 +36,11 @@ export default async function ProjectPage({
   // Two neighbours from a different sector where possible, so the trail keeps
   // showing the range of the work rather than more of the same.
   const related = [...projects.slice(index + 1), ...projects.slice(0, index)]
-    .sort((a, b) => Number(a.sector === project.sector) - Number(b.sector === project.sector))
+    .sort(
+      (a, b) =>
+        Number(a.sector === project.sector) -
+        Number(b.sector === project.sector),
+    )
     .slice(0, 2);
 
   return (
@@ -44,7 +48,8 @@ export default async function ProjectPage({
       <header className="shell project-hero">
         <div className="project-crumbs">
           <p className="eyebrow">
-            <Link href="/projects">The work</Link> / {String(index + 1).padStart(2, "0")}
+            <Link href="/projects">The work</Link> /{" "}
+            {String(index + 1).padStart(2, "0")}
           </p>
           <p className="eyebrow">{project.sector}</p>
         </div>
@@ -62,7 +67,9 @@ export default async function ProjectPage({
             </div>
             <div>
               <dt>Study</dt>
-              <dd style={{ textTransform: "capitalize" }}>{editorial.visual.kind} interface</dd>
+              <dd style={{ textTransform: "capitalize" }}>
+                {editorial.visual.kind} interface
+              </dd>
             </div>
             <div>
               <dt>Practice</dt>

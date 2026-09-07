@@ -42,7 +42,10 @@ export default function EvidenceStory() {
               head. We built a case file where every artefact is a typed record
               and the links between them are the product.
             </p>
-            <Link className="text-link" href="/projects/investigative-case-management">
+            <Link
+              className="text-link"
+              href="/projects/investigative-case-management"
+            >
               Read the case study <span aria-hidden>↗</span>
             </Link>
           </div>
@@ -50,11 +53,17 @@ export default function EvidenceStory() {
             <div className="evidence-demo-top">
               <span className="eyebrow">Case 0417 / Anonymised</span>
               <span className="eyebrow">
-                {connected ? "4 artefacts · 1 entity" : "4 artefacts · unlinked"}
+                {connected
+                  ? "4 artefacts · 1 entity"
+                  : "4 artefacts · unlinked"}
               </span>
             </div>
             <div className="evidence-canvas" aria-hidden>
-              <svg className="evidence-paths" viewBox="0 0 400 315" preserveAspectRatio="none">
+              <svg
+                className="evidence-paths"
+                viewBox="0 0 400 315"
+                preserveAspectRatio="none"
+              >
                 <g fill="none" stroke="currentColor" strokeWidth="1.25">
                   <path pathLength="320" d="M85 62 Q140 140 200 157" />
                   <path pathLength="320" d="M315 62 Q260 140 200 157" />
@@ -63,7 +72,10 @@ export default function EvidenceStory() {
                 </g>
               </svg>
               {artefacts.map((artefact, i) => (
-                <div className={`evidence-node evidence-node-${i}`} key={artefact.name}>
+                <div
+                  className={`evidence-node evidence-node-${i}`}
+                  key={artefact.name}
+                >
                   <span className="evidence-file-icon">{artefact.icon}</span>
                   <strong>{artefact.name}</strong>
                   <span>{artefact.meta}</span>

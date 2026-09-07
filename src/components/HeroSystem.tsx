@@ -75,11 +75,19 @@ export default function HeroSystem() {
   }, [paused]);
 
   const onKeyDown = (event: React.KeyboardEvent) => {
-    const delta =
-      event.key === "ArrowRight" ? 1 : event.key === "ArrowLeft" ? -1 : 0;
-    if (!delta) return;
+    const last = panels.length - 1;
+    const next =
+      event.key === "ArrowRight"
+        ? (active + 1) % panels.length
+        : event.key === "ArrowLeft"
+          ? (active + last) % panels.length
+          : event.key === "Home"
+            ? 0
+            : event.key === "End"
+              ? last
+              : null;
+    if (next === null) return;
     event.preventDefault();
-    const next = (active + delta + panels.length) % panels.length;
     setActive(next);
     setPaused(true);
     document.getElementById(`${id}-tab-${next}`)?.focus();
@@ -126,7 +134,9 @@ export default function HeroSystem() {
               <div>
                 <span className="eyebrow">Vehicle</span>
                 <strong>{panel.vehicle}</strong>
-                <span className="system-status">{panel.detail.join(" · ")}</span>
+                <span className="system-status">
+                  {panel.detail.join(" · ")}
+                </span>
               </div>
             </div>
             <div className="system-metric">
@@ -217,7 +227,14 @@ function VehicleArt({ variant }: { variant: number }) {
       {variant === 0 && (
         <g className="system-scan" stroke="#284ee8" strokeWidth="1" fill="none">
           <path d="M20 40 H200" strokeDasharray="3 4" />
-          <rect x="34" y="38" width="170" height="50" rx="2" strokeDasharray="4 3" />
+          <rect
+            x="34"
+            y="38"
+            width="170"
+            height="50"
+            rx="2"
+            strokeDasharray="4 3"
+          />
         </g>
       )}
       {variant === 1 && (

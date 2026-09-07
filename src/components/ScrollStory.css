@@ -319,6 +319,13 @@
 .scene-tile-2,
 .scene-tile-4,
 .scene-tile-5 {
+  /* Recede by dimming the surface, not the text, so labels keep contrast. */
+  background: color-mix(in srgb, #f8f9f6, #19241f calc(var(--p) * 28%));
+}
+.scene-tile-1 svg,
+.scene-tile-2 svg,
+.scene-tile-4 svg,
+.scene-tile-5 svg {
   opacity: calc(1 - var(--p) * 0.55);
 }
 .scene-store-panel {
@@ -338,7 +345,9 @@
   font-weight: 500;
 }
 
-@media (max-width: 900px), (max-height: 600px), (prefers-reduced-motion: reduce) {
+@media (max-width: 900px),
+  (max-height: 600px),
+  (prefers-reduced-motion: reduce) {
   .story-layout {
     grid-template-columns: 1fr;
     gap: 0;

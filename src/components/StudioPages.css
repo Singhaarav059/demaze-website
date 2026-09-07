@@ -125,6 +125,11 @@
 .sp-ethos .sp-section-top > p {
   color: #b9c9bd;
 }
+/* The accent blue fails contrast on ink; dark bands use the lifted tint. */
+.sp-ethos h2 em,
+.sp-practices h2 em {
+  color: var(--color-accent-lift);
+}
 .sp-ethos ol {
   display: grid;
   grid-template-columns: repeat(4, 1fr);

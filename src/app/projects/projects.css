@@ -48,6 +48,11 @@
   border-top: 1px solid var(--color-line);
   padding-top: 24px;
 }
+/* Filters only do something once hydrated; without JS every card shows. */
+html:not([data-js]) .gallery-controls,
+html:not([data-js]) .gallery-count {
+  display: none;
+}
 .gallery-filters {
   display: flex;
   flex-wrap: wrap;

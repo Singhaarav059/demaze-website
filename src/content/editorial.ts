@@ -8,13 +8,7 @@ import type { Project } from "./projects";
  * here illustrative and say so in the UI.
  */
 export type VisualKind =
-  | "dashboard"
-  | "flow"
-  | "grid"
-  | "mobile"
-  | "board"
-  | "document"
-  | "frames";
+  "dashboard" | "flow" | "grid" | "mobile" | "board" | "document" | "frames";
 
 export type Tone = "blue" | "sage" | "clay" | "plum" | "teal" | "ink";
 
@@ -71,7 +65,12 @@ export const projectEditorial: Record<Project["slug"], ProjectEditorial> = {
       kind: "dashboard",
       tone: "blue",
       brand: "dealerOS",
-      labels: ["Suggested buy price", "Market comparables", "Condition", "Days to sale"],
+      labels: [
+        "Suggested buy price",
+        "Market comparables",
+        "Condition",
+        "Days to sale",
+      ],
       figure: "58.4L",
       figureLabel: "INR, live market",
     },
@@ -146,7 +145,12 @@ export const projectEditorial: Record<Project["slug"], ProjectEditorial> = {
       kind: "mobile",
       tone: "sage",
       brand: "Sukoon",
-      labels: ["Speak with a Sarathi", "Club Sukoon, 6pm", "Coaching session", "Sukoon Corner"],
+      labels: [
+        "Speak with a Sarathi",
+        "Club Sukoon, 6pm",
+        "Coaching session",
+        "Sukoon Corner",
+      ],
       figure: "3",
       figureLabel: "conversations today",
     },
@@ -221,7 +225,12 @@ export const projectEditorial: Record<Project["slug"], ProjectEditorial> = {
       kind: "dashboard",
       tone: "teal",
       brand: "serviceDesk",
-      labels: ["Bays in use", "Due this week", "Satisfaction", "Avg. turnaround"],
+      labels: [
+        "Bays in use",
+        "Due this week",
+        "Satisfaction",
+        "Avg. turnaround",
+      ],
       figure: "96%",
       figureLabel: "on-time completion",
     },
@@ -246,7 +255,12 @@ export const projectEditorial: Record<Project["slug"], ProjectEditorial> = {
       kind: "grid",
       tone: "plum",
       brand: "giftwire",
-      labels: ["Diwali corporate", "MOQ 250", "Ships in 6 days", "Reseller price"],
+      labels: [
+        "Diwali corporate",
+        "MOQ 250",
+        "Ships in 6 days",
+        "Reseller price",
+      ],
       figure: "250",
       figureLabel: "unit minimum",
     },
@@ -296,7 +310,12 @@ export const projectEditorial: Record<Project["slug"], ProjectEditorial> = {
       kind: "document",
       tone: "ink",
       brand: "CMA Studio",
-      labels: ["Projected balance sheet", "Fund flow", "Ratio analysis", "MPBF"],
+      labels: [
+        "Projected balance sheet",
+        "Fund flow",
+        "Ratio analysis",
+        "MPBF",
+      ],
       figure: "1.42",
       figureLabel: "current ratio",
     },
@@ -371,7 +390,12 @@ export const projectEditorial: Record<Project["slug"], ProjectEditorial> = {
       kind: "dashboard",
       tone: "sage",
       brand: "learnbase",
-      labels: ["Completion", "Active learners", "Avg. quiz score", "Certificates issued"],
+      labels: [
+        "Completion",
+        "Active learners",
+        "Avg. quiz score",
+        "Certificates issued",
+      ],
       figure: "78%",
       figureLabel: "cohort completion",
     },
@@ -396,7 +420,12 @@ export const projectEditorial: Record<Project["slug"], ProjectEditorial> = {
       kind: "frames",
       tone: "ink",
       brand: "boardroom",
-      labels: ["Sc. 12A wide", "Sc. 12B two-shot", "Sc. 12C insert", "Sc. 13 exterior"],
+      labels: [
+        "Sc. 12A wide",
+        "Sc. 12B two-shot",
+        "Sc. 12C insert",
+        "Sc. 13 exterior",
+      ],
       figure: "48",
       figureLabel: "frames this scene",
     },
@@ -421,7 +450,12 @@ export const projectEditorial: Record<Project["slug"], ProjectEditorial> = {
       kind: "mobile",
       tone: "blue",
       brand: "InsureTech",
-      labels: ["Health, due in 4 days", "Motor, active", "Term life, active", "Home, renew Nov"],
+      labels: [
+        "Health, due in 4 days",
+        "Motor, active",
+        "Term life, active",
+        "Home, renew Nov",
+      ],
       figure: "4",
       figureLabel: "policies covered",
     },
@@ -446,7 +480,12 @@ export const projectEditorial: Record<Project["slug"], ProjectEditorial> = {
       kind: "mobile",
       tone: "plum",
       brand: "circle",
-      labels: ["Dance crew, 1.2k", "Listing: studio mic", "Leaderboard #3", "Wallet 240.00"],
+      labels: [
+        "Dance crew, 1.2k",
+        "Listing: studio mic",
+        "Leaderboard #3",
+        "Wallet 240.00",
+      ],
       figure: "1.2k",
       figureLabel: "members in your circle",
     },

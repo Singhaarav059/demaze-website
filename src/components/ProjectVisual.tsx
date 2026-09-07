@@ -30,7 +30,12 @@ export default function ProjectVisual({ visual, size = "card" }: Props) {
           <i />
         </span>
       </div>
-      <Scene kind={kind} labels={labels} figure={figure} figureLabel={figureLabel} />
+      <Scene
+        kind={kind}
+        labels={labels}
+        figure={figure}
+        figureLabel={figureLabel}
+      />
     </div>
   );
 }
@@ -52,15 +57,26 @@ function Scene({ kind, labels, figure, figureLabel }: SceneProps) {
             <span>{figureLabel}</span>
           </div>
           <svg className="pv-chart" viewBox="0 0 300 90" aria-hidden>
-            <path className="pv-area" d="M0 70 C40 66 60 40 100 44 S160 22 200 30 S260 10 300 18 V90 H0Z" />
-            <path className="pv-line" pathLength="100" d="M0 70 C40 66 60 40 100 44 S160 22 200 30 S260 10 300 18" />
+            <path
+              className="pv-area"
+              d="M0 70 C40 66 60 40 100 44 S160 22 200 30 S260 10 300 18 V90 H0Z"
+            />
+            <path
+              className="pv-line"
+              pathLength="100"
+              d="M0 70 C40 66 60 40 100 44 S160 22 200 30 S260 10 300 18"
+            />
             <circle className="pv-marker" cx="200" cy="30" r="3.5" />
           </svg>
           <ul className="pv-stats">
             {labels.map((label, i) => (
               <li key={label} style={{ "--i": i } as React.CSSProperties}>
                 <span>{label}</span>
-                <i style={{ "--w": `${42 + ((i * 23) % 50)}%` } as React.CSSProperties} />
+                <i
+                  style={
+                    { "--w": `${42 + ((i * 23) % 50)}%` } as React.CSSProperties
+                  }
+                />
               </li>
             ))}
           </ul>
@@ -76,7 +92,11 @@ function Scene({ kind, labels, figure, figureLabel }: SceneProps) {
             <path pathLength="100" d="M260 128 H180 Q150 128 150 98 V80" />
           </svg>
           {labels.map((label, i) => (
-            <span className={`pv-node pv-node-${i}`} key={label} style={{ "--i": i } as React.CSSProperties}>
+            <span
+              className={`pv-node pv-node-${i}`}
+              key={label}
+              style={{ "--i": i } as React.CSSProperties}
+            >
               <b aria-hidden>{["01", "02", "03", "04"][i]}</b>
               {label}
             </span>
@@ -96,7 +116,11 @@ function Scene({ kind, labels, figure, figureLabel }: SceneProps) {
           </div>
           <div className="pv-tiles">
             {labels.map((label, i) => (
-              <div className="pv-tile" key={label} style={{ "--i": i } as React.CSSProperties}>
+              <div
+                className="pv-tile"
+                key={label}
+                style={{ "--i": i } as React.CSSProperties}
+              >
                 <svg viewBox="0 0 80 60" aria-hidden>
                   <rect x="12" y="8" width="56" height="44" rx="3" />
                   <path d="M12 44 L34 26 L48 38 L58 30 L68 40" />
@@ -144,7 +168,10 @@ function Scene({ kind, labels, figure, figureLabel }: SceneProps) {
               <div className="pv-column" key={label}>
                 <span>{label}</span>
                 {Array.from({ length: 3 - (col % 2) }, (_, row) => (
-                  <i key={row} style={{ "--i": col * 3 + row } as React.CSSProperties} />
+                  <i
+                    key={row}
+                    style={{ "--i": col * 3 + row } as React.CSSProperties}
+                  />
                 ))}
               </div>
             ))}
@@ -171,10 +198,22 @@ function Scene({ kind, labels, figure, figureLabel }: SceneProps) {
                   <tr key={label} style={{ "--i": i } as React.CSSProperties}>
                     <td>{label}</td>
                     <td>
-                      <i style={{ "--w": `${55 + ((i * 17) % 35)}%` } as React.CSSProperties} />
+                      <i
+                        style={
+                          {
+                            "--w": `${55 + ((i * 17) % 35)}%`,
+                          } as React.CSSProperties
+                        }
+                      />
                     </td>
                     <td>
-                      <i style={{ "--w": `${30 + ((i * 29) % 50)}%` } as React.CSSProperties} />
+                      <i
+                        style={
+                          {
+                            "--w": `${30 + ((i * 29) % 50)}%`,
+                          } as React.CSSProperties
+                        }
+                      />
                     </td>
                   </tr>
                 ))}

@@ -201,9 +201,28 @@ function VehicleScan() {
           strokeWidth="1.5"
           strokeLinejoin="round"
         />
-        <path d="M78 58 L72 82 H150 L152 58 M170 56 L176 82 H226 L206 62" fill="none" stroke="currentColor" strokeWidth="1.5" />
-        <circle cx="82" cy="116" r="15" fill="#19241f" stroke="currentColor" strokeWidth="1.5" />
-        <circle cx="236" cy="116" r="15" fill="#19241f" stroke="currentColor" strokeWidth="1.5" />
+        <path
+          d="M78 58 L72 82 H150 L152 58 M170 56 L176 82 H226 L206 62"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.5"
+        />
+        <circle
+          cx="82"
+          cy="116"
+          r="15"
+          fill="#19241f"
+          stroke="currentColor"
+          strokeWidth="1.5"
+        />
+        <circle
+          cx="236"
+          cy="116"
+          r="15"
+          fill="#19241f"
+          stroke="currentColor"
+          strokeWidth="1.5"
+        />
         <g className="scene-scanline">
           <rect x="0" y="40" width="2" height="90" fill="#a8bcff" />
           <rect x="-14" y="40" width="14" height="90" fill="url(#scan)" />
@@ -280,7 +299,9 @@ function StorefrontComposition() {
           <div className={`scene-tile scene-tile-${i}`} key={tile}>
             <svg viewBox="0 0 60 44">
               <rect x="6" y="4" width="48" height="36" rx="2" />
-              <path d={`M6 36 L${18 + i * 4} ${20 + (i % 3) * 4} L34 30 L46 22 L54 28`} />
+              <path
+                d={`M6 36 L${18 + i * 4} ${20 + (i % 3) * 4} L34 30 L46 22 L54 28`}
+              />
             </svg>
             <span>{tile}</span>
           </div>
