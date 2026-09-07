@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { Fraunces, Inter_Tight, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-import SmoothScroll from "@/components/SmoothScroll";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import MotionControl from "@/components/MotionControl";
 import { pageMeta, site, siteUrl } from "@/content/site";
 
 /**
@@ -14,12 +14,12 @@ import { pageMeta, site, siteUrl } from "@/content/site";
  * mono carries every index, eyebrow and figure number.
  *
  * The display face was Instrument Serif, which is well drawn but is currently
- * the default display serif of every AI studio site — the exact "another
+ * the default display serif of every AI studio site, the exact "another
  * variation of a website" reading the founder pushed back on. Fraunces is the
  * same editorial high-contrast register with three axes the site can tune:
  * `opsz` for hairline contrast at display size, `SOFT` for terminal sharpness
  * and `WONK` for the swashed alternates that make it recognisably itself.
- * Variable, so no `weight` — the whole range arrives in one file.
+ * Variable, so no `weight`: the whole range arrives in one file.
  */
 const fraunces = Fraunces({
   subsets: ["latin"],
@@ -63,7 +63,8 @@ const orgSchema = {
   logo: `${siteUrl}${site.logo}`,
   address: {
     "@type": "PostalAddress",
-    streetAddress: "A-804, Ganesh Glory 11, Jagatpur Road, Sarkhej - Gandhinagar Hwy, Gota",
+    streetAddress:
+      "A-804, Ganesh Glory 11, Jagatpur Road, Sarkhej - Gandhinagar Hwy, Gota",
     addressLocality: "Ahmedabad",
     addressRegion: "Gujarat",
     postalCode: "382470",
@@ -76,10 +77,19 @@ const orgSchema = {
     sameAs: [site.founder.linkedin],
   },
   areaServed: "Worldwide",
-  knowsAbout: ["Artificial Intelligence", "Machine Learning", "SaaS", "Cloud Engineering"],
+  knowsAbout: [
+    "Artificial Intelligence",
+    "Machine Learning",
+    "SaaS",
+    "Cloud Engineering",
+  ],
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html
       lang="en"
@@ -90,10 +100,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
         />
-        <SmoothScroll />
+        <a className="skip-link" href="#main-content">
+          Skip to content
+        </a>
         <Nav />
         {children}
         <Footer />
+        <MotionControl />
       </body>
     </html>
   );

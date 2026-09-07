@@ -1,100 +1,156 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Reveal from "@/components/Reveal";
-import StatsSection from "@/components/StatsSection";
+import StudioVisual from "@/components/StudioVisual";
 import { pageMeta, site } from "@/content/site";
-import { whoWeAre, whatDrivesUs, whyChooseUsAbout, whatWeAreTags } from "@/content/about";
+import {
+  whoWeAre,
+  whatDrivesUs,
+  whyChooseUsAbout,
+  whyChooseUsHome,
+  whatWeAreTags,
+} from "@/content/about";
+import "@/components/StudioPages.css";
 
-export const metadata: Metadata = pageMeta("About us", whoWeAre.paragraphs[0], "/about-us");
+export const metadata: Metadata = pageMeta(
+  "About us",
+  whoWeAre.paragraphs[0],
+  "/about-us",
+);
 
 export default function AboutPage() {
   return (
-    <main className="bg-paper">
-      <header className="bg-void text-void-fg grain relative overflow-hidden px-6 pt-32 pb-12">
-        <div className="bg-accent/18 pointer-events-none absolute top-0 left-1/2 h-[50vh] w-[70vw] -translate-x-1/2 rounded-full blur-[150px]" />
-        <div className="relative mx-auto max-w-page">
-          <p className="label text-accent">About us</p>
-          <h1 className="display d-xl mt-6 max-w-4xl">{whoWeAre.heading}</h1>
-          <div className="mt-10 grid gap-8 md:grid-cols-2">
-            {whoWeAre.paragraphs.map((p, i) => (
-              <p key={i} className="lede text-void-fg/60">
-                {p}
-              </p>
-            ))}
+    <main id="main-content" tabIndex={-1} className="sp-page">
+      <header className="sp-hero sp-about-hero">
+        <div className="shell sp-hero-grid">
+          <div>
+            <p className="eyebrow">Demaze Technologies</p>
+            <h1>
+              Technology should make the next move <em>clearer.</em>
+            </h1>
           </div>
+          <aside className="sp-hero-note">
+            <span>Our point of view</span>
+            <strong>Ambitious systems deserve practical thinking.</strong>
+            <p>
+              We make advanced technology understandable, useful and sustainable
+              for the people who rely on it.
+            </p>
+          </aside>
         </div>
       </header>
-
-      <section className="mx-auto max-w-page px-6 section-y">
-        <p className="label text-muted">What drives us</p>
-        <div className="border-line mt-10 grid gap-x-14 border-t md:grid-cols-2">
-          {whatDrivesUs.map((item, i) => (
-            <Reveal key={item.title} delay={i * 90}>
-              <div className="border-line border-b py-8">
-                <div className="flex items-baseline gap-4">
-                  <span className="text-muted font-mono text-xs">0{i + 1}</span>
-                  <h2 className="h-card">{item.title}</h2>
-                </div>
-                <p className="text-muted mt-3 text-sm leading-relaxed font-medium">
-                  {item.description}
-                </p>
-              </div>
-            </Reveal>
+      <section className="shell sp-section sp-about-intro">
+        <div className="sp-about-model">
+          <span className="eyebrow">Who we are</span>
+          <StudioVisual />
+        </div>
+        <div>
+          <h2>{whoWeAre.heading}, in practice.</h2>
+          {whoWeAre.paragraphs.map((paragraph) => (
+            <p key={paragraph}>{paragraph}</p>
           ))}
         </div>
       </section>
-
-      <section className="bg-sand px-6 section-y">
-        <div className="mx-auto grid max-w-page gap-10 md:grid-cols-[minmax(0,0.7fr)_minmax(0,1.6fr)] md:items-center md:gap-16">
-          <Reveal scale>
-            <div className="relative aspect-[4/5] overflow-hidden rounded-[30px]">
-              <Image
-                src={site.founder.photo}
-                alt={site.founder.name}
-                fill
-                sizes="(max-width: 768px) 100vw, 340px"
-                className="object-cover"
-              />
+      <section className="sp-ethos">
+        <div className="shell">
+          <div className="sp-section-top">
+            <div>
+              <p className="eyebrow">What drives us</p>
+              <h2>
+                Curiosity with
+                <br />
+                <em>consequences.</em>
+              </h2>
             </div>
-          </Reveal>
-          <Reveal delay={120}>
-            <blockquote className="display d-md max-w-2xl">“{site.founder.quote}”</blockquote>
-            <p className="border-line mt-8 border-t pt-6 font-semibold">
-              {site.founder.name}
-              <span className="text-muted ml-3 text-sm">{site.founder.title}</span>
+            <p>
+              We are interested in new technology when it gives people a better
+              way to work, decide or serve, not because it makes a louder demo.
             </p>
-          </Reveal>
+          </div>
+          <ol>
+            {whatDrivesUs.map((item, index) => (
+              <li key={item.title}>
+                <span>0{index + 1}</span>
+                <h3>{item.title}</h3>
+                <p>{item.description}</p>
+              </li>
+            ))}
+          </ol>
         </div>
       </section>
-
-      <section className="mx-auto max-w-page px-6 section-y">
-        <p className="label text-muted">Why choose us</p>
-        <div className="mt-10 grid gap-8 md:grid-cols-3">
-          {whyChooseUsAbout.map((item, i) => (
-            <Reveal key={item.title} delay={i * 90}>
-              <div className="border-line border-t pt-6">
-                <h3 className="display text-2xl">{item.title}</h3>
-                <p className="text-muted mt-3 text-sm leading-relaxed font-medium">
-                  {item.description}
-                </p>
-              </div>
-            </Reveal>
+      <section className="shell sp-founder">
+        <div className="sp-founder-image">
+          <Image
+            src={site.founder.photo}
+            alt={`${site.founder.name}, ${site.founder.title}`}
+            fill
+            sizes="(max-width: 760px) 100vw, 38vw"
+            className="object-cover"
+            priority
+          />
+        </div>
+        <div className="sp-founder-copy">
+          <p className="eyebrow">A note from our founder</p>
+          <blockquote>“{site.founder.quote}”</blockquote>
+          <p className="sp-signature">
+            <b>{site.founder.name}</b>
+            <span>{site.founder.title}</span>
+          </p>
+          <a
+            href={site.founder.linkedin}
+            target="_blank"
+            rel="noreferrer noopener"
+            className="text-link"
+          >
+            Connect on LinkedIn <span aria-hidden>↗</span>
+          </a>
+        </div>
+      </section>
+      <section className="shell sp-section sp-why">
+        <div className="sp-section-top">
+          <div>
+            <p className="eyebrow">Why clients choose us</p>
+            <h2>
+              Serious about
+              <br />
+              the <em>whole system.</em>
+            </h2>
+          </div>
+          <p>
+            Our studio brings product, engineering and AI thinking into the same
+            room so a business does not have to reconcile them after the fact.
+          </p>
+        </div>
+        <div className="sp-why-grid">
+          {[...whyChooseUsHome, ...whyChooseUsAbout].map((item) => (
+            <article key={item.title}>
+              <h3>{item.title}</h3>
+              <p>{item.description}</p>
+            </article>
           ))}
         </div>
-
-        <ul className="mt-16 flex flex-wrap gap-2">
+        <ul className="sp-tags">
           {whatWeAreTags.map((tag) => (
-            <li
-              key={tag}
-              className="border-line text-muted rounded-full border px-4 py-2 text-xs font-semibold"
-            >
-              {tag}
-            </li>
+            <li key={tag}>{tag}</li>
           ))}
         </ul>
       </section>
-
-      <StatsSection />
+      <section className="sp-numbers">
+        <div className="shell">
+          <p className="eyebrow">Demaze, by the numbers</p>
+          <dl>
+            {site.stats.map((stat) => (
+              <div key={stat.label}>
+                <dt>
+                  {stat.prefix}
+                  {stat.value}
+                  {stat.suffix}
+                </dt>
+                <dd>{stat.label}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </section>
     </main>
   );
 }
