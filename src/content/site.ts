@@ -1,11 +1,22 @@
 /**
  * Absolute origin, needed for canonical URLs, OG image URLs and the sitemap.
  * Override per environment; the default is the domain the contact address
- * already points at.
+ * already points at. Hosts often inject the variable as an empty string, and
+ * a bare hostname is common, so both are normalised rather than trusted.
  */
-export const siteUrl = (
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.demazetech.com"
-).replace(/\/$/, "");
+function resolveSiteUrl(): string {
+  const fallback = "https://www.demazetech.com";
+  const raw = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+  if (!raw) return fallback;
+  const withScheme = /^https?:\/\//i.test(raw) ? raw : `https://${raw}`;
+  try {
+    return new URL(withScheme).origin;
+  } catch {
+    return fallback;
+  }
+}
+
+export const siteUrl = resolveSiteUrl();
 
 export const site = {
   name: "Demaze Technologies",
