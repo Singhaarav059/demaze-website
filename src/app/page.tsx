@@ -23,7 +23,6 @@ export default function Home() {
         </div>
         <div className="hero-grid">
           <div className="hero-copy">
-            <p className="hero-small">{homeCopy.eyebrow}</p>
             <h1>
               Complexity,
               <br />
@@ -38,21 +37,13 @@ export default function Home() {
                 Have a challenge?
               </Link>
             </div>
-            <div className="hero-footnote">
-              <span className="hero-footnote-mark" aria-hidden>
-                ↗
-              </span>
-              <p>
-                Deep in the details.
-                <br />
-                Focused on the bigger picture.
-              </p>
-            </div>
           </div>
           <HeroSystem />
         </div>
         <div className="hero-bottomline">
-          <span>Strategy → Design → Engineering → Evolution</span>
+          <span>
+            Shown: the dealership platform, one vehicle from intake to sale
+          </span>
           <Link href="/projects/luxury-car-dealer-software">
             Inside the automotive platform <span aria-hidden>↗</span>
           </Link>

@@ -3,55 +3,73 @@
 import { useEffect, useId, useState } from "react";
 
 /**
- * The automotive platform, shown as three panels a visitor can step through.
- * It is a working tab set rather than a slideshow: arrow keys move between
- * panels, the selected panel is announced, and the whole thing degrades to the
- * first panel without JavaScript. The figures are illustrative.
+ * The automotive platform, shown as one vehicle moving through the dealership.
+ * The four stages are the tab list, so the pipeline strip visitors see is the
+ * control they use; the stages auto-advance until the visitor interacts, at
+ * which point control is theirs. Every stage describes the same car so the
+ * numbers carry forward: the buy price set at valuation becomes the cost base
+ * at sale. Figures are illustrative.
  */
-const panels = [
+const vehicle = {
+  name: "2021 Range Rover Velar R-Dynamic",
+  meta: ["Odometer 31,400 km", "Delhi region", "Single owner"],
+};
+
+const stages = [
+  {
+    key: "intake",
+    tab: "Intake",
+    heading: "Vehicle intake",
+    status: "Bay 2 · 09:14",
+    metric: "38",
+    metricLabel: "Photographs captured and graded",
+    lead: "Condition B+",
+    footer: [
+      ["Panels flagged", "2"],
+      ["Tyre depth", "4.1 mm"],
+      ["Service history", "Complete"],
+    ],
+  },
   {
     key: "valuation",
     tab: "Valuation",
     heading: "Used-car valuation",
     status: "Live market · 214 comparables",
-    vehicle: "2021 Range Rover Velar R-Dynamic",
     metric: "58.4L",
     metricLabel: "Suggested buy price, INR",
-    detail: ["Condition B+", "Delhi region", "Odometer 31k"],
+    lead: "Market median 61.2L",
     footer: [
-      ["Market median", "61.2L"],
+      ["Comparables", "214"],
       ["Refurb estimate", "1.6L"],
-      ["Margin at list", "7.9%"],
+      ["Target margin", "7.9%"],
     ],
   },
   {
-    key: "emi",
-    tab: "Finance",
-    heading: "New-car EMI",
-    status: "Rates refreshed 09:00",
-    vehicle: "2024 BMW X5 xDrive40i",
-    metric: "1.42L",
-    metricLabel: "Monthly, 60 months",
-    detail: ["20% down", "8.4% p.a.", "Zero processing"],
-    footer: [
-      ["On-road price", "1.14Cr"],
-      ["Loan amount", "91.2L"],
-      ["Total interest", "21.0L"],
-    ],
-  },
-  {
-    key: "refurb",
+    key: "workshop",
     tab: "Workshop",
-    heading: "Refurbishment",
+    heading: "Reconditioning",
     status: "Bay 3 · Day 4 of 6",
-    vehicle: "2019 Mercedes-Benz E 220d",
     metric: "1.18L",
-    metricLabel: "Approved reconditioning",
-    detail: ["Paint: 2 panels", "Tyres: 4", "Detailing"],
+    metricLabel: "Approved reconditioning, under estimate",
+    lead: "Ready for listing Friday",
     footer: [
-      ["Parts ordered", "6 / 6"],
-      ["Labour hours", "22"],
-      ["Ready for listing", "Fri"],
+      ["Paint", "2 panels"],
+      ["Parts", "6 / 6 arrived"],
+      ["Labour", "22 h"],
+    ],
+  },
+  {
+    key: "sale",
+    tab: "Sale",
+    heading: "Listing and finance",
+    status: "Listed day 7 · 3 enquiries",
+    metric: "64.9L",
+    metricLabel: "List price, INR · 1.42L per month on finance",
+    lead: "Margin at list 8.3%",
+    footer: [
+      ["Cost base", "59.6L"],
+      ["EMI, 60 months", "1.42L"],
+      ["Days to enquiry", "2"],
     ],
   },
 ];
@@ -60,7 +78,7 @@ export default function HeroSystem() {
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
   const id = useId();
-  const panel = panels[active];
+  const stage = stages[active];
 
   // Advance on a timer until the visitor interacts; interaction hands control
   // over for good rather than fighting the visitor for it.
@@ -68,19 +86,24 @@ export default function HeroSystem() {
     if (paused) return;
     if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const timer = setInterval(
-      () => setActive((current) => (current + 1) % panels.length),
+      () => setActive((current) => (current + 1) % stages.length),
       5200,
     );
     return () => clearInterval(timer);
   }, [paused]);
 
+  const select = (index: number) => {
+    setActive(index);
+    setPaused(true);
+  };
+
   const onKeyDown = (event: React.KeyboardEvent) => {
-    const last = panels.length - 1;
+    const last = stages.length - 1;
     const next =
       event.key === "ArrowRight"
-        ? (active + 1) % panels.length
+        ? (active + 1) % stages.length
         : event.key === "ArrowLeft"
-          ? (active + last) % panels.length
+          ? (active + last) % stages.length
           : event.key === "Home"
             ? 0
             : event.key === "End"
@@ -88,8 +111,7 @@ export default function HeroSystem() {
               : null;
     if (next === null) return;
     event.preventDefault();
-    setActive(next);
-    setPaused(true);
+    select(next);
     document.getElementById(`${id}-tab-${next}`)?.focus();
   };
 
@@ -97,22 +119,43 @@ export default function HeroSystem() {
     <div className="system-study" data-animated-visual>
       <div className="system-meta">
         <span className="eyebrow">Product study / Automotive platform</span>
-        <span className="system-dot" aria-hidden />
+        <span className="eyebrow">One vehicle, intake to sale</span>
       </div>
-      <div className="system-flow" aria-hidden>
-        <span>Intake</span>
-        <i />
-        <span>Valuation</span>
-        <i />
-        <span>Reconditioning</span>
-        <i />
-        <span>Sale</span>
+
+      <div
+        className="system-stages"
+        role="tablist"
+        aria-label="Vehicle journey stages"
+        style={{ "--stage": active } as React.CSSProperties}
+      >
+        {stages.map((item, index) => (
+          <button
+            key={item.key}
+            id={`${id}-tab-${index}`}
+            type="button"
+            role="tab"
+            aria-selected={index === active}
+            aria-controls={`${id}-panel`}
+            tabIndex={index === active ? 0 : -1}
+            data-done={index < active || undefined}
+            onClick={() => select(index)}
+            onKeyDown={onKeyDown}
+          >
+            <i aria-hidden />
+            <span>{item.tab}</span>
+          </button>
+        ))}
+        <span className="system-stages-track" aria-hidden>
+          <span />
+        </span>
       </div>
+
       <div className="system-window">
         <div className="system-toolbar">
           <span className="system-brand">
             dealer<span>OS</span>
           </span>
+          <span className="system-toolbar-vehicle">{vehicle.name}</span>
           <span className="system-sample">Illustrative data</span>
         </div>
         <div
@@ -122,27 +165,27 @@ export default function HeroSystem() {
           aria-labelledby={`${id}-tab-${active}`}
           tabIndex={0}
         >
-          <div className="system-panel-content" key={panel.key}>
+          <div className="system-panel-content" key={stage.key}>
             <div className="system-panel-heading">
-              <span>{panel.heading}</span>
-              <span>{panel.status}</span>
+              <span>{stage.heading}</span>
+              <span>{stage.status}</span>
             </div>
             <div className="system-vehicle">
               <div className="system-vehicle-art" aria-hidden>
-                <VehicleArt variant={active} />
+                <VehicleArt stage={active} />
               </div>
               <div>
-                <span className="eyebrow">Vehicle</span>
-                <strong>{panel.vehicle}</strong>
+                <span className="eyebrow">Stage {active + 1} of 4</span>
+                <strong>{stage.lead}</strong>
                 <span className="system-status">
-                  {panel.detail.join(" · ")}
+                  {vehicle.meta.join(" · ")}
                 </span>
               </div>
             </div>
             <div className="system-metric">
               <div>
-                <strong>{panel.metric}</strong>
-                <p>{panel.metricLabel}</p>
+                <strong>{stage.metric}</strong>
+                <p>{stage.metricLabel}</p>
               </div>
               <span className="system-metric-symbol" aria-hidden>
                 ↗
@@ -159,14 +202,13 @@ export default function HeroSystem() {
                 />
               </svg>
               <div>
-                <span>Jan</span>
-                <span>Apr</span>
-                <span>Jul</span>
-                <span>Oct</span>
+                {chartAxes[active].map((label) => (
+                  <span key={label}>{label}</span>
+                ))}
               </div>
             </div>
             <div className="system-finance">
-              {panel.footer.map(([label, value]) => (
+              {stage.footer.map(([label, value]) => (
                 <div key={label}>
                   <span>{label}</span>
                   <strong>{value}</strong>
@@ -176,27 +218,6 @@ export default function HeroSystem() {
           </div>
         </div>
       </div>
-      <div className="system-tabs" role="tablist" aria-label="Platform modules">
-        {panels.map((item, index) => (
-          <button
-            key={item.key}
-            id={`${id}-tab-${index}`}
-            type="button"
-            role="tab"
-            aria-selected={index === active}
-            aria-controls={`${id}-panel`}
-            tabIndex={index === active ? 0 : -1}
-            onClick={() => {
-              setActive(index);
-              setPaused(true);
-            }}
-            onKeyDown={onKeyDown}
-          >
-            <span>0{index + 1}</span>
-            {item.tab}
-          </button>
-        ))}
-      </div>
       <p className="system-caption">
         Original product study. Figures are illustrative, not client data.
       </p>
@@ -204,13 +225,22 @@ export default function HeroSystem() {
   );
 }
 
+// Each stage plots what that stage is watching: photo coverage filling in,
+// comparables converging on a price, work burning down, then enquiries.
 const chartPaths = [
-  "M0 44 C40 42 60 30 100 32 S160 18 200 22 S270 8 320 12",
-  "M0 50 C50 48 80 46 120 40 S200 30 250 26 S300 22 320 20",
-  "M0 20 C40 22 70 36 110 34 S170 44 210 40 S280 30 320 34",
+  "M0 54 C30 52 50 44 90 40 S150 30 190 24 S260 12 320 8",
+  "M0 30 C40 18 70 46 110 32 S170 22 210 34 S270 30 320 31",
+  "M0 8 C40 10 70 24 110 26 S170 40 210 44 S280 54 320 55",
+  "M0 54 C50 54 90 50 130 44 S200 28 250 16 S300 6 320 4",
+];
+const chartAxes = [
+  ["Exterior", "Interior", "Underbody", "Documents"],
+  ["Low", "Comparables", "Suggested", "High"],
+  ["Day 1", "Day 2", "Day 4", "Day 6"],
+  ["Listed", "Day 2", "Day 5", "Day 7"],
 ];
 
-function VehicleArt({ variant }: { variant: number }) {
+function VehicleArt({ stage }: { stage: number }) {
   return (
     <svg viewBox="0 0 220 115" preserveAspectRatio="xMidYMid slice">
       <rect width="220" height="115" fill="#e0e8de" />
@@ -224,33 +254,57 @@ function VehicleArt({ variant }: { variant: number }) {
         <circle cx="62" cy="86" r="11" />
         <circle cx="162" cy="86" r="11" />
       </g>
-      {variant === 0 && (
+      {stage === 0 && (
         <g className="system-scan" stroke="#284ee8" strokeWidth="1" fill="none">
-          <path d="M20 40 H200" strokeDasharray="3 4" />
           <rect
-            x="34"
-            y="38"
-            width="170"
-            height="50"
+            x="30"
+            y="36"
+            width="176"
+            height="54"
             rx="2"
             strokeDasharray="4 3"
           />
+          <path
+            d="M30 36 h8 M30 36 v8 M206 36 h-8 M206 36 v8 M30 90 h8 M30 90 v-8 M206 90 h-8 M206 90 v-8"
+            strokeWidth="2"
+          />
+          <path className="system-scan-line" d="M30 40 H206" />
         </g>
       )}
-      {variant === 1 && (
-        <g fill="#284ee8" fontFamily="var(--font-mono)" fontSize="8">
-          <text x="14" y="20">
-            EMI · 60 mo
-          </text>
-          <rect x="14" y="26" width="90" height="3" rx="1.5" opacity="0.4" />
-          <rect x="14" y="26" width="58" height="3" rx="1.5" />
+      {stage === 1 && (
+        <g fill="#284ee8">
+          {[38, 72, 106, 140, 174].map((x, i) => (
+            <rect
+              key={x}
+              x={x}
+              y={30 - [6, 12, 18, 10, 4][i]}
+              width="14"
+              height={[6, 12, 18, 10, 4][i]}
+              rx="1"
+              opacity={i === 2 ? 1 : 0.45}
+            />
+          ))}
+          <path d="M113 34 V38" stroke="#284ee8" strokeWidth="1" />
         </g>
       )}
-      {variant === 2 && (
+      {stage === 2 && (
         <g fill="none" stroke="#284ee8" strokeWidth="1.25">
           <circle cx="90" cy="52" r="7" />
           <path d="M90 45 V38 M97 52 H104" />
-          <circle cx="150" cy="86" r="14" strokeDasharray="3 3" />
+          <circle cx="150" cy="52" r="7" />
+          <path d="M150 45 V38" />
+          <circle cx="162" cy="86" r="14" strokeDasharray="3 3" />
+        </g>
+      )}
+      {stage === 3 && (
+        <g fontFamily="var(--font-mono)" fontSize="9" fill="#284ee8">
+          <rect x="14" y="12" width="92" height="18" rx="2" fill="#284ee8" />
+          <text x="20" y="25" fill="#ffffff">
+            LISTED · 64.9L
+          </text>
+          <circle cx="190" cy="24" r="3" />
+          <circle cx="200" cy="24" r="3" opacity="0.6" />
+          <circle cx="210" cy="24" r="3" opacity="0.3" />
         </g>
       )}
     </svg>
