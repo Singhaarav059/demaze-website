@@ -1,0 +1,556 @@
+/* Product studies. Tones set two custom properties; every kind reads them. */
+.pv {
+  --pv-bg: #1d2b6e;
+  --pv-fg: #f6f5f0;
+  --pv-soft: rgb(255 255 255 / 14%);
+  --pv-accent: #a8bcff;
+  --pv-card: #f8f9f6;
+  --pv-card-fg: #19241f;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: var(--pv-bg);
+  color: var(--pv-fg);
+  font-family: var(--font-sans);
+  font-size: 11px;
+  line-height: 1.3;
+  container-type: inline-size;
+}
+.pv::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgb(255 255 255 / 4%) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(255 255 255 / 4%) 1px, transparent 1px);
+  background-size: 32px 32px;
+  pointer-events: none;
+}
+.pv-blue {
+  --pv-bg: #284ee8;
+  --pv-accent: #d6dfff;
+}
+.pv-sage {
+  --pv-bg: #3f5a45;
+  --pv-accent: #c7d2b5;
+}
+.pv-clay {
+  --pv-bg: #8a4b32;
+  --pv-accent: #f2c9ad;
+}
+.pv-plum {
+  --pv-bg: #4a2d57;
+  --pv-accent: #dcb8e8;
+}
+.pv-teal {
+  --pv-bg: #1f5a63;
+  --pv-accent: #a9dfe0;
+}
+.pv-ink {
+  --pv-bg: #19241f;
+  --pv-accent: #c7d2b5;
+}
+.pv-bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px 0;
+}
+.pv-brand {
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: -0.04em;
+}
+.pv-dots {
+  display: flex;
+  gap: 5px;
+}
+.pv-dots i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--pv-soft);
+}
+.pv-body {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px 18px 18px;
+  min-height: 0;
+}
+.pv-figure {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.pv-figure strong {
+  font-size: clamp(30px, 11cqw, 44px);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+.pv-figure span {
+  color: var(--pv-accent);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.pv-hero {
+  font-size: 13px;
+}
+.pv-hero .pv-body {
+  padding: 24px 28px 28px;
+  gap: 18px;
+}
+.pv-hero .pv-bar {
+  padding: 20px 28px 0;
+}
+
+/* Dashboard */
+.pv-chart {
+  width: 100%;
+  height: auto;
+  max-height: 36%;
+  overflow: visible;
+}
+.pv-area {
+  fill: var(--pv-accent);
+  opacity: 0.18;
+}
+.pv-line {
+  fill: none;
+  stroke: var(--pv-accent);
+  stroke-width: 1.75;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: pv-draw 1.6s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+}
+.pv-marker {
+  fill: var(--pv-fg);
+  animation: pv-fade 0.4s 1.4s both;
+}
+.pv-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px 16px;
+  margin-top: auto;
+}
+.pv-stats li {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  animation: pv-rise 0.5s calc(0.25s + var(--i) * 0.08s) both;
+}
+.pv-stats span {
+  font-size: 10px;
+  color: var(--pv-accent);
+}
+.pv-stats i {
+  display: block;
+  height: 4px;
+  width: var(--w);
+  background: var(--pv-fg);
+  border-radius: 2px;
+  transform-origin: left;
+  animation: pv-grow 0.8s calc(0.4s + var(--i) * 0.08s) both;
+}
+
+/* Flow */
+.pv-flow .pv-body {
+  display: block;
+  padding: 0;
+}
+.pv-wires {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.pv-wires path {
+  fill: none;
+  stroke: var(--pv-accent);
+  stroke-width: 1.25;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: pv-draw 1.2s 0.5s forwards;
+}
+.pv-node {
+  position: absolute;
+  width: 32%;
+  padding: 8px 10px;
+  background: var(--pv-card);
+  color: var(--pv-card-fg);
+  border-radius: 3px;
+  font-size: 10px;
+  font-weight: 500;
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+  animation: pv-rise 0.6s calc(var(--i) * 0.1s) both;
+}
+.pv-node b {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 8px;
+  color: #284ee8;
+}
+.pv-node-0 {
+  left: 6%;
+  top: 14%;
+}
+.pv-node-1 {
+  right: 6%;
+  top: 14%;
+}
+.pv-node-2 {
+  left: 6%;
+  bottom: 14%;
+}
+.pv-node-3 {
+  right: 6%;
+  bottom: 14%;
+}
+.pv-hub {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  min-width: 96px;
+  text-align: center;
+  padding: 12px 14px;
+  background: var(--pv-accent);
+  color: #19241f;
+  border-radius: 4px;
+  box-shadow: 0 0 0 8px var(--pv-bg);
+  animation: pv-pop 0.6s 1.3s both;
+}
+.pv-hub strong {
+  display: block;
+  font-size: 26px;
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+.pv-hub span {
+  display: block;
+  font-size: 8px;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-top: 4px;
+}
+
+/* Grid */
+.pv-grid .pv-body {
+  flex-direction: row;
+  align-items: stretch;
+  gap: 18px;
+}
+.pv-figure-top {
+  flex: 0 0 30%;
+  justify-content: flex-end;
+  padding-bottom: 4px;
+}
+.pv-tiles {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  min-height: 0;
+}
+.pv-tile {
+  background: var(--pv-card);
+  color: var(--pv-card-fg);
+  border-radius: 3px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 6px;
+  font-size: 9.5px;
+  font-weight: 500;
+  min-height: 0;
+  animation: pv-rise 0.6s calc(var(--i) * 0.09s) both;
+}
+.pv-tile svg {
+  width: 100%;
+  height: auto;
+  max-height: 72%;
+}
+.pv-tile rect {
+  fill: #e8ece6;
+}
+.pv-tile path {
+  fill: none;
+  stroke: #284ee8;
+  stroke-width: 2;
+}
+/* Mobile */
+.pv-mobile .pv-body {
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-end;
+  padding-bottom: 0;
+  gap: 0;
+}
+.pv-phone {
+  position: relative;
+  width: 46%;
+  max-width: 190px;
+  aspect-ratio: 0.62;
+  background: var(--pv-card);
+  color: var(--pv-card-fg);
+  border-radius: 18px 18px 0 0;
+  padding: 16px 14px 0;
+  box-shadow: 0 20px 40px -20px rgb(0 0 0 / 50%);
+  animation: pv-rise 0.7s 0.1s both;
+  z-index: 1;
+}
+.pv-phone-back {
+  width: 38%;
+  max-width: 150px;
+  margin-left: -8%;
+  margin-bottom: 0;
+  opacity: 0.55;
+  translate: 0 12%;
+  animation-delay: 0.25s;
+  z-index: 0;
+}
+.pv-phone-head strong {
+  display: block;
+  font-size: 26px;
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+.pv-phone-head span {
+  display: block;
+  font-size: 8.5px;
+  color: #566159;
+  margin-top: 4px;
+}
+.pv-phone ul {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.pv-phone li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  background: #eaece4;
+  border-radius: 6px;
+  font-size: 9px;
+  font-weight: 500;
+  min-height: 30px;
+  animation: pv-rise 0.5s calc(0.4s + var(--i) * 0.1s) both;
+}
+.pv-phone li i {
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  background: #284ee8;
+  flex: none;
+}
+.pv-phone-back li {
+  animation: none;
+}
+
+/* Board */
+.pv-columns {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+.pv-column {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.pv-column span {
+  font-size: 8.5px;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--pv-accent);
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--pv-soft);
+}
+.pv-column i {
+  display: block;
+  height: 26px;
+  background: var(--pv-card);
+  border-radius: 3px;
+  animation: pv-rise 0.5s calc(var(--i) * 0.05s) both;
+}
+.pv-column i:nth-child(3) {
+  height: 40px;
+}
+.pv-figure-foot {
+  flex-direction: row;
+  align-items: baseline;
+  gap: 10px;
+  margin-top: auto;
+}
+
+/* Document */
+.pv-sheet {
+  flex: 1;
+  background: var(--pv-card);
+  color: var(--pv-card-fg);
+  border-radius: 3px 3px 0 0;
+  padding: 14px 16px 0;
+  margin-bottom: -18px;
+  animation: pv-rise 0.6s both;
+}
+.pv-sheet-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-bottom: 1px solid #d8ddd5;
+  padding-bottom: 8px;
+  font-size: 10px;
+  font-weight: 500;
+}
+.pv-sheet-title strong {
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+}
+.pv-sheet-title small {
+  font-size: 8px;
+  color: #566159;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+}
+.pv-sheet table {
+  width: 100%;
+  margin-top: 8px;
+  border-collapse: collapse;
+}
+.pv-sheet td {
+  padding: 6px 0;
+  border-bottom: 1px solid #e6eae3;
+  font-size: 9px;
+  animation: pv-fade 0.4s calc(0.3s + var(--i) * 0.1s) both;
+}
+.pv-sheet td:first-child {
+  width: 46%;
+  font-weight: 500;
+}
+.pv-sheet td i {
+  display: block;
+  height: 5px;
+  width: var(--w);
+  background: #284ee8;
+  border-radius: 2px;
+  opacity: 0.75;
+  margin-left: auto;
+}
+.pv-sheet td:nth-child(2) i {
+  background: #c7d2b5;
+}
+
+/* Frames */
+.pv-strip {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+.pv-strip figure {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  animation: pv-rise 0.6s calc(var(--i) * 0.12s) both;
+}
+.pv-strip svg {
+  width: 100%;
+  height: auto;
+  border-radius: 2px;
+}
+.pv-strip rect {
+  fill: var(--pv-card);
+}
+.pv-strip circle {
+  fill: var(--pv-accent);
+}
+.pv-strip path {
+  fill: #566159;
+  opacity: 0.35;
+}
+.pv-strip figcaption {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--pv-accent);
+}
+
+@keyframes pv-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes pv-rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes pv-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes pv-grow {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+@keyframes pv-pop {
+  from {
+    opacity: 0;
+    scale: 0.6;
+  }
+  to {
+    opacity: 1;
+    scale: 1;
+  }
+}
+
+/* MotionControl sets `paused` while a study is offscreen or the tab is hidden,
+   so its entrance plays when it scrolls into view; `off` (ambient motion
+   switched off) and no-JavaScript skip straight to the finished composition. */
+.pv[data-motion="paused"],
+.pv[data-motion="paused"] * {
+  animation-play-state: paused;
+}
+.pv[data-motion="off"],
+.pv[data-motion="off"] *,
+html:not([data-js]) .pv,
+html:not([data-js]) .pv * {
+  animation-duration: 0s !important;
+  animation-delay: 0s !important;
+}

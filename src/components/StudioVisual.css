@@ -1,0 +1,53 @@
+.studio-visual {
+  color: #19241f;
+  background: #e5e9df;
+  border-radius: 4px;
+  padding: 16px;
+  aspect-ratio: 1.4;
+}
+.studio-visual svg {
+  width: 100%;
+  height: 100%;
+}
+.sv-wires path {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: sv-draw 1.6s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+}
+.sv-wires path:nth-child(2) {
+  animation-delay: 0.15s;
+}
+.sv-wires path:nth-child(3) {
+  animation-delay: 0.3s;
+}
+.sv-wires path:nth-child(4) {
+  animation-delay: 0.45s;
+}
+.sv-pulse {
+  transform-origin: 200px 160px;
+  animation: sv-pulse 2.4s 1.2s ease-in-out infinite;
+}
+@keyframes sv-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes sv-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.8);
+    opacity: 0.5;
+  }
+}
+.studio-visual[data-motion="paused"] * {
+  animation-play-state: paused;
+}
+.studio-visual[data-motion="off"] *,
+html:not([data-js]) .studio-visual * {
+  animation-duration: 0s !important;
+  animation-delay: 0s !important;
+}
