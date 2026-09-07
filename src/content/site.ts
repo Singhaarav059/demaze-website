@@ -10,9 +10,9 @@ export const siteUrl = (
 export const site = {
   name: "Demaze Technologies",
   eyebrow: "EXPERTISE / INNOVATION / PARTNERSHIP",
-  tagline: "Your Strategic Partner in Building Scalable AI Products",
+  tagline: "Complexity, made useful.",
   intro:
-    "We combine AI, software engineering, and automation with deep industry expertise to build scalable, sustainable solutions, working alongside you as a trusted, long-term partner.",
+    "Demaze is an AI and software engineering studio. We turn complex operations into intuitive products, from the first data model to the software your business runs on.",
   email: "contact@demazetech.com",
   address:
     "A-804, Ganesh Glory 11, Jagatpur Road, Sarkhej - Gandhinagar Hwy, Gota, Ahmedabad, Gujarat 382470",
@@ -25,9 +25,9 @@ export const site = {
     linkedin: "https://www.linkedin.com/in/krupalchaudhary-ai/",
     photo: "/krupal-chaudhary.jpg",
     // Set at ~60px, the largest sustained block of text on the site, so it has
-    // to be worth that size. The previous version — "through strategic use of
+    // to be worth that size. The previous version ("through strategic use of
     // your vision and data, we design AI solutions that make your brand stand
-    // out and drive revenue growth" — was six lines of buzzwords at display
+    // out and drive revenue growth") was six lines of buzzwords at display
     // scale, which made the biggest thing on the page the emptiest.
     quote:
       "Most AI projects die between the demo and production. We take the boring half seriously: the data model, the edge cases, the handover. That is the half that decides whether any of it is still running a year later.",
@@ -61,12 +61,26 @@ export function pageMeta(title: string, description: string, path: string) {
   // The generated card has to be named explicitly. Next only auto-attaches
   // opengraph-image.tsx to its own segment, and declaring `openGraph` here
   // replaces the inherited object, so sub-pages would ship with no image.
-  const images = [{ url: "/opengraph-image", width: 1200, height: 630, alt: title }];
+  const images = [
+    { url: "/opengraph-image", width: 1200, height: 630, alt: title },
+  ];
   return {
     title,
     description,
     alternates: { canonical: path },
-    openGraph: { title, description, url, siteName: site.name, type: "website" as const, images },
-    twitter: { card: "summary_large_image" as const, title, description, images },
+    openGraph: {
+      title,
+      description,
+      url,
+      siteName: site.name,
+      type: "website" as const,
+      images,
+    },
+    twitter: {
+      card: "summary_large_image" as const,
+      title,
+      description,
+      images,
+    },
   };
 }

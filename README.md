@@ -1,98 +1,115 @@
-# Demaze Technologies — marketing site
+# Demaze Technologies: marketing site
 
 The public site for [Demaze Technologies](https://www.demazetech.com), an AI and
-software studio in Ahmedabad. A scroll-driven single narrative on the homepage,
-plus four supporting pages, built as a static Next.js app with no backend.
+software engineering studio in Ahmedabad. An editorial, product-led homepage is
+supported by services, studio and contact pages, plus a searchable, sector-filtered
+portfolio of 16 animated project studies with individual detail routes.
 
 ## Stack
 
-| | |
-|---|---|
-| Framework | Next.js 16 (App Router, Turbopack), React 19 |
-| Styling | Tailwind CSS v4, configured in `src/app/globals.css` via `@theme` |
-| Scroll | [Lenis](https://github.com/darkroomengineering/lenis) for smoothing, GSAP ScrollTrigger for pins and scrubs |
-| 3D | three.js via `@react-three/fiber` and `drei`, behind a dynamic import |
-| Fonts | Bricolage Grotesque (display) and Inter Tight (body), self-hosted by `next/font` |
+- Next.js 16 App Router, React 19 and TypeScript.
+- Tailwind CSS v4 and component CSS.
+- Fraunces for display type, Inter Tight for body/UI text and JetBrains Mono for
+  labels and indices, loaded through `next/font`.
+- Authored CSS/SVG product animation, a three-chapter scroll-driven story,
+  workflow tabs, an evidence diagram, portfolio filters and diagram inspection.
 
-There is no database, API route or CMS. Copy lives in `src/content`, images in
-`public`, and the contact form composes a `mailto:` draft rather than posting
-anywhere.
+There is no database, CMS or contact-submission API. The contact form validates
+input and prepares a local draft that visitors can review, copy or open in their
+email app via `mailto:`. Nothing is submitted to a server or sent automatically;
+without JavaScript, visitors are directed to email the studio directly.
 
 ## Getting started
 
 ```bash
-npm install
+npm ci
 npm run dev
 ```
 
-The site runs at [http://localhost:3000](http://localhost:3000).
-
-Judge motion and scroll smoothness on a production build, not on `next dev` —
-the dev server ships an unminified React, Turbopack instrumentation and
-on-demand image optimisation, and is materially choppier than what deploys:
+Open [http://localhost:3000](http://localhost:3000). To check the production build:
 
 ```bash
-npm run build && npm start
+npm run build
+npm start
 ```
 
-## Scripts
+## Scripts and checks
 
-| Command | What it does |
-|---|---|
-| `npm run dev` | Dev server with HMR |
-| `npm run build` | Production build |
-| `npm start` | Serve the production build |
-| `npm run lint` | ESLint |
-| `npm run optimize-images` | Dry run of the image pipeline below |
+| Command                          | Purpose                                                          |
+| -------------------------------- | ---------------------------------------------------------------- |
+| `npm run dev`                    | Development server with hot reloading                            |
+| `npm run build`                  | Production build, including static project-detail generation     |
+| `npm start`                      | Serve the production build with the Next.js runtime              |
+| `npm run lint`                   | ESLint                                                           |
+| `npm run check:copy`             | Reject em dashes and encoded equivalents in site source          |
+| `npm run test:e2e`               | Browser tests using Playwright and axe accessibility checks      |
+| `npm run format:check`           | Check formatting of source, scripts, tests and Playwright config |
+| `npx prettier --write README.md` | Format this README                                               |
+| `npm run prepare-studies`        | Regenerate archived reference crops outside the public site      |
+| `npm run optimize-images`        | Dry-run the legacy image optimization utility                    |
 
-## Layout
+Install the test browser with `npx playwright install chromium` before the first
+browser test run. The test configuration starts a development server, or reuses
+one already listening locally. Tests cover responsive containment, automated
+accessibility checks, project routes and filtering, keyboard interactions,
+contact drafts, no-JavaScript fallbacks and sitemap coverage. Automated checks
+do not replace manual visual and accessibility review.
 
-```
-src/
-  app/            Routes. One page per directory, plus robots, sitemap and the OG image.
-  components/     Every section is a component; the homepage composes them in order.
-  content/        All copy and project data. Edit here, not in components.
-public/
-  projects/       Case-study imagery, .webp only.
-scripts/
-  optimize-images.mjs
-```
+## Content and visuals
 
-## Conventions worth knowing
-
-**Copy lives in `src/content`.** `site.ts` carries the studio's own details and
-is the single source for metadata, the JSON-LD organisation schema and the
-footer. Changing a headline should never mean touching a component.
-
-**Images are committed as `.webp`.** Mockups arrive as 1–2MB PNG exports for
-slots at most ~620 CSS px wide. Run the pipeline before committing new ones:
-
-```bash
-node scripts/optimize-images.mjs public/projects --apply
+```text
+src/app/                  Routes, metadata, sitemap and global styles
+src/components/           Page sections, interactions and product illustrations
+src/content/              Studio, services, project data and editorial summaries
+public/                   Company logos and Krupal's unchanged original portrait
+design/source-assets/     Original assets retained outside the public directory
+scripts/                  Image preparation utilities
+tests/                    Browser regression checks
 ```
 
-It caps width at 1600px, re-encodes at quality 86 and deletes the source PNG.
-Dry-run it first — without `--apply` it only prints the savings.
+Project records live in `src/content/projects.ts`; their editorial treatments
+live in `src/content/editorial.ts`. `ProjectVisual.tsx` gives each project an
+authored visual study. These are representative sample interfaces and illustrative
+data, not live client screenshots or verified customer results; keep the visible
+disclosures when changing them.
 
-**Every scroll set-piece has a fallback.** The three flagship chapters, the
-process track and the WebGL hero all check `prefers-reduced-motion` and a
-viewport width before they pin or animate, and render a static stacked layout
-otherwise. The fallback is not an afterthought: it is what phones get.
+The public site no longer uses original product screenshots. `ProductDiagram.tsx`
+supplies animated automotive workflow diagrams. `StudioVisual.tsx` accompanies the
+company introduction as an original engineering-studio illustration, not a portrait
+or a representation of the physical office. Krupal's exact original portrait,
+existing display treatment, name and quote remain on the home, studio and contact
+pages. Historical product images stay in `design/source-assets`, outside the public
+directory. Being outside `public` prevents direct site serving; it does not make a
+committed asset private to repository readers.
 
-**Pinned sections size against their container's height, not the column
-width.** They are locked to `100vh`, so a stage sized only from its width
-letterboxes on a short screen and its contents then overrun the copy around it.
-The stages cap their width in container-query units (`cqh`) so they keep their
-aspect ratio and fit instead of cropping.
+## Story and motion
 
-**Scroll smoothing compounds.** Lenis damps the scroll position and every
-scrubbed ScrollTrigger damps again on top of it. Both are tuned together in
-`SmoothScroll.tsx` and the chapter components; raising one without looking at
-the other is what makes the page feel slow rather than smooth.
+`ScrollStory.tsx` connects automotive intelligence, investigative context and
+commerce through three editorial chapters. At desktop sizes, a sticky visual
+stage responds to native scroll progress: a vehicle scan advances, evidence
+relationships draw in, and the product composition changes. It uses passive scroll
+listeners and coalesced animation frames, without a scroll-jacking library.
+Small screens, short viewports, reduced motion and no-JavaScript visits get all
+three chapters as normal document content, with no artificial scroll space.
+
+The direction is informed by the public [scroll-craft reference and demos](https://github.com/nateherkai/scroll-craft),
+not a copy of its templates or an installation of its agent skill. No external
+engine, media, API key, generated video service or animation dependency is shipped.
+
+`MotionControl.tsx` pauses offscreen artwork using IntersectionObserver, stops
+animation while the browser tab is hidden, and provides a persistent ambient-motion
+toggle. System reduced-motion preferences always take priority. SVG animation
+stays disabled without JavaScript. Keep the static final composition useful when
+adding a new scene, and disclose illustrative data rather than implying a real
+client account, performance result or financial recommendation.
 
 ## Deployment
 
-Static output, deployable anywhere that runs Next.js. Set
-`NEXT_PUBLIC_SITE_URL` in the environment so canonical URLs, the sitemap and the
-OG image resolve against the right origin; it defaults to
-`https://www.demazetech.com`.
+Deploy to a host that supports the Next.js runtime. The 16 known
+`/projects/[slug]` routes are statically generated through `generateStaticParams`,
+but this is **not a static export**: `next.config.ts` does not set `output: "export"`,
+the site uses Next.js image optimization and configured response headers, and
+`npm start` runs the Next.js server rather than serving an `out/` directory.
+
+Set `NEXT_PUBLIC_SITE_URL` before building to control canonical URLs, sitemap
+entries and social metadata. It defaults to `https://www.demazetech.com`.

@@ -3,7 +3,7 @@ import { readdir, stat, writeFile, unlink } from "node:fs/promises";
 import path from "node:path";
 
 /**
- * The project mockups arrive as full-resolution PNG exports — 20MB across 16
+ * The project mockups arrive as full-resolution PNG exports: 20MB across 16
  * files, for slots that are at most ~620 CSS px wide. Next re-encodes them per
  * request anyway, so the source resolution only costs repo weight and first-hit
  * optimisation time.
@@ -13,7 +13,10 @@ import path from "node:path";
  *   node scripts/optimize-images.mjs <dir> --apply      same, on another folder
  */
 const apply = process.argv.includes("--apply");
-const dir = process.argv[2] && !process.argv[2].startsWith("--") ? process.argv[2] : "public/projects";
+const dir =
+  process.argv[2] && !process.argv[2].startsWith("--")
+    ? process.argv[2]
+    : "design/source-assets/flagship";
 
 // The widest slot any of these fills is ~620 CSS px, so 1600 still covers a 2x
 // render with room to spare.
@@ -21,6 +24,10 @@ const MAX_WIDTH = 1600;
 const QUALITY = 86;
 
 const files = (await readdir(dir)).filter((f) => f.endsWith(".png"));
+if (!files.length) {
+  console.log(`No PNG images to optimize in ${dir}.`);
+  process.exit(0);
+}
 let before = 0;
 let after = 0;
 
@@ -29,7 +36,10 @@ for (const file of files) {
   const dst = src.replace(/\.png$/, ".webp");
   const meta = await sharp(src).metadata();
   const buf = await sharp(src)
-    .resize({ width: Math.min(meta.width, MAX_WIDTH), withoutEnlargement: true })
+    .resize({
+      width: Math.min(meta.width, MAX_WIDTH),
+      withoutEnlargement: true,
+    })
     .webp({ quality: QUALITY })
     .toBuffer();
 

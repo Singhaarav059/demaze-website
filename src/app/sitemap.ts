@@ -1,7 +1,15 @@
 import type { MetadataRoute } from "next";
 import { siteUrl } from "@/content/site";
+import { projects } from "@/content/projects";
 
-const paths = ["/", "/projects", "/services", "/about-us", "/contact-us"];
+const paths = [
+  "/",
+  "/projects",
+  "/services",
+  "/about-us",
+  "/contact-us",
+  ...projects.map((project) => `/projects/${project.slug}`),
+];
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();

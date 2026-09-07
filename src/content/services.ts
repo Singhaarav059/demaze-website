@@ -57,7 +57,14 @@ export const serviceCategories = [
   },
 ];
 
-export const platformTabs = ["AI & ML", "Web", "Mobile App", "UI/UX", "eCommerce", "Cloud"];
+export const platformTabs = [
+  "AI & ML",
+  "Web",
+  "Mobile App",
+  "UI/UX",
+  "eCommerce",
+  "Cloud",
+];
 
 export const techStackFlat = [
   "Langchain",

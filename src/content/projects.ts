@@ -118,7 +118,12 @@ export const projects: Project[] = [
     title: "Global Payment transfer platform",
     description:
       "It is an advanced digital payment platform that utilizes blockchain technology to simplify global money transfers. With a focus on efficiency and security, it enables fast, low-cost, and seamless cross-border transactions using stablecoins. By removing traditional banking intermediaries, it reduces transaction costs and processing times. Whether for personal or business transactions, it ensures funds are transferred quickly, safely, and affordably, offering a more accessible financial solution for individuals and businesses worldwide.",
-    tags: ["Global Payments", "Blockchain Technology", "Stablecoin Integration", "User Empowerment"],
+    tags: [
+      "Global Payments",
+      "Blockchain Technology",
+      "Stablecoin Integration",
+      "User Empowerment",
+    ],
   },
   {
     slug: "cma-report-generation-software",
@@ -213,22 +218,3 @@ export const projects: Project[] = [
     ],
   },
 ];
-
-
-// The three flagship builds get a dedicated, individually art-directed chapter
-// on the homepage. Everything else lives in the archive index.
-const flagshipSlugs = [
-  "luxury-car-dealer-software",
-  "investigative-case-management",
-  "luxury-ecommerce-platform",
-] as const;
-
-// Each of these now has its own art-directed chapter component on the homepage
-// (FlagshipAutomotive, FlagshipInvestigative, FlagshipEcommerce). They are
-// deliberately not driven off a shared template: the whole point of a flagship
-// is that its treatment is built around what that project actually did.
-export const flagshipProjects = flagshipSlugs.map(
-  (slug) => projects.find((p) => p.slug === slug)!,
-);
-
-export const archiveProjects = projects.filter((p) => !flagshipSlugs.includes(p.slug as (typeof flagshipSlugs)[number]));
