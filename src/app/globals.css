@@ -1133,6 +1133,42 @@ main:focus {
   outline-color: #c7d2b5;
 }
 
+.motion-toggle {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 40;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 40px;
+  padding: 8px 14px;
+  border: 1px solid var(--color-line);
+  border-radius: 999px;
+  background: rgb(246 245 240 / 94%);
+  backdrop-filter: blur(10px);
+  color: var(--color-muted);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.075em;
+  box-shadow: 0 8px 24px -12px #19241f40;
+}
+.motion-toggle:hover {
+  color: var(--color-ink);
+  border-color: var(--color-ink);
+}
+.motion-toggle-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-line);
+  transition: background 0.2s;
+}
+.motion-toggle[aria-pressed="true"] .motion-toggle-dot {
+  background: var(--color-accent);
+}
+
 @media (min-width: 1600px) {
   .shell {
     max-width: 1560px;
@@ -1560,6 +1596,11 @@ main:focus {
   }
   .section-y {
     padding-block: 60px;
+  }
+  .motion-toggle {
+    right: 12px;
+    bottom: 12px;
+    font-size: 9px;
   }
 }
 @media (max-width: 360px) {

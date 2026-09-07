@@ -1,0 +1,391 @@
+.scroll-story {
+  padding-block: 40px 60px;
+  --c0: 1;
+  --c1: 1;
+  --c2: 1;
+}
+.story-title {
+  margin-top: 8px;
+}
+.story-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: 80px;
+  margin-top: 48px;
+  align-items: start;
+}
+.story-chapter {
+  padding-block: 40px;
+  border-top: 1px solid var(--color-line);
+}
+/* With the stage live, each chapter gets most of a viewport of travel so the
+   scene has room to advance; in static mode the chapters are just prose. */
+.scroll-story[data-scroll-driven] .story-chapter {
+  min-height: 78vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.scroll-story[data-scroll-driven] .story-chapter:last-child {
+  min-height: 60vh;
+}
+.story-chapter .eyebrow {
+  color: var(--color-muted);
+}
+.story-chapter h3 {
+  margin-top: 18px;
+  font-size: clamp(26px, 2.6vw, 38px);
+  font-weight: 500;
+  line-height: 1.12;
+  letter-spacing: -0.035em;
+  max-width: 480px;
+}
+.story-chapter h3 + p {
+  margin-top: 18px;
+  font-size: 16px;
+  color: var(--color-muted);
+  max-width: 440px;
+}
+.story-chapter .text-link {
+  margin-top: 14px;
+}
+.story-inline-scene {
+  display: none;
+  margin-top: 28px;
+}
+.story-stage {
+  position: sticky;
+  top: 112px;
+  height: min(72vh, 640px);
+}
+.story-stage-frame {
+  position: relative;
+  height: 100%;
+  border-radius: 5px;
+  overflow: hidden;
+  background: #19241f;
+  color: #f6f5f0;
+}
+.story-scene {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+.story-stage-meta {
+  position: absolute;
+  left: 24px;
+  right: 24px;
+  bottom: 18px;
+  display: flex;
+  justify-content: space-between;
+  color: #b0bbb2;
+}
+
+/* Scene progress. Each chapter's scroll progress (--cN, 0..1) drives one scene.
+   Without the scroll effect every --cN is 1, so the stage shows the finished
+   composition of whichever scene is visible. */
+.scroll-story[data-scroll-driven] .story-scene {
+  opacity: 0;
+}
+.scroll-story:not([data-scroll-driven]) .story-scene-2,
+.scroll-story[data-chapter="0"] .story-scene-0,
+.scroll-story[data-chapter="1"] .story-scene-1,
+.scroll-story[data-chapter="2"] .story-scene-2 {
+  opacity: 1;
+}
+
+.scene {
+  position: absolute;
+  inset: 0;
+  padding: 24px 24px 56px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  font-size: 12px;
+}
+.scene-top {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #b0bbb2;
+}
+
+/* 01 vehicle scan */
+.scene-vehicle {
+  --p: var(--c0);
+  color: #dfe6dd;
+}
+.scene-car {
+  width: 100%;
+  max-height: 46%;
+  margin-top: auto;
+  overflow: visible;
+}
+.scene-scanline {
+  transform: translateX(calc(var(--p) * 320px));
+}
+.scene-readings {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: auto;
+}
+.scene-readings li {
+  border-top: 1px solid #46534a;
+  padding-top: 10px;
+}
+.scene-readings span {
+  display: block;
+  font-size: 10px;
+  color: #b0bbb2;
+}
+.scene-readings strong {
+  display: block;
+  font-size: 30px;
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  margin-top: 4px;
+}
+.scene-reading {
+  transition: opacity 0.3s;
+}
+.scene-reading-0 {
+  opacity: clamp(0, calc(var(--p) * 4 - 0.6), 1);
+}
+.scene-reading-1 {
+  opacity: clamp(0, calc(var(--p) * 4 - 1.6), 1);
+}
+.scene-reading-2 {
+  opacity: clamp(0, calc(var(--p) * 4 - 2.4), 1);
+}
+.scene-reading-3 {
+  color: #a8bcff;
+  opacity: clamp(0, calc(var(--p) * 4 - 3), 1);
+}
+
+/* 02 evidence links */
+.scene-evidence {
+  --p: var(--c1);
+}
+.scene-evidence-canvas {
+  position: relative;
+  flex: 1;
+}
+.scene-evidence-canvas svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.scene-evidence-canvas path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: calc(1 - clamp(0, calc(var(--p) * 1.6 - 0.4), 1));
+}
+.scene-node {
+  position: absolute;
+  padding: 10px 12px;
+  background: #eff1e7;
+  color: #253226;
+  border-radius: 3px;
+  font-weight: 500;
+  font-size: 11px;
+  transform: translate(
+      calc((1 - var(--p)) * var(--dx)),
+      calc((1 - var(--p)) * var(--dy))
+    )
+    rotate(calc((1 - var(--p)) * var(--r)));
+}
+.scene-node-0 {
+  left: 8%;
+  top: 14%;
+  --dx: 30px;
+  --dy: 24px;
+  --r: -8deg;
+}
+.scene-node-1 {
+  right: 8%;
+  top: 14%;
+  --dx: -20px;
+  --dy: 40px;
+  --r: 7deg;
+}
+.scene-node-2 {
+  left: 8%;
+  bottom: 14%;
+  --dx: 10px;
+  --dy: -18px;
+  --r: 6deg;
+}
+.scene-node-3 {
+  right: 8%;
+  bottom: 14%;
+  --dx: -26px;
+  --dy: -10px;
+  --r: -6deg;
+}
+.scene-hub {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 120px;
+  padding: 12px 8px;
+  text-align: center;
+  background: #c7d2b5;
+  color: #19241f;
+  border-radius: 4px;
+  box-shadow: 0 0 0 8px #19241f;
+  translate: -50% -50%;
+  scale: clamp(0.4, calc(var(--p) * 1.4 - 0.3), 1);
+  opacity: clamp(0, calc(var(--p) * 2 - 0.8), 1);
+}
+.scene-hub strong {
+  display: block;
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.06em;
+}
+.scene-hub small {
+  font-size: 9px;
+}
+
+/* 03 storefront composition */
+.scene-store {
+  --p: var(--c2);
+}
+.scene-store-mode {
+  display: grid;
+  justify-items: end;
+}
+.scene-store-mode i,
+.scene-store-mode b {
+  grid-area: 1 / 1;
+  font-style: normal;
+  font-weight: 500;
+}
+.scene-store-mode i {
+  opacity: clamp(0, calc(1 - var(--p) * 2), 1);
+}
+.scene-store-mode b {
+  color: #f2c9ad;
+  opacity: clamp(0, calc(var(--p) * 2 - 1), 1);
+}
+.scene-store-grid {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+.scene-tile {
+  background: #f8f9f6;
+  color: #19241f;
+  border-radius: 3px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 500;
+  outline: 2px solid transparent;
+  outline-offset: -2px;
+  min-height: 0;
+}
+.scene-tile svg {
+  width: 100%;
+  height: auto;
+  max-height: 70%;
+}
+.scene-tile rect {
+  fill: #e8ece6;
+}
+.scene-tile path {
+  fill: none;
+  stroke: #8a4b32;
+  stroke-width: 2;
+}
+/* The composed arrangement: the pieces the visitor looked at come forward and
+   the rest recede, without tiles crossing one another. */
+.scene-tile-0,
+.scene-tile-3 {
+  outline-color: rgb(242 201 173 / calc(var(--p) * 100%));
+  scale: calc(1 + var(--p) * 0.03);
+}
+.scene-tile-1,
+.scene-tile-2,
+.scene-tile-4,
+.scene-tile-5 {
+  /* Recede by dimming the surface, not the text, so labels keep contrast. */
+  background: color-mix(in srgb, #f8f9f6, #19241f calc(var(--p) * 28%));
+}
+.scene-tile-1 svg,
+.scene-tile-2 svg,
+.scene-tile-4 svg,
+.scene-tile-5 svg {
+  opacity: calc(1 - var(--p) * 0.55);
+}
+.scene-store-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 14px;
+  background: #f2c9ad;
+  color: #19241f;
+  border-radius: 3px;
+  font-size: 10px;
+  transform: translateY(calc((1 - var(--p)) * 30px));
+  opacity: var(--p);
+}
+.scene-store-panel strong {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+@media (max-width: 900px),
+  (max-height: 600px),
+  (prefers-reduced-motion: reduce) {
+  .story-layout {
+    grid-template-columns: 1fr;
+    gap: 0;
+    margin-top: 24px;
+  }
+  .story-stage {
+    display: none;
+  }
+  .story-inline-scene {
+    display: block;
+    position: relative;
+    height: 360px;
+    border-radius: 4px;
+    overflow: hidden;
+    background: #19241f;
+    color: #f6f5f0;
+  }
+  .story-inline-scene .scene {
+    padding-bottom: 24px;
+  }
+  .story-chapter h3 {
+    font-size: clamp(26px, 6.5vw, 34px);
+  }
+}
+@media (max-width: 760px) {
+  .scroll-story {
+    padding-block: 20px 30px;
+  }
+  .story-chapter {
+    padding-block: 30px;
+  }
+  .story-chapter h3 + p {
+    font-size: 14px;
+  }
+  .story-inline-scene {
+    height: 320px;
+  }
+  .scene-readings strong {
+    font-size: 24px;
+  }
+}
