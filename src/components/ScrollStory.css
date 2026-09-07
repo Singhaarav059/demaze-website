@@ -3,6 +3,7 @@
   --c0: 1;
   --c1: 1;
   --c2: 1;
+  --c3: 1;
 }
 .story-title {
   margin-top: 8px;
@@ -27,7 +28,7 @@
   justify-content: center;
 }
 .scroll-story[data-scroll-driven] .story-chapter:last-child {
-  min-height: 60vh;
+  min-height: 78vh;
 }
 .story-chapter .eyebrow {
   color: var(--color-muted);
@@ -66,11 +67,27 @@
   background: #19241f;
   color: #f6f5f0;
 }
-.story-scene {
+.story-stage-labels {
   position: absolute;
-  inset: 0;
-  opacity: 0;
-  transition: opacity 0.4s;
+  top: 18px;
+  left: 24px;
+  right: 24px;
+  display: flex;
+  gap: 18px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #6f7c72;
+}
+.story-stage-labels span {
+  transition: color 0.3s;
+}
+.scroll-story[data-chapter="0"] .story-stage-labels [data-index="0"],
+.scroll-story[data-chapter="1"] .story-stage-labels [data-index="1"],
+.scroll-story[data-chapter="2"] .story-stage-labels [data-index="2"],
+.scroll-story[data-chapter="3"] .story-stage-labels [data-index="3"] {
+  color: #f6f5f0;
 }
 .story-stage-meta {
   position: absolute;
@@ -82,267 +99,284 @@
   color: #b0bbb2;
 }
 
-/* Scene progress. Each chapter's scroll progress (--cN, 0..1) drives one scene.
-   Without the scroll effect every --cN is 1, so the stage shows the finished
-   composition of whichever scene is visible. */
-.scroll-story[data-scroll-driven] .story-scene {
-  opacity: 0;
-}
-.scroll-story:not([data-scroll-driven]) .story-scene-2,
-.scroll-story[data-chapter="0"] .story-scene-0,
-.scroll-story[data-chapter="1"] .story-scene-1,
-.scroll-story[data-chapter="2"] .story-scene-2 {
-  opacity: 1;
-}
-
+/* One composition, four progress values. Each element derives its own 0..1
+   from the chapter that owns it, so nothing moves until the visitor reaches
+   the sentence that explains it. */
 .scene {
   position: absolute;
   inset: 0;
-  padding: 24px 24px 56px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
   font-size: 12px;
+  /* The reasoning is unfolded while chapter 3 is read and folded back as
+     chapter 4 arrives. */
+  --fold: clamp(0, min(var(--c2) * 2, 1.6 - var(--c3) * 4), 1);
 }
-.scene-top {
-  display: flex;
-  justify-content: space-between;
+
+/* 01 fragments: four sources, four numbers, no vehicle */
+.scene-fragment {
+  position: absolute;
+  width: 34%;
+  max-width: 190px;
+  padding: 10px 12px;
+  border-radius: 3px;
+  background: #eff1e7;
+  color: #253226;
+  --in: clamp(0, var(--c0) * 2.4 - var(--i) * 0.4, 1);
+  --go: clamp(0, var(--c1) * 2.6, 1);
+  opacity: calc(var(--in) * (1 - var(--go)));
+  transform: translate(
+      calc((1 - var(--in)) * var(--dx) + var(--go) * var(--cx)),
+      calc((1 - var(--in)) * var(--dy) + var(--go) * var(--cy))
+    )
+    rotate(calc((1 - var(--in)) * var(--r))) scale(calc(1 - var(--go) * 0.35));
+}
+.scene-fragment span {
+  display: block;
   font-family: var(--font-mono);
   font-size: 9px;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: #b0bbb2;
+  color: #566159;
 }
-
-/* 01 vehicle scan */
-.scene-vehicle {
-  --p: var(--c0);
-  color: #dfe6dd;
-}
-.scene-car {
-  width: 100%;
-  max-height: 46%;
-  margin-top: auto;
-  overflow: visible;
-}
-.scene-scanline {
-  transform: translateX(calc(var(--p) * 320px));
-}
-.scene-readings {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  margin-top: auto;
-}
-.scene-readings li {
-  border-top: 1px solid #46534a;
-  padding-top: 10px;
-}
-.scene-readings span {
+.scene-fragment strong {
   display: block;
-  font-size: 10px;
-  color: #b0bbb2;
-}
-.scene-readings strong {
-  display: block;
-  font-size: 30px;
-  font-weight: 500;
-  letter-spacing: -0.04em;
   margin-top: 4px;
-}
-.scene-reading {
-  transition: opacity 0.3s;
-}
-.scene-reading-0 {
-  opacity: clamp(0, calc(var(--p) * 4 - 0.6), 1);
-}
-.scene-reading-1 {
-  opacity: clamp(0, calc(var(--p) * 4 - 1.6), 1);
-}
-.scene-reading-2 {
-  opacity: clamp(0, calc(var(--p) * 4 - 2.4), 1);
-}
-.scene-reading-3 {
-  color: #a8bcff;
-  opacity: clamp(0, calc(var(--p) * 4 - 3), 1);
-}
-
-/* 02 evidence links */
-.scene-evidence {
-  --p: var(--c1);
-}
-.scene-evidence-canvas {
-  position: relative;
-  flex: 1;
-}
-.scene-evidence-canvas svg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-}
-.scene-evidence-canvas path {
-  stroke-dasharray: 1;
-  stroke-dashoffset: calc(1 - clamp(0, calc(var(--p) * 1.6 - 0.4), 1));
-}
-.scene-node {
-  position: absolute;
-  padding: 10px 12px;
-  background: #eff1e7;
-  color: #253226;
-  border-radius: 3px;
+  font-size: 13px;
   font-weight: 500;
-  font-size: 11px;
-  transform: translate(
-      calc((1 - var(--p)) * var(--dx)),
-      calc((1 - var(--p)) * var(--dy))
-    )
-    rotate(calc((1 - var(--p)) * var(--r)));
 }
-.scene-node-0 {
+.scene-fragment-0 {
+  --i: 0;
   left: 8%;
   top: 14%;
-  --dx: 30px;
-  --dy: 24px;
+  --dx: -60px;
+  --dy: -30px;
   --r: -8deg;
+  --cx: 120px;
+  --cy: 140px;
 }
-.scene-node-1 {
+.scene-fragment-1 {
+  --i: 1;
   right: 8%;
-  top: 14%;
-  --dx: -20px;
-  --dy: 40px;
-  --r: 7deg;
-}
-.scene-node-2 {
-  left: 8%;
-  bottom: 14%;
-  --dx: 10px;
-  --dy: -18px;
+  top: 20%;
+  --dx: 60px;
+  --dy: -20px;
   --r: 6deg;
+  --cx: -120px;
+  --cy: 110px;
 }
-.scene-node-3 {
-  right: 8%;
-  bottom: 14%;
-  --dx: -26px;
-  --dy: -10px;
-  --r: -6deg;
+.scene-fragment-2 {
+  --i: 2;
+  left: 12%;
+  bottom: 22%;
+  --dx: -50px;
+  --dy: 40px;
+  --r: 5deg;
+  --cx: 110px;
+  --cy: -110px;
 }
-.scene-hub {
+.scene-fragment-3 {
+  --i: 3;
+  right: 10%;
+  bottom: 16%;
+  --dx: 50px;
+  --dy: 40px;
+  --r: -5deg;
+  --cx: -120px;
+  --cy: -140px;
+}
+.scene-slot {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 120px;
-  padding: 12px 8px;
-  text-align: center;
-  background: #c7d2b5;
-  color: #19241f;
-  border-radius: 4px;
-  box-shadow: 0 0 0 8px #19241f;
   translate: -50% -50%;
-  scale: clamp(0.4, calc(var(--p) * 1.4 - 0.3), 1);
-  opacity: clamp(0, calc(var(--p) * 2 - 0.8), 1);
-}
-.scene-hub strong {
-  display: block;
-  font-size: 24px;
-  font-weight: 600;
-  letter-spacing: -0.06em;
-}
-.scene-hub small {
-  font-size: 9px;
+  padding: 14px 18px;
+  border: 1px dashed #6f7c72;
+  border-radius: 3px;
+  color: #b0bbb2;
+  font-size: 11px;
+  white-space: nowrap;
+  opacity: calc(
+    clamp(0, var(--c0) * 2 - 0.8, 1) * (1 - clamp(0, var(--c1) * 3, 1))
+  );
 }
 
-/* 03 storefront composition */
-.scene-store {
-  --p: var(--c2);
-}
-.scene-store-mode {
+/* 02 the record */
+.scene-record {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 78%;
+  max-width: 460px;
   display: grid;
-  justify-items: end;
-}
-.scene-store-mode i,
-.scene-store-mode b {
-  grid-area: 1 / 1;
-  font-style: normal;
-  font-weight: 500;
-}
-.scene-store-mode i {
-  opacity: clamp(0, calc(1 - var(--p) * 2), 1);
-}
-.scene-store-mode b {
-  color: #f2c9ad;
-  opacity: clamp(0, calc(var(--p) * 2 - 1), 1);
-}
-.scene-store-grid {
-  flex: 1;
-  min-height: 0;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(2, minmax(0, 1fr));
-  gap: 10px;
-}
-.scene-tile {
+  grid-template-areas: "head" "body";
+  border-radius: 4px;
   background: #f8f9f6;
   color: #19241f;
-  border-radius: 3px;
-  padding: 8px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  font-size: 10px;
+  --show: clamp(0, var(--c1) * 3 - 0.3, 1);
+  opacity: var(--show);
+  translate: -50% calc(-50% - clamp(0, var(--c3) * 2, 1) * 78px);
+  scale: calc(0.94 + var(--show) * 0.06);
+  box-shadow: 0 30px 60px -30px rgb(0 0 0 / 60%);
+}
+.scene-record-head {
+  grid-area: head;
+  padding: 14px 16px 12px;
+  border-bottom: 1px solid #dbe0d7;
+}
+.scene-record-head span {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #566159;
+}
+.scene-record-head strong {
+  display: block;
+  margin-top: 4px;
+  font-size: 15px;
   font-weight: 500;
-  outline: 2px solid transparent;
-  outline-offset: -2px;
-  min-height: 0;
+  letter-spacing: -0.02em;
 }
-.scene-tile svg {
-  width: 100%;
-  height: auto;
-  max-height: 70%;
+.scene-record > ul {
+  grid-area: body;
 }
-.scene-tile rect {
-  fill: #e8ece6;
+.scene-fields {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: #dbe0d7;
+  opacity: calc(1 - clamp(0, var(--fold) * 2, 1));
 }
-.scene-tile path {
-  fill: none;
-  stroke: #8a4b32;
-  stroke-width: 2;
+.scene-fields li {
+  padding: 12px 14px 14px;
+  background: #f8f9f6;
+  opacity: clamp(0, var(--c1) * 4 - 1.2 - var(--i) * 0.3, 1);
 }
-/* The composed arrangement: the pieces the visitor looked at come forward and
-   the rest recede, without tiles crossing one another. */
-.scene-tile-0,
-.scene-tile-3 {
-  outline-color: rgb(242 201 173 / calc(var(--p) * 100%));
-  scale: calc(1 + var(--p) * 0.03);
-}
-.scene-tile-1,
-.scene-tile-2,
-.scene-tile-4,
-.scene-tile-5 {
-  /* Recede by dimming the surface, not the text, so labels keep contrast. */
-  background: color-mix(in srgb, #f8f9f6, #19241f calc(var(--p) * 28%));
-}
-.scene-tile-1 svg,
-.scene-tile-2 svg,
-.scene-tile-4 svg,
-.scene-tile-5 svg {
-  opacity: calc(1 - var(--p) * 0.55);
-}
-.scene-store-panel {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding: 12px 14px;
-  background: #f2c9ad;
-  color: #19241f;
-  border-radius: 3px;
+.scene-fields span,
+.scene-reasoning span,
+.scene-roles span {
+  display: block;
   font-size: 10px;
-  transform: translateY(calc((1 - var(--p)) * 30px));
-  opacity: var(--p);
+  color: #566159;
 }
-.scene-store-panel strong {
+.scene-fields strong {
+  display: block;
+  margin-top: 4px;
   font-size: 12px;
   font-weight: 500;
+}
+.scene-field-anchor {
+  box-shadow: inset 0 0 0 1px rgb(40 78 232 / calc(var(--c2) * 100%));
+  transition: box-shadow 0.3s;
+}
+.scene-reasoning {
+  padding: 6px 0 4px;
+  --unfold: clamp(0, var(--fold) * 2 - 1, 1);
+  opacity: var(--unfold);
+  pointer-events: none;
+}
+.scene-reasoning li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  padding: 7px 16px;
+  opacity: clamp(0, var(--unfold) * 3 - var(--i) * 0.45, 1);
+  transform: translateY(
+    calc((1 - clamp(0, var(--unfold) * 3 - var(--i) * 0.45, 1)) * 6px)
+  );
+}
+.scene-reasoning li + li {
+  border-top: 1px solid #eceee8;
+}
+.scene-reasoning strong {
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.scene-reasoning li:nth-child(4) strong {
+  color: #284ee8;
+  font-size: 15px;
+}
+.scene-reasoning li:last-child span,
+.scene-reasoning li:last-child strong {
+  color: #566159;
+  font-size: 10px;
+  font-weight: 400;
+}
+
+/* 04 roles read the same record */
+.scene-roles {
+  position: absolute;
+  left: 24px;
+  right: 24px;
+  bottom: 52px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+.scene-roles li {
+  text-align: center;
+  position: relative;
+  padding-top: 14px;
+  --in: clamp(0, var(--c3) * 4 - 2.4 - var(--i) * 0.3, 1);
+  opacity: var(--in);
+  transform: translateY(calc((1 - var(--in)) * 10px));
+}
+/* Connectors: each role drops a line from a shared bus that runs under the
+   record, so the picture reads as three readers of one object. */
+.scene-roles::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -132px;
+  width: 1px;
+  height: 120px;
+  background: #a8bcff;
+  --bus: clamp(0, var(--c3) * 4 - 1.4, 1);
+  transform-origin: top;
+  scale: 1 var(--bus);
+}
+.scene-roles::after {
+  content: "";
+  position: absolute;
+  left: calc(100% / 6);
+  right: calc(100% / 6);
+  top: -12px;
+  height: 1px;
+  background: #a8bcff;
+  transform-origin: center;
+  --bus: clamp(0, var(--c3) * 4 - 1.9, 1);
+  scale: var(--bus) 1;
+}
+.scene-roles li i {
+  position: absolute;
+  left: 50%;
+  top: -12px;
+  width: 1px;
+  height: 12px;
+  background: #a8bcff;
+  transform-origin: top;
+  scale: 1 var(--in);
+}
+.scene-roles li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 1px;
+  background: #46534a;
+}
+.scene-roles span {
+  color: #b0bbb2;
+}
+.scene-roles strong {
+  display: block;
+  margin-top: 3px;
+  font-size: 11px;
+  font-weight: 500;
+  color: #f6f5f0;
 }
 
 @media (max-width: 900px),
@@ -359,17 +393,26 @@
   .story-inline-scene {
     display: block;
     position: relative;
-    height: 360px;
+    height: 420px;
     border-radius: 4px;
     overflow: hidden;
     background: #19241f;
     color: #f6f5f0;
   }
-  .story-inline-scene .scene {
-    padding-bottom: 24px;
-  }
   .story-chapter h3 {
     font-size: clamp(26px, 6.5vw, 34px);
+  }
+  .scene-record {
+    width: 86%;
+  }
+  .scene-roles {
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+    gap: 10px;
+  }
+  .scene-roles strong {
+    font-size: 10px;
   }
 }
 @media (max-width: 760px) {
@@ -383,9 +426,43 @@
     font-size: 14px;
   }
   .story-inline-scene {
-    height: 320px;
+    height: 400px;
   }
-  .scene-readings strong {
-    font-size: 24px;
+  .scene-record {
+    translate: -50% calc(-50% - clamp(0, var(--c3) * 2, 1) * 52px);
+  }
+  .scene-fragment {
+    width: 42%;
+    padding: 8px 10px;
+  }
+  .scene-fragment-0 {
+    left: 6%;
+    top: 10%;
+  }
+  .scene-fragment-1 {
+    right: 6%;
+    top: 26%;
+  }
+  .scene-fragment-2 {
+    left: 8%;
+    bottom: 26%;
+  }
+  .scene-fragment-3 {
+    right: 6%;
+    bottom: 8%;
+  }
+  .scene-fragment strong {
+    font-size: 12px;
+  }
+  .scene-fields li {
+    padding: 10px 10px 12px;
+  }
+  .scene-fields strong {
+    font-size: 11px;
+  }
+  .scene-roles li i,
+  .scene-roles::before,
+  .scene-roles::after {
+    display: none;
   }
 }

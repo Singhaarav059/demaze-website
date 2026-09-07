@@ -146,7 +146,7 @@ test("the site reads without JavaScript", async ({ browser }) => {
   await page.goto("/");
   await expect(page.locator("h1")).toBeVisible();
   // All chapters must be document content, not sticky-stage slides.
-  await expect(page.locator(".story-chapter")).toHaveCount(3);
+  await expect(page.locator(".story-chapter")).toHaveCount(4);
   await page.goto("/projects");
   await expect(page.locator(".work-grid a").first()).toBeVisible();
   await expect(page.locator(".gallery-controls")).toBeHidden();
