@@ -240,35 +240,120 @@ const chartAxes = [
   ["Listed", "Day 2", "Day 5", "Day 7"],
 ];
 
+/**
+ * The vehicle is drawn as separable parts so the intake stage can pull it
+ * into an exploded view (bonnet, doors, tailgate, bumpers and wheels drift
+ * apart and settle back), the way an inspection walks a car panel by panel.
+ * Other stages keep the parts assembled and overlay their own marks.
+ */
 function VehicleArt({ stage }: { stage: number }) {
+  const exploded = stage === 0;
   return (
-    <svg viewBox="0 0 220 115" preserveAspectRatio="xMidYMid slice">
+    <svg
+      viewBox="0 0 220 115"
+      preserveAspectRatio="xMidYMid slice"
+      className={exploded ? "system-car system-car-exploded" : "system-car"}
+    >
       <rect width="220" height="115" fill="#e0e8de" />
-      <path d="M0 92 H220" stroke="#c6d1c3" strokeWidth="1" />
-      <g fill="none" stroke="#19241f" strokeWidth="1.5" strokeLinejoin="round">
-        <path d="M26 82 L38 56 Q46 44 62 42 L128 40 Q150 40 166 54 L188 66 Q198 70 198 80 L198 84 H26 Z" />
-        <path d="M62 44 L58 60 H108 L110 44" />
-        <path d="M120 42 L124 60 H160 L146 46" />
+      <path d="M0 98 H220" stroke="#c6d1c3" strokeWidth="1" />
+      <g
+        fill="#f3f5f0"
+        stroke="#19241f"
+        strokeWidth="1.5"
+        strokeLinejoin="round"
+      >
+        {/* Lower body with wheel arches; the fixed shell everything hangs off */}
+        <path
+          className="car-body"
+          d="M28 88 V70 Q28 62 36 60 L56 56 L68 40 Q72 34 82 33 L136 32 Q148 32 156 40 L168 54 L194 60 Q202 62 202 70 V88 H188 A17 17 0 0 0 154 88 H86 A17 17 0 0 0 52 88 Z"
+        />
+        {/* Glasshouse */}
+        <path className="car-glass" d="M72 42 L64 56 H96 L98 40 Z" />
+        <path className="car-glass" d="M104 40 L104 56 H128 L127 38 Z" />
+        <path className="car-glass" d="M133 38 L134 56 H158 L150 44 Z" />
+        {/* Separable panels, drawn in place */}
+        <path
+          className="car-part car-roof"
+          d="M70 36 L82 31 H138 L148 36 L136 34 H84 Z"
+        />
+        <path
+          className="car-part car-bonnet"
+          d="M156 42 L170 54 L194 60 L188 54 L164 46 Z"
+        />
+        <path className="car-part car-door-front" d="M102 58 H130 V86 H102 Z" />
+        <path className="car-part car-door-rear" d="M66 58 H100 V86 H66 Z" />
+        <path
+          className="car-part car-tailgate"
+          d="M28 70 Q28 62 36 60 L56 56 V86 H28 Z"
+        />
+        <path
+          className="car-part car-bumper-front"
+          d="M194 76 H208 Q211 76 211 79 V88 H194 Z"
+        />
+        <path
+          className="car-part car-bumper-rear"
+          d="M17 76 H28 V88 H17 Q14 88 14 85 V79 Q14 76 17 76 Z"
+        />
       </g>
-      <g fill="#e0e8de" stroke="#19241f" strokeWidth="1.5">
-        <circle cx="62" cy="86" r="11" />
-        <circle cx="162" cy="86" r="11" />
+      <g className="car-part car-wheel car-wheel-rear">
+        <circle
+          cx="69"
+          cy="90"
+          r="13"
+          fill="#d3dbd1"
+          stroke="#19241f"
+          strokeWidth="1.5"
+        />
+        <circle
+          cx="69"
+          cy="90"
+          r="5"
+          fill="#f3f5f0"
+          stroke="#19241f"
+          strokeWidth="1"
+        />
+      </g>
+      <g className="car-part car-wheel car-wheel-front">
+        <circle
+          cx="171"
+          cy="90"
+          r="13"
+          fill="#d3dbd1"
+          stroke="#19241f"
+          strokeWidth="1.5"
+        />
+        <circle
+          cx="171"
+          cy="90"
+          r="5"
+          fill="#f3f5f0"
+          stroke="#19241f"
+          strokeWidth="1"
+        />
       </g>
       {stage === 0 && (
         <g className="system-scan" stroke="#284ee8" strokeWidth="1" fill="none">
-          <rect
-            x="30"
-            y="36"
-            width="176"
-            height="54"
-            rx="2"
-            strokeDasharray="4 3"
-          />
           <path
-            d="M30 36 h8 M30 36 v8 M206 36 h-8 M206 36 v8 M30 90 h8 M30 90 v-8 M206 90 h-8 M206 90 v-8"
+            d="M10 14 h8 M10 14 v8 M210 14 h-8 M210 14 v8 M10 108 h8 M10 108 v-8 M210 108 h-8 M210 108 v-8"
             strokeWidth="2"
           />
-          <path className="system-scan-line" d="M30 40 H206" />
+          <g
+            className="car-callouts"
+            fill="#284ee8"
+            stroke="none"
+            fontFamily="var(--font-mono)"
+            fontSize="6"
+          >
+            <text x="14" y="28">
+              PANEL 2 · FLAG
+            </text>
+            <text x="160" y="28">
+              BONNET · OK
+            </text>
+            <text x="14" y="112">
+              TYRES 4.1 MM
+            </text>
+          </g>
         </g>
       )}
       {stage === 1 && (
