@@ -584,19 +584,107 @@ main:focus {
   color: #d4dfff;
   text-align: center;
 }
-.system-scan-line {
-  animation: scan-sweep 2.4s ease-in-out infinite alternate;
+/* Intake: the car pulls apart into panels and settles again, the way an
+   inspection walks it panel by panel. Each part has its own vector so the
+   picture reads as an exploded drawing, not a shake. */
+.system-car .car-part {
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-box: fill-box;
+  transform-origin: center;
 }
-@keyframes scan-sweep {
-  to {
-    transform: translateY(48px);
+.system-car-exploded .car-part {
+  animation: car-explode 5.2s cubic-bezier(0.45, 0, 0.2, 1) infinite;
+}
+.system-car-exploded .car-bonnet {
+  --ex: 6px;
+  --ey: -12px;
+  --er: 14deg;
+}
+.system-car-exploded .car-door-front {
+  --ex: 3px;
+  --ey: 12px;
+  --er: 0deg;
+}
+.system-car-exploded .car-door-rear {
+  --ex: -3px;
+  --ey: 12px;
+  --er: 0deg;
+}
+.system-car-exploded .car-tailgate {
+  --ex: -14px;
+  --ey: -2px;
+  --er: 0deg;
+}
+.system-car-exploded .car-bumper-front {
+  --ex: 12px;
+  --ey: 4px;
+  --er: 0deg;
+}
+.system-car-exploded .car-bumper-rear {
+  --ex: -12px;
+  --ey: 4px;
+  --er: 0deg;
+}
+.system-car-exploded .car-roof {
+  --ex: 0px;
+  --ey: -14px;
+  --er: 0deg;
+}
+.system-car-exploded .car-wheel-front {
+  --ex: 6px;
+  --ey: 8px;
+  --er: 0deg;
+}
+.system-car-exploded .car-wheel-rear {
+  --ex: -6px;
+  --ey: 8px;
+  --er: 0deg;
+}
+@keyframes car-explode {
+  0%,
+  12% {
+    transform: none;
+  }
+  38%,
+  62% {
+    transform: translate(var(--ex), var(--ey)) rotate(var(--er));
+  }
+  88%,
+  100% {
+    transform: none;
   }
 }
-.system-study[data-motion="paused"] .system-scan-line,
-.system-study[data-motion="off"] .system-scan-line,
-html:not([data-js]) .system-scan-line {
+.car-callouts {
+  animation: callouts-in 5.2s ease infinite;
+}
+@keyframes callouts-in {
+  0%,
+  30% {
+    opacity: 0;
+  }
+  42%,
+  62% {
+    opacity: 1;
+  }
+  80%,
+  100% {
+    opacity: 0;
+  }
+}
+.system-study[data-motion="paused"] .car-part,
+.system-study[data-motion="paused"] .car-callouts,
+html:not([data-js]) .car-part,
+html:not([data-js]) .car-callouts {
+  animation-play-state: paused;
+}
+/* Ambient motion off: hold the exploded frame, since that is the inspection. */
+.system-study[data-motion="off"] .system-car-exploded .car-part {
   animation: none;
-  transform: translateY(24px);
+  transform: translate(var(--ex), var(--ey)) rotate(var(--er));
+}
+.system-study[data-motion="off"] .car-callouts {
+  animation: none;
+  opacity: 1;
 }
 @keyframes panel-in {
   from {
