@@ -1,0 +1,13 @@
+node_modules
+.next
+out
+.git
+.hoplite
+.claude
+.impeccable
+audit-*
+test-results
+playwright-report
+tests
+*.md
+.env*

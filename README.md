@@ -45,7 +45,6 @@ npm start
 | `npm run test:e2e`               | Browser tests using Playwright and axe accessibility checks      |
 | `npm run format:check`           | Check formatting of source, scripts, tests and Playwright config |
 | `npx prettier --write README.md` | Format this README                                               |
-| `npm run prepare-studies`        | Regenerate archived reference crops outside the public site      |
 | `npm run optimize-images`        | Dry-run the legacy image optimization utility                    |
 
 Install the test browser with `npx playwright install chromium` before the first
@@ -62,7 +61,6 @@ src/app/                  Routes, metadata, sitemap and global styles
 src/components/           Page sections, interactions and product illustrations
 src/content/              Studio, services, project data and editorial summaries
 public/                   Company logo and Krupal's unchanged original portrait
-design/source-assets/     Original assets retained outside the public directory
 scripts/                  Image preparation utilities
 tests/                    Browser regression checks
 ```
@@ -78,9 +76,8 @@ supplies animated automotive workflow diagrams. `StudioVisual.tsx` accompanies t
 company introduction as an original engineering-studio illustration, not a portrait
 or a representation of the physical office. Krupal's exact original portrait,
 existing display treatment, name and quote remain on the home, studio and contact
-pages. Historical product images stay in `design/source-assets`, outside the public
-directory. Being outside `public` prevents direct site serving; it does not make a
-committed asset private to repository readers.
+pages. The public site no longer ships any historical product screenshots; the
+only raster files in `public/` are the logo and the portrait.
 
 ## Story and motion
 
@@ -113,3 +110,17 @@ the site uses Next.js image optimization and configured response headers, and
 
 Set `NEXT_PUBLIC_SITE_URL` before building to control canonical URLs, sitemap
 entries and social metadata. It defaults to `https://www.demazetech.com`.
+
+Node 20.9 or later is required (`engines` in `package.json`, `.nvmrc` pins 22).
+Platform configuration is committed for the common hosts:
+
+| Host                      | Configuration                                                                                       |
+| ------------------------- | --------------------------------------------------------------------------------------------------- |
+| Vercel                    | Zero config; connect the repository                                                                 |
+| Netlify                   | `netlify.toml` uses the OpenNext adapter (`@netlify/plugin-nextjs`) with `.next` as the publish dir |
+| Railway (Nixpacks)        | `railway.json` builds with `npm run build` and starts `npm start` with a `/` health check           |
+| Docker (Render, Fly, VPS) | `Dockerfile` builds a standalone Next server on `node:22-alpine`, listening on `PORT` (3000)        |
+
+The Dockerfile sets `NEXT_OUTPUT=standalone` so `next.config.ts` emits the traced
+server; other hosts leave it unset and run `next start`. Pass
+`NEXT_PUBLIC_SITE_URL` as a build argument when building the image.

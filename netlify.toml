@@ -1,0 +1,11 @@
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# Netlify's OpenNext adapter runs the Next.js server, image optimization and
+# the configured response headers; this is not a static export.
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
