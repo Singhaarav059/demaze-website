@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { site } from "@/content/site";
 
@@ -25,6 +26,7 @@ function surfaceIsDark(y: number) {
 }
 
 export default function Nav() {
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [solid, setSolid] = useState(false);
   const [onDark, setOnDark] = useState(true);
@@ -82,9 +84,16 @@ export default function Nav() {
     toggle.current?.focus();
   }, []);
 
+  const toggleMenu = () => {
+    if (open) close();
+    else setOpen(true);
+  };
+
   // Escape closes, and focus is kept inside the sheet while it is open.
   useEffect(() => {
     if (!open) return;
+    const firstLink = sheet.current?.querySelector<HTMLAnchorElement>("a[href]");
+    firstLink?.focus();
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         close();
@@ -148,6 +157,7 @@ export default function Nav() {
               <li key={item.href}>
                 <Link
                   href={item.href}
+                  aria-current={pathname === item.href ? "page" : undefined}
                   className="rounded-full px-4 py-2 text-sm font-semibold opacity-70 transition-opacity hover:opacity-100"
                 >
                   {item.label}
@@ -166,7 +176,7 @@ export default function Nav() {
             <button
               ref={toggle}
               type="button"
-              onClick={() => setOpen((v) => !v)}
+              onClick={toggleMenu}
               aria-expanded={open}
               aria-controls="mobile-menu"
               aria-label={open ? "Close menu" : "Open menu"}
@@ -206,6 +216,7 @@ export default function Nav() {
             <li key={item.href}>
               <Link
                 href={item.href}
+                aria-current={pathname === item.href ? "page" : undefined}
                 onClick={() => setOpen(false)}
                 className="display d-lg block py-1 transition-transform duration-500"
                 style={{
