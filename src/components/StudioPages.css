@@ -509,6 +509,18 @@
   stroke: var(--color-ink);
   stroke-width: 1.5;
 }
+.sp-system-diagram svg .sp-system-glyphs path,
+.sp-system-diagram svg .sp-system-glyphs rect {
+  fill: none;
+  stroke: var(--color-accent);
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.sp-system-diagram svg .sp-system-glyphs circle {
+  fill: var(--color-accent);
+  stroke: none;
+}
 .sp-system-signal {
   stroke: var(--color-accent) !important;
   stroke-dasharray: 8 92;

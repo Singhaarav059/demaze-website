@@ -92,6 +92,27 @@ export default function ServicesPage() {
             <circle cx="316" cy="252" r="43" />
             <circle cx="577" cy="77" r="43" />
             <circle cx="809" cy="164" r="43" />
+            <g className="sp-system-glyphs">
+              {/* Experience: screen */}
+              <rect x="93" y="150" width="36" height="24" rx="3" />
+              <path d="M104 181h14" />
+              {/* Intelligence: node cluster */}
+              <circle cx="316" cy="77" r="5" />
+              <circle cx="300" cy="66" r="3" />
+              <circle cx="332" cy="66" r="3" />
+              <circle cx="316" cy="95" r="3" />
+              <path d="M316 77L300 66M316 77L332 66M316 77V95" />
+              {/* Operations: stepped flow */}
+              <path d="M298 240h10v8h10v8h10v8h8" />
+              <circle cx="298" cy="240" r="2.5" />
+              <circle cx="336" cy="264" r="2.5" />
+              {/* Commerce: tag */}
+              <path d="M563 66h16l14 14-14 14h-16z" />
+              <circle cx="569" cy="80" r="2.5" />
+              {/* Foundation: layers */}
+              <path d="M791 156h36M791 164h36M791 172h36" />
+              <path d="M797 148h24" />
+            </g>
           </svg>
           <div className="sp-system-label system-a">
             <b>Experience</b>
