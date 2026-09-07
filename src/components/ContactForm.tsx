@@ -10,9 +10,11 @@ import { serviceCategories } from "@/content/services";
  */
 export default function ContactForm() {
   const [service, setService] = useState(serviceCategories[0].name);
+  const [openingMail, setOpeningMail] = useState(false);
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setOpeningMail(true);
     const data = new FormData(e.currentTarget);
     const body = [
       `Name: ${data.get("name")}`,
@@ -74,7 +76,7 @@ export default function ContactForm() {
               type="button"
               onClick={() => setService(cat.name)}
               aria-pressed={service === cat.name}
-              className={`rounded-full border px-4 py-2 text-xs font-semibold transition-colors ${
+              className={`inline-flex min-h-11 items-center rounded-full border px-4 py-2 text-xs font-semibold transition-colors ${
                 service === cat.name
                   ? "border-accent-deep bg-accent-deep text-white"
                   : "border-line text-muted hover:border-ink"
@@ -103,8 +105,18 @@ export default function ContactForm() {
       >
         Send enquiry
       </button>
-      <p className="text-muted text-xs font-semibold">
-        This opens a pre-filled draft in your own mail client, addressed to {site.email}.
+      <p className="text-muted text-xs font-semibold" aria-live="polite">
+        {openingMail ? (
+          <>
+            Opening your email app. If no draft appears, email us directly at{" "}
+            <a href={`mailto:${site.email}`} className="hover:text-accent underline underline-offset-2">
+              {site.email}
+            </a>
+            .
+          </>
+        ) : (
+          <>This opens a pre-filled draft in your own mail client, addressed to {site.email}.</>
+        )}
       </p>
     </form>
   );
