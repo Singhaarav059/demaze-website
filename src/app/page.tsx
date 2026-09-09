@@ -1,8 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
-import HeroSystem from "@/components/HeroSystem";
 import WorkCard from "@/components/WorkCard";
 import EvidenceStory from "@/components/EvidenceStory";
+import HeroBackgroundVideo from "@/components/HeroBackgroundVideo";
+import { NetworkDoodle, GrowthDoodle } from "@/components/StatDoodle";
 import ScrollStory from "@/components/ScrollStory";
 import { homeCopy } from "@/content/editorial";
 import { projects } from "@/content/projects";
@@ -15,38 +16,54 @@ export default function Home() {
   return (
     <main id="main-content" tabIndex={-1}>
       <section className="shell hero-section">
-        <div className="hero-topline">
-          <p className="eyebrow">AI & software engineering studio</p>
-          <p className="eyebrow">
-            Ahmedabad, India <span aria-hidden>↗</span> Worldwide
-          </p>
-        </div>
+        <HeroBackgroundVideo />
         <div className="hero-grid">
-          <div className="hero-copy">
+          <div className="hero-card">
             <h1>
               Complexity,
               <br />
-              made <em>useful.</em>
+              made{" "}
+              <span className="headline-accent-wrap">
+                <em>useful.</em>
+                <svg
+                  className="headline-underline"
+                  viewBox="0 0 220 20"
+                  preserveAspectRatio="none"
+                  aria-hidden
+                >
+                  <path d="M4,12 C50,4 90,16 130,8 C160,2 190,10 216,6" />
+                </svg>
+              </span>
             </h1>
             <p className="hero-intro">{homeCopy.intro}</p>
             <div className="hero-actions">
-              <Link className="button" href="/projects">
+              <Link className="hero-btn-primary" href="/projects">
                 Explore our work <span aria-hidden>↗</span>
               </Link>
-              <Link className="text-link" href="/contact-us">
+              <Link className="hero-btn-ghost" href="/contact-us">
                 Have a challenge?
               </Link>
             </div>
           </div>
-          <HeroSystem />
-        </div>
-        <div className="hero-bottomline">
-          <span>
-            Shown: the dealership platform, one vehicle from intake to sale
-          </span>
-          <Link href="/projects/luxury-car-dealer-software">
-            Inside the automotive platform <span aria-hidden>↗</span>
-          </Link>
+          <div className="hero-blocks">
+            <div className="hero-block hero-block-mint">
+              <NetworkDoodle />
+              <p className="hero-stat-value">
+                {site.stats[0].value}
+                {site.stats[0].suffix}
+              </p>
+              <p className="hero-stat-label">{site.stats[0].label}</p>
+            </div>
+            <div className="hero-block hero-block-butter">
+              <GrowthDoodle />
+              <p className="hero-stat-value">
+                {site.stats[1].prefix}
+                {site.stats[1].value}
+                {site.stats[1].suffix}
+              </p>
+              <p className="hero-stat-label">{site.stats[1].label}</p>
+            </div>
+          </div>
         </div>
       </section>
 

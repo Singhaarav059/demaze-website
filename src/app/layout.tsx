@@ -1,5 +1,11 @@
 import type { Metadata } from "next";
-import { Fraunces, Inter_Tight, JetBrains_Mono } from "next/font/google";
+import {
+  Manrope,
+  Source_Serif_4,
+  Nanum_Pen_Script,
+  JetBrains_Mono,
+  Inter,
+} from "next/font/google";
 import "./globals.css";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
@@ -7,36 +13,48 @@ import MotionControl from "@/components/MotionControl";
 import { pageMeta, site, siteUrl } from "@/content/site";
 
 /**
- * Three faces, three jobs. The previous pair was Bricolage Grotesque over
- * Inter Tight: two grotesques, so the site paid for two downloads and got one
- * voice, and a section headline was indistinguishable from a card headline.
- * A serif display against a sans UI is the contrast that was missing, and the
- * mono carries every index, eyebrow and figure number.
- *
- * The display face was Instrument Serif, which is well drawn but is currently
- * the default display serif of every AI studio site, the exact "another
- * variation of a website" reading the founder pushed back on. Fraunces is the
- * same editorial high-contrast register with three axes the site can tune:
- * `opsz` for hairline contrast at display size, `SOFT` for terminal sharpness
- * and `WONK` for the swashed alternates that make it recognisably itself.
- * Variable, so no `weight`: the whole range arrives in one file.
+ * Four faces now instead of three, following the redesign's indigo/orange
+ * system (7shifts) with a serif headline pairing and hand-drawn accent
+ * borrowed from Ditto. Manrope is the geometric grotesque that carries every
+ * UI surface, nav link and paragraph. Source Serif 4 is the accent voice
+ * reserved for the hero and section-level display headings, never body or
+ * UI. Nanum Pen Script is the single hand-drawn flourish under one hero
+ * keyword, and never appears anywhere else. JetBrains Mono keeps carrying
+ * the eyebrow labels and figures, unchanged from before.
  */
-const fraunces = Fraunces({
+const manrope = Manrope({
   subsets: ["latin"],
-  axes: ["SOFT", "WONK", "opsz"],
-  variable: "--font-fraunces",
+  weight: ["400", "500", "700"],
+  variable: "--font-manrope",
 });
 
-const interTight = Inter_Tight({
+const sourceSerif = Source_Serif_4({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  variable: "--font-inter-tight",
+  weight: ["700"],
+  variable: "--font-source-serif",
+});
+
+const nanumPen = Nanum_Pen_Script({
+  subsets: ["latin"],
+  weight: ["400"],
+  variable: "--font-nanum-pen",
 });
 
 const jetbrains = JetBrains_Mono({
   subsets: ["latin"],
   weight: ["500"],
   variable: "--font-jetbrains",
+});
+
+/**
+ * Hero-only for now (the Tedy-style poster headline). Kept separate from
+ * --font-sans so the rest of the site's Manrope pairing is untouched until
+ * this direction is confirmed for other sections.
+ */
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-inter",
 });
 
 export const metadata: Metadata = {
@@ -93,7 +111,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${fraunces.variable} ${interTight.variable} ${jetbrains.variable}`}
+      className={`${manrope.variable} ${sourceSerif.variable} ${nanumPen.variable} ${jetbrains.variable} ${inter.variable}`}
     >
       <body>
         <script

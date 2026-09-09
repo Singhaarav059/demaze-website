@@ -3,7 +3,7 @@
   --pv-bg: #1d2b6e;
   --pv-fg: #f6f5f0;
   --pv-soft: rgb(255 255 255 / 14%);
-  --pv-accent: #a8bcff;
+  --pv-accent: #ff9dc4;
   --pv-card: #f8f9f6;
   --pv-card-fg: #19241f;
   position: relative;
@@ -30,7 +30,7 @@
   pointer-events: none;
 }
 .pv-blue {
-  --pv-bg: #284ee8;
+  --pv-bg: #fd1774;
   --pv-accent: #d6dfff;
 }
 .pv-sage {
@@ -199,7 +199,7 @@
   font-family: var(--font-mono);
   font-weight: 500;
   font-size: 8px;
-  color: #284ee8;
+  color: #fd1774;
 }
 .pv-node-0 {
   left: 6%;
@@ -290,7 +290,7 @@
 }
 .pv-tile path {
   fill: none;
-  stroke: #284ee8;
+  stroke: #fd1774;
   stroke-width: 2;
 }
 /* Mobile */
@@ -363,7 +363,7 @@
   width: 14px;
   height: 14px;
   border-radius: 4px;
-  background: #284ee8;
+  background: #fd1774;
   flex: none;
 }
 .pv-phone-back li {
@@ -457,7 +457,7 @@
   display: block;
   height: 5px;
   width: var(--w);
-  background: #284ee8;
+  background: #fd1774;
   border-radius: 2px;
   opacity: 0.75;
   margin-left: auto;

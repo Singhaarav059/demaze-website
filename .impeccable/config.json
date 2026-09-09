@@ -11,6 +11,24 @@
         ],
         "createdAt": "2026-09-04T03:39:28.000Z",
         "reason": "user explicitly asked to match conicorn.framer.ai's gradient headline/accent text as part of a directed redesign, confirmed via plan approval"
+      },
+      {
+        "rule": "codex-grid-background",
+        "value": "*",
+        "files": [
+          "src/app/globals.css"
+        ],
+        "createdAt": "2026-09-09T04:14:18.940Z",
+        "reason": "consistent deliberate screen-chrome texture on the HeroSystem dashboard mockup card, matches same device in ProjectVisual.css"
+      },
+      {
+        "rule": "codex-grid-background",
+        "value": "*",
+        "files": [
+          "src/components/ProjectVisual.css"
+        ],
+        "createdAt": "2026-09-09T04:14:21.227Z",
+        "reason": "consistent deliberate screen-chrome texture on every product-study mockup card, matches same device in globals.css HeroSystem card"
       }
     ]
   }

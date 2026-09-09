@@ -1,0 +1,108 @@
+.stat-doodle {
+  /* Percentage height (not a fixed px value) so it scales with the block's
+     actual computed height instead of overflowing into the stat text on the
+     shorter stacked rows the mobile single-column layout produces. */
+  position: absolute;
+  top: 14px;
+  left: 16px;
+  right: 16px;
+  height: 42%;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.doodle-line,
+.doodle-mark {
+  fill: none;
+  stroke: var(--color-ink);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.34;
+  stroke-dasharray: 260;
+  stroke-dashoffset: 260;
+  animation: doodle-draw 1.5s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+.doodle-growth {
+  stroke-width: 1.8;
+  animation-duration: 1.9s;
+}
+.d2 {
+  animation-delay: 0.12s;
+}
+.d3 {
+  animation-delay: 0.24s;
+}
+.d4 {
+  animation-delay: 0.36s;
+}
+.mark1 {
+  animation: doodle-draw 0.35s ease-out 2s forwards;
+  opacity: 0.5;
+}
+
+.doodle-node {
+  fill: var(--color-ink);
+  opacity: 0;
+  transform-origin: center;
+  transform-box: fill-box;
+  animation: doodle-node-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.doodle-node.accent {
+  fill: var(--color-accent);
+}
+.hub {
+  animation-delay: 0.5s;
+}
+.n1 {
+  animation-delay: 0.65s;
+}
+.n2 {
+  animation-delay: 0.77s;
+}
+.n3 {
+  animation-delay: 0.89s;
+}
+.n4 {
+  animation-delay: 1s;
+}
+.mark2 {
+  animation-delay: 2.1s;
+}
+
+@keyframes doodle-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes doodle-node-in {
+  from {
+    opacity: 0;
+    transform: scale(0.2);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* MotionControl sets `paused` while offscreen or the tab is hidden, so the
+   draw-in plays when the block scrolls into view; `off` (ambient motion
+   switched off) and no-JavaScript skip straight to the finished doodle. */
+.stat-doodle[data-motion="paused"] * {
+  animation-play-state: paused;
+}
+.stat-doodle[data-motion="off"] *,
+html:not([data-js]) .stat-doodle * {
+  animation-duration: 0s !important;
+  animation-delay: 0s !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stat-doodle .doodle-line,
+  .stat-doodle .doodle-mark,
+  .stat-doodle .doodle-node {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
+}

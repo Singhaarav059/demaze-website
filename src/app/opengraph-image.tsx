@@ -53,7 +53,7 @@ export default function OpengraphImage() {
         }}
       >
         <span>Complexity,</span>
-        <span style={{ color: "#284ee8" }}>made useful.</span>
+        <span style={{ color: "#fd1774" }}>made useful.</span>
       </div>
       <div
         style={{
