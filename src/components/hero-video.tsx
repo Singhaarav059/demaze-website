@@ -15,13 +15,19 @@ export function HeroVideo({ poster, mp4 }: { poster: string; mp4: string }) {
     const container = containerRef.current;
     if (!video) return;
 
+    // Tracks the latest on-screen state from the IntersectionObserver so every
+    // resume path (initial mount, reduced-motion toggle, scroll) requires the
+    // video to be visible before calling play(). Starts true because the hero
+    // is on-screen at mount; the observer corrects it on its first callback.
+    let isIntersecting = true;
+
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const apply = () => {
       if (reducedMotion.matches) {
         video.pause();
         return;
       }
-      if (userPausedRef.current) return;
+      if (userPausedRef.current || !isIntersecting) return;
       void video
         .play()
         .then(() => setPlaying(true))
@@ -36,6 +42,7 @@ export function HeroVideo({ poster, mp4 }: { poster: string; mp4: string }) {
     const visibilityObserver = new IntersectionObserver(
       ([entry]) => {
         if (!entry) return;
+        isIntersecting = entry.isIntersecting;
         if (!entry.isIntersecting) {
           video.pause();
           return;
