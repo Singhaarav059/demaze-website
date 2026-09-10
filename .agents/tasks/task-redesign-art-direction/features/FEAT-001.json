@@ -1,0 +1,25 @@
+{
+  "id": "FEAT-001",
+  "type": "docs",
+  "description": "Establish the baseline and the section-by-section art-direction findings so the redesign work is auditable. Because this is INTEGRATIONS_ONLY (npm registry unreachable, node_modules absent), the normal 'install deps + run build/tests to confirm green baseline' step CANNOT run in-sandbox. Instead this feature records the current state, the main-vs-test reconciliation decision, and the exact deferred verification commands. No source edits.",
+  "status": "completed",
+  "steps": [
+    "Confirm working tree is on branch `redesign` (already created off main) via `git branch --show-current`.",
+    "Confirm node_modules is absent and installs hang: do NOT attempt `npm install` (it will hang the sandbox). Record that all of typecheck/lint/test/build are deferred to CI/preview.",
+    "Read .agents/tasks/task-redesign-art-direction/context.json (already written) and confirm it captures: tokens present in :root, the ScrollFocusStack motion system, the content counts guarded by site-data.test.ts (services==4, projects>=16, metrics==4, technologies==8, industries>=15), and the two known defects (empty `content:` separator; pinned-services cover-crop).",
+    "Write .agents/tasks/task-redesign-art-direction/findings.md capturing a section-by-section art-direction audit (hero, metrics strip, home stacked chapters, pinned services, tech marquee, industries, values dark band, founder story, process, faq, projects editorial grid, services detailed cards, about split + keyword cloud + benefit row, contact options + form, playbook, footer) and, for each, the specific fit/crop/spacing/typography/responsive issue observed and the intended fix.",
+    "Write .agents/tasks/task-redesign-art-direction/verification-checklist.md listing the exact deferred CI commands (`unset NODE_OPTIONS && npm run typecheck && npm run lint && npm test && npm run build`) plus the manual scroll-smoothness + prefers-reduced-motion device pass, and a per-breakpoint (>=1200, 901-1199, 600-900, <600) visual check list."
+  ],
+  "acceptance_criteria": [
+    "`git branch --show-current` prints `redesign`.",
+    ".agents/tasks/task-redesign-art-direction/findings.md exists and lists every page section with a concrete observed issue and intended fix.",
+    ".agents/tasks/task-redesign-art-direction/verification-checklist.md exists and contains the exact 4-command CI gate prefixed with `unset NODE_OPTIONS &&`.",
+    "No files under src/ are modified in this feature."
+  ],
+  "verification": [
+    "Run `git status` and confirm only files under .agents/tasks/ are added/changed.",
+    "Run `git branch --show-current` and confirm output is `redesign`."
+  ],
+  "blocked_reason": null,
+  "findings": "Confirmed branch is `redesign`. Wrote findings.md (section-by-section audit of all listed sections, grounded in real source) and verification-checklist.md (exact CI gate `unset NODE_OPTIONS && npm run typecheck && npm run lint && npm test && npm run build`, manual scroll + prefers-reduced-motion device pass, per-breakpoint >=1200/901-1199/600-900/<600 checks). Verified both known defects against source: empty `content: ;` at src/styles.css line 2122 (industry inline separator, needs middot) and object-fit:cover at line 750 on .pinned-services-visual img (service illustrations service-ai 937x400, service-web 422x400, service-commerce 512x400, service-cloud 1114x424 carry whitespace so cover crops/zooms; origin/test uses contain - top FEAT-002 idea). No src/ files modified. In-sandbox build/test/typecheck/lint NOT run: INTEGRATIONS_ONLY, npm registry unreachable, node_modules absent - all deferred to CI/preview per plan. Committed docs to branch redesign; did not push."
+}

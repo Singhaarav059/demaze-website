@@ -1,14 +1,27 @@
 import { useEffect, useRef } from "react";
 import { projects } from "@/lib/site-data";
 
+/** One entry per project (16). Large 2x2 tiles are placed at irregular
+ * intervals (0, 6, 9, 14) rather than on a fixed 8-tile cycle, so the wall of
+ * work reads as a composed editorial layout instead of two identical halves.
+ * Purely presentational: still indexed by `i % SPANS.length`, so it degrades
+ * gracefully if the project count ever changes. */
 const SPANS = [
   "span 2 / span 2",
   "span 1 / span 1",
   "span 1 / span 1",
   "span 1 / span 1",
   "span 1 / span 1",
+  "span 1 / span 1",
   "span 2 / span 2",
   "span 1 / span 1",
+  "span 1 / span 1",
+  "span 2 / span 2",
+  "span 1 / span 1",
+  "span 1 / span 1",
+  "span 1 / span 1",
+  "span 1 / span 1",
+  "span 2 / span 2",
   "span 1 / span 1",
 ];
 
