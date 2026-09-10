@@ -27,13 +27,13 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "DEMAze combines AI, software engineering, and automation to build scalable digital products and sustainable business solutions.",
+          "DEMAze is an AI-first product studio. We pair software engineering with AI and automation to design, build, and scale digital products that hold up in production.",
       },
       { property: "og:title", content: "AI Product Development Company | DEMAze" },
       {
         property: "og:description",
         content:
-          "A strategic partner for scalable AI products, software engineering, and automation.",
+          "An AI-first engineering partner that designs, builds, and scales digital products, and stays for the long run.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -59,27 +59,27 @@ function Home() {
             </div>
             <div className="hero-copy animate-rise">
               <div className="badge-dual-pill">
-                <span className="badge-kicker">Leading AI</span>
+                <span className="badge-kicker">AI-first studio</span>
                 <Link to="/services" className="badge-text">
                   <span>Architecture · Engineering · Scale</span>
                   <ArrowUpRight size={13} />
                 </Link>
               </div>
               <h1>
-                Your strategic partner in building{" "}
-                <em className="shimmer-text">scalable AI products.</em>
+                We design and ship{" "}
+                <em className="shimmer-text">AI products that scale.</em>
               </h1>
               <p className="intro">
-                We combine AI, software engineering, and automation with deep industry expertise to
-                build scalable, sustainable solutions, working alongside you as a trusted, long-term
-                partner.
+                DEMAze pairs software engineering with AI and automation to turn ambitious ideas
+                into products that hold up in production. We work as a long-term partner, from first
+                prototype to the systems your business runs on.
               </p>
               <div className="hero-actions">
                 <Link to="/contact-us" className="pill-button button-glow">
-                  Let’s connect <ArrowUpRight />
+                  Start a project <ArrowUpRight />
                 </Link>
                 <Link to="/services" className="button-glass">
-                  Explore services <ArrowRight />
+                  See what we build <ArrowRight />
                 </Link>
               </div>
             </div>
@@ -88,14 +88,14 @@ function Home() {
               <div className="hero-floating-badge badge-top" aria-hidden="true">
                 <span className="floating-badge-dot" />
                 <span className="floating-badge-text">
-                  <strong>99.9% Uptime</strong> · SLA Guaranteed
+                  <strong>Production-ready</strong> · Built to scale
                 </span>
               </div>
               <HeroVideo poster={robotsPoster} mp4={robotsVideo} />
               <div className="hero-floating-badge badge-bottom" aria-hidden="true">
                 <span className="floating-badge-icon">⚡</span>
                 <span className="floating-badge-text">
-                  <strong>Senior AI &amp; Product Engineers</strong> · Enterprise AI
+                  <strong>Senior AI &amp; product engineers</strong> · End to end
                 </span>
               </div>
             </div>
@@ -107,8 +107,8 @@ function Home() {
                 <span className="chapter-doodle" aria-hidden="true" />
                 <SectionHeading
                   eyebrow="Our work"
-                  title="Complex problems, useful products."
-                  copy="Selected platforms designed around real operations, customers, and growth."
+                  title="Hard problems, products people use."
+                  copy="Platforms built around real operations, real customers, and room to grow."
                 />
                 <ProjectsGrid limit={4} />
                 <div className="section-action">
@@ -127,8 +127,8 @@ function Home() {
                 <span className="chapter-doodle" aria-hidden="true" />
                 <SectionHeading
                   eyebrow="Services"
-                  title="Apps, websites, AI and more."
-                  copy="End-to-end engineering, scalable intelligence, and digital craft tailored for market leaders."
+                  title="Apps, platforms, and AI."
+                  copy="End-to-end engineering, applied AI, and product craft, matched to what your business actually needs."
                 />
                 <PinnedServicesShowcase />
               </div>
@@ -136,7 +136,10 @@ function Home() {
             <section className="content-section stack-chapter stack-tools">
               <div className="section-wrap">
                 <span className="chapter-doodle" aria-hidden="true" />
-                <SectionHeading eyebrow="Platforms & partners" title="Tools and technologies." />
+                <SectionHeading
+                  eyebrow="Platforms & partners"
+                  title="The stack we build on."
+                />
                 <TechnologyBand />
               </div>
             </section>
@@ -145,8 +148,8 @@ function Home() {
                 <span className="chapter-doodle" aria-hidden="true" />
                 <SectionHeading
                   eyebrow="Industries"
-                  title="Deep context across sectors."
-                  copy="We combine technology depth with an understanding of the systems, customers, and constraints that shape each industry."
+                  title="Context that shapes the build."
+                  copy="We pair engineering depth with a working understanding of the systems, customers, and constraints in each sector."
                 />
                 {/* All 19 sit on /services. Eight here keeps the homepage scannable. */}
                 <IndustryGrid limit={8} />
@@ -164,7 +167,7 @@ function Home() {
             <section className="content-section stack-chapter dark-band">
               <div className="section-wrap">
                 <span className="chapter-doodle" aria-hidden="true" />
-                <SectionHeading eyebrow="Why choose us" title="Built for lasting impact." />
+                <SectionHeading eyebrow="Why choose us" title="Built to last, built with you." />
                 <ValuesGrid />
               </div>
             </section>
@@ -173,8 +176,8 @@ function Home() {
                 <span className="chapter-doodle" aria-hidden="true" />
                 <SectionHeading
                   eyebrow="Who we are"
-                  title="Digital transformation architects."
-                  copy="We’re a team of technologists, innovators, and strategic thinkers who bridge complex technical possibilities with real business outcomes."
+                  title="Engineers who think in outcomes."
+                  copy="A team of builders and strategists who turn complex technical possibilities into results the business can feel."
                 />
                 <FounderStory />
               </div>
@@ -182,14 +185,14 @@ function Home() {
             <section className="content-section stack-chapter stack-process">
               <div className="section-wrap">
                 <span className="chapter-doodle" aria-hidden="true" />
-                <SectionHeading eyebrow="How we work" title="Clear from idea to scale." />
+                <SectionHeading eyebrow="How we work" title="A clear path from idea to scale." />
                 <ProcessGrid />
               </div>
             </section>
             <section className="content-section stack-chapter stack-faq">
               <div className="section-wrap faq-section">
                 <span className="chapter-doodle" aria-hidden="true" />
-                <SectionHeading eyebrow="FAQ" title="Good questions, clear answers." />
+                <SectionHeading eyebrow="FAQ" title="Straight answers to common questions." />
                 <FaqSection />
               </div>
             </section>

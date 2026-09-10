@@ -549,9 +549,8 @@ export function FounderStory() {
       />
       <blockquote>
         <p>
-          “Through the strategic use of your vision and data, we design AI solutions that make your
-          brand stand out and drive revenue growth, leading execution with focus and
-          accountability.”
+          “We turn your vision and data into AI products that set your brand apart and support real
+          growth, and we lead execution with focus and accountability.”
         </p>
         <footer>
           <strong>Krupal Chaudhary</strong>
