@@ -33,7 +33,7 @@ function PrivacyPolicy() {
               Privacy <em>Policy.</em>
             </>
           }
-          copy="Effective September 10, 2026. This draft reflects the current website and should be reviewed by legal counsel before publication."
+          copy="Draft effective January 1, 2025. This draft reflects the current website and should be reviewed by legal counsel before publication."
         />
         <article className="legal-copy section-wrap">
           <h2>Information we collect</h2>

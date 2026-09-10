@@ -91,7 +91,7 @@ function Home() {
               <div className="hero-floating-badge badge-bottom" aria-hidden="true">
                 <span className="floating-badge-icon">⚡</span>
                 <span className="floating-badge-text">
-                  <strong>35+ Tech Architects</strong> · Enterprise AI
+                  <strong>Senior AI &amp; Product Engineers</strong> · Enterprise AI
                 </span>
               </div>
             </div>
@@ -166,7 +166,7 @@ function Home() {
                 <SectionHeading
                   eyebrow="Who we are"
                   title="Digital transformation architects."
-                  copy="We’re a team of 35+ technologists, innovators, and strategic thinkers who bridge complex technical possibilities with real business outcomes."
+                  copy="We’re a team of technologists, innovators, and strategic thinkers who bridge complex technical possibilities with real business outcomes."
                 />
                 <FounderStory />
               </div>

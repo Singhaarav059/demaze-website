@@ -46,6 +46,12 @@ function Metric({ value, label, index }: { value: string; label: string; index: 
     const target = parseFloat(value.replace(/[^0-9.]/g, ""));
     const prefix = value.match(/^\D*/)?.[0].replace(/[0-9]/g, "") ?? "";
     const suffix = value.match(/\D*$/)?.[0] ?? "";
+    // Qualitative values have nothing to count up, so show the final text right away
+    // instead of the placeholder "0" until the element scrolls into view.
+    if (Number.isNaN(target)) {
+      el.textContent = value;
+      return;
+    }
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const io = new IntersectionObserver(
       ([entry]) => {

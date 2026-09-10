@@ -506,8 +506,8 @@ export const faqs = [
 ] as const;
 
 export const metrics = [
-  ["45+", "Projects Delivered"],
-  ["$10M+", "Client Value Generated"],
-  ["35+", "Expert Team Members"],
-  ["6+", "Years of Excellence"],
+  ["16+", "Projects Delivered"],
+  ["End-to-end", "Product & Platform Delivery"],
+  ["AI-first", "Engineering Approach"],
+  ["Long-term", "Partnership Model"],
 ] as const;

@@ -15,7 +15,7 @@ export const Route = createFileRoute("/about-us")({
       {
         name: "description",
         content:
-          "Meet the 35+ technologists, innovators, and strategic thinkers behind DEMAze Technologies.",
+          "Meet the technologists, innovators, and strategic thinkers behind DEMAze Technologies.",
       },
       { property: "og:title", content: "About DEMAze Technologies" },
       {
@@ -53,7 +53,7 @@ function AboutPage() {
             <div>
               <SectionHeading eyebrow="Who we are" title="Digital transformation architects." />
               <p>
-                At DEMAze Technologies, we’re a passionate team of 35+ technologists, innovators,
+                At DEMAze Technologies, we’re a passionate team of technologists, innovators,
                 and strategic thinkers who believe in the power of AI and cutting-edge technology to
                 reshape businesses. Founded with a vision to democratize advanced technology, we
                 bridge the gap between complex technical possibilities and real business outcomes.

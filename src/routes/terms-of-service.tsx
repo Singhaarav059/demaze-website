@@ -30,7 +30,7 @@ function TermsOfService() {
               Terms of <em>Service.</em>
             </>
           }
-          copy="Effective September 10, 2026. This draft covers website use and should be reviewed by legal counsel before publication."
+          copy="Draft effective January 1, 2025. This draft covers website use and should be reviewed by legal counsel before publication."
         />
         <article className="legal-copy section-wrap">
           <h2>Website use</h2>

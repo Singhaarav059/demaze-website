@@ -165,7 +165,7 @@ export function SiteFooter() {
           </Link>
         </div>
         <div className="slim-footer">
-          <p>Demaze Technologies © 2026. All rights reserved.</p>
+          <p>Demaze Technologies © {new Date().getFullYear()}. All rights reserved.</p>
           <nav aria-label="Footer navigation">
             {navigation.map(([label, to]) => (
               <Link key={to} to={to}>

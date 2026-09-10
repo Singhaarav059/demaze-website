@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { CheckCircle2, Download } from "lucide-react";
+import { CheckCircle2, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { requestPlaybook } from "@/lib/forms.functions";
@@ -80,8 +80,8 @@ export function PlaybookForm() {
         </p>
       )}
       <Button variant="editorial" size="hero" disabled={state === "sending"}>
-        {state === "sending" ? "Submitting..." : "Submit to download"}
-        <Download />
+        {state === "sending" ? "Submitting..." : "Request the guide"}
+        <Send />
       </Button>
     </form>
   );
