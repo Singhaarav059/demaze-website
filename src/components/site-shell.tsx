@@ -103,11 +103,9 @@ export function SiteHeader({ overlay = false }: { overlay?: boolean }) {
           </Link>
         ))}
       </nav>
-      <Button variant="editorial" size="hero" className="header-cta" asChild>
-        <Link to="/contact-us">
-          Book a call <ArrowUpRight />
-        </Link>
-      </Button>
+      <Link to="/contact-us" className="pill-button header-cta">
+        Book a call <ArrowUpRight />
+      </Link>
       <Button
         ref={toggleRef}
         className="menu-toggle"
@@ -146,74 +144,41 @@ export function SiteHeader({ overlay = false }: { overlay?: boolean }) {
 
 export function SiteFooter() {
   return (
-    <footer className="site-footer">
-      <div className="footer-cta section-wrap">
-        <img {...images.footer} alt="" loading="lazy" decoding="async" />
-        <div>
-          <p className="section-kicker">Have a project in mind?</p>
-          <h2>
-            Let’s build smarter,
-            <br />
-            <span>together.</span>
-          </h2>
-        </div>
-        <Button variant="editorial" size="hero" asChild>
-          <Link to="/contact-us">
+    <footer className="site-cta-footer">
+      <div className="section-wrap">
+        <div className="cta-band">
+          <span className="cta-band-mark" aria-hidden>
+            <img
+              src="/demaze-logo-mark.png"
+              alt=""
+              width={34}
+              height={34}
+              className="cta-band-mark-img"
+            />
+          </span>
+          <div className="cta-band-copy">
+            <span className="eyebrow-dot">Have a project in mind?</span>
+            <h2>Let’s build smarter, together.</h2>
+          </div>
+          <Link to="/contact-us" className="pill-button">
             Start a conversation <ArrowUpRight />
           </Link>
-        </Button>
-      </div>
-      <div className="footer-main section-wrap">
-        <div className="footer-about">
-          <Brand />
-          <p>
-            We combine AI, software engineering, and automation with deep industry expertise to
-            build scalable, sustainable solutions, working alongside you as a trusted, long-term
-            partner.
-          </p>
         </div>
-        <div className="footer-links">
-          <span>Explore</span>
-          {navigation.map(([label, to]) => (
-            <Link key={to} to={to}>
-              {label}
-            </Link>
-          ))}
-          <Link to="/privacy-policy">Privacy</Link>
-          <Link to="/terms-of-service">Terms</Link>
+        <div className="slim-footer">
+          <p>Demaze Technologies © 2026. All rights reserved.</p>
+          <nav aria-label="Footer navigation">
+            {navigation.map(([label, to]) => (
+              <Link key={to} to={to}>
+                {label}
+              </Link>
+            ))}
+          </nav>
+          <nav aria-label="Legal">
+            <Link to="/privacy-policy">Privacy Policy</Link>
+            <Link to="/terms-of-service">Terms of Service</Link>
+          </nav>
+          <p>Ahmedabad, India</p>
         </div>
-        <div className="footer-links">
-          <span>Connect</span>
-          <a href="mailto:contact@demazetech.com">Email</a>
-          <a
-            href="https://www.linkedin.com/in/krupalchaudhary"
-            target="_blank"
-            rel="noreferrer"
-            aria-label="LinkedIn, opens in a new tab"
-          >
-            LinkedIn
-          </a>
-          <a
-            href="https://www.instagram.com/demaze_technologies"
-            target="_blank"
-            rel="noreferrer"
-            aria-label="Instagram, opens in a new tab"
-          >
-            Instagram
-          </a>
-          <a
-            href="https://x.com/growwithkrupal"
-            target="_blank"
-            rel="noreferrer"
-            aria-label="X, opens in a new tab"
-          >
-            X
-          </a>
-        </div>
-      </div>
-      <div className="footer-base section-wrap">
-        <span>DEMAze Technologies © 2026. All rights reserved.</span>
-        <span>Ahmedabad, India</span>
       </div>
     </footer>
   );
@@ -261,6 +226,7 @@ export function PageLayout({
         <i />
         <i />
       </div>
+      <div className="film-grain-overlay" aria-hidden="true" />
       <SiteHeader overlay={overlayHeader} />
       {children}
       <SiteFooter />

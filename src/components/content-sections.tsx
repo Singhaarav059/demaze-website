@@ -88,34 +88,117 @@ export function MetricsStrip() {
   );
 }
 
+const cardTints = [
+  "var(--color-pastel-lavender)",
+  "var(--color-pastel-blue)",
+  "var(--color-pastel-mint)",
+  "var(--color-pastel-butter)",
+];
+
+function BentoSpotlightCard({
+  project,
+  index,
+  cardTint,
+}: {
+  project: (typeof projects)[number];
+  index: number;
+  cardTint: string;
+}) {
+  const cardRef = useRef<HTMLElement>(null);
+
+  const handlePointerMove = (e: React.PointerEvent<HTMLElement>) => {
+    const card = cardRef.current;
+    if (!card) return;
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    card.style.setProperty("--mouse-x", `${x}px`);
+    card.style.setProperty("--mouse-y", `${y}px`);
+  };
+
+  return (
+    <article
+      ref={cardRef}
+      className="home-work-card spotlight-card"
+      onPointerMove={handlePointerMove}
+      key={project.title}
+    >
+      <Link to="/projects" className="home-work-card-link">
+        <span className="home-work-media" style={{ background: cardTint }}>
+          <img
+            {...project.image}
+            alt={`${project.title} interface`}
+            loading={index < 2 ? "eager" : "lazy"}
+            decoding="async"
+            className="home-work-img"
+          />
+        </span>
+        <span className="home-work-body">
+          <span className="home-work-meta">
+            <span className="home-work-tag">{project.features[0] || "Featured"}</span>
+            <ArrowUpRight size={18} className="home-work-arrow" />
+          </span>
+          <span className="home-work-title">{project.title}</span>
+          <span className="home-work-copy">{project.description}</span>
+
+          {/* Living UI micro-widgets */}
+          {index === 0 && (
+            <div className="bento-live-badge">
+              <span className="bento-sparkline">↗ +38% Valuation</span>
+              <span>· Instant EMI Engine</span>
+            </div>
+          )}
+          {index === 1 && (
+            <div className="bento-live-badge">
+              <span className="bento-beacon-dot" />
+              <span>Evidence Vault · Encrypted</span>
+            </div>
+          )}
+          {index === 2 && (
+            <div className="bento-live-badge">
+              <span style={{ color: "var(--color-accent-oklch)", fontWeight: 700 }}>
+                ★ Live Fitting AI
+              </span>
+              <span>· 99.4% Match</span>
+            </div>
+          )}
+          {index === 3 && (
+            <div className="bento-live-badge">
+              <div className="bento-soundwave" aria-hidden="true">
+                <span />
+                <span />
+                <span />
+                <span />
+                <span />
+              </div>
+              <span>Live Sarathi Companion · Active</span>
+            </div>
+          )}
+
+          <ul className="home-work-features">
+            {project.features.slice(1, 3).map((feat) => (
+              <li key={feat} className="home-work-feature-pill">
+                {feat}
+              </li>
+            ))}
+          </ul>
+        </span>
+      </Link>
+    </article>
+  );
+}
+
 export function ProjectsGrid({ limit }: { limit?: number }) {
   const entries = typeof limit === "number" ? projects.slice(0, limit) : projects;
   return (
-    <div className="project-grid">
+    <div className="home-work-grid">
       {entries.map((project, index) => (
-        <article className="project-card" key={project.title}>
-          <div className="project-image">
-            <img
-              {...project.image}
-              alt={`${project.title} interface`}
-              loading={index < 2 ? "eager" : "lazy"}
-              decoding="async"
-            />
-          </div>
-          <div className="project-body">
-            <small>0{index + 1}</small>
-            <h3>{project.title}</h3>
-            <p>{project.description}</p>
-            <ul>
-              {project.features.map((feature) => (
-                <li key={feature}>
-                  <Check />
-                  {feature}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </article>
+        <BentoSpotlightCard
+          key={project.title}
+          project={project}
+          index={index}
+          cardTint={cardTints[index % cardTints.length] ?? "var(--color-pastel-lavender)"}
+        />
       ))}
     </div>
   );
@@ -347,14 +430,14 @@ function TechnologyRow() {
   );
 }
 
-export function TechnologyBand() {
+export function TechnologyBand({ reverse = false }: { reverse?: boolean }) {
   return (
     <div className="tech-band">
       {/* Duplicated so the marquee's halfway point (see @keyframes tech-marquee)
           lands exactly on a repeat of the same list, hiding the loop seam. The
           second copy is a pure visual continuation, so it's hidden from
           assistive tech to avoid announcing every logo name twice. */}
-      <div className="tech-band-track">
+      <div className={`tech-band-track ${reverse ? "reverse" : ""}`}>
         <TechnologyRow />
         {/* A <span>, not a <div>, so it can never match the ".tech-band-track >
             div" item styling below and fight display: contents for it. */}
@@ -362,6 +445,34 @@ export function TechnologyBand() {
           <TechnologyRow />
         </span>
       </div>
+    </div>
+  );
+}
+
+export function ServicesCards() {
+  return (
+    <div className="services-cards">
+      {services.map((service, index) => (
+        <article
+          id={service.id}
+          className={`services-card-custom services-card-pastel-${index + 1}`}
+          key={service.title}
+        >
+          <div className="services-card-media">
+            <img {...service.image} alt="" loading="lazy" decoding="async" />
+          </div>
+          <div className="services-card-body">
+            <span className="services-card-no">{service.number}</span>
+            <h3 className="services-card-title">{service.title}</h3>
+            <p className="services-card-copy">{service.description}</p>
+            <ul className="services-card-list">
+              {service.items.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
+        </article>
+      ))}
     </div>
   );
 }

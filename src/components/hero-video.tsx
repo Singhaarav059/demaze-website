@@ -4,11 +4,14 @@ import { Button } from "@/components/ui/button";
 
 export function HeroVideo({ poster, mp4 }: { poster: string; mp4: string }) {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const [playing, setPlaying] = useState(false);
 
   useEffect(() => {
     const video = videoRef.current;
+    const container = containerRef.current;
     if (!video) return;
+
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const apply = () => {
       if (reducedMotion.matches) {
@@ -21,9 +24,34 @@ export function HeroVideo({ poster, mp4 }: { poster: string; mp4: string }) {
         .catch(() => setPlaying(false));
     };
     apply();
-    // Honour the setting being toggled after load, not just at mount.
     reducedMotion.addEventListener("change", apply);
-    return () => reducedMotion.removeEventListener("change", apply);
+
+    // RedSun-inspired scroll-driven 3D perspective tilt & scale
+    let scheduled = false;
+    const handleScroll = () => {
+      if (scheduled || !container || reducedMotion.matches) return;
+      scheduled = true;
+      requestAnimationFrame(() => {
+        scheduled = false;
+        const scrollY = window.scrollY || window.pageYOffset;
+        const maxScroll = 450;
+        const progress = Math.min(1, Math.max(0, scrollY / maxScroll));
+        const tilt = (1 - progress) * 7.5; // from 7.5deg down to 0deg
+        const scale = 0.94 + progress * 0.06; // from 0.94 up to 1.00
+        container.style.setProperty("--hero-tilt", `${tilt.toFixed(2)}deg`);
+        container.style.setProperty("--hero-scale", scale.toFixed(3));
+      });
+    };
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleScroll, { passive: true });
+
+    return () => {
+      reducedMotion.removeEventListener("change", apply);
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
+    };
   }, []);
 
   const toggle = () => {
@@ -37,7 +65,7 @@ export function HeroVideo({ poster, mp4 }: { poster: string; mp4: string }) {
   };
 
   return (
-    <div className="hero-visual animate-visual">
+    <div ref={containerRef} className="hero-perspective-card hero-visual animate-visual">
       <video
         ref={videoRef}
         poster={poster}

@@ -37,19 +37,23 @@ function ContactPage() {
           copy="Tell us what you’re building, improving, or trying to understand. We’ll start with the useful questions."
         />
         <section id="project-enquiry" className="contact-layout section-wrap">
-          <div className="contact-options">
-            <a href="mailto:contact@demazetech.com">
-              <Mail />
-              <span>
-                <small>Email us</small>
-                <strong>contact@demazetech.com</strong>
+          <div className="contact-methods">
+            <a href="mailto:contact@demazetech.com" className="contact-method-card">
+              <span className="contact-method-icon">
+                <Mail />
+              </span>
+              <span className="contact-method-text">
+                <span className="contact-method-label">Email us</span>
+                <strong className="contact-method-value">contact@demazetech.com</strong>
               </span>
             </a>
-            <a href="#project-enquiry">
-              <Calendar />
-              <span>
-                <small>Prefer a conversation?</small>
-                <strong>Send a meeting request</strong>
+            <a href="#project-enquiry" className="contact-method-card">
+              <span className="contact-method-icon">
+                <Calendar />
+              </span>
+              <span className="contact-method-text">
+                <span className="contact-method-label">Prefer a conversation?</span>
+                <strong className="contact-method-value">Send a meeting request</strong>
               </span>
             </a>
             <a
@@ -57,11 +61,14 @@ function ContactPage() {
               target="_blank"
               rel="noreferrer"
               aria-label="Office location, opens in a new tab"
+              className="contact-method-card"
             >
-              <MapPin />
-              <span>
-                <small>Office location</small>
-                <strong>
+              <span className="contact-method-icon">
+                <MapPin />
+              </span>
+              <span className="contact-method-text">
+                <span className="contact-method-label">Office location</span>
+                <strong className="contact-method-value">
                   A 804, Ganesh Glory 11, Jagatpur Road, near S.G. Highway, Gota, Ahmedabad
                 </strong>
               </span>

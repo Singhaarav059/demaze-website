@@ -58,7 +58,7 @@ function AboutPage() {
                 reshape businesses. Founded with a vision to democratize advanced technology, we
                 bridge the gap between complex technical possibilities and real business outcomes.
               </p>
-              <div className="keyword-cloud">
+              <ul className="about-tags">
                 {[
                   "AI-First Innovation",
                   "Scalable Solutions",
@@ -66,14 +66,24 @@ function AboutPage() {
                   "Future-Ready Architecture",
                   "Automation Excellence",
                   "Strategic Partnership",
-                  "Cutting-Edge Technology",
-                  "Business Intelligence",
-                  "Agile Development",
-                  "End-to-End Solutions",
-                ].map((x) => (
-                  <span key={x}>{x}</span>
-                ))}
-              </div>
+                ].map((tag, index) => {
+                  const tagPastels = [
+                    "var(--color-pastel-lavender)",
+                    "var(--color-pastel-mint)",
+                    "var(--color-pastel-blue)",
+                    "var(--color-pastel-butter)",
+                  ];
+                  return (
+                    <li
+                      key={tag}
+                      className="about-tag-pill"
+                      style={{ background: tagPastels[index % tagPastels.length] }}
+                    >
+                      {tag}
+                    </li>
+                  );
+                })}
+              </ul>
             </div>
           </section>
           <section className="content-section dark-band motion-chapter">

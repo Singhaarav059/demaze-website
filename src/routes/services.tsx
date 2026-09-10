@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import {
   IndustryGrid,
   SectionHeading,
-  ServicesGrid,
+  ServicesCards,
   TechnologyBand,
 } from "@/components/content-sections";
 import { PageIntro, PageLayout } from "@/components/site-shell";
@@ -43,19 +43,19 @@ function ServicesPage() {
         />
         <ScrollFocusStack className="interior-motion-stack">
           <section
-            className="content-section section-wrap motion-chapter motion-chapter-long"
+            className="content-section section-wrap motion-chapter"
             aria-labelledby="all-services"
           >
             {/* The cards are h3, so without this the outline jumps h1 -> h3. */}
             <h2 id="all-services" className="sr-only">
               What we build
             </h2>
-            <ServicesGrid detailed />
+            <ServicesCards />
           </section>
           <section className="content-section wash-lavender motion-chapter">
             <div className="section-wrap">
               <SectionHeading eyebrow="Platforms & partners" title="A modern technology toolkit." />
-              <TechnologyBand />
+              <TechnologyBand reverse />
             </div>
           </section>
           <section className="content-section section-wrap motion-chapter">

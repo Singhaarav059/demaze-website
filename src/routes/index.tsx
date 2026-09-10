@@ -48,12 +48,22 @@ function Home() {
       <PageLayout overlayHeader>
         <main id="main-content">
           <section className="home-hero section-wrap">
+            <div className="aurora-mesh-container" aria-hidden="true">
+              <div className="aurora-blob aurora-blob-1" />
+              <div className="aurora-blob aurora-blob-2" />
+              <div className="aurora-blob aurora-blob-3" />
+            </div>
             <div className="hero-copy animate-rise">
-              <p className="eyebrow">
-                <span /> Expertise · Innovation · Partnership
-              </p>
+              <div className="badge-dual-pill">
+                <span className="badge-kicker">Leading AI</span>
+                <Link to="/services" className="badge-text">
+                  <span>Architecture · Engineering · Scale</span>
+                  <ArrowUpRight size={13} />
+                </Link>
+              </div>
               <h1>
-                Your strategic partner in building <em>scalable AI products.</em>
+                Your strategic partner in building{" "}
+                <em className="shimmer-text">scalable AI products.</em>
               </h1>
               <p className="intro">
                 We combine AI, software engineering, and automation with deep industry expertise to
@@ -61,21 +71,34 @@ function Home() {
                 partner.
               </p>
               <div className="hero-actions">
-                <Button variant="editorial" size="hero" asChild>
-                  <Link to="/contact-us">
-                    Let’s connect <ArrowUpRight />
-                  </Link>
-                </Button>
-                <Link className="text-link" to="/services">
+                <Link to="/contact-us" className="pill-button button-glow">
+                  Let’s connect <ArrowUpRight />
+                </Link>
+                <Link to="/services" className="button-glass">
                   Explore services <ArrowRight />
                 </Link>
               </div>
             </div>
-            <HeroVideo poster={robotsPoster} mp4={robotsVideo} />
+            <div className="hero-perspective-stage">
+              <div className="ambient-halo" aria-hidden="true" />
+              <div className="hero-floating-badge badge-top" aria-hidden="true">
+                <span className="floating-badge-dot" />
+                <span className="floating-badge-text">
+                  <strong>99.9% Uptime</strong> · SLA Guaranteed
+                </span>
+              </div>
+              <HeroVideo poster={robotsPoster} mp4={robotsVideo} />
+              <div className="hero-floating-badge badge-bottom" aria-hidden="true">
+                <span className="floating-badge-icon">⚡</span>
+                <span className="floating-badge-text">
+                  <strong>35+ Tech Architects</strong> · Enterprise AI
+                </span>
+              </div>
+            </div>
           </section>
           <MetricsStrip />
           <ScrollFocusStack className="home-stack">
-            <section className="content-section stack-chapter stack-work">
+            <section className="content-section motion-chapter-long stack-work">
               <div className="section-wrap">
                 <span className="chapter-doodle" aria-hidden="true" />
                 <SectionHeading
@@ -93,18 +116,15 @@ function Home() {
                 </div>
               </div>
             </section>
-            <section className="content-section stack-chapter stack-services">
+            <section className="content-section motion-chapter-long cinema-services-section stack-services">
               <div className="section-wrap">
                 <span className="chapter-doodle" aria-hidden="true" />
-                <SectionHeading eyebrow="Services" title="Apps, websites, AI and more." />
+                <SectionHeading
+                  eyebrow="Services"
+                  title="Apps, websites, AI and more."
+                  copy="End-to-end engineering, scalable intelligence, and digital craft tailored for market leaders."
+                />
                 <PinnedServicesShowcase />
-                <div className="section-action">
-                  <Button variant="editorial" size="hero" asChild>
-                    <Link to="/services">
-                      Explore services <ArrowUpRight />
-                    </Link>
-                  </Button>
-                </div>
               </div>
             </section>
             <section className="content-section stack-chapter stack-tools">
