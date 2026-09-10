@@ -1,7 +1,6 @@
 import { useEffect, useRef } from "react";
-import { useEffect, useRef } from "react";
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, ArrowUpRight, Check } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import {
   Accordion,
   AccordionContent,

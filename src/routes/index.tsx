@@ -13,6 +13,7 @@ import {
   ValuesGrid,
 } from "@/components/content-sections";
 import { PageLayout } from "@/components/site-shell";
+import { Magnetic } from "@/components/motion/magnetic";
 import { ScrollFocusStack } from "@/components/scroll-focus-stack";
 import { PinnedServicesShowcase } from "@/components/pinned-services-showcase";
 import robotsVideo from "@/assets/demaze-robot-studio.mp4";
@@ -119,11 +120,13 @@ function Home() {
                 />
                 <ProjectsGrid limit={4} />
                 <div className="section-action">
-                  <Button variant="editorial" size="hero" asChild>
-                    <Link to="/projects">
-                      View all work <ArrowUpRight />
-                    </Link>
-                  </Button>
+                  <Magnetic strength={14}>
+                    <Button variant="editorial" size="hero" asChild>
+                      <Link to="/projects">
+                        View all work <ArrowUpRight />
+                      </Link>
+                    </Button>
+                  </Magnetic>
                 </div>
               </div>
             </section>
@@ -156,11 +159,13 @@ function Home() {
                 {/* All 19 sit on /services. Eight here keeps the homepage scannable. */}
                 <IndustryGrid limit={8} />
                 <div className="section-action">
-                  <Button variant="editorial" size="hero" asChild>
-                    <Link to="/services">
-                      See all industries <ArrowUpRight />
-                    </Link>
-                  </Button>
+                  <Magnetic strength={14}>
+                    <Button variant="editorial" size="hero" asChild>
+                      <Link to="/services">
+                        See all industries <ArrowUpRight />
+                      </Link>
+                    </Button>
+                  </Magnetic>
                 </div>
               </div>
             </section>
