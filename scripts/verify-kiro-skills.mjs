@@ -13,9 +13,7 @@ if (!existsSync(ROOT)) {
   process.exit(1);
 }
 
-const folders = readdirSync(ROOT).filter((f) =>
-  statSync(join(ROOT, f)).isDirectory(),
-);
+const folders = readdirSync(ROOT).filter((f) => statSync(join(ROOT, f)).isDirectory());
 
 let descChars = 0;
 for (const folder of folders.sort()) {
