@@ -256,7 +256,8 @@ function AnimatedServiceVisual({
 
     visibilityObserver.observe(visual);
     visual.addEventListener("pointermove", handlePointerMove, { passive: true });
-    visual.addEventListener("pointerleave", resetPointer);
+    // resetPointer only writes CSS custom props, never preventDefault -> passive.
+    visual.addEventListener("pointerleave", resetPointer, { passive: true });
     return () => {
       visibilityObserver.disconnect();
       visual.removeEventListener("pointermove", handlePointerMove);

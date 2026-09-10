@@ -1236,7 +1236,9 @@
   opacity: 0.72;
   transform: translate3d(-50%, -50%, 0);
   transition: opacity 0.3s ease;
-  will-change: left, top;
+  /* will-change removed: this decorative glow follows the pointer via left/top,
+     which are not compositor-accelerated properties, so will-change gave no
+     paint benefit while permanently pinning a layer (memory + heaviness). */
 }
 .service-grid-lines {
   position: absolute;
@@ -1385,11 +1387,13 @@
   object-fit: contain;
   transform-origin: 50% 58%;
   transition: transform 0.55s var(--ease-out);
-  will-change: transform;
 }
 .service-live-visual.is-live img {
   animation: service-float 6.8s ease-in-out infinite;
   animation-delay: calc(var(--scene-delay, 0) * -1s);
+  /* Only the live visual runs the continuous float, so scope will-change to it
+     rather than pinning a compositor layer on every (static) service image. */
+  will-change: transform;
 }
 .service-orbit {
   position: absolute;
@@ -3066,6 +3070,14 @@
 /* REDESIGNED TWO-TIER FOOTER */
 .site-cta-footer {
   padding-block: clamp(3rem, 6vw, 5rem) 2rem;
+  /* Below-the-fold on every page: skip its rendering/layout while off-screen so
+     scrolling the content above stays light. The footer is NOT measured by
+     ScrollFocusStack (it lives outside the .motion-stack), so a placeholder size
+     here cannot disturb the stack's sticky/scroll-focus math. The intrinsic size
+     is a close estimate of the rendered footer so the scrollbar/scroll-progress
+     barely shifts when it paints in. */
+  content-visibility: auto;
+  contain-intrinsic-size: auto 480px;
 }
 .cta-band {
   display: grid;

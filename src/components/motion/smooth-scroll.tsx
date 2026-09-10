@@ -10,6 +10,19 @@ import { prefersReducedMotion, useHasMounted, useReducedMotion } from "@/lib/mot
 // a single rAF loop and tears everything down on unmount. Route changes reset
 // the scroll position (instantly) so TanStack Router navigation is unaffected.
 
+// Only run Lenis on fine-pointer, hover-capable (i.e. non-touch) devices. Touch
+// devices already have excellent native momentum scrolling; overriding it with
+// a JS rAF loop is the classic source of "heavy"/"laggy" feel on phones and
+// tablets, and every other scroll listener (ScrollProgress, ScrollFocusStack,
+// HeroVideo tilt, header condense) then piggybacks on the synthetic scroll.
+// Mirrors the supportsFinePointer() probe used in magnetic.tsx/custom-cursor.tsx.
+function supportsFinePointer(): boolean {
+  if (typeof window === "undefined" || typeof window.matchMedia !== "function") {
+    return false;
+  }
+  return window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+}
+
 export function SmoothScrollProvider({ children }: { children: ReactNode }) {
   const reducedMotion = useReducedMotion();
   // Only ever true after the first client commit, so the lenis effect never
@@ -24,12 +37,20 @@ export function SmoothScrollProvider({ children }: { children: ReactNode }) {
     // still read stale `false` on the very first commit, so we also read the
     // media query synchronously here before touching Lenis. Combined with the
     // mount gate this closes the init-then-teardown window entirely.
-    if (typeof window === "undefined" || !hasMounted || reducedMotion || prefersReducedMotion()) {
+    if (
+      typeof window === "undefined" ||
+      !hasMounted ||
+      reducedMotion ||
+      prefersReducedMotion() ||
+      !supportsFinePointer()
+    ) {
       return;
     }
 
     const lenis = new Lenis({
-      duration: 1.05,
+      // Tightened from 1.05 -> 0.8 so the glide tracks the wheel/trackpad more
+      // closely and feels native rather than floaty (less perceived lag).
+      duration: 0.8,
       // Standard lenis easing (expo-out) for a natural, non-nauseating glide.
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,

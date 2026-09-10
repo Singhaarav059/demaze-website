@@ -62,8 +62,10 @@ export function Magnetic({ children, as, className, strength = 18 }: MagneticPro
       setOffset(0, 0);
     };
 
-    node.addEventListener("pointermove", onMove);
-    node.addEventListener("pointerleave", onLeave);
+    // Neither handler calls preventDefault, so mark them passive to keep the
+    // pointer/scroll pipeline off the main thread's critical path.
+    node.addEventListener("pointermove", onMove, { passive: true });
+    node.addEventListener("pointerleave", onLeave, { passive: true });
     return () => {
       node.removeEventListener("pointermove", onMove);
       node.removeEventListener("pointerleave", onLeave);
