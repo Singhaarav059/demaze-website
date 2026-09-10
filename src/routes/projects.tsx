@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageIntro, PageLayout } from "@/components/site-shell";
-import { ProjectsGrid } from "@/components/content-sections";
+import { ProjectsShowcaseGrid } from "@/components/projects-showcase-grid";
 export const Route = createFileRoute("/projects")({
   head: () => ({
     meta: [
@@ -40,7 +40,7 @@ function ProjectsPage() {
           <h2 id="all-projects" className="sr-only">
             All projects
           </h2>
-          <ProjectsGrid />
+          <ProjectsShowcaseGrid />
         </section>
       </main>
     </PageLayout>

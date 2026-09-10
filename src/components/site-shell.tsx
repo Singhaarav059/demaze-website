@@ -232,7 +232,7 @@ export function PageLayout({
     const page = pageRef.current;
     if (!page || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const items = page.querySelectorAll<HTMLElement>(
-      ".section-heading, .project-card, .industry-grid article, .values-grid article, .process-grid article, .founder-story, .tech-band, .faq-list, .about-split, .benefit-row article, .contact-options > a, .contact-form, .playbook-form",
+      ".section-heading, .project-card, .project-showcase-card, .industry-grid article, .values-grid article, .process-grid article, .founder-story, .tech-band, .faq-list, .about-split, .benefit-row article, .contact-options > a, .contact-form, .playbook-form",
     );
     const revealItems = Array.from(items).filter((item) => !item.closest(".motion-stack"));
     revealItems.forEach((item, index) => {

@@ -955,6 +955,56 @@
 .project-card:hover .project-image img {
   transform: scale(1.025);
 }
+
+/* /projects page: editorial asymmetric grid (projects-showcase-grid.tsx) */
+.project-showcase-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-auto-rows: 220px;
+  gap: clamp(0.9rem, 2vw, 1.4rem);
+}
+.project-showcase-card {
+  position: relative;
+  border-radius: 1.1rem;
+  overflow: hidden;
+  box-shadow: 0 14px 45px oklch(0.25 0.02 285 / 0.08);
+}
+.project-showcase-card img {
+  position: absolute;
+  top: -8%;
+  left: 0;
+  width: 100%;
+  height: 116%;
+  object-fit: cover;
+  display: block;
+}
+.project-showcase-caption {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1.1rem;
+  color: #fff;
+  background: linear-gradient(180deg, transparent 45%, oklch(0.16 0.004 285 / 0.82));
+}
+.project-showcase-caption small {
+  opacity: 0.75;
+  font-size: var(--text-xs);
+}
+.project-showcase-caption h3 {
+  margin: 0.35rem 0 0;
+  font: 600 1.05rem/1.25 var(--font-display);
+}
+@media (max-width: 900px) {
+  .project-showcase-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .project-showcase-card {
+    grid-area: auto !important;
+  }
+}
+
 .project-body {
   position: relative;
   padding: clamp(1.15rem, 2vw, 1.6rem);
@@ -1543,6 +1593,11 @@
   border-radius: 0.5rem;
   background: color-mix(in oklch, var(--background) 75%, transparent);
   text-decoration: none;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.contact-options > a:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 28px oklch(0.25 0.02 285 / 0.1);
 }
 .contact-options svg {
   flex: none;
