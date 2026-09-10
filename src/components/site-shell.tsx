@@ -3,6 +3,7 @@ import { ArrowUpRight, Menu, X } from "lucide-react";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { images } from "@/assets/images";
 import { Button } from "@/components/ui/button";
+import { ScrollProgress } from "@/components/scroll-progress";
 
 const navigation = [
   ["Projects", "/projects"],
@@ -27,6 +28,28 @@ export function SiteHeader({ overlay = false }: { overlay?: boolean }) {
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
+  const headerRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const header = headerRef.current;
+    if (!header) return;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (reducedMotion.matches) return;
+    let scheduled = 0;
+    const onScroll = () => {
+      if (scheduled) return;
+      scheduled = window.requestAnimationFrame(() => {
+        scheduled = 0;
+        header.classList.toggle("is-condensed", window.scrollY > 40);
+      });
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (scheduled) window.cancelAnimationFrame(scheduled);
+    };
+  }, []);
+
   useEffect(() => {
     if (!open) return;
     const menu = menuRef.current;
@@ -68,7 +91,7 @@ export function SiteHeader({ overlay = false }: { overlay?: boolean }) {
     };
   }, [open]);
   return (
-    <header className={`site-header ${overlay ? "site-header-overlay" : ""}`}>
+    <header ref={headerRef} className={`site-header ${overlay ? "site-header-overlay" : ""}`}>
       <Link to="/" className="header-logo" aria-label="DEMAze Technologies home">
         {/* alt="" so the link's aria-label is not announced twice. */}
         <img src="/demaze-logo.png" alt="" width={1344} height={420} fetchPriority="high" />
@@ -232,6 +255,7 @@ export function PageLayout({
 
   return (
     <div ref={pageRef} className="site-page">
+      <ScrollProgress />
       <div className="site-atmosphere" aria-hidden="true">
         <i />
         <i />

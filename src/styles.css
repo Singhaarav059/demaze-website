@@ -88,6 +88,10 @@
   /* Vertical rhythm. Tightening these two shortens the whole page at once. */
   --section-gap: clamp(2.5rem, 4vw, 4rem);
   --heading-gap: clamp(1.25rem, 2vw, 2rem);
+
+  /* Single source of truth for the sticky header's height, so the mobile menu
+     dropdown and the ScrollFocusStack chapters can offset below it exactly. */
+  --header-h: 4.25rem;
 }
 
 @layer base {
@@ -139,6 +143,16 @@
 :focus-visible {
   outline: 3px solid var(--ring);
   outline-offset: 3px;
+}
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0%;
+  z-index: 100;
+  background: linear-gradient(90deg, var(--raspberry), var(--lavender));
+  pointer-events: none;
 }
 
 @keyframes fade-in {
@@ -251,6 +265,16 @@
     opacity: 0.8;
   }
 }
+@keyframes tech-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    /* The track renders the logo list twice, so halfway through it has
+       scrolled exactly one full list-width and the loop seam is invisible. */
+    transform: translateX(-50%);
+  }
+}
 
 .animate-rise {
   animation: rise 0.75s 0.08s cubic-bezier(0.2, 0.75, 0.25, 1) both;
@@ -315,17 +339,26 @@
 }
 
 .site-header {
-  position: relative;
+  position: sticky;
+  top: 0;
   z-index: 20;
   width: min(1120px, calc(100% - 3rem));
-  height: 4.25rem;
+  height: var(--header-h);
   margin-inline: auto;
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
+  transition:
+    background 0.3s ease,
+    box-shadow 0.3s ease,
+    backdrop-filter 0.3s ease;
 }
-.site-header-overlay {
-  position: relative;
+/* Condenses once the page scrolls under the now-persistent header. Toggled by
+   site-shell.tsx's scroll listener. */
+.site-header.is-condensed {
+  background: color-mix(in oklch, var(--background) 82%, transparent);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 8px 30px oklch(0.2 0.02 285 / 0.08);
 }
 .header-logo {
   display: flex;
@@ -615,14 +648,20 @@
   min-height: 72svh;
 }
 .motion-stage:has(.stack-services) {
-  min-height: 118svh;
+  /* PinnedServicesShowcase needs real scroll distance to crossfade through 4
+     services; 118svh (the old ServicesGrid budget) only gave it ~15% of a
+     viewport of "travel," compressing the whole transition into ~130px and
+     making it snap rather than crossfade. */
+  min-height: 190svh;
 }
 .stack-chapter,
 .motion-chapter {
   --chapter-focus: 0;
   --chapter-y: 18px;
   position: sticky;
-  top: 0.75rem;
+  /* The header is sticky now too, so chapters must pin below it or the header
+     covers their top edge while both are stuck. */
+  top: calc(var(--header-h) + 0.75rem);
   margin-inline: auto;
   opacity: calc(0.72 + var(--chapter-focus) * 0.28);
   filter: saturate(calc(0.92 + var(--chapter-focus) * 0.08))
@@ -656,7 +695,7 @@
   min-height: 76svh;
 }
 .motion-chapter {
-  top: 1rem;
+  top: calc(var(--header-h) + 1rem);
   width: 100%;
   min-height: min(62svh, 550px);
   display: flex;
@@ -685,6 +724,94 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+/* Homepage-only services teaser (pinned-services-showcase.tsx). This chapter's
+   box is short and overflow: hidden (see .stack-chapter above), so the list
+   stays compact by only expanding the active row's description; there's no
+   room for every row's full paragraph at once. */
+.pinned-services-stage {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: clamp(1.25rem, 3vw, 2rem);
+  margin-top: 1.5rem;
+}
+.pinned-services-visual {
+  position: relative;
+  border-radius: 1.25rem;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--lavender), var(--sky));
+  box-shadow: var(--soft-shadow);
+}
+.pinned-services-visual img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* No CSS transition: the JS already lerps toward the scroll-driven target
+     (matching ServicesGrid's pattern), so a transition here would just add a
+     second, fighting layer of easing on top and make it feel laggy. */
+}
+.pinned-services-list {
+  display: grid;
+  align-content: center;
+}
+.pinned-services-list article {
+  padding: 0.55rem 0;
+  border-bottom: 1px solid var(--line);
+}
+.pinned-services-list article:last-child {
+  border-bottom: 0;
+}
+.pinned-services-list small {
+  color: var(--raspberry-ink);
+  font-weight: 700;
+  font-size: var(--text-xs);
+}
+.pinned-services-list h3 {
+  margin: 0.2rem 0 0;
+  font: 600 1.05rem/1.2 var(--font-display);
+  color: var(--muted-foreground);
+  transition: color 0.3s ease;
+}
+.pinned-services-list article.is-service-row-active h3 {
+  color: var(--foreground);
+}
+.pinned-services-list p {
+  margin: 0.4rem 0 0;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  color: var(--muted-foreground);
+  font-size: var(--text-sm);
+  line-height: 1.5;
+  transition:
+    max-height 0.4s ease,
+    opacity 0.3s ease;
+}
+.pinned-services-list article.is-service-row-active p {
+  max-height: 7rem;
+  opacity: 1;
+}
+@media (max-width: 900px) {
+  .pinned-services-stage {
+    grid-template-columns: 1fr;
+  }
+  .pinned-services-visual {
+    height: 14rem;
+  }
+  /* The crossfade never runs below 900px, so only the first service's image
+     (its default opacity: 1) is ever visible here; a static decorative visual
+     above the full list, rather than an interactive one, is fine at this size. */
+  /* JS doesn't run below 900px (see the component), so nothing ever gains
+     .is-service-row-active — show every row's title and description plainly. */
+  .pinned-services-list h3 {
+    color: var(--foreground);
+  }
+  .pinned-services-list p {
+    max-height: none;
+    opacity: 1;
+  }
 }
 .stack-tools {
   background: var(--background);
@@ -1177,27 +1304,39 @@
 .service-card ul {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
+/* An infinite marquee: .tech-band frames and masks the edges, .tech-band-track
+   is the actual moving strip (the logo list rendered twice back-to-back so the
+   loop point is invisible), and its logos need not scroll to be seen. */
 .tech-band {
-  display: grid;
-  grid-template-columns: repeat(8, minmax(0, 1fr));
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: 0.5rem;
   background: color-mix(in oklch, var(--card) 72%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 6% 94%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 6% 94%, transparent);
 }
-.tech-band > div {
+.tech-band-track {
+  display: flex;
+  width: max-content;
+  animation: tech-marquee 26s linear infinite;
+}
+.tech-band-duplicate {
+  display: contents;
+}
+@media (prefers-reduced-motion: reduce) {
+  .tech-band-track {
+    animation: none;
+  }
+}
+.tech-band-track > div {
   min-width: 0;
   display: grid;
   justify-items: center;
   gap: 0.65rem;
-  padding: 1.1rem 0.5rem;
-  border-right: 1px solid var(--line);
+  padding: 1.1rem 1.5rem;
   text-align: center;
   font-size: 0.65rem;
   font-weight: 600;
-}
-.tech-band > div:last-child {
-  border: 0;
 }
 .tech-band img {
   width: 3rem;
@@ -1743,7 +1882,7 @@
   }
   .mobile-nav {
     position: absolute;
-    top: 4.25rem;
+    top: var(--header-h);
     left: 0;
     right: 0;
     display: grid;
@@ -1793,15 +1932,6 @@
   .values-grid,
   .process-grid {
     grid-template-columns: repeat(2, 1fr);
-  }
-  .tech-band {
-    grid-template-columns: repeat(4, 1fr);
-  }
-  .tech-band > div:nth-child(4) {
-    border-right: 0;
-  }
-  .tech-band > div:nth-child(-n + 4) {
-    border-bottom: 1px solid var(--line);
   }
   .industry-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -1853,12 +1983,12 @@
 }
 
 @media (max-width: 600px) {
+  :root {
+    --header-h: 4rem;
+  }
   .section-wrap,
   .site-header {
     width: min(100% - 2rem, 1200px);
-  }
-  .site-header {
-    height: 4rem;
   }
   .site-brand strong {
     font-size: 1.2rem;
@@ -1977,15 +2107,6 @@
   }
   .service-card-top {
     height: 8.5rem;
-  }
-  .tech-band {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .tech-band > div:nth-child(2n) {
-    border-right: 0;
-  }
-  .tech-band > div {
-    border-bottom: 1px solid var(--line);
   }
   .service-live-visual.is-live img {
     animation-duration: 9s;

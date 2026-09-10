@@ -38,15 +38,51 @@ export function SectionHeading({
   );
 }
 
+function Metric({ value, label, index }: { value: string; label: string; index: number }) {
+  const ref = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const target = parseFloat(value.replace(/[^0-9.]/g, ""));
+    const prefix = value.match(/^\D*/)?.[0].replace(/[0-9]/g, "") ?? "";
+    const suffix = value.match(/\D*$/)?.[0] ?? "";
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry?.isIntersecting) return;
+        io.disconnect();
+        if (reducedMotion.matches) {
+          el.textContent = value;
+          return;
+        }
+        const start = performance.now();
+        const step = (t: number) => {
+          const p = Math.min(1, (t - start) / 1100);
+          const eased = 1 - Math.pow(1 - p, 3);
+          el.textContent = `${prefix}${Math.round(target * eased)}${suffix}`;
+          if (p < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+      },
+      { threshold: 0.4 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [value]);
+  return (
+    <div>
+      <small>0{index + 1}</small>
+      <strong ref={ref}>0</strong>
+      <span>{label}</span>
+    </div>
+  );
+}
+
 export function MetricsStrip() {
   return (
     <div className="metrics-strip section-wrap">
       {metrics.map(([value, label], i) => (
-        <div key={label}>
-          <small>0{i + 1}</small>
-          <strong>{value}</strong>
-          <span>{label}</span>
-        </div>
+        <Metric key={label} value={value} label={label} index={i} />
       ))}
     </div>
   );
@@ -298,15 +334,34 @@ export function ServicesGrid({ detailed = false }: { detailed?: boolean }) {
   );
 }
 
-export function TechnologyBand() {
+function TechnologyRow() {
   return (
-    <div className="tech-band">
+    <>
       {technologies.map(([name, image]) => (
         <div key={name}>
           <img {...image} alt={`${name} logo`} loading="lazy" decoding="async" />
           <span>{name}</span>
         </div>
       ))}
+    </>
+  );
+}
+
+export function TechnologyBand() {
+  return (
+    <div className="tech-band">
+      {/* Duplicated so the marquee's halfway point (see @keyframes tech-marquee)
+          lands exactly on a repeat of the same list, hiding the loop seam. The
+          second copy is a pure visual continuation, so it's hidden from
+          assistive tech to avoid announcing every logo name twice. */}
+      <div className="tech-band-track">
+        <TechnologyRow />
+        {/* A <span>, not a <div>, so it can never match the ".tech-band-track >
+            div" item styling below and fight display: contents for it. */}
+        <span aria-hidden="true" className="tech-band-duplicate">
+          <TechnologyRow />
+        </span>
+      </div>
     </div>
   );
 }

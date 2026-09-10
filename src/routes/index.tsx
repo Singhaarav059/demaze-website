@@ -9,12 +9,12 @@ import {
   ProcessGrid,
   ProjectsGrid,
   SectionHeading,
-  ServicesGrid,
   TechnologyBand,
   ValuesGrid,
 } from "@/components/content-sections";
 import { PageLayout } from "@/components/site-shell";
 import { ScrollFocusStack } from "@/components/scroll-focus-stack";
+import { PinnedServicesShowcase } from "@/components/pinned-services-showcase";
 import robotsVideo from "@/assets/demaze-robot-studio.mp4";
 import robotsPoster from "@/assets/demaze-robot-studio-poster.webp";
 import { HeroVideo } from "@/components/hero-video";
@@ -97,7 +97,7 @@ function Home() {
               <div className="section-wrap">
                 <span className="chapter-doodle" aria-hidden="true" />
                 <SectionHeading eyebrow="Services" title="Apps, websites, AI and more." />
-                <ServicesGrid />
+                <PinnedServicesShowcase />
                 <div className="section-action">
                   <Button variant="editorial" size="hero" asChild>
                     <Link to="/services">
