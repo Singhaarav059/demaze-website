@@ -744,10 +744,15 @@
 }
 .pinned-services-visual img {
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  /* These service illustrations carry built-in whitespace and have very
+     different aspect ratios (937x400, 422x400, 512x400, 1114x424), so cover
+     crops and zooms each one differently. Contain + a symmetric inset keeps
+     every illustration whole and centered on the branded gradient panel. */
+  inset: 7%;
+  width: 86%;
+  height: 86%;
+  object-fit: contain;
+  object-position: center;
   /* No CSS transition: the JS already lerps toward the scroll-driven target
      (matching ServicesGrid's pattern), so a transition here would just add a
      second, fighting layer of easing on top and make it feel laggy. */
@@ -949,6 +954,9 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  /* Teaser screenshots read from the top, so anchor the crop there rather than
+     beheading the UI at the vertical center of the 16/10 frame. */
+  object-position: center top;
   display: block;
   transition: transform 0.6s cubic-bezier(0.2, 0.75, 0.25, 1);
 }
@@ -976,6 +984,11 @@
   width: 100%;
   height: 116%;
   object-fit: cover;
+  /* Screenshots read from the top, so keep the header/top of each shot in
+     frame rather than centering into the middle of the UI. The 116% height
+     with the -8% offset leaves an 8% cover buffer at both edges, so the
+     parallax drift never exposes a gap. */
+  object-position: center top;
   display: block;
 }
 .project-showcase-caption {
@@ -1391,7 +1404,12 @@
 .tech-band img {
   width: 3rem;
   height: 3rem;
+  /* All eight logos are 148x148 squares but carry different internal padding.
+     A uniform contain box plus a small inset padding evens out their visual
+     weight so no single mark reads oversized on the marquee row. */
   object-fit: contain;
+  object-position: center;
+  padding: 0.15rem;
 }
 .industry-grid {
   display: grid;
@@ -1530,6 +1548,13 @@
 }
 .about-split > img {
   width: 100%;
+  /* about.webp is 533x403 (~4/3). Pinning that intrinsic ratio and covering
+     within it keeps the image balanced next to the copy column without
+     stretching it, while object-position center keeps the subject framed. */
+  aspect-ratio: 4 / 3;
+  height: auto;
+  object-fit: cover;
+  object-position: center;
   border-radius: 0.5rem;
   background: var(--mint);
 }
@@ -1842,6 +1867,9 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  /* Wide 1344x420 decorative wash: cover keeps its ratio (never stretches or
+     tiles) and centering keeps the crop deliberate at any width. */
+  object-position: center;
   opacity: 0.18;
   mix-blend-mode: screen;
 }
@@ -2119,7 +2147,9 @@
     list-style: none;
   }
   .industry-grid li:not(:last-child)::after {
-    content: ;
+    content: "\00B7";
+    margin-left: 0.3rem;
+    color: var(--muted-foreground);
   }
   .project-body ul,
   .service-card ul {
