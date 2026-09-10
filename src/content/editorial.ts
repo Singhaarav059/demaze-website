@@ -39,7 +39,7 @@ export type ProjectEditorial = {
 export const homeCopy = {
   eyebrow: "AI systems, shipped and kept running",
   intro:
-    "We turn complex operations into products people actually use: valuation engines for dealers, case files for investigators, storefronts that know their customers. From the first data model to the software a business runs on.",
+    "We turn complex operations into products people actually use -- from data models to software that powers dealers, investigators, storefronts and customer experiences.",
   workIntro:
     "Four studies from sixteen engagements. Each began with an operation that had outgrown its spreadsheets, and ended with a system the team still opens every morning.",
 };

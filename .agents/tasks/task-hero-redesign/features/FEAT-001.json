@@ -1,0 +1,26 @@
+{
+  "id": "FEAT-001",
+  "type": "chore",
+  "description": "Establish the data/content layer for the redesigned hero without breaking other pages. The reference stats bar shows four stats: '45+ Projects Delivered', '$10M+ Client Value Generated', '50+ Teams Empowered', '4.9/5 Client Satisfaction'. The current site.stats array is shared by about-us (maps all four), contact-us (uses stats[2] as 'specialists' and stats[3] as 'years'), and the home-studio block in page.tsx (uses stats[0,2,3]). Two of the reference stats ('50+ Teams Empowered', '4.9/5 Client Satisfaction') do NOT exist in site.stats, and '4.9/5' does not fit the {value, prefix?, suffix} shape cleanly. Therefore introduce a dedicated hero stats source rather than mutating site.stats indices/labels. This feature is a prerequisite for FEAT-002 (the markup consumes it).",
+  "status": "completed",
+  "steps": [
+    "In src/content/site.ts, add a new exported constant `heroStats` (do NOT modify the existing `site.stats` array or its element order/labels, since about-us/contact-us/home-studio depend on them). Give heroStats a type that supports a value that is either numeric-with-prefix/suffix OR a pre-formatted display string, e.g. `export const heroStats: { display: string; label: string }[] = [ { display: \"45+\", label: \"Projects Delivered\" }, { display: \"$10M+\", label: \"Client Value Generated\" }, { display: \"50+\", label: \"Teams Empowered\" }, { display: \"4.9/5\", label: \"Client Satisfaction\" } ];`. Using a plain `display` string is the sensible way to handle '4.9/5' which has no clean prefix/suffix. Keep the four entries in the exact order and exact text shown in the reference.",
+    "Confirm homeCopy.intro in src/content/editorial.ts is the intended hero intro copy. The reference intro reads: 'We turn complex operations into products people actually use -- from data models to software that powers dealers, investigators, storefronts and customer experiences.' The existing homeCopy.intro is close but not identical. Update homeCopy.intro to match the reference wording, using ' -- ' (spaced hyphens) or a colon rather than an em dash (the copy linter rejects em dashes). Do NOT introduce any U+2014 character. Keep it to roughly three lines of body text.",
+    "Add (or confirm) a small exported list of trust-row brand names in site.ts for the 'TRUSTED BY FORWARD-THINKING TEAMS' row, e.g. `export const heroTrustLogos = [\"OpenAI\", \"Shopify\", \"Vercel\", \"aws\", \"Google Cloud\"];` so the markup and the accessible text list share one source of truth. Match the reference casing exactly (aws lowercase, Google Cloud title case).",
+    "Run `unset NODE_OPTIONS && node scripts/check-copy.mjs src` to confirm no em dashes were introduced."
+  ],
+  "acceptance_criteria": [
+    "site.ts exports `heroStats` with exactly four entries in order: 45+ / Projects Delivered, $10M+ / Client Value Generated, 50+ / Teams Empowered, 4.9/5 / Client Satisfaction, each carrying a readable display string and label.",
+    "The existing `site.stats` array is unchanged (same length, same element order, same labels), so about-us, contact-us and the home-studio block continue to compile and read correctly.",
+    "homeCopy.intro matches the reference intro wording and contains no em dash (U+2014) or encoded em-dash form.",
+    "site.ts exports a `heroTrustLogos` brand-name list matching the reference (OpenAI, Shopify, Vercel, aws, Google Cloud).",
+    "`node scripts/check-copy.mjs src` exits 0."
+  ],
+  "verification": [
+    "unset NODE_OPTIONS && node scripts/check-copy.mjs src",
+    "Read src/content/site.ts and confirm heroStats/heroTrustLogos exports exist and site.stats is untouched",
+    "grep for site.stats usages in src/app/about-us/page.tsx, src/app/contact-us/page.tsx, src/app/page.tsx and confirm none reference heroStats-only fields"
+  ],
+  "blocked_reason": null,
+  "findings": "Added heroStats (four entries: 45+ Projects Delivered, $10M+ Client Value Generated, 50+ Teams Empowered, 4.9/5 Client Satisfaction) and heroTrustLogos (OpenAI, Shopify, Vercel, aws, Google Cloud) to src/content/site.ts. site.stats left fully unchanged (same length/order/labels) so about-us, contact-us and the home-studio block still compile. Updated homeCopy.intro in src/content/editorial.ts to the reference wording using ' -- ' (spaced hyphens), no U+2014. Verified: `node scripts/check-copy.mjs src` exits 0 (33 files); `prettier --check src/content/site.ts src/content/editorial.ts` passes. Full `tsc --noEmit` and next build/lint were NOT runnable because node_modules is not installed (INTEGRATIONS_ONLY, npm install does not finish); the only tsc errors are 'Cannot find module' from missing deps, unrelated to this change which adds no new imports."
+}

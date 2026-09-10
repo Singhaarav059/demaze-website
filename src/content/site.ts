@@ -64,6 +64,29 @@ export const site = {
 };
 
 /**
+ * The redesigned hero renders its own stats bar, distinct from `site.stats`
+ * (which about-us, contact-us and the home-studio block read by index). Two of
+ * these figures do not exist in site.stats, and "4.9/5" has no clean
+ * prefix/suffix, so each entry carries a pre-formatted `display` string instead
+ * of the numeric {value, prefix?, suffix} shape.
+ */
+export const heroStats: { display: string; label: string }[] = [
+  { display: "45+", label: "Projects Delivered" },
+  { display: "$10M+", label: "Client Value Generated" },
+  { display: "50+", label: "Teams Empowered" },
+  { display: "4.9/5", label: "Client Satisfaction" },
+];
+
+/** Brand names for the hero trust row; markup and screen-reader text share this list. */
+export const heroTrustLogos = [
+  "OpenAI",
+  "Shopify",
+  "Vercel",
+  "aws",
+  "Google Cloud",
+];
+
+/**
  * Every page needs a canonical and its own share card. Building them from one
  * helper keeps a new page from silently shipping with neither.
  */
