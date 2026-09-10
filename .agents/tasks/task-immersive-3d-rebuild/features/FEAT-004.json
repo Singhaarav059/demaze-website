@@ -1,0 +1,35 @@
+{
+  "id": "FEAT-004",
+  "type": "feat",
+  "description": "Rebuild every page/route on top of the new shell, immersive hero, motion primitives, and rebuilt section components, delivering the modern immersive experience end to end. Compose each of the ten routes (home, about-us, services, projects, contact-us, ai-dev-automation-playbook, ai-dev-automation-playbook-form, privacy-policy, terms-of-service, and the __root shell/meta) into a coherent, well-structured page-by-page experience. Preserve all route head meta (titles, descriptions, canonical, og/twitter), the JSON-LD organization data in __root, and the fully working Supabase-backed contact + playbook forms (contact-form.tsx, playbook-form.tsx) including honeypot + startedAt human-timing fields the server functions expect. Depends on FEAT-003.",
+  "status": "pending",
+  "steps": [
+    "Home (src/routes/index.tsx): rebuild around the immersive 3D hero (ClientCanvas + copy overlay + static fallback), followed by a scroll-driven narrative of MetricsStrip, ProjectsGrid (featured subset), ServicesCards/pinned services, TechnologyBand marquee, IndustryGrid (subset), ValuesGrid, FounderStory, ProcessGrid, FaqSection. Keep the exact head meta and canonical from the current file. Use Reveal/Magnetic throughout; keep the homepage scannable.",
+    "About (src/routes/about-us.tsx): rebuild with PageIntro-style immersive header and the story/values/process/founder content, preserving head meta and canonical.",
+    "Services (src/routes/services.tsx): rebuild ServicesCards + TechnologyBand + full IndustryGrid within the new motion system, preserving the sr-only h2 heading structure (no h1->h3 jump) and head meta/canonical.",
+    "Projects (src/routes/projects.tsx): rebuild the full projects showcase (all 16) using the rebuilt grid/showcase components, preserving head meta/canonical.",
+    "Contact (src/routes/contact-us.tsx): rebuild layout but keep the ContactForm component wired to the submitContact server function; the form MUST keep its honeypot `website` field and hidden `startedAt` timestamp so submission-guards' assertHumanTiming/enforceRateLimit still pass. Preserve head meta/canonical.",
+    "Playbook (src/routes/ai-dev-automation-playbook.tsx and ai-dev-automation-playbook-form.tsx): rebuild layout but keep PlaybookForm wired to requestPlaybook with its honeypot + startedAt fields intact. Preserve head meta/canonical.",
+    "Legal (src/routes/privacy-policy.tsx, terms-of-service.tsx): apply the new shell/typography; content and head meta preserved.",
+    "__root (src/routes/__root.tsx): keep the RootShell html/head/body structure, the skip link, the JSON-LD organization script, font preloads, the QueryClientProvider + Outlet + PrivacyAnalytics, and all head meta. Modernize only what is safe; do NOT touch the generated routeTree.gen.ts. If a global smooth-scroll/cursor belongs at the root vs PageLayout, wire it consistently without duplicating providers.",
+    "Verify each rebuilt route still renders its section components from site-data.ts and that no route statically imports three (only ClientCanvas does, via dynamic import).",
+    "Keep the hero video asset usage (or its fallback role) and ensure the forms' end-to-end contract with forms.functions.ts is unchanged (field names, types)."
+  ],
+  "acceptance_criteria": [
+    "All ten routes are rebuilt on the new shell + motion system and remain structurally coherent page by page.",
+    "Every route preserves its existing head meta (title, description, canonical, og/twitter) and __root preserves JSON-LD org data, font preloads, skip link, providers, and Outlet.",
+    "ContactForm and PlaybookForm remain wired to submitContact/requestPlaybook with the honeypot `website` and hidden `startedAt` fields intact, so submission-guards still function.",
+    "The home page uses the immersive 3D hero with a working static fallback; interior pages use appropriate lighter headers.",
+    "No route or shared layout statically imports three/@react-three/fiber/@react-three/drei (only ClientCanvas via dynamic import).",
+    "routeTree.gen.ts and images.ts remain untouched; all content still sourced from site-data.ts.",
+    "Code is type-correct and eslint/prettier clean by construction."
+  ],
+  "verification": [
+    "Grep all files under src/routes for `from \"three\"`, `@react-three/fiber`, `@react-three/drei` and confirm zero static imports there.",
+    "Read contact-us + playbook routes/forms and confirm the honeypot + startedAt fields and server-fn wiring are intact.",
+    "Confirm head meta blocks match the pre-rebuild titles/canonicals for each route.",
+    "CI typecheck/lint/test/build is the authoritative validator (cannot run in-sandbox)."
+  ],
+  "blocked_reason": null,
+  "findings": ""
+}

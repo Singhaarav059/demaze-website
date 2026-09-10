@@ -11,14 +11,27 @@ type ServerEntry = {
 // the only cross-origin call (the Supabase REST insert) happens server-side. The
 // 'unsafe-inline' allowances cover React's inline <script> hydration payload and the
 // per-frame inline styles the scroll animations set.
+//
+// The immersive 3D layer (three + @react-three/fiber + @react-three/drei) and the
+// smooth-scroll layer (lenis) are all pure JavaScript bundled same-origin and driven
+// by requestAnimationFrame, so no 'unsafe-eval' or 'wasm-unsafe-eval' source is
+// required: three core ships no WebAssembly, and we do not pull in draco/basis wasm
+// decoders. Only same-origin blob:/data: image and worker sources are added below.
 const CSP = [
   "default-src 'self'",
   "script-src 'self' 'unsafe-inline'",
   // Vite's dev client (HMR, the TanStack Router devtools panel) spawns blob:
   // workers; without this they're silently blocked by the script-src fallback.
+  // The same blob: source also covers any Web Worker the WebGL layer (e.g. drei
+  // loaders / draco decoders) may spin up off the main thread. All such workers
+  // are generated from same-origin, bundled code, never a third-party host.
   "worker-src 'self' blob:",
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data:",
+  // 'self' + data: already cover bundled and inlined art. blob: is added because
+  // canvas/WebGL readback (toBlob, ImageBitmap, generated textures used by R3F /
+  // drei) produces object URLs that resolve as image sources. These blobs are
+  // created client-side from same-origin pixels; no external image host is added.
+  "img-src 'self' data: blob:",
   "font-src 'self'",
   "media-src 'self'",
   "connect-src 'self'",

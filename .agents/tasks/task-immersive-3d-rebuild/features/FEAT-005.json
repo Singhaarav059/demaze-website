@@ -1,0 +1,33 @@
+{
+  "id": "FEAT-005",
+  "type": "chore",
+  "description": "Final production-grade hardening pass across the rebuilt site: accessibility, performance, reduced-motion/no-WebGL fallbacks, and CI-readiness. Audit the new immersive layer against the same bar the prior production audit set (WCAG AA, no sub-24px tap targets, reduced-motion honored everywhere, self-hosted fonts, no layout shift) and make sure the new dependencies and CSP are fully consistent so the four CI checks can pass. Also ensure test invariants hold and, if site-data was restructured, that its tests are updated deliberately. Depends on FEAT-004.",
+  "status": "pending",
+  "steps": [
+    "Accessibility sweep of the new components: every 3D/motion element is aria-hidden or has an accessible equivalent; keyboard navigation reaches all interactive elements; focus-visible outlines preserved; the custom cursor never removes focus visibility or blocks AT; prefers-reduced-motion disables lenis, the R3F animation loop's motion (or swaps to the static fallback), reveal animations, magnetic/marquee, and cursor. Confirm heading order per page has no skipped levels.",
+    "Performance sweep: the 3D hero and any heavy motion is lazy-loaded/code-split (dynamic import via ClientCanvas), dpr-capped, and paused when offscreen; images keep intrinsic width/height; fonts remain self-hosted and preloaded; no render-blocking third-party resources were introduced; route-level code-splitting is intact. Verify the hero video (if used as fallback) keeps its offscreen-pause behavior.",
+    "CSP consistency: re-read src/server.ts and confirm every source the shipped 3D/motion code actually uses (blob: workers, blob:/data: images, any wasm) is permitted and nothing broader was added; remove any speculative CSP source that ended up unused. Confirm all assets are same-origin/bundled.",
+    "Dependency + lockfile consistency: confirm package.json and package-lock.json are in sync for `npm ci`; if the lockfile still needs network regeneration, make the note in task findings unambiguous and actionable for the orchestrator/CI. Confirm no unused new dependency remains in package.json.",
+    "Test invariants: confirm src/lib/site-data.test.ts and src/lib/submission-guards.test.ts still pass by inspection (content invariants preserved, guards untouched). If site-data was intentionally restructured, update site-data.test.ts to assert the same guarantees rather than weakening them. Consider adding a focused unit test for src/lib/motion.ts (e.g. supportsWebGL/prefersReducedMotion return safe values when window is undefined) if it can be done cleanly under vitest+jsdom without flakiness.",
+    "Do a final read-through for SSR safety: no module rendered during SSR statically imports three; all window/document/matchMedia/WebGL access is guarded; ClientCanvas returns the fallback on the server.",
+    "Produce a concise summary in this feature's findings: architecture/layers, per-page rebuild notes, new deps, SSR + reduced-motion + no-WebGL fallback strategy, exact CSP changes, anything deferred, and the status of the four CI checks (all deferred to CI, with the lockfile caveat if any)."
+  ],
+  "acceptance_criteria": [
+    "Every immersive element is either aria-hidden/decorative or has an accessible equivalent; reduced-motion disables lenis, R3F motion, reveal, magnetic, marquee, and the custom cursor across all pages; no heading-level skips.",
+    "The 3D layer is code-split/lazy, dpr-capped, offscreen-paused; images keep intrinsic dimensions; fonts stay self-hosted/preloaded; no render-blocking third-party resources added.",
+    "src/server.ts CSP permits exactly the same-origin sources the shipped code uses and nothing broader; all assets are bundled same-origin.",
+    "package.json and package-lock.json are in sync for npm ci, or the required lockfile regeneration is unambiguously documented; no unused new dependency remains.",
+    "site-data.test.ts and submission-guards.test.ts invariants hold (or were updated deliberately with equivalent guarantees); any added motion.ts test is stable under jsdom.",
+    "No SSR-rendered module statically imports three; all client-only access is guarded; ClientCanvas yields the fallback on the server.",
+    "A clear final summary is recorded in findings for the orchestrator's PR description."
+  ],
+  "verification": [
+    "Grep the whole src tree for static three/@react-three imports outside client-canvas.tsx and confirm none.",
+    "Grep for unguarded window/document/matchMedia in the new components and confirm each is behind a mount/typeof guard.",
+    "Read src/server.ts CSP one final time against the shipped code's actual needs.",
+    "Confirm package.json has no unused new dep and lockfile sync status is documented.",
+    "CI (npm run typecheck && npm run lint && npm test && npm run build) is the authoritative gate and must pass; note it cannot be run in-sandbox."
+  ],
+  "blocked_reason": null,
+  "findings": ""
+}

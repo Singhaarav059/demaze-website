@@ -105,6 +105,43 @@
   --color-pastel-blue: var(--sky);
   --color-pastel-mint: var(--mint);
   --color-pastel-butter: var(--butter);
+
+  /* ─────────────────────────────────────────────────────────────────────────
+     Immersive system tokens (FEAT-001)
+     Additive layer for the WebGL/3D + smooth-scroll rebuild. These extend the
+     existing tokens above; nothing here overrides brand colour, type, or the
+     self-hosted font stack. Consumed by the immersive canvas, spatial cards,
+     and custom cursor introduced in later features.
+     ───────────────────────────────────────────────────────────────────────── */
+
+  /* Z-index scale so the fixed 3D canvas, page content, sticky chrome, and the
+     custom cursor stack deterministically instead of fighting ad-hoc values. */
+  --z-canvas: 0; /* fixed WebGL backdrop, behind all content */
+  --z-content: 10; /* normal document flow above the canvas */
+  --z-sticky: 40; /* sticky header / scroll progress */
+  --z-overlay: 60; /* modals, mobile menu, toasts */
+  --z-cursor: 90; /* bespoke cursor, always on top */
+
+  /* Motion durations: a small, named ramp so animations stay consistent. */
+  --motion-instant: 80ms;
+  --motion-fast: 160ms;
+  --motion-base: 280ms;
+  --motion-slow: 520ms;
+  --motion-slowest: 900ms;
+
+  /* Easing curves for the immersive layer. --ease-out already exists above; the
+     rest give entrances, springs, and emphatic moves a shared vocabulary. */
+  --ease-immersive: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-emphasized: cubic-bezier(0.2, 0, 0, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Spatial / elevation tokens for parallax depth and layered shadows. */
+  --space-depth-near: 40px;
+  --space-depth-mid: 120px;
+  --space-depth-far: 260px;
+  --elevation-1: 0 2px 8px oklch(0.28 0.03 285 / 0.06);
+  --elevation-2: 0 12px 32px oklch(0.28 0.03 285 / 0.1);
+  --elevation-3: 0 28px 70px oklch(0.28 0.03 285 / 0.16);
 }
 
 @layer base {
@@ -3567,5 +3604,18 @@
   }
   .hero-visual::before {
     opacity: 0.2;
+  }
+
+  /* Immersive system guard (FEAT-001): neutralise the parallax/spring motion of
+     the new immersive classes and force them to their resolved resting state.
+     The WebGL canvas itself is gated in JS via useReducedMotion(); this handles
+     the CSS-driven depth, cursor, and reveal layers. */
+  [class*="immersive-"],
+  [class*="immersive-"]::before,
+  [class*="immersive-"]::after {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+    transform: none !important;
+    scroll-behavior: auto !important;
   }
 }

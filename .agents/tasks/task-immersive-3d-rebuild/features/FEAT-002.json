@@ -1,0 +1,32 @@
+{
+  "id": "FEAT-002",
+  "type": "feat",
+  "description": "Build the reusable immersive 3D scene layer and motion system that the rebuilt pages compose. This is the single highest-risk part of the rebuild because Three.js/WebGL touch window/document and will crash SSR (npm run build) if not gated. Deliver an SSR-safe client-only 3D canvas boundary, a scroll-driven React Three Fiber hero scene with a non-WebGL/reduced-motion fallback, a smooth-scroll provider (lenis) that no-ops under reduced motion and on the server, and a small set of motion primitives (reveal-on-scroll wrapper, magnetic/hover microinteraction, custom cursor, marquee) built on the existing IntersectionObserver + rAF patterns already proven in the repo. Depends on FEAT-001 (deps, CSP, motion utils, tokens).",
+  "status": "pending",
+  "steps": [
+    "Create src/components/three/client-canvas.tsx: an SSR-safe boundary that renders NOTHING on the server and until mounted (use the useHasMounted hook from src/lib/motion.ts), then lazily imports the R3F <Canvas> and scene via React.lazy + dynamic import so three is never in the SSR bundle path that executes. It must accept a `fallback` prop (a static poster/gradient element) rendered during SSR, before hydration/mount, when supportsWebGL() is false, and when useReducedMotion() is true. Wrap the lazy canvas in <Suspense fallback={fallback}>. Guard all window/document access.",
+    "Create src/components/three/hero-scene.tsx: the actual R3F scene (imported only by client-canvas via dynamic import, never at module top-level of an SSR-rendered route). Implement a tasteful, brand-aligned 3D hero (e.g. an instanced/floating geometry field, a distorted/animated mesh, or a subtle particle/depth field using drei helpers) that reacts to scroll progress and pointer position via useFrame. Keep it lightweight (low poly count / instancing), dpr-capped (e.g. dpr={[1, 1.75]}), and pause/throttle when offscreen. Use colors derived from the brand tokens (raspberry/lavender/mint/sky). No external asset fetches; everything procedural or from bundled assets.",
+    "Provide the static hero fallback: reuse the existing hero video (src/assets/demaze-robot-studio.mp4 + poster) OR a CSS gradient/aurora composition as the fallback element passed into ClientCanvas, so the hero is fully usable with WebGL disabled, on the server, and under reduced motion. Preserve the hero video's offscreen-pause + reduced-motion behavior from the current src/components/hero-video.tsx (either reuse that component as the fallback or port its logic).",
+    "Create src/components/motion/smooth-scroll.tsx: a client-only SmoothScrollProvider using lenis that initializes on mount, drives rAF, cleans up on unmount, and is a NO-OP (renders children unchanged, no lenis instance) when useReducedMotion() is true or on the server. It must not break TanStack Router navigation (reset scroll on route change) and must not fight native scroll for reduced-motion users. Keep CSS `scroll-behavior: smooth` compatibility in mind.",
+    "Create src/components/motion/reveal.tsx: a <Reveal> wrapper component that adds the scroll-reveal pattern already used in site-shell.tsx (IntersectionObserver adds is-visible, unobserves; honors reduced motion; supports a stagger/delay prop). This replaces the ad-hoc querySelectorAll reveal loop with a composable primitive.",
+    "Create src/components/motion/magnetic.tsx (pointer-follow magnetic hover for buttons/cards, disabled under reduced motion and on touch/coarse pointers) and src/components/motion/marquee.tsx (accessible, pausable, reduced-motion-aware horizontal marquee for the technology band). Add src/components/motion/custom-cursor.tsx: a client-only custom cursor that is disabled on touch/coarse-pointer devices and under reduced motion, does not hide the native cursor for keyboard/AT users, and is purely decorative (aria-hidden).",
+    "Add the supporting styles for these primitives in src/styles.css (canvas layering/z-index using the tokens from FEAT-001, cursor, marquee, reveal states), all gated so reduced-motion users get static, immediately-visible content. Ensure the 3D canvas sits behind content (pointer-events: none where appropriate) and never blocks interaction or scrolling.",
+    "Do not import three/R3F at the top level of any file that a route renders during SSR; the only entry to three must be through ClientCanvas's dynamic import. Verify by construction that route modules and shared layout do not statically import three."
+  ],
+  "acceptance_criteria": [
+    "src/components/three/client-canvas.tsx renders only after mount and only when WebGL is supported and reduced motion is off, otherwise renders the provided static fallback; three is loaded via dynamic import behind Suspense and is never statically imported by SSR-rendered route/layout modules.",
+    "src/components/three/hero-scene.tsx implements a scroll- and pointer-reactive R3F scene using brand token colors, dpr-capped, with no external asset fetches.",
+    "A static, accessible hero fallback exists and preserves the existing hero video offscreen-pause + reduced-motion behavior (or a CSS fallback) so the hero works without WebGL.",
+    "src/components/motion/smooth-scroll.tsx is a client-only lenis provider that no-ops under reduced motion / SSR and resets scroll on route change without breaking router navigation.",
+    "Reveal, Magnetic, Marquee, and CustomCursor primitives exist under src/components/motion/, each honoring prefers-reduced-motion and coarse-pointer/touch where relevant, and each SSR-safe.",
+    "The 3D canvas is layered behind content, does not capture pointer events meant for content, and does not block scrolling or interaction.",
+    "Code is type-correct and eslint/prettier clean by construction."
+  ],
+  "verification": [
+    "Grep the route files and shared layout to confirm none statically import 'three', '@react-three/fiber', or '@react-three/drei' (only client-canvas.tsx may, and only via dynamic import inside a mount/Suspense boundary).",
+    "Read client-canvas.tsx and smooth-scroll.tsx and confirm every window/document/WebGL access is behind a mount guard or typeof-window check.",
+    "CI build (npm run build, SSR) is the authoritative check that the 3D layer does not crash server rendering; note it must be validated by CI since it cannot run in-sandbox."
+  ],
+  "blocked_reason": null,
+  "findings": ""
+}

@@ -1,0 +1,33 @@
+{
+  "id": "FEAT-003",
+  "type": "refactor",
+  "description": "Rebuild the shared layout shell and the reusable content-section components on top of the new immersive/motion system, so every page inherits a consistent modern structure. This restructures src/components/site-shell.tsx (header, footer, PageLayout, PageIntro) and src/components/content-sections.tsx (SectionHeading, MetricsStrip, ProjectsGrid, ServicesCards, TechnologyBand, IndustryGrid, ValuesGrid, FounderStory, ProcessGrid, FaqSection) to use the <Reveal>, <Magnetic>, <Marquee> primitives and the smooth-scroll provider, while preserving all real content from src/lib/site-data.ts and all accessibility affordances (skip link, landmarks, focus management, keyboard nav, aria-current, inert backdrop) that the current shell already implements. Depends on FEAT-002.",
+  "status": "pending",
+  "steps": [
+    "Refactor src/components/site-shell.tsx: keep the SiteHeader's existing a11y behavior (condense-on-scroll honoring reduced motion, mobile menu focus trap, inert backdrop, aria-expanded/controls, aria-current) and the SiteFooter content, but modernize the markup/structure and wire the smooth-scroll provider into PageLayout so it wraps page content. Replace PageLayout's ad-hoc querySelectorAll reveal loop with composition via the <Reveal> primitive (or keep an observer but centralize it). Mount the CustomCursor (decorative, aria-hidden) and keep the skip link + #main-content target intact. Header/footer must remain semantic landmarks (header/nav/footer).",
+    "Add an optional immersive hero slot to PageLayout or a dedicated ImmersiveHero component that pages can opt into, composing ClientCanvas (FEAT-002) with a copy overlay and the static fallback. The home page will use the full 3D hero; interior pages use lighter PageIntro-style headers.",
+    "Rebuild src/components/content-sections.tsx section components to use Reveal for entrance animation and Magnetic/hover microinteractions on cards, while preserving: the MetricsStrip count-up (keep reduced-motion behavior and the qualitative-value shortcut), ProjectsGrid limit prop, ServicesCards, TechnologyBand (now using the Marquee primitive, keep reverse prop), IndustryGrid limit prop, ValuesGrid, FounderStory, ProcessGrid, FaqSection (keep Radix Accordion). All content MUST continue to come from src/lib/site-data.ts unchanged; do NOT invent data or alter the honest metrics.",
+    "Keep every image spreading intrinsic width/height from @/assets/images to prevent layout shift; do not hand-edit images.ts.",
+    "Ensure the scroll-driven chapter/pinned effects (currently ScrollFocusStack and PinnedServicesShowcase) are either preserved or superseded by the new motion primitives without regressing reduced-motion/compact-layout fallbacks. If superseding, keep the same graceful degradation guarantees.",
+    "Update src/styles.css sections for header/footer/section components to match the modernized structure, reusing the design tokens; keep WCAG AA contrast (no reliance on the brand pink below 24px; use --raspberry-ink for small text) and >=24px tap targets that the prior audit established.",
+    "Do NOT change site-data.ts content invariants; if any component rename requires touching site-data.test.ts, keep the asserted invariants (services length 4, projects >=16, metrics length 4, technologies length 8, industries >=15) satisfied."
+  ],
+  "acceptance_criteria": [
+    "site-shell.tsx retains all current a11y behavior (skip link, focus trap + inert backdrop on mobile menu, aria-expanded/controls/current, semantic header/nav/footer, condense-on-scroll honoring reduced motion) after the rebuild.",
+    "PageLayout wires the smooth-scroll provider and mounts the decorative aria-hidden custom cursor, and exposes an immersive hero option pages can opt into.",
+    "All content-sections components render exclusively from src/lib/site-data.ts with no fabricated data and the honest 4 metrics preserved; the MetricsStrip count-up still honors reduced motion and the qualitative shortcut.",
+    "TechnologyBand uses the Marquee primitive (reduced-motion-aware, pausable) and keeps its reverse prop; ProjectsGrid and IndustryGrid keep their limit props; FaqSection keeps the Radix Accordion.",
+    "All images still carry intrinsic width/height from @/assets/images; images.ts and routeTree.gen.ts are untouched.",
+    "WCAG AA is preserved (small text does not use sub-AA brand pink; tap targets >= 24px).",
+    "site-data.test.ts still passes its invariants (or was updated deliberately while keeping the same guarantees).",
+    "Code is type-correct and eslint/prettier clean by construction."
+  ],
+  "verification": [
+    "Read site-shell.tsx and confirm the focus-trap/inert/aria behavior is intact.",
+    "Grep content-sections.tsx to confirm imports from @/lib/site-data are unchanged and no hardcoded metric/project strings were introduced.",
+    "Confirm site-data.test.ts invariants are still satisfiable (services 4, projects >=16, metrics 4, technologies 8, industries >=15).",
+    "CI typecheck/lint/test/build is the authoritative validator (cannot run in-sandbox)."
+  ],
+  "blocked_reason": null,
+  "findings": ""
+}
