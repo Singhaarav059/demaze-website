@@ -544,7 +544,7 @@
   }
 }
 
-/* MotionControl sets `paused` while a study is offscreen or the tab is hidden,
+/* SiteMotion sets `paused` while a study is offscreen or the tab is hidden,
    so its entrance plays when it scrolls into view; `off` (ambient motion
    switched off) and no-JavaScript skip straight to the finished composition. */
 .pv[data-motion="paused"],

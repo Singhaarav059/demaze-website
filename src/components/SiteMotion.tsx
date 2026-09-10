@@ -151,6 +151,8 @@ export default function SiteMotion() {
     const parallaxImgs = Array.from(
       document.querySelectorAll<HTMLElement>("[data-parallax-img]"),
     );
+    const heroVideo =
+      document.querySelector<HTMLVideoElement>("[data-hero-video]");
     const stage = document.getElementById("services-stage");
     const serviceRows = stage
       ? Array.from(stage.querySelectorAll<HTMLElement>("[data-service-row]"))
@@ -168,6 +170,21 @@ export default function SiteMotion() {
       const suffix = el.dataset.suffix ?? "";
       el.textContent = `${prefix}${target}${suffix}`;
     };
+
+    // Hero video: mirror the prototype's autoplayHeroVideo behaviour. The
+    // element ships without an `autoPlay` attribute, so playback is opt-in
+    // here and never starts under a reduced-motion preference.
+    if (heroVideo) {
+      heroVideo.muted = true;
+      if (reduced || !AUTOPLAY_HERO_VIDEO) {
+        heroVideo.pause();
+      } else {
+        void heroVideo.play().catch(() => {
+          // Autoplay may still be blocked by the browser; leaving the video
+          // paused on the gradient frame is an acceptable fallback.
+        });
+      }
+    }
 
     // Reduced motion / no-JS-equivalent: show everything, count-up instant.
     if (reduced) {

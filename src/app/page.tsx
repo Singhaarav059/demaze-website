@@ -37,7 +37,12 @@ export default function Home() {
             </div>
           </div>
           <div className="home-hero-frame" data-hero-frame aria-hidden>
-            <video autoPlay loop muted playsInline>
+            {/* No `autoPlay`: SiteMotion starts playback only when autoplay is
+                enabled and reduced motion is not requested, and pauses under a
+                reduced-motion preference. Without JS the video simply does not
+                autoplay, and the frame's CSS gradient is the first-frame
+                fallback (there is no poster asset in public/). */}
+            <video data-hero-video loop muted playsInline>
               <source src="/hero-transform.mp4" type="video/mp4" />
             </video>
           </div>

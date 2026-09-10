@@ -138,6 +138,12 @@ export default function ContactForm() {
             placeholder="What are you building, improving, or trying to understand?"
           />
         </label>
+        {/* Graceful degradation, kept deliberately: submission is entirely
+            client-side (it builds a mailto draft, there is no server endpoint
+            by design), so the button stays disabled until hydration. Enabling
+            it earlier would let a native POST fire against a route that does
+            not exist. Scripts-off visitors get the <noscript> mailto below,
+            and the pre-hydration window is momentary. */}
         <button className="pill-button" type="submit" disabled={!isHydrated}>
           Send message <span aria-hidden>-&gt;</span>
         </button>

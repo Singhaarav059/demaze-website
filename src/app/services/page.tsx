@@ -52,30 +52,43 @@ const cardSummaries: Record<string, string> = {
 // Reversed tech marquee wordmarks (text only, no missing logo assets).
 const techWordmarks = ["Langchain", "Python", "OpenAI", "Tensorflow", "Kafka"];
 
-// Short prototype descriptors keyed by industry name. The tile names derive
-// from src/content/industries.ts; the prototype closes the set with Real
-// Estate in slot 08, so we swap it in for the content list's 8th entry while
-// keeping the first seven straight from the source of truth.
-const industryDescriptors: Record<string, string> = {
-  Healthcare: "Telemedicine, EHR, patient management",
-  Fintech: "Digital payments, mobile banking",
-  Logistics: "Delivery, fleet, route optimization",
-  Retail: "POS, inventory, loyalty programs",
-  Ecommerce: "Marketplaces, B2B & B2C stores",
-  Education: "LMS, virtual classrooms, AI tutoring",
-  "BFSI Solutions": "Core banking, loan origination",
-  "Real Estate": "Property management, virtual tours",
-};
-
-const industryNames = [
-  ...industries.slice(0, 7).map((industry) => industry.name),
-  "Real Estate",
+// The eight industry tiles the prototype shows, each pinned to its descriptor.
+// This is the explicit source of truth for the grid: the first seven names
+// mirror the leading entries of src/content/industries.ts and the eighth is
+// the prototype's "Real Estate" slot. Because the name and descriptor live
+// together here, no descriptor can silently blank out if industries.ts is
+// reordered; instead the assertion below fails loudly so the mismatch is fixed.
+const industryTileSource: { name: string; descriptor: string }[] = [
+  { name: "Healthcare", descriptor: "Telemedicine, EHR, patient management" },
+  { name: "Fintech", descriptor: "Digital payments, mobile banking" },
+  { name: "Logistics", descriptor: "Delivery, fleet, route optimization" },
+  { name: "Retail", descriptor: "POS, inventory, loyalty programs" },
+  { name: "Ecommerce", descriptor: "Marketplaces, B2B & B2C stores" },
+  { name: "Education", descriptor: "LMS, virtual classrooms, AI tutoring" },
+  { name: "BFSI Solutions", descriptor: "Core banking, loan origination" },
+  { name: "Real Estate", descriptor: "Property management, virtual tours" },
 ];
 
-const industryTiles = industryNames.map((name, index) => ({
+// Guard the coupling to industries.ts: the first seven tiles must still match
+// the leading entries of the content source in order. If someone reorders
+// industries.ts, this throws at build time rather than shipping a blank tile.
+const expectedLeadingNames = industries
+  .slice(0, 7)
+  .map((industry) => industry.name);
+industryTileSource.slice(0, 7).forEach((tile, index) => {
+  if (tile.name !== expectedLeadingNames[index]) {
+    throw new Error(
+      `Industries grid is out of sync with industries.ts at slot 0${index + 1}: ` +
+        `expected "${expectedLeadingNames[index]}" but tile list has "${tile.name}". ` +
+        `Update src/app/services/page.tsx industryTileSource to match.`,
+    );
+  }
+});
+
+const industryTiles = industryTileSource.map((tile, index) => ({
   no: `0${index + 1}`,
-  name,
-  descriptor: industryDescriptors[name] ?? "",
+  name: tile.name,
+  descriptor: tile.descriptor,
 }));
 
 export default function ServicesPage() {
