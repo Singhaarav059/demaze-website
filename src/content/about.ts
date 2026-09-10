@@ -13,6 +13,13 @@ export const whatWeAreTags = [
 
 export const whoWeAre = {
   heading: "Who We Are",
+  // Prototype heading for the About who-we-are split.
+  splitHeading: "Digital transformation architects.",
+  // The prototype copy joined two clauses with an em dash
+  // ("...to reshape businesses -- bridging..."). This is restructured with a
+  // comma so scripts/check-copy.mjs stays clean while keeping the meaning.
+  splitParagraph:
+    "At DEMAze Technologies, we are a passionate team of 35+ technologists, innovators, and strategic thinkers who believe in the power of AI to reshape businesses, bridging complex technical possibilities with real outcomes.",
   paragraphs: [
     "At Demaze Technologies, we're more than just developers, we're digital transformation architects. We're a passionate team of 35+ technologists, innovators, and strategic thinkers who believe in the power of AI and cutting-edge technology to reshape businesses.",
     "Founded with a vision to democratize advanced technology, we bridge the gap between complex technical possibilities and real business outcomes.",
@@ -72,9 +79,35 @@ export const whyChooseUsAbout = [
       "Make smarter moves with accurate, real-time business insights.",
   },
   {
-    title: "Sync in Real Time",
+    title: "Live Collaboration",
     description:
       "Connect with your team instantly to track progress and updates.",
+  },
+];
+
+// Dark "What drives us" principles band on the About page. Same four titles as
+// whatDrivesUs, condensed to a single concise sentence each for the band.
+// Plain hyphens only, no em dashes.
+export const principles = [
+  {
+    title: "Innovation at Our Core",
+    description:
+      "We turn ambitious ideas into reality, pushing boundaries on every project.",
+  },
+  {
+    title: "Client Success Obsession",
+    description:
+      "Your outcomes drive us: better results, leaner operations, new growth.",
+  },
+  {
+    title: "Technology for Good",
+    description:
+      "We build technology that empowers people and simplifies real work.",
+  },
+  {
+    title: "Continuous Learning",
+    description:
+      "Curiosity keeps us current, adopting emerging tools as they prove useful.",
   },
 ];
 

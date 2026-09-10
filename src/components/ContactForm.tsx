@@ -35,7 +35,7 @@ export default function ContactForm() {
       name: String(data.get("name")),
       company: String(data.get("company") || "Not provided"),
       email: String(data.get("email")),
-      service: String(data.get("service")),
+      service: String(data.get("service") || "General enquiry"),
       message: String(data.get("message")),
     };
   };
@@ -76,10 +76,10 @@ export default function ContactForm() {
         method="post"
         onChange={() => setDraft(null)}
         onSubmit={prepare}
-        className="sp-contact-form"
+        className="contact-form"
       >
-        <div className="sp-field-row">
-          <label>
+        <div className="contact-field-row">
+          <label className="contact-field">
             <span>
               Name <b aria-hidden>*</b>
             </span>
@@ -92,51 +92,42 @@ export default function ContactForm() {
               placeholder="Your name"
             />
           </label>
-          <label>
-            <span>Company</span>
+          <label className="contact-field">
+            <span>
+              Email <b aria-hidden>*</b>
+            </span>
             <input
-              name="company"
-              maxLength={120}
-              autoComplete="organization"
-              placeholder="Optional"
+              name="email"
+              type="email"
+              required
+              maxLength={254}
+              autoComplete="email"
+              placeholder="you@company.com"
             />
           </label>
         </div>
-        <label>
-          <span>
-            Email <b aria-hidden>*</b>
-          </span>
+        <label className="contact-field">
+          <span>Company</span>
           <input
-            name="email"
-            aria-label="Email"
-            type="email"
-            required
-            maxLength={254}
-            autoComplete="email"
-            placeholder="you@company.com"
+            name="company"
+            maxLength={120}
+            autoComplete="organization"
+            placeholder="Optional"
           />
         </label>
-        <fieldset>
-          <legend>
-            What are you looking for? <b aria-hidden>*</b>
-          </legend>
-          <div className="sp-radio-grid">
-            {serviceCategories.map((category, index) => (
-              <label key={category.key}>
-                <input
-                  type="radio"
-                  name="service"
-                  value={category.name}
-                  defaultChecked={index === 0}
-                />
-                <span>{category.name}</span>
-              </label>
+        <label className="contact-field">
+          <span>What are you looking for?</span>
+          <select name="service" defaultValue={serviceCategories[0].name}>
+            {serviceCategories.map((category) => (
+              <option key={category.key} value={category.name}>
+                {category.name}
+              </option>
             ))}
-          </div>
-        </fieldset>
-        <label>
+          </select>
+        </label>
+        <label className="contact-field">
           <span>
-            Project <b aria-hidden>*</b>
+            Message <b aria-hidden>*</b>
           </span>
           <textarea
             name="message"
@@ -144,17 +135,17 @@ export default function ContactForm() {
             minLength={20}
             maxLength={4000}
             rows={6}
-            placeholder="What are you building, and what is in the way?"
+            placeholder="What are you building, improving, or trying to understand?"
           />
         </label>
-        <button className="button" type="submit" disabled={!isHydrated}>
-          Prepare email <span aria-hidden>→</span>
+        <button className="pill-button" type="submit" disabled={!isHydrated}>
+          Send message <span aria-hidden>-&gt;</span>
         </button>
       </form>
       <noscript>
-        <p className="sp-noscript">
+        <p className="contact-noscript">
           Please email{" "}
-          <a className="text-link" href={`mailto:${site.email}`}>
+          <a className="arrow-link" href={`mailto:${site.email}`}>
             {site.email}
           </a>{" "}
           directly with your project brief.
@@ -164,22 +155,26 @@ export default function ContactForm() {
         <section
           ref={draftRef}
           tabIndex={-1}
-          className="sp-draft"
+          className="contact-draft"
           aria-live="polite"
         >
           <div>
-            <p className="eyebrow">Draft preview</p>
+            <p className="eyebrow-dot">Draft preview</p>
             <p>
               Ready for <b>{site.email}</b>. Opening your mail app does not send
               it.
             </p>
           </div>
           <pre>{emailText(draft)}</pre>
-          <div className="sp-draft-actions">
-            <button type="button" className="button" onClick={openMail}>
-              Open email app <span aria-hidden>↗</span>
+          <div className="contact-draft-actions">
+            <button type="button" className="pill-button" onClick={openMail}>
+              Open email app <span aria-hidden>-&gt;</span>
             </button>
-            <button type="button" className="button-light" onClick={copyDraft}>
+            <button
+              type="button"
+              className="contact-button-light"
+              onClick={copyDraft}
+            >
               Copy draft
             </button>
             {copyState === "copied" && (

@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import ContactForm from "@/components/ContactForm";
 import { pageMeta, site } from "@/content/site";
-import "@/components/StudioPages.css";
 
 export const metadata: Metadata = pageMeta(
   "Contact",
@@ -12,83 +10,113 @@ export const metadata: Metadata = pageMeta(
 
 export default function ContactPage() {
   return (
-    <main id="main-content" tabIndex={-1} className="sp-page">
-      <header className="sp-hero sp-contact-hero">
-        <div className="shell sp-hero-grid">
-          <div>
-            <p className="eyebrow">Start a conversation</p>
-            <h1>
-              Bring us the part that is <em>hard to untangle.</em>
-            </h1>
-            <p className="sp-intro">
-              A rough brief is enough. Tell us what needs to change, what is
-              getting in the way, and where you need an honest technical
-              partner.
-            </p>
-          </div>
-          <aside className="sp-hero-note">
-            <span>What happens next</span>
-            <strong>
-              A considered reply,
-              <br />
-              not an automated funnel.
-            </strong>
-            <p>We will tell you whether we are the right team for the work.</p>
-          </aside>
-        </div>
-      </header>
-      <section className="shell sp-contact-grid">
-        <div>
-          <p className="eyebrow">Project brief</p>
-          <h2>Prepare an email.</h2>
-          <p className="sp-form-intro">
-            Your details stay in your browser until you choose to open your
-            email app. There is no submission endpoint behind this form.
+    <main id="main-content" tabIndex={-1}>
+      {/* HERO ------------------------------------------------------------ */}
+      <section className="contact-hero">
+        <div className="contact-hero-inner" data-reveal>
+          <p className="eyebrow-dot">Contact</p>
+          <h1 className="contact-hero-title">
+            Reach us <em>at any time.</em>
+          </h1>
+          <p className="contact-hero-sub">
+            Tell us what you are building, improving, or trying to understand.
+            We will start with the useful questions.
           </p>
-          <ContactForm />
         </div>
-        <aside className="sp-contact-aside">
-          <div className="sp-contact-person">
-            <Image
-              src={site.founder.photo}
-              alt={site.founder.name}
-              width={76}
-              height={76}
-            />
-            <div>
-              <b>{site.founder.name}</b>
-              <span>{site.founder.title}</span>
-            </div>
+      </section>
+
+      {/* SPLIT: METHODS + FORM ------------------------------------------- */}
+      <section className="contact-split-section">
+        <div className="contact-split" data-reveal>
+          <div className="contact-methods">
+            <a className="contact-method" href={`mailto:${site.email}`}>
+              <span className="contact-method-icon" aria-hidden>
+                <svg
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.6"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <rect x="3" y="5" width="18" height="14" rx="2" />
+                  <path d="m3 7 9 6 9-6" />
+                </svg>
+              </span>
+              <span className="contact-method-text">
+                <span className="contact-method-label">Email us</span>
+                <strong className="contact-method-value">{site.email}</strong>
+              </span>
+            </a>
+
+            <a className="contact-method" href="#enquiry">
+              <span className="contact-method-icon" aria-hidden>
+                <svg
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.6"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <rect x="3" y="4" width="18" height="17" rx="2" />
+                  <path d="M3 9h18M8 2v4M16 2v4" />
+                </svg>
+              </span>
+              <span className="contact-method-text">
+                <span className="contact-method-label">
+                  Prefer a conversation?
+                </span>
+                <strong className="contact-method-value">
+                  Send a meeting request
+                </strong>
+              </span>
+            </a>
+
+            <a
+              className="contact-method"
+              href={site.mapsHref}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span className="contact-method-icon" aria-hidden>
+                <svg
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.6"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M12 21s7-6.4 7-11a7 7 0 1 0-14 0c0 4.6 7 11 7 11Z" />
+                  <circle cx="12" cy="10" r="2.6" />
+                </svg>
+              </span>
+              <span className="contact-method-text">
+                <span className="contact-method-label">Office location</span>
+                <strong className="contact-method-value">
+                  {site.address}
+                </strong>
+              </span>
+            </a>
           </div>
-          <blockquote>“{site.founder.quote}”</blockquote>
-          <div className="sp-contact-details">
-            <p>
-              <span>Email</span>
-              <a className="text-link" href={`mailto:${site.email}`}>
-                {site.email}
-              </a>
+
+          <div className="contact-form-panel" id="enquiry">
+            <p className="eyebrow-dot">Send an enquiry</p>
+            <h2 className="contact-form-heading">Start a conversation.</h2>
+            <p className="contact-form-intro">
+              Your details stay in your browser until you choose to open your
+              email app. There is no submission endpoint behind this form.
             </p>
-            <p>
-              <span>Studio</span>
-              <a
-                className="text-link"
-                href={site.mapsHref}
-                target="_blank"
-                rel="noreferrer noopener"
-              >
-                {site.address} <i aria-hidden>↗</i>
-              </a>
-            </p>
-            <p>
-              <span>Team</span>
-              <b>
-                {site.stats[2].value}
-                {site.stats[2].suffix} specialists · {site.stats[3].value}
-                {site.stats[3].suffix} years
-              </b>
-            </p>
+            <ContactForm />
           </div>
-        </aside>
+        </div>
       </section>
     </main>
   );
