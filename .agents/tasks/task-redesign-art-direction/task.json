@@ -1,0 +1,7 @@
+{
+  "task_id": "task-redesign-art-direction",
+  "task_description": "Redesign/polish the DEMAze marketing site on a new `redesign` branch by adapting the strongest design + interaction ideas from the origin/test design handoff while keeping main as the source of truth for ALL content. Main is already a mature superset of the handoff (scroll progress, condensing header, count-up metrics, tech marquee, pinned services, editorial projects grid, bespoke ScrollFocusStack motion). The task is therefore a reconciliation + full production-quality art-direction pass: fix image fitting/cropping (esp. adopt test's object-fit:contain for service illustrations), fix concrete vibe-coded defects (empty CSS content separator), tighten spacing/rhythm/typography/alignment/proportion, ensure cross-section consistency, and verify responsive + animation smoothness across all breakpoints. No copy, section, project, image, logo, icon, data, or functionality is removed.",
+  "status": "in_progress",
+  "feature_order": ["FEAT-001", "FEAT-002", "FEAT-003", "FEAT-004"],
+  "blocked_reason": null
+}

@@ -1,0 +1,33 @@
+{
+  "id": "FEAT-003",
+  "type": "refactor",
+  "description": "Spacing, rhythm, typography hierarchy, alignment, proportion, and cross-section consistency polish across every page - plus fixing concrete vibe-coded artifacts - so the site reads as intentionally art-directed rather than template-generated. This is the 'make it feel professionally designed' pass. It is CSS-only (src/styles.css) plus, if strictly necessary, purely presentational class/markup tweaks in existing components (no copy, data, section, or functional changes). Builds on FEAT-002's image fitting. Adapt test's restrained/subtle motion + editorial spacing language to main's existing content and ScrollFocusStack system; do NOT blindly copy test.",
+  "status": "pending",
+  "steps": [
+    "FIX DEFECT: src/styles.css ~line 2122 `.industry-grid li:not(:last-child)::after { content: ; }` has an empty (invalid) content value. Replace with a real inline separator glyph for the mobile inline-flow industries list, e.g. `content: \"\\00B7\"; margin-inline: 0 0.3rem; color: var(--muted-foreground);` (a middot) so the flowed solutions read as a proper dot-separated list instead of running together. Verify the surrounding `.industry-grid ul { display:flex; flex-wrap:wrap }` mobile rule still reads cleanly.",
+    "VERTICAL RHYTHM: audit `--section-gap` (clamp 2.5-4rem) and `--heading-gap` and the per-section padding (`.stack-chapter > .section-wrap` clamp 2.25-4rem, `.content-section` padding-block). Ensure consistent vertical spacing between comparable sections and that no section has conspicuously more empty space than its neighbors. Tighten `.section-action` margins and `.metrics-strip` bottom margin so the hero->metrics->first-chapter cadence is even. Do not introduce new global tokens; reuse the existing ones.",
+    "TYPOGRAPHY HIERARCHY: verify one consistent scale is used - page h1 (--display-xl / page-intro clamp), section h2 (--display-lg), card/subsection h3 (--display-md or the explicit 1.05rem used in pinned-services/showcase/industry). Make the pinned-services list h3 and the project-showcase-caption h3 and the industry h3 visually coherent (same family var(--font-display), comparable size/weight/line-height). Ensure kicker/eyebrow treatment (--text-micro, uppercase, 0.13em tracking, --raspberry-ink) is identical everywhere it appears (.eyebrow, .section-kicker). Fix any heading that is too large relative to its body copy or dwarfs its section.",
+    "ALIGNMENT & PROPORTION: verify grid column ratios are intentional and consistent between analogous layouts (hero 0.83/1.17, about-split 0.9/1.1, contact-layout 0.85/1.15, faq-section 0.75/1.25, founder-story 0.7fr/1.3fr). Align these toward a coherent asymmetry rather than five slightly different ratios where they play the same role. Ensure card paddings are consistent across .project-card / .service-card / .values-grid article / .industry-grid article / .benefit-row article / .contact-options a so cards feel like one system.",
+    "BUTTON SIZING & ALIGNMENT: verify the editorial/hero button and .text-link have consistent min-height and vertical alignment in .hero-actions and every .section-action; ensure the <=600px two-column hero-actions grid does not squash label text awkwardly (font-size 0.72rem currently) - keep tap targets >=44px.",
+    "PROJECTS EDITORIAL GRID RHYTHM (src/components/projects-showcase-grid.tsx SPANS + src/styles.css .project-showcase-grid): main renders all 16 projects but SPANS has only 8 entries and cycles every 8 tiles, so the large-tile rhythm repeats identically in the two halves. Review whether the 220px auto-row + repeat(4) with two span-2 tiles per 8 reads as balanced editorial rather than mechanically repeating; if it looks repetitive, extend/vary the SPANS array (presentational only - keep it deriving from `i % SPANS.length` or lengthen to cover 16) so the wall of work feels composed. Keep every project (do not slice/limit on /projects). Keep the parallax + caption.",
+    "DENSITY/COMPACTNESS: the user asked for compact, well-composed. Where sections feel loose (large min-heights on sticky chapters, oversized gaps), tighten conservatively without breaking the ScrollFocusStack sticky math (respect `--header-h`, the .motion-stage min-heights, and the .stack-services 190svh travel budget comment). Do not reduce travel budgets that motion depends on.",
+    "CROSS-SECTION CONSISTENCY: ensure the colored wash chapters (stack-services lavender, stack-industries sky, stack-story butter, stack-process mint, stack-faq lavender, dark-band ink) use a consistent tint intensity and that text contrast holds on each (dark-band already overrides kicker/body colors). Verify borders/radii/shadows on the sticky .stack-chapter boxes are consistent between home and the interior .motion-chapter boxes on services/about.",
+    "Keep all motion rAF-gated + reduced-motion-safe and no-JS-safe; do not alter the JS motion logic in this feature except presentational SPANS array length in projects-showcase-grid.tsx if needed for rhythm."
+  ],
+  "acceptance_criteria": [
+    "The invalid `content: ;` rule is replaced with a valid separator; grep `grep -nE \"content:\\s*;\" src/styles.css` returns nothing.",
+    "Heading sizes follow one consistent scale (h1 display-xl, h2 display-lg, h3 display-md/1.05rem) and kicker/eyebrow styling is identical everywhere.",
+    "Analogous two-column layouts use coherent, intentional column ratios and consistent card padding across the card families.",
+    "The /projects editorial grid reads as a balanced asymmetric wall for all 16 projects (SPANS covers or cleanly cycles 16 without an obviously mechanical repeat).",
+    "All 16 projects, 4 services, 8 technologies, 19 industries, 4 metrics, 4 values, 4 process steps, and 5 FAQs remain rendered; no copy/data/section removed; src/lib/site-data.ts unchanged.",
+    "Motion remains rAF-gated and reduced-motion-safe; ScrollFocusStack sticky/travel math (header-h offsets, .motion-stage min-heights, .stack-services 190svh) is not broken."
+  ],
+  "verification": [
+    "Deferred to CI: `unset NODE_OPTIONS && npm run typecheck && npm run lint && npm test && npm run build` must all pass (test suite guards content counts).",
+    "Run `git diff -- src/lib/site-data.ts` and confirm it is EMPTY (no content changes).",
+    "Run `grep -nE \"content:\\s*;\" src/styles.css` and confirm no matches.",
+    "Review src/styles.css brace balance and that no design token in :root was redefined."
+  ],
+  "blocked_reason": null,
+  "findings": ""
+}

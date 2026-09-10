@@ -1,0 +1,28 @@
+{
+  "id": "FEAT-004",
+  "type": "fix",
+  "description": "Responsive behavior + animation timing/easing smoothness pass across all breakpoints, closing out the redesign. Verifies and fixes mobile/tablet layouts (the >=901, 901-down, and 600-down media blocks in src/styles.css) so nothing overflows, is cut off, is awkwardly zoomed, or breaks; and ensures animation timing/easing feels fluid and premium and cohesive. CSS-only (src/styles.css). Builds on FEAT-002 and FEAT-003. Adapt test's 'subtle intensity' motion philosophy (short travel, gentle easing) to main's existing effects; do NOT make motion flashier.",
+  "status": "pending",
+  "steps": [
+    "TABLET (max-width:900px block ~line 1927): verify home-hero/about-split/contact-layout/resource/download collapse to 1 column cleanly; the ScrollFocusStack chapters correctly drop their sticky/transform (they already reset to position:relative/top:auto/transform:none) so no chapter is stuck or clipped; pinned-services collapses to the static 14rem visual + full list (with FEAT-002's contain fit); service-grid goes 2-col; values/process/industry go 2-col. Fix any element that overflows the viewport width (check .service-card width:94% offsets, .stack-chapter width calc, tech marquee mask).",
+    "PHONE (max-width:600px block ~line 2040): verify hero h1 clamp(2rem,9.4vw,2.75rem) does not overflow; hero-actions 2-col grid buttons do not clip labels; metrics-strip 2x2 with correct borders; all grids single-column; the industries inline-flow list uses the new middot separator from FEAT-003 and does not run words together; service cards single column with alternating slight offsets not causing horizontal scroll; founder-story single column image min/max-height sane; footer-cta and footer-main reflow; contact-form single column. Fix any horizontal overflow (body has overflow-x:hidden but elements should still fit).",
+    "VERIFY no fixed/absolute element (scroll-progress bar, consent-banner, video-control, chapter-doodle, service-grid::before glow) escapes its intended bounds on small screens; chapter-doodle already scales 0.72 at <=600 - confirm it does not overlap heading text.",
+    "ANIMATION TIMING/EASING: audit every transition/animation duration and easing for a cohesive, premium, subtle feel using the existing var(--ease-out) cubic-bezier(0.22,1,0.36,1) where appropriate. Ensure: scroll-reveal (0.65s/0.8s ease-out) is consistent; tech-marquee 26s linear is smooth and seamless; the lerp factors in scroll-focus-stack (0.12), services grid (0.11), pinned-services (0.14) produce smooth non-janky motion; hover-lifts (service-card 0.3s, contact-options 0.25s, project-card image 0.6s) are consistent in feel. Do NOT change the JS lerp constants unless one is demonstrably janky; prefer harmonizing CSS transition durations/easings. Keep all of it gated by prefers-reduced-motion (the global @media reduce block at ~line 2224 already neutralizes animations/transitions and scroll-reveal - confirm new rules are covered by it).",
+    "Confirm the prefers-reduced-motion:reduce block still fully neutralizes any transition/animation added or changed in FEAT-002/003/004 (it uses a universal `*` selector so new rules are covered, but verify nothing sets an animation via inline style that bypasses it - the JS components already early-return under reduced motion).",
+    "Final consistency sweep: load-order sanity of media queries (base -> min-width:901 -> max-width:900 -> max-width:600 -> reduce) is preserved so later breakpoints correctly override earlier ones."
+  ],
+  "acceptance_criteria": [
+    "At 1200+, 901-1199, 600-900, and <600 widths, no element overflows the viewport horizontally, is cut off, awkwardly zoomed, or breaks layout (verified by reading the media blocks and reasoning about each grid; final confirmation deferred to preview).",
+    "The industries inline list on phone shows a visible separator between solutions (not run-together words).",
+    "ScrollFocusStack chapters are non-sticky and fully visible on <=900px; pinned-services shows a properly contained static visual + full readable list on mobile.",
+    "All animations/transitions use cohesive durations/easings and are fully neutralized under prefers-reduced-motion:reduce.",
+    "src/styles.css is valid CSS with media queries in an order where later/narrower breakpoints override earlier ones; no :root token redefined; site-data.ts unchanged."
+  ],
+  "verification": [
+    "Deferred to CI: `unset NODE_OPTIONS && npm run typecheck && npm run lint && npm test && npm run build` all pass.",
+    "Read the three media-query blocks end to end and confirm brace balance and override order.",
+    "Confirm `git diff --stat` shows changes confined to src/styles.css (plus at most the projects-showcase-grid.tsx SPANS array from FEAT-003)."
+  ],
+  "blocked_reason": null,
+  "findings": ""
+}
