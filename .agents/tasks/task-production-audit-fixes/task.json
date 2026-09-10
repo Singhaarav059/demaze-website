@@ -1,0 +1,7 @@
+{
+  "task_id": "task-production-audit-fixes",
+  "task_description": "Audit the DEMAze Technologies marketing site (layout, performance, design/UX, accessibility, correctness) and fix the highest-value, lowest-risk production-readiness issues that CI can validate: make marketing claims/copy honest (unsubstantiated homepage metrics, over-promising playbook form, future-dated legal/footer), and fix concrete perf/UX/a11y issues in interactive components (offscreen hero-video pausing, PinnedServicesShowcase touch discoverability + stacked-image a11y + keyboard focus). Responsive-image srcset is deferred: it requires regenerating the generated src/assets/images.ts via sharp, which is not installable in the INTEGRATIONS_ONLY sandbox and must not be hand-edited.",
+  "status": "in_progress",
+  "feature_order": ["FEAT-001", "FEAT-002", "FEAT-003"],
+  "blocked_reason": null
+}

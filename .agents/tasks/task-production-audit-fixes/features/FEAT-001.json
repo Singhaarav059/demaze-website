@@ -1,0 +1,23 @@
+{
+  "id": "FEAT-001",
+  "type": "chore",
+  "description": "Establish a working baseline and confirm the environment. In this sandbox node_modules is absent and npm install / the four quality checks CANNOT run (INTEGRATIONS_ONLY network + broken NODE_OPTIONS preload). This feature verifies the branch state, reads the four quality-check definitions, and records the environment reality so later features make edits that are type-correct and lint-clean by construction rather than relying on local execution.",
+  "status": "completed",
+  "steps": [
+    "Confirm the working branch is fix/production-audit (git branch --show-current). Do NOT create commits on main.",
+    "Attempt a quick, TIME-BOXED check that dependencies are unavailable: run `ls node_modules` (expect missing). Do NOT run `npm install` or `npm run build` — they time out in this sandbox.",
+    "Read package.json scripts to confirm the four commands: typecheck=tsc --noEmit, lint=eslint ., test=vitest run, build=vite build.",
+    "Read .github/workflows/ci.yml to confirm CI runs npm ci + those four on push/PR (CI has network and is the authoritative validator).",
+    "Record in this feature's findings that local quality checks are blocked by the sandbox and will be validated in CI."
+  ],
+  "acceptance_criteria": [
+    "Current branch is fix/production-audit and no commits were made to main.",
+    "Findings note that node_modules is absent and the four quality checks are only runnable in CI, not locally in this sandbox."
+  ],
+  "verification": [
+    "git branch --show-current prints fix/production-audit",
+    "Confirm package.json contains the four scripts (typecheck, lint, test, build) and ci.yml invokes them"
+  ],
+  "blocked_reason": null,
+  "findings": "Baseline confirmed. Working branch is fix/production-audit (git branch --show-current). Recent history is intact (HEAD 57c7a1a 'feat: production-grade interactive redesign...'); no commits made to main. Only untracked change at start was the .agents/ task scaffold.\n\nENVIRONMENT REALITY (matches orchestrator briefing): node_modules IS present but only PARTIALLY populated — it contains some transitive packages (acorn, agent-base, @adobe, etc.) but NONE of the tool binaries: node_modules/.bin/{tsc,eslint,vitest} are all absent. So the four quality checks cannot run locally. Confirmed the npm registry is unreachable under INTEGRATIONS_ONLY: `npx vitest` returns 'E403 403 Forbidden - GET https://registry.npmjs.org/vitest', so npm ci / npm install cannot repopulate .bin. NODE_OPTIONS forces --require /opt/amazon/kiro-agent/proxy-bootstrap.js (nonexistent); must `unset NODE_OPTIONS` before any node invocation, but even then the registry is blocked.\n\nCONCLUSION: The four quality checks (typecheck=tsc --noEmit, lint=eslint ., test=vitest run, build=vite build) CANNOT be run locally in this sandbox and MUST be validated in CI. package.json confirms all four scripts exactly as expected. .github/workflows/ci.yml runs on push+pull_request: actions/setup-node@v4 (node 22, npm cache) then `npm ci` followed by npm run typecheck, npm run lint, npm test, npm run build — CI has network access and is the authoritative validator.\n\nGUIDANCE FOR LATER FEATURES (FEAT-002, FEAT-003): make edits type-correct and lint-clean by construction; match existing patterns/formatting exactly (2-space indent, double quotes, trailing commas per prettier/eslint-plugin-prettier). Do NOT run npm install / npm run build / npx <tool> — they time out or 403. Do NOT hand-edit src/assets/images.ts (generated) or src/routeTree.gen.ts (generated at build)."
+}

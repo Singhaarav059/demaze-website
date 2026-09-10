@@ -1,0 +1,31 @@
+{
+  "id": "FEAT-002",
+  "type": "fix",
+  "description": "Make the site's marketing claims and copy honest and production-safe. The homepage metrics ('45+ Projects Delivered', '$10M+ Client Value Generated', '35+ Expert Team Members', '6+ Years of Excellence' in src/lib/site-data.ts) are unsubstantiated placeholders flagged in roadmap.md; the same unverifiable '35+ team' claim is repeated in the hero badge and body copy. The playbook form promises a PDF that is never actually sent. The consent banner references analytics that never run on the production deploy. Legal pages and the footer are future-dated. This feature aligns copy with what the site can actually back up, without inventing new specific numbers. Where a specific number cannot be substantiated, prefer qualitative, defensible phrasing rather than a different invented number.",
+  "status": "pending",
+  "steps": [
+    "In src/lib/site-data.ts, replace the four `metrics` entries (currently ['45+','Projects Delivered'], ['$10M+','Client Value Generated'], ['35+','Expert Team Members'], ['6+','Years of Excellence']) with defensible, non-fabricated claims. Keep the array shape `[value, label] as const` with exactly 4 entries so src/lib/site-data.test.ts (`expect(metrics).toHaveLength(4)`) still passes and the count-up Metric component still parses a leading numeric where present. Prefer capability-based phrasing tied to content the site actually shows: e.g. derive 'Projects' from the real portfolio count (projects.length is 16+ in site-data), and use qualitative labels ('End-to-end delivery', 'AI-first engineering', 'Long-term partnership') for claims that have no auditable number. Do not introduce a new fabricated dollar figure or headcount. Coordinate the exact wording so it reads as a coherent 4-item strip.",
+    "In src/routes/index.tsx, fix the hero floating badge that reads '35+ Tech Architects' and the 'Who we are' SectionHeading copy that states 'a team of 35+ technologists' so they no longer assert an unverifiable headcount. Use the same phrasing decision as the metrics (qualitative, e.g. 'Senior AI & Product Engineers' / 'a team of technologists, innovators, and strategic thinkers').",
+    "In src/routes/about-us.tsx, update the two '35+' references (the meta description 'Meet the 35+ technologists...' and the body 'a passionate team of 35+ technologists') to match the same phrasing.",
+    "In src/components/playbook-form.tsx, change the success-state copy so it does not promise an automated PDF that is not sent. Reflect the real behaviour: the request is received and the team will follow up by email with the guide. Also reconsider the submit button label 'Submit to download' (with the Download icon) since nothing downloads immediately — change to accurate wording such as 'Request the guide'. Keep the CheckCircle2 success layout and role=\"status\" focus behaviour intact.",
+    "In src/routes/ai-dev-automation-playbook-form.tsx, adjust the intro copy if needed so the page and form agree that the guide is emailed after a request rather than downloaded instantly.",
+    "In src/components/privacy-analytics.tsx, keep the existing honest gating (banner only shows when a tracker is actually present) but verify the copy still makes sense; no functional change required unless copy references are now inconsistent. Do not add a new analytics vendor.",
+    "In src/components/site-shell.tsx SiteFooter, the copyright currently reads 'Demaze Technologies © 2026.' Make it robust and not future-dated: render the current year dynamically (e.g. new Date().getFullYear()) so it never shows a future or stale year. Ensure this is SSR-safe (getFullYear is fine on server and client).",
+    "In src/routes/privacy-policy.tsx and src/routes/terms-of-service.tsx, the 'Effective September 10, 2026' dates are future-dated placeholders. Leave the legal wording to counsel, but the date should not be in the future; set it to a sensible non-future effective date or make clear it is a draft date. Do not otherwise rewrite legal text."
+  ],
+  "acceptance_criteria": [
+    "src/lib/site-data.ts `metrics` still has exactly 4 `[value, label] as const` entries and contains no unsubstantiated '$10M+' / '45+' / '35+' / '6+' fabricated figures presented as fact; site-data.test.ts assertions about metrics length remain satisfied.",
+    "No occurrence of the literal unverifiable claim '35+' as a team/architect headcount remains in src/routes/index.tsx or src/routes/about-us.tsx.",
+    "playbook-form.tsx success copy and button label no longer promise an instant/automated PDF download; they describe the real email follow-up flow.",
+    "SiteFooter copyright year is rendered dynamically (no hardcoded future '2026').",
+    "privacy-policy.tsx and terms-of-service.tsx effective dates are not in the future.",
+    "All edits match existing Prettier/ESLint formatting (2-space indent, double quotes, trailing commas) so lint stays clean."
+  ],
+  "verification": [
+    "grep for '45+', '$10M+', '35+', '6+' across src/ and confirm no fabricated metric/headcount claims remain (in site-data.ts, index.tsx, about-us.tsx)",
+    "Read playbook-form.tsx and confirm success copy + button describe an email follow-up, not an instant download",
+    "In CI: npm run typecheck, npm run lint, npm test (site-data.test.ts metrics length), npm run build all pass"
+  ],
+  "blocked_reason": null,
+  "findings": ""
+}
