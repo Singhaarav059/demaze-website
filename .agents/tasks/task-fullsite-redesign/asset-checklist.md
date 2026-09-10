@@ -1,5 +1,16 @@
 # Asset drop-in checklist (full-site redesign)
 
+> UPDATE 2026-09-10 (content-parity pass): the projects page now renders all
+> 16 engagements with real imagery. The eight remaining project images were
+> copied binary-safe from `origin/main:src/assets/original/` into `public/`:
+> `project-car-service.webp`, `project-gifting.webp`, `project-payment.webp`,
+> `project-management.webp`, `project-lms.webp`, `project-storyboard.webp`,
+> `project-insurance.webp`, `project-social.webp`. Combined with the eight
+> already present (`project-car`, `project-investigation`, `project-luxury`,
+> `project-sukoon`, `project-marketplace`, `project-grocery`, `project-cma`,
+> `project-recruitment`), all 16 projects/{page,detail} tiles resolve to real
+> files. No other asset set changed.
+
 > UPDATE 2026-09-10: the real prototype assets were sourced from `origin/main`
 > (its committed binaries under `src/assets/` and `public/`, code/config
 > ignored) and wired into this branch. The video/poster, tech logos, project
