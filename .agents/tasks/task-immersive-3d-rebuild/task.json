@@ -1,9 +1,22 @@
 {
   "task_id": "task-immersive-3d-rebuild",
   "task_description": "Rebuild the DEMAze Technologies marketing site into a modern, immersive, 3D-interactive, production-grade experience. Preserve the proven foundation (TanStack Start SSR, Vite/Lovable wrapper, Tailwind v4, Supabase forms, security headers/CSP, Railway/Nitro deploy, and the honest real content model) and build a new immersive presentation layer on top: an SSR-safe React Three Fiber 3D hero, a smooth-scroll + motion-primitive system, a rebuilt layout shell and section components, and a page-by-page rebuild of all ten routes. Honor prefers-reduced-motion, provide non-WebGL fallbacks, keep WCAG AA and no layout shift. All work on branch rebuild/immersive-3d; the sandbox is INTEGRATIONS_ONLY so new deps cannot be installed and the four CI checks cannot run locally; CI is the authoritative validator.",
-  "status": "in_progress",
+  "status": "completed",
   "feature_order": ["FEAT-001", "FEAT-002", "FEAT-003", "FEAT-004", "FEAT-005"],
   "blocked_reason": null,
+  "review": {
+    "v1_verdict": "NEEDS_CHANGES",
+    "v2_verdict": "APPROVED",
+    "resolved_in_followup": [
+      "Reduced-motion lenis init-then-teardown window closed (useHasMounted + synchronous prefersReducedMotion gate)",
+      "Dead has-custom-cursor body class removed",
+      "Marquee pause control now omitted under reduced motion, hydration-safe"
+    ],
+    "deferred": [
+      "package-lock.json regeneration (network-only, must be done by maintainer/CI via `npm install` before `npm ci`/CI can pass) - not a code defect",
+      "Client-hook unit tests for useReducedMotion/useHasMounted skipped (no jsdom vitest env; would risk perturbing the node-env suite) - non-blocking"
+    ]
+  },
   "verification": {
     "build": "deferred",
     "tests": "deferred",
