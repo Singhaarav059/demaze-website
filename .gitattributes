@@ -1,0 +1,14 @@
+# The index already stores LF; without this, a Windows checkout rewrites every
+# source file to CRLF on the way out and git warns on every add.
+* text=auto eol=lf
+
+# Never line-ending-mangle a binary.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.mp4 binary
+*.webm binary

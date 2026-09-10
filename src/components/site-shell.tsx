@@ -1,0 +1,194 @@
+import { Link } from "@tanstack/react-router";
+import { ArrowUpRight, Menu, X } from "lucide-react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
+const footerArt = "/footer.png";
+import { Button } from "@/components/ui/button";
+
+const navigation = [
+  ["Projects", "/projects"],
+  ["Services", "/services"],
+  ["About Us", "/about-us"],
+  ["Blogs", "/blogs"],
+] as const;
+
+export function Brand() {
+  return (
+    <Link to="/" className="site-brand" aria-label="DEMAze Technologies home">
+      <span className="brand-mark" aria-hidden="true">
+        <i />
+        <i />
+        <i />
+      </span>
+      <strong>demaze</strong>
+      <small>technologies</small>
+    </Link>
+  );
+}
+
+export function SiteHeader({ overlay = false }: { overlay?: boolean }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <header className={`site-header ${overlay ? "site-header-overlay" : ""}`}>
+      <Link to="/" className="header-logo" aria-label="DEMAze Technologies home">
+        <img src="/demaze-logo.png" alt="Demaze" />
+      </Link>
+      <nav className="desktop-nav" aria-label="Main navigation">
+        {navigation.map(([label, to]) => (
+          <Link key={to} to={to} activeProps={{ className: "active" }}>
+            {label}
+          </Link>
+        ))}
+      </nav>
+      <Button variant="editorial" size="hero" className="header-cta" asChild>
+        <Link to="/contact-us">
+          Book a call <ArrowUpRight />
+        </Link>
+      </Button>
+      <Button
+        className="menu-toggle"
+        variant="ghost"
+        size="icon"
+        aria-label={open ? "Close menu" : "Open menu"}
+        onClick={() => setOpen(!open)}
+      >
+        {open ? <X /> : <Menu />}
+      </Button>
+      {open && (
+        <nav className="mobile-nav" aria-label="Mobile navigation">
+          {navigation.map(([label, to]) => (
+            <Link key={to} to={to} onClick={() => setOpen(false)}>
+              {label}
+            </Link>
+          ))}
+          <Link to="/contact-us" onClick={() => setOpen(false)}>
+            Contact Us <ArrowUpRight />
+          </Link>
+        </nav>
+      )}
+    </header>
+  );
+}
+
+export function SiteFooter() {
+  return (
+    <footer className="site-footer">
+      <div className="footer-cta section-wrap">
+        <img src={footerArt} alt="Abstract DEMAze collaboration graphic" loading="lazy" />
+        <div>
+          <p className="section-kicker">Have a project in mind?</p>
+          <h2>
+            Let’s build smarter,
+            <br />
+            <span>together.</span>
+          </h2>
+        </div>
+        <Button variant="editorial" size="hero" asChild>
+          <Link to="/contact-us">
+            Start a conversation <ArrowUpRight />
+          </Link>
+        </Button>
+      </div>
+      <div className="footer-main section-wrap">
+        <div className="footer-about">
+          <Brand />
+          <p>
+            We combine AI, software engineering, and automation with deep industry expertise to
+            build scalable, sustainable solutions, working alongside you as a trusted, long-term
+            partner.
+          </p>
+        </div>
+        <div className="footer-links">
+          <span>Explore</span>
+          {navigation.map(([label, to]) => (
+            <Link key={to} to={to}>
+              {label}
+            </Link>
+          ))}
+          <Link to="/contact-us">Contact Us</Link>
+        </div>
+        <div className="footer-links">
+          <span>Connect</span>
+          <a href="mailto:contact@demazetech.com">Email</a>
+          <a href="https://www.linkedin.com/in/krupalchaudhary" target="_blank" rel="noreferrer">
+            LinkedIn
+          </a>
+          <a href="https://www.instagram.com/demaze_technologies" target="_blank" rel="noreferrer">
+            Instagram
+          </a>
+          <a href="https://x.com/growwithkrupal" target="_blank" rel="noreferrer">
+            X
+          </a>
+        </div>
+      </div>
+      <div className="footer-base section-wrap">
+        <span>DEMAze Technologies © 2025. All rights reserved.</span>
+        <span>Ahmedabad, India</span>
+      </div>
+    </footer>
+  );
+}
+
+export function PageLayout({
+  children,
+  overlayHeader = false,
+}: {
+  children: ReactNode;
+  overlayHeader?: boolean;
+}) {
+  const pageRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const page = pageRef.current;
+    if (!page || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const items = page.querySelectorAll<HTMLElement>(
+      ".section-heading, .project-card, .service-card, .industry-grid article, .values-grid article, .process-grid article, .founder-story, .tech-band, .faq-list, .about-split, .benefit-row article, .featured-article, .contact-options > a, .contact-form, .playbook-form, .case-visual, .case-columns > div",
+    );
+    items.forEach((item, index) => {
+      item.classList.add("scroll-reveal");
+      item.style.setProperty("--reveal-delay", `${Math.min(index % 4, 3) * 55}ms`);
+    });
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        });
+      },
+      { rootMargin: "0px 0px -9%", threshold: 0.08 },
+    );
+    items.forEach((item) => observer.observe(item));
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div ref={pageRef} className="site-page">
+      <div className="site-atmosphere" aria-hidden="true">
+        <i />
+        <i />
+        <i />
+      </div>
+      <SiteHeader overlay={overlayHeader} />
+      {children}
+      <SiteFooter />
+    </div>
+  );
+}
+
+export function PageIntro({
+  eyebrow,
+  title,
+  copy,
+}: {
+  eyebrow: string;
+  title: ReactNode;
+  copy: string;
+}) {
+  return (
+    <section className="page-intro section-wrap">
+      <p className="section-kicker">{eyebrow}</p>
+      <h1>{title}</h1>
+      <p>{copy}</p>
+    </section>
+  );
+}
