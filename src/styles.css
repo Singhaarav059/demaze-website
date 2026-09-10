@@ -1019,8 +1019,9 @@
 }
 .project-showcase-caption h3 {
   margin: 0.35rem 0 0;
-  /* Matches the 1.05rem/1.2 display-font h3 used by pinned-services and the
-     industry grid so all three sub-card headings share one treatment. */
+  /* Matches the 1.05rem/1.2 display-font h3 used by the pinned-services list so
+     the two overlay/list sub-card headings share one treatment. (The
+     industry/values/process h3s use --display-md, a slightly larger scale.) */
   font: 600 1.05rem/1.2 var(--font-display);
 }
 @media (max-width: 900px) {
