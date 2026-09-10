@@ -65,13 +65,11 @@ export function CustomCursor() {
       frame = window.requestAnimationFrame(tick);
     };
 
-    document.body.classList.add("has-custom-cursor");
     window.addEventListener("pointermove", onMove, { passive: true });
     document.addEventListener("pointerleave", onLeave);
     frame = window.requestAnimationFrame(tick);
 
     return () => {
-      document.body.classList.remove("has-custom-cursor");
       window.removeEventListener("pointermove", onMove);
       document.removeEventListener("pointerleave", onLeave);
       window.cancelAnimationFrame(frame);

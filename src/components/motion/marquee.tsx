@@ -1,4 +1,5 @@
 import { useId, useState, type CSSProperties, type ReactNode } from "react";
+import { useReducedMotion } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 // Accessible, pausable horizontal marquee for the technology band. The track is
@@ -6,7 +7,13 @@ import { cn } from "@/lib/utils";
 // screen readers announce the content once. A visible pause/play control lets
 // keyboard and pointer users stop the motion, and the whole animation is driven
 // by CSS that is neutralised under prefers-reduced-motion (see styles.css), so
-// reduced-motion users get a static, readable row. SSR-safe (no window access).
+// reduced-motion users get a static, readable row. Under reduced motion the
+// pause/play control is not rendered at all: the animation is already frozen,
+// so the control would be a no-op. `useReducedMotion()` starts `false` (server
+// and first client render) and only flips after mount, so the button renders
+// identically during SSR/hydration and is simply removed on the client for
+// reduced-motion users, avoiding any hydration mismatch. SSR-safe (no direct
+// window access).
 
 export interface MarqueeProps {
   children: ReactNode;
@@ -27,6 +34,7 @@ export function Marquee({
   label = "Scrolling content",
 }: MarqueeProps) {
   const [paused, setPaused] = useState(false);
+  const reducedMotion = useReducedMotion();
   const regionId = useId();
 
   return (
@@ -49,16 +57,20 @@ export function Marquee({
           {children}
         </div>
       </div>
-      <button
-        type="button"
-        className="immersive-marquee-toggle"
-        aria-pressed={paused}
-        aria-controls={regionId}
-        onClick={() => setPaused((value) => !value)}
-      >
-        {paused ? "Play" : "Pause"}
-        <span className="sr-only"> scrolling technologies</span>
-      </button>
+      {/* The animation is frozen by the reduced-motion CSS guard, so the
+          control has nothing to pause; omit it for reduced-motion users. */}
+      {!reducedMotion && (
+        <button
+          type="button"
+          className="immersive-marquee-toggle"
+          aria-pressed={paused}
+          aria-controls={regionId}
+          onClick={() => setPaused((value) => !value)}
+        >
+          {paused ? "Play" : "Pause"}
+          <span className="sr-only"> scrolling technologies</span>
+        </button>
+      )}
     </div>
   );
 }

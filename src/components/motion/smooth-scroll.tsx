@@ -1,7 +1,7 @@
 import { useEffect, useRef, type ReactNode } from "react";
 import { useRouterState } from "@tanstack/react-router";
 import Lenis from "lenis";
-import { useReducedMotion } from "@/lib/motion";
+import { prefersReducedMotion, useHasMounted, useReducedMotion } from "@/lib/motion";
 
 // Client-only smooth-scroll provider built on lenis. It is a strict no-op on
 // the server and under prefers-reduced-motion: in those cases it renders its
@@ -12,12 +12,21 @@ import { useReducedMotion } from "@/lib/motion";
 
 export function SmoothScrollProvider({ children }: { children: ReactNode }) {
   const reducedMotion = useReducedMotion();
+  // Only ever true after the first client commit, so the lenis effect never
+  // runs during SSR or the initial hydration render.
+  const hasMounted = useHasMounted();
   const lenisRef = useRef<Lenis | null>(null);
   const pathname = useRouterState({ select: (state) => state.location.pathname });
 
   useEffect(() => {
-    // Guard SSR and honour reduced motion: no instance, native scroll intact.
-    if (typeof window === "undefined" || reducedMotion) return;
+    // Guard SSR/pre-mount and honour reduced motion so no instance is ever
+    // constructed for reduced-motion users: `reducedMotion` from the hook can
+    // still read stale `false` on the very first commit, so we also read the
+    // media query synchronously here before touching Lenis. Combined with the
+    // mount gate this closes the init-then-teardown window entirely.
+    if (typeof window === "undefined" || !hasMounted || reducedMotion || prefersReducedMotion()) {
+      return;
+    }
 
     const lenis = new Lenis({
       duration: 1.05,
@@ -39,7 +48,7 @@ export function SmoothScrollProvider({ children }: { children: ReactNode }) {
       lenis.destroy();
       lenisRef.current = null;
     };
-  }, [reducedMotion]);
+  }, [hasMounted, reducedMotion]);
 
   useEffect(() => {
     // On route change, jump to the top so a new page never inherits the prior
