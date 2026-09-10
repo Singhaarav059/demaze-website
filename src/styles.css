@@ -114,10 +114,9 @@
      and custom cursor introduced in later features.
      ───────────────────────────────────────────────────────────────────────── */
 
-  /* Z-index scale so the fixed 3D canvas, page content, sticky chrome, and the
-     custom cursor stack deterministically instead of fighting ad-hoc values. */
-  --z-canvas: 0; /* fixed WebGL backdrop, behind all content */
-  --z-content: 10; /* normal document flow above the canvas */
+  /* Z-index scale so the decorative backdrop, page content, sticky chrome, and
+     the custom cursor stack deterministically instead of fighting ad-hoc values. */
+  --z-content: 10; /* normal document flow above the backdrop */
   --z-sticky: 40; /* sticky header / scroll progress */
   --z-overlay: 60; /* modals, mobile menu, toasts */
   --z-cursor: 90; /* bespoke cursor, always on top */
@@ -3607,9 +3606,8 @@
   }
 
   /* Immersive system guard (FEAT-001): neutralise the parallax/spring motion of
-     the new immersive classes and force them to their resolved resting state.
-     The WebGL canvas itself is gated in JS via useReducedMotion(); this handles
-     the CSS-driven depth, cursor, and reveal layers. */
+     the immersive classes and force them to their resolved resting state. This
+     handles the CSS-driven depth, cursor, and reveal layers. */
   [class*="immersive-"],
   [class*="immersive-"]::before,
   [class*="immersive-"]::after {
@@ -3639,24 +3637,6 @@
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
-}
-
-/* The WebGL canvas layer sits behind all content and never intercepts pointer
-   events or blocks scrolling. It fills its positioned parent (the hero visual
-   container), matching the video fallback it swaps in for. */
-.immersive-canvas-layer {
-  position: absolute;
-  inset: 0;
-  z-index: var(--z-canvas);
-  pointer-events: none;
-  overflow: hidden;
-}
-.immersive-canvas-layer canvas,
-.immersive-canvas-inner {
-  width: 100% !important;
-  height: 100% !important;
-  display: block;
-  pointer-events: none;
 }
 
 /* Custom cursor: two fixed, decorative layers that ride above everything. The
@@ -3784,66 +3764,14 @@
    prefers-reduced-motion guards neutralise it.
    ========================================================================== */
 
-/* Home hero: scope the decorative 3D canvas to the hero section and keep the
-   copy + perspective card above it. .home-hero is a grid, so the canvas layer
-   is taken out of flow with position:absolute (via .immersive-canvas-layer) and
-   the real content is lifted onto its own stacking level. */
+/* Home hero: keep the copy + perspective card lifted above the decorative
+   aurora mesh backdrop. .home-hero is a grid, so the aurora layer is taken out
+   of flow and the real content is lifted onto its own stacking level. */
 .immersive-hero-section {
   position: relative;
 }
 .immersive-hero-section > .hero-copy,
 .immersive-hero-section > .hero-perspective-stage {
-  position: relative;
-  z-index: 1;
-}
-/* The canvas layer already carries position:absolute; inset:0; pointer-events:
-   none; z-index:var(--z-canvas). Pin it to the hero section and let it bleed a
-   little past the edges so the scene fills the backdrop. */
-.immersive-canvas-layer.home-hero-canvas {
-  inset: -8% -6%;
-  z-index: 0;
-  border-radius: inherit;
-}
-/* Static fallback for the hero canvas (server / no WebGL / reduced motion): a
-   soft brand-tinted aurora so the backdrop is never blank. */
-.home-hero-canvas-fallback {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(
-      ellipse at 30% 25%,
-      color-mix(in oklch, var(--color-pastel-lavender) 60%, transparent) 0%,
-      transparent 60%
-    ),
-    radial-gradient(
-      ellipse at 75% 60%,
-      color-mix(in oklch, var(--color-pastel-blue) 45%, transparent) 0%,
-      transparent 62%
-    );
-  filter: blur(40px);
-  opacity: 0.7;
-}
-
-/* Dedicated ImmersiveHero component (opt-in full-bleed 3D hero for pages that
-   want it). The canvas sits behind a centred copy overlay; the section has a
-   sensible min-height so the absolute canvas layer has a box to fill. */
-.immersive-hero {
-  position: relative;
-  isolation: isolate;
-  min-height: min(620px, calc(100svh - 6rem));
-  display: grid;
-  align-items: center;
-  overflow: clip;
-}
-.immersive-hero-canvas {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-}
-.immersive-hero-canvas .immersive-canvas-layer {
-  inset: 0;
-}
-.immersive-hero-overlay {
   position: relative;
   z-index: 1;
 }

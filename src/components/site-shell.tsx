@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { ScrollProgress } from "@/components/scroll-progress";
 import { SmoothScrollProvider } from "@/components/motion/smooth-scroll";
 import { CustomCursor } from "@/components/motion/custom-cursor";
-import { HeroCanvas } from "@/components/three/hero-canvas";
 
 const navigation = [
   ["Projects", "/projects"],
@@ -248,30 +247,6 @@ export function PageLayout({
         <SiteFooter />
       </div>
     </SmoothScrollProvider>
-  );
-}
-
-// Opt-in immersive hero. Pages that want the full 3D treatment (the home page)
-// render <ImmersiveHero> with their copy as children; it composes the SSR-safe
-// <HeroCanvas> backdrop (which itself falls back to the hero video on the
-// server, without WebGL, and under reduced motion) behind an overlay that holds
-// the heading/CTAs. Interior pages keep the lighter <PageIntro> header instead.
-export function ImmersiveHero({
-  poster,
-  mp4,
-  children,
-}: {
-  poster: string;
-  mp4: string;
-  children: ReactNode;
-}) {
-  return (
-    <section className="immersive-hero">
-      <div className="immersive-hero-canvas" aria-hidden="true">
-        <HeroCanvas poster={poster} mp4={mp4} />
-      </div>
-      <div className="immersive-hero-overlay section-wrap">{children}</div>
-    </section>
   );
 }
 

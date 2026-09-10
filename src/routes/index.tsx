@@ -19,7 +19,6 @@ import { PinnedServicesShowcase } from "@/components/pinned-services-showcase";
 import robotsVideo from "@/assets/demaze-robot-studio.mp4";
 import robotsPoster from "@/assets/demaze-robot-studio-poster.webp";
 import { HeroVideo } from "@/components/hero-video";
-import { ClientCanvas } from "@/components/three/client-canvas";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -50,16 +49,9 @@ function Home() {
       <PageLayout overlayHeader>
         <main id="main-content">
           <section className="home-hero section-wrap immersive-hero-section">
-            {/* Full 3D hero backdrop. ClientCanvas renders the SSR-safe R3F
-                scene behind the copy on capable clients and falls back to a
-                static gradient on the server, without WebGL, and under reduced
-                motion (the perspective card below keeps the hero video). It is a
-                decorative, pointer-events:none layer that fills the hero section
-                without disturbing the copy or the perspective card. */}
-            <ClientCanvas
-              className="home-hero-canvas"
-              fallback={<div className="home-hero-canvas-fallback" aria-hidden="true" />}
-            />
+            {/* Aurora mesh backdrop: a soft, brand-tinted gradient composition
+                that fills the hero behind the copy and perspective card. It is a
+                decorative, pointer-events:none layer. */}
             <div className="aurora-mesh-container" aria-hidden="true">
               <div className="aurora-blob aurora-blob-1" />
               <div className="aurora-blob aurora-blob-2" />
