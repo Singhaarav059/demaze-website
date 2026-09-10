@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap">
+  <style>
+    html,body{margin:0;background:oklch(0.992 0.003 55);}
+    a{color:oklch(0.532 0.216 7);}
+    a:hover{color:oklch(0.64 0.26 7);}
+    button{font-family:inherit;}
+    @keyframes pulse-dot{50%{opacity:.35;transform:scale(.75);}}
+    @keyframes marquee-scroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+    @keyframes chip-drift{0%,100%{transform:translateY(0) rotate(-2deg);}50%{transform:translateY(-10px) rotate(2deg);}}
+  </style>
+</helmet>
+<div ref="{{ rootRef }}" style="position:relative;overflow-x:clip;background:oklch(0.992 0.003 55);color:oklch(0.16 0.004 285);font-family:'DM Sans',system-ui,sans-serif;">
+
+  <div id="scroll-progress" style="position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,oklch(0.64 0.26 7),oklch(0.92 0.05 305));z-index:200;"></div>
+
+  <header id="site-header" style="position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px clamp(20px,4vw,48px);background:transparent;transition:background .3s ease,box-shadow .3s ease,padding .3s ease,backdrop-filter .3s ease;">
+    <img src="assets/demaze-logo.png" alt="DEMAze Technologies" style="height:30px;width:auto;display:block;cursor:pointer;" onclick="{{ goHome }}"/>
+    <nav style="display:flex;gap:clamp(14px,3vw,28px);flex-wrap:wrap;">
+      <button onclick="{{ goProjects }}" style="{{ navProjectsStyle }}">Projects</button>
+      <button onclick="{{ goServices }}" style="{{ navServicesStyle }}">Services</button>
+      <button onclick="{{ goAbout }}" style="{{ navAboutStyle }}">About Us</button>
+      <button onclick="{{ goContact }}" style="{{ navContactStyle }}">Contact Us</button>
+    </nav>
+    <button onclick="{{ goContact }}" style="border:none;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px;padding:10px 18px;border-radius:8px;background:oklch(0.532 0.216 7);color:#fff;font-size:13px;font-weight:700;white-space:nowrap;">Book a call ↗</button>
+  </header>
+
+  <main>
+  <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+  <div>
+    <section style="display:grid;grid-template-columns:minmax(0,0.85fr) minmax(0,1.15fr);gap:clamp(24px,4vw,60px);align-items:center;width:min(1120px,calc(100% - 48px));margin:0 auto;min-height:min(78vh,640px);padding-block:clamp(20px,3vw,40px);">
+      <div data-reveal style="min-width:0;">
+        <p style="display:flex;align-items:center;gap:8px;margin:0 0 14px;color:oklch(0.532 0.216 7);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.13em;">
+          <span style="width:7px;height:7px;border-radius:50%;background:oklch(0.64 0.26 7);animation:pulse-dot 2.2s ease-in-out infinite;"></span>
+          Expertise · Innovation · Partnership
+        </p>
+        <h1 style="margin:0;font:600 clamp(2.2rem,3.4vw,3.5rem)/1.05 'Space Grotesk',system-ui,sans-serif;">
+          Your strategic partner in building <em style="font-style:normal;color:oklch(0.64 0.26 7);">scalable AI products.</em>
+        </h1>
+        <p style="max-width:34rem;margin:18px 0 0;color:oklch(0.47 0.012 285);font-size:17px;line-height:1.65;">
+          We combine AI, software engineering, and automation with deep industry expertise to build scalable, sustainable solutions, working alongside you as a trusted, long-term partner.
+        </p>
+        <div style="display:flex;align-items:center;gap:14px;margin-top:26px;flex-wrap:wrap;">
+          <button onclick="{{ goContact }}" style="border:none;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;padding:14px 22px;border-radius:8px;background:oklch(0.532 0.216 7);color:#fff;font-size:14px;font-weight:700;">Let's connect ↗</button>
+          <button onclick="{{ goServices }}" style="border:none;background:none;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:700;color:oklch(0.532 0.216 7);">Explore services →</button>
+        </div>
+      </div>
+      <div id="hero-video-frame" style="position:relative;width:100%;aspect-ratio:16/9;border-radius:22px;overflow:hidden;border:4px solid color-mix(in oklch,oklch(0.992 0.003 55) 78%,transparent);background:linear-gradient(135deg,oklch(0.92 0.05 305),oklch(0.94 0.04 220) 58%,oklch(0.94 0.052 145));box-shadow:0 22px 58px oklch(0.28 0.03 285/0.14);">
+        <video src="assets/demaze-robot-studio.mp4" poster="assets/demaze-robot-studio-poster.webp" autoplay loop muted playsinline style="width:100%;height:100%;object-fit:contain;display:block;"></video>
+      </div>
+    </section>
+
+    <div style="width:min(1120px,calc(100% - 48px));margin:0 auto 56px;display:grid;grid-template-columns:repeat(4,1fr);border:1px solid oklch(0.86 0.014 285);border-radius:8px;background:color-mix(in oklch,oklch(0.992 0.003 55) 78%,transparent);overflow:hidden;">
+      <div data-metric data-target="45" data-suffix="+" style="padding:18px 16px;border-right:1px solid oklch(0.86 0.014 285);">
+        <strong style="display:block;font:600 clamp(1.7rem,2.3vw,2.4rem)/1 'Space Grotesk',system-ui,sans-serif;">0</strong>
+        <span style="color:oklch(0.47 0.012 285);font-size:12.5px;">Projects Delivered</span>
+      </div>
+      <div data-metric data-target="10" data-prefix="$" data-suffix="M+" style="padding:18px 16px;border-right:1px solid oklch(0.86 0.014 285);">
+        <strong style="display:block;font:600 clamp(1.7rem,2.3vw,2.4rem)/1 'Space Grotesk',system-ui,sans-serif;">$0</strong>
+        <span style="color:oklch(0.47 0.012 285);font-size:12.5px;">Client Value Generated</span>
+      </div>
+      <div data-metric data-target="35" data-suffix="+" style="padding:18px 16px;border-right:1px solid oklch(0.86 0.014 285);">
+        <strong style="display:block;font:600 clamp(1.7rem,2.3vw,2.4rem)/1 'Space Grotesk',system-ui,sans-serif;">0</strong>
+        <span style="color:oklch(0.47 0.012 285);font-size:12.5px;">Expert Team Members</span>
+      </div>
+      <div data-metric data-target="6" data-suffix="+" style="padding:18px 16px;">
+        <strong style="display:block;font:600 clamp(1.7rem,2.3vw,2.4rem)/1 'Space Grotesk',system-ui,sans-serif;">0</strong>
+        <span style="color:oklch(0.47 0.012 285);font-size:12.5px;">Years of Excellence</span>
+      </div>
+    </div>
+
+    <section style="width:min(1120px,calc(100% - 48px));margin:0 auto;padding-block:32px;">
+      <div data-reveal style="max-width:44rem;margin-bottom:28px;">
+        <p style="margin:0 0 10px;color:oklch(0.532 0.216 7);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.13em;">Our work</p>
+        <h2 style="margin:0;font:600 clamp(1.7rem,2.4vw,2.5rem)/1.08 'Space Grotesk',system-ui,sans-serif;">Complex problems, useful products.</h2>
+        <p style="margin:10px 0 0;color:oklch(0.47 0.012 285);line-height:1.6;">Selected platforms designed around real operations, customers, and growth.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(16px,2.5vw,28px);">
+        <article data-reveal style="border:1px solid oklch(0.86 0.014 285);border-radius:18px;overflow:hidden;background:#fff;box-shadow:0 14px 45px oklch(0.25 0.02 285/0.06);">
+          <div style="aspect-ratio:16/10;overflow:hidden;position:relative;background:oklch(0.92 0.05 305);"><img data-parallax-img src="assets/project-car.webp" alt="AI-based software for luxury car dealers" style="position:absolute;top:-8%;left:0;width:100%;height:116%;object-fit:cover;display:block;"/></div>
+          <div style="padding:20px 22px;"><h3 style="margin:0;font:600 1.15rem/1.2 'Space Grotesk',system-ui,sans-serif;">AI-Based Software for Luxury Car Dealers</h3><p style="margin:10px 0 0;color:oklch(0.47 0.012 285);font-size:14.5px;line-height:1.6;">Streamlines used-car valuation, EMI calculations, refurbishment, and sales operations.</p></div>
+        </article>
+        <article data-reveal style="border:1px solid oklch(0.86 0.014 285);border-radius:18px;overflow:hidden;background:#fff;box-shadow:0 14px 45px oklch(0.25 0.02 285/0.06);">
+          <div style="aspect-ratio:16/10;overflow:hidden;position:relative;background:oklch(0.94 0.04 220);"><img data-parallax-img src="assets/project-investigation.webp" alt="Investigative case management software" style="position:absolute;top:-8%;left:0;width:100%;height:116%;object-fit:cover;display:block;"/></div>
+          <div style="padding:20px 22px;"><h3 style="margin:0;font:600 1.15rem/1.2 'Space Grotesk',system-ui,sans-serif;">Investigative Case Management Software</h3><p style="margin:10px 0 0;color:oklch(0.47 0.012 285);font-size:14.5px;line-height:1.6;">AI-powered tools, structured case management, and secure media storage.</p></div>
+        </article>
+        <article data-reveal style="border:1px solid oklch(0.86 0.014 285);border-radius:18px;overflow:hidden;background:#fff;box-shadow:0 14px 45px oklch(0.25 0.02 285/0.06);">
+          <div style="aspect-ratio:16/10;overflow:hidden;position:relative;background:oklch(0.94 0.052 145);"><img data-parallax-img src="assets/project-luxury.webp" alt="AI-powered luxury eCommerce platform" style="position:absolute;top:-8%;left:0;width:100%;height:116%;object-fit:cover;display:block;"/></div>
+          <div style="padding:20px 22px;"><h3 style="margin:0;font:600 1.15rem/1.2 'Space Grotesk',system-ui,sans-serif;">AI-Powered Luxury eCommerce Platform</h3><p style="margin:10px 0 0;color:oklch(0.47 0.012 285);font-size:14.5px;line-height:1.6;">Sustainability-focused commerce with personalization and scalable operations.</p></div>
+        </article>
+        <article data-reveal style="border:1px solid oklch(0.86 0.014 285);border-radius:18px;overflow:hidden;background:#fff;box-shadow:0 14px 45px oklch(0.25 0.02 285/0.06);">
+          <div style="aspect-ratio:16/10;overflow:hidden;position:relative;background:oklch(0.96 0.06 88);"><img data-parallax-img src="assets/project-sukoon.webp" alt="Senior engagement and support platform" style="position:absolute;top:-8%;left:0;width:100%;height:116%;object-fit:cover;display:block;"/></div>
+          <div style="padding:20px 22px;"><h3 style="margin:0;font:600 1.15rem/1.2 'Space Grotesk',system-ui,sans-serif;">Senior Engagement & Support Platform</h3><p style="margin:10px 0 0;color:oklch(0.47 0.012 285);font-size:14.5px;line-height:1.6;">Coaching, meetups, and community for seniors to lead connected lives.</p></div>
+        </article>
+      </div>
+      <div data-reveal style="display:flex;justify-content:center;margin-top:28px;">
+        <button onclick="{{ goProjects }}" style="border:none;cursor:pointer;display:inline-flex;align-items:center;gap:8px;padding:14px 22px;border-radius:8px;background:oklch(0.532 0.216 7);color:#fff;font-size:14px;font-weight:700;">View all work ↗</button>
+      </div>
+    </section>
+
+    <section id="services" style="width:min(1120px,calc(100% - 48px));margin:0 auto;padding-block:32px 64px;">
+      <div data-reveal style="max-width:44rem;margin-bottom:12px;">
+        <p style="margin:0 0 10px;color:oklch(0.532 0.216 7);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.13em;">Services</p>
+        <h2 style="margin:0;font:600 clamp(1.7rem,2.4vw,2.5rem)/1.08 'Space Grotesk',system-ui,sans-serif;">Apps, websites, AI and more.</h2>
+      </div>
+      <div id="services-stage">
+        <div style="display:grid;grid-template-columns:minmax(0,0.9fr) minmax(0,1.1fr);gap:clamp(20px,3vw,40px);">
+          <div style="position:sticky;top:14vh;height:min(64vh,560px);align-self:start;border-radius:20px;overflow:hidden;background:linear-gradient(135deg,oklch(0.92 0.05 305),oklch(0.94 0.04 220));box-shadow:0 22px 58px oklch(0.28 0.03 285/0.12);">
+            <img data-service-img="0" src="assets/service-ai.webp" alt="AI & ML" style="position:absolute;inset:7%;width:86%;height:86%;object-fit:contain;object-position:center;opacity:1;will-change:transform,opacity,filter;"/>
+            <img data-service-img="1" src="assets/service-web.webp" alt="Web, mobile, SaaS" style="position:absolute;inset:7%;width:86%;height:86%;object-fit:contain;object-position:center;opacity:0;will-change:transform,opacity,filter;"/>
+            <img data-service-img="2" src="assets/service-commerce.png" alt="E-commerce" style="position:absolute;inset:7%;width:86%;height:86%;object-fit:contain;object-position:center;opacity:0;will-change:transform,opacity,filter;"/>
+            <img data-service-img="3" src="assets/service-cloud.png" alt="Cloud" style="position:absolute;inset:7%;width:86%;height:86%;object-fit:contain;object-position:center;opacity:0;will-change:transform,opacity,filter;"/>
+          </div>
+          <div>
+            <article data-service-row style="min-height:min(64vh,540px);display:flex;flex-direction:column;justify-content:center;opacity:.32;will-change:transform,opacity;"><small style="color:oklch(0.532 0.216 7);font-weight:700;">01</small><h3 style="margin:8px 0 0;font:600 1.5rem/1.2 'Space Grotesk',system-ui,sans-serif;">AI & ML</h3><p style="margin:12px 0 0;max-width:32rem;color:oklch(0.47 0.012 285);line-height:1.65;">Predictive analytics, computer vision, and generative AI that turn data into decisions.</p></article>
+            <article data-service-row style="min-height:min(64vh,540px);display:flex;flex-direction:column;justify-content:center;opacity:.32;will-change:transform,opacity;"><small style="color:oklch(0.532 0.216 7);font-weight:700;">02</small><h3 style="margin:8px 0 0;font:600 1.5rem/1.2 'Space Grotesk',system-ui,sans-serif;">Web / Mobile App / SaaS</h3><p style="margin:12px 0 0;max-width:32rem;color:oklch(0.47 0.012 285);line-height:1.65;">Enterprise SaaS, web, and mobile apps built to perform and grow.</p></article>
+            <article data-service-row style="min-height:min(64vh,540px);display:flex;flex-direction:column;justify-content:center;opacity:.32;will-change:transform,opacity;"><small style="color:oklch(0.532 0.216 7);font-weight:700;">03</small><h3 style="margin:8px 0 0;font:600 1.5rem/1.2 'Space Grotesk',system-ui,sans-serif;">E-commerce</h3><p style="margin:12px 0 0;max-width:32rem;color:oklch(0.47 0.012 285);line-height:1.65;">Marketplaces and subscription commerce that improve conversions.</p></article>
+            <article data-service-row style="min-height:min(64vh,540px);display:flex;flex-direction:column;justify-content:center;opacity:.32;will-change:transform,opacity;"><small style="color:oklch(0.532 0.216 7);font-weight:700;">04</small><h3 style="margin:8px 0 0;font:600 1.5rem/1.2 'Space Grotesk',system-ui,sans-serif;">Cloud</h3><p style="margin:12px 0 0;max-width:32rem;color:oklch(0.47 0.012 285);line-height:1.65;">Migration, DevOps automation, and disaster recovery for resilient systems.</p></article>
+          </div>
+        </div>
+      </div>
+      <div data-reveal style="display:flex;justify-content:center;margin-top:28px;">
+        <button onclick="{{ goServices }}" style="border:none;cursor:pointer;display:inline-flex;align-items:center;gap:8px;padding:14px 22px;border-radius:8px;background:oklch(0.532 0.216 7);color:#fff;font-size:14px;font-weight:700;">Explore services ↗</button>
+      </div>
+    </section>
+
+    <section style="width:min(1120px,calc(100% - 48px));margin:0 auto;padding-block:24px 56px;overflow:hidden;">
+      <div data-reveal style="max-width:44rem;margin-bottom:24px;">
+        <p style="margin:0 0 10px;color:oklch(0.532 0.216 7);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.13em;">Platforms & partners</p>
+        <h2 style="margin:0;font:600 clamp(1.7rem,2.4vw,2.5rem)/1.08 'Space Grotesk',system-ui,sans-serif;">Tools and technologies.</h2>
+      </div>
+      <div style="width:100%;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6% 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6% 94%,transparent);">
+        <div style="display:flex;gap:48px;width:max-content;animation:marquee-scroll 26s linear infinite;">
+          <div style="display:flex;gap:48px;align-items:center;">
+            <div style="display:flex;align-items:center;gap:10px;"><img src="assets/tech-langchain.png" alt="" style="height:28px;width:auto;"/><span style="font-size:14px;font-weight:600;color:oklch(0.47 0.012 285);">Langchain</span></div>
+            <div style="display:flex;align-items:center;gap:10px;"><img src="assets/tech-python.webp" alt="" style="height:28px;width:auto;"/><span style="font-size:14px;font-weight:600;color:oklch(0.47 0.012 285);">Python</span></div>
+            <div style="display:flex;align-items:center;gap:10px;"><img src="assets/tech-tensorflow.png" alt="" style="height:28px;width:auto;"/><span style="font-size:14px;font-weight:600;color:oklch(0.47 0.012 285);">TensorFlow</span></div>
+            <div style="display:flex;align-items:center;gap:10px;"><img src="assets/tech-openai.png" alt="" style="height:28px;width:auto;"/><span style="font-size:14px;font-weight:600;color:oklch(0.47 0.012 285);">OpenAI</span></div>
+            <div style="display:flex;align-items:center;gap:10px;"><img src="assets/tech-huggingface.png" alt="" style="height:28px;width:auto;"/><span style="font-size:14px;font-weight:600;color:oklch(0.47 0.012 285);">Hugging Face</span></div>
+            <div style="display:flex;align-items:center;gap:10px;"><img src="assets/tech-pinecone.png" alt="" style="height:28px;width:auto;"/><span style="font-size:14px;font-weight:600;color:oklch(0.47 0.012 285);">Pinecone</span></div>
+            <div style="display:flex;align-items:center;gap:10px;"><img src="assets/tech-kafka.png" alt="" style="height:28px;width:auto;"/><span style="font-size:14px;font-weight:600;color:oklch(0.47 0.012 285);">Apache Kafka</span></div>
+            <div style="display:flex;align-items:center;gap:10px;"><img src="assets/tech-elastic.png" alt="" style="height:28px;width:auto;"/><span style="font-size:14px;font-weight:600;color:oklch(0.47 0.012 285);">Elasticsearch</span></div>
+          </div>
+          <div style="display:flex;gap:48px;align-items:center;" aria-hidden="true">
+            <div style="display:flex;align-items:center;gap:10px;"><img src="assets/tech-langchain.png" alt="" style="height:28px;width:auto;"/><span style="font-size:14px;font-weight:600;color:oklch(0.47 0.012 285);">Langchain</span></div>
+            <div style="display:flex;align-items:center;gap:10px;"><img src="assets/tech-python.webp" alt="" style="height:28px;width:auto;"/><span style="font-size:14px;font-weight:600;color:oklch(0.47 0.012 285);">Python</span></div>
+            <div style="display:flex;align-items:center;gap:10px;"><img src="assets/tech-tensorflow.png" alt="" style="height:28px;width:auto;"/><span style="font-size:14px;font-weight:600;color:oklch(0.47 0.012 285);">TensorFlow</span></div>
+            <div style="display:flex;align-items:center;gap:10px;"><img src="assets/tech-openai.png" alt="" style="height:28px;width:auto;"/><span style="font-size:14px;font-weight:600;color:oklch(0.47 0.012 285);">OpenAI</span></div>
+            <div style="display:flex;align-items:center;gap:10px;"><img src="assets/tech-huggingface.png" alt="" style="height:28px;width:auto;"/><span style="font-size:14px;font-weight:600;color:oklch(0.47 0.012 285);">Hugging Face</span></div>
+            <div style="display:flex;align-items:center;gap:10px;"><img src="assets/tech-pinecone.png" alt="" style="height:28px;width:auto;"/><span style="font-size:14px;font-weight:600;color:oklch(0.47 0.012 285);">Pinecone</span></div>
+            <div style="display:flex;align-items:center;gap:10px;"><img src="assets/tech-kafka.png" alt="" style="height:28px;width:auto;"/><span style="font-size:14px;font-weight:600;color:oklch(0.47 0.012 285);">Apache Kafka</span></div>
+            <div style="display:flex;align-items:center;gap:10px;"><img src="assets/tech-elastic.png" alt="" style="height:28px;width:auto;"/><span style="font-size:14px;font-weight:600;color:oklch(0.47 0.012 285);">Elasticsearch</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section style="background:oklch(0.16 0.004 285);color:oklch(0.992 0.003 55);padding-block:64px;">
+      <div style="width:min(1120px,calc(100% - 48px));margin:0 auto;">
+        <div data-reveal style="max-width:44rem;margin-bottom:28px;"><p style="margin:0 0 10px;color:oklch(0.82 0.17 7);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.13em;">Why choose us</p><h2 style="margin:0;font:600 clamp(1.7rem,2.4vw,2.5rem)/1.08 'Space Grotesk',system-ui,sans-serif;color:oklch(0.992 0.003 55);">Built for lasting impact.</h2></div>
+        <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px;">
+          <article data-reveal><small style="color:oklch(0.82 0.17 7);font-weight:700;">01</small><h3 style="margin:8px 0 0;font:600 1.1rem/1.25 'Space Grotesk',system-ui,sans-serif;">Innovation at Our Core</h3><p style="margin:10px 0 0;color:oklch(0.82 0.01 285);font-size:14.5px;line-height:1.6;">We continuously explore emerging technologies to keep clients ahead.</p></article>
+          <article data-reveal><small style="color:oklch(0.82 0.17 7);font-weight:700;">02</small><h3 style="margin:8px 0 0;font:600 1.1rem/1.25 'Space Grotesk',system-ui,sans-serif;">Client Success Obsession</h3><p style="margin:10px 0 0;color:oklch(0.82 0.01 285);font-size:14.5px;line-height:1.6;">Your outcomes guide every decision, first idea through long-term growth.</p></article>
+          <article data-reveal><small style="color:oklch(0.82 0.17 7);font-weight:700;">03</small><h3 style="margin:8px 0 0;font:600 1.1rem/1.25 'Space Grotesk',system-ui,sans-serif;">Technology for Good</h3><p style="margin:10px 0 0;color:oklch(0.82 0.01 285);font-size:14.5px;line-height:1.6;">Thoughtful technology should simplify work and create sustainable value.</p></article>
+          <article data-reveal><small style="color:oklch(0.82 0.17 7);font-weight:700;">04</small><h3 style="margin:8px 0 0;font:600 1.1rem/1.25 'Space Grotesk',system-ui,sans-serif;">Continuous Learning</h3><p style="margin:10px 0 0;color:oklch(0.82 0.01 285);font-size:14.5px;line-height:1.6;">We invest in learning so every solution benefits from current thinking.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section style="width:min(1120px,calc(100% - 48px));margin:0 auto;padding-block:64px;">
+      <div data-reveal style="display:grid;grid-template-columns:minmax(160px,220px) 1fr;gap:28px;align-items:center;">
+        <img src="assets/founder.webp" alt="Krupal Chaudhary, Founder and CEO" style="width:100%;border-radius:16px;display:block;object-fit:cover;aspect-ratio:1;"/>
+        <blockquote style="margin:0;"><p style="margin:0;font:500 clamp(1.1rem,1.6vw,1.4rem)/1.55 'Space Grotesk',system-ui,sans-serif;">"Through the strategic use of your vision and data, we design AI solutions that make your brand stand out and drive revenue growth, leading execution with focus and accountability."</p><footer style="margin-top:14px;"><strong style="display:block;font-size:15px;">Krupal Chaudhary</strong><span style="color:oklch(0.47 0.012 285);font-size:13.5px;">Founder & CEO</span></footer></blockquote>
+      </div>
+    </section>
+
+    <section style="background:color-mix(in oklch,oklch(0.92 0.05 305) 42%,oklch(0.992 0.003 55));padding-block:64px;">
+      <div style="width:min(1120px,calc(100% - 48px));margin:0 auto;">
+        <div data-reveal style="max-width:44rem;margin-bottom:28px;"><p style="margin:0 0 10px;color:oklch(0.532 0.216 7);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.13em;">How we work</p><h2 style="margin:0;font:600 clamp(1.7rem,2.4vw,2.5rem)/1.08 'Space Grotesk',system-ui,sans-serif;">Clear from idea to scale.</h2></div>
+        <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px;">
+          <article data-reveal><span style="color:oklch(0.532 0.216 7);font-weight:700;">01</span><h3 style="margin:8px 0 0;font:600 1.1rem/1.25 'Space Grotesk',system-ui,sans-serif;">Discover & Define</h3><p style="margin:10px 0 0;color:oklch(0.47 0.012 285);font-size:14.5px;line-height:1.6;">Focused discovery, research, and clear success metrics.</p></article>
+          <article data-reveal><span style="color:oklch(0.532 0.216 7);font-weight:700;">02</span><h3 style="margin:8px 0 0;font:600 1.1rem/1.25 'Space Grotesk',system-ui,sans-serif;">Design & Prototype</h3><p style="margin:10px 0 0;color:oklch(0.47 0.012 285);font-size:14.5px;line-height:1.6;">User-focused designs and interactive prototypes before development.</p></article>
+          <article data-reveal><span style="color:oklch(0.532 0.216 7);font-weight:700;">03</span><h3 style="margin:8px 0 0;font:600 1.1rem/1.25 'Space Grotesk',system-ui,sans-serif;">Build & Integrate</h3><p style="margin:10px 0 0;color:oklch(0.47 0.012 285);font-size:14.5px;line-height:1.6;">Scalable, secure, high-performance products with continuous feedback.</p></article>
+          <article data-reveal><span style="color:oklch(0.532 0.216 7);font-weight:700;">04</span><h3 style="margin:8px 0 0;font:600 1.1rem/1.25 'Space Grotesk',system-ui,sans-serif;">Launch & Scale</h3><p style="margin:10px 0 0;color:oklch(0.47 0.012 285);font-size:14.5px;line-height:1.6;">Confident launches and support for long-term optimization.</p></article>
+        </div>
+      </div>
+    </section>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ isProjects }}" hint-placeholder-val="{{ false }}">
+  <div>
+    <section style="width:min(1120px,calc(100% - 48px));margin:0 auto;padding-block:56px 24px;">
+      <div data-reveal style="max-width:44rem;"><p style="margin:0 0 10px;color:oklch(0.532 0.216 7);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.13em;">Our work</p><h1 style="margin:0;font:600 clamp(2rem,3vw,3rem)/1.1 'Space Grotesk',system-ui,sans-serif;">Products built for <em style="font-style:normal;color:oklch(0.64 0.26 7);">real operations.</em></h1><p style="margin:14px 0 0;color:oklch(0.47 0.012 285);font-size:16px;line-height:1.65;">AI systems, marketplaces, business platforms, and customer experiences designed to solve substantial problems.</p></div>
+    </section>
+    <section style="width:min(1120px,calc(100% - 48px));margin:0 auto;padding-block:16px 72px;">
+      <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:220px;gap:clamp(14px,2vw,22px);">
+        <article data-reveal style="grid-column:span 2;grid-row:span 2;position:relative;border-radius:18px;overflow:hidden;box-shadow:0 14px 45px oklch(0.25 0.02 285/0.08);">
+          <img data-parallax-img src="assets/project-car.webp" alt="Luxury car dealer platform" style="position:absolute;top:-8%;left:0;width:100%;height:116%;object-fit:cover;"/>
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,oklch(0.16 0.004 285/0.82));display:flex;flex-direction:column;justify-content:flex-end;padding:20px;color:#fff;"><small style="opacity:.75;">01</small><h3 style="margin:6px 0 0;font:600 1.2rem/1.25 'Space Grotesk',system-ui,sans-serif;">AI-Based Software for Luxury Car Dealers</h3></div>
+        </article>
+        <article data-reveal style="grid-column:span 2;position:relative;border-radius:18px;overflow:hidden;box-shadow:0 14px 45px oklch(0.25 0.02 285/0.08);">
+          <img data-parallax-img src="assets/project-investigation.webp" alt="Investigative case management" style="position:absolute;top:-8%;left:0;width:100%;height:116%;object-fit:cover;"/>
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,oklch(0.16 0.004 285/0.82));display:flex;flex-direction:column;justify-content:flex-end;padding:16px;color:#fff;"><small style="opacity:.75;">02</small><h3 style="margin:4px 0 0;font:600 1rem/1.25 'Space Grotesk',system-ui,sans-serif;">Investigative Case Management Software</h3></div>
+        </article>
+        <article data-reveal style="grid-column:span 1;position:relative;border-radius:18px;overflow:hidden;box-shadow:0 14px 45px oklch(0.25 0.02 285/0.08);">
+          <img data-parallax-img src="assets/project-luxury.webp" alt="Luxury eCommerce" style="position:absolute;top:-8%;left:0;width:100%;height:116%;object-fit:cover;"/>
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,oklch(0.16 0.004 285/0.82));display:flex;flex-direction:column;justify-content:flex-end;padding:14px;color:#fff;"><small style="opacity:.75;">03</small><h3 style="margin:4px 0 0;font:600 .9rem/1.25 'Space Grotesk',system-ui,sans-serif;">Luxury eCommerce Platform</h3></div>
+        </article>
+        <article data-reveal style="grid-column:span 1;position:relative;border-radius:18px;overflow:hidden;box-shadow:0 14px 45px oklch(0.25 0.02 285/0.08);">
+          <img data-parallax-img src="assets/project-sukoon.webp" alt="Senior engagement platform" style="position:absolute;top:-8%;left:0;width:100%;height:116%;object-fit:cover;"/>
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,oklch(0.16 0.004 285/0.82));display:flex;flex-direction:column;justify-content:flex-end;padding:14px;color:#fff;"><small style="opacity:.75;">04</small><h3 style="margin:4px 0 0;font:600 .9rem/1.25 'Space Grotesk',system-ui,sans-serif;">Senior Engagement Platform</h3></div>
+        </article>
+        <article data-reveal style="grid-column:span 2;position:relative;border-radius:18px;overflow:hidden;box-shadow:0 14px 45px oklch(0.25 0.02 285/0.08);">
+          <img data-parallax-img src="assets/project-marketplace.webp" alt="Multi-vendor marketplace" style="position:absolute;top:-8%;left:0;width:100%;height:116%;object-fit:cover;"/>
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,oklch(0.16 0.004 285/0.82));display:flex;flex-direction:column;justify-content:flex-end;padding:16px;color:#fff;"><small style="opacity:.75;">05</small><h3 style="margin:4px 0 0;font:600 1rem/1.25 'Space Grotesk',system-ui,sans-serif;">Multi-Vendor eCommerce Marketplace</h3></div>
+        </article>
+        <article data-reveal style="grid-column:span 2;grid-row:span 2;position:relative;border-radius:18px;overflow:hidden;box-shadow:0 14px 45px oklch(0.25 0.02 285/0.08);">
+          <img data-parallax-img src="assets/project-grocery.webp" alt="Food and grocery delivery" style="position:absolute;top:-8%;left:0;width:100%;height:116%;object-fit:cover;"/>
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,oklch(0.16 0.004 285/0.82));display:flex;flex-direction:column;justify-content:flex-end;padding:20px;color:#fff;"><small style="opacity:.75;">06</small><h3 style="margin:6px 0 0;font:600 1.2rem/1.25 'Space Grotesk',system-ui,sans-serif;">Food & Grocery Delivery App</h3></div>
+        </article>
+        <article data-reveal style="grid-column:span 1;position:relative;border-radius:18px;overflow:hidden;box-shadow:0 14px 45px oklch(0.25 0.02 285/0.08);">
+          <img data-parallax-img src="assets/project-cma.webp" alt="CMA report generation software" style="position:absolute;top:-8%;left:0;width:100%;height:116%;object-fit:cover;"/>
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,oklch(0.16 0.004 285/0.82));display:flex;flex-direction:column;justify-content:flex-end;padding:14px;color:#fff;"><small style="opacity:.75;">07</small><h3 style="margin:4px 0 0;font:600 .9rem/1.25 'Space Grotesk',system-ui,sans-serif;">CMA Report Generation Software</h3></div>
+        </article>
+        <article data-reveal style="grid-column:span 1;position:relative;border-radius:18px;overflow:hidden;box-shadow:0 14px 45px oklch(0.25 0.02 285/0.08);">
+          <img data-parallax-img src="assets/project-recruitment.webp" alt="Recruitment platform" style="position:absolute;top:-8%;left:0;width:100%;height:116%;object-fit:cover;"/>
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,oklch(0.16 0.004 285/0.82));display:flex;flex-direction:column;justify-content:flex-end;padding:14px;color:#fff;"><small style="opacity:.75;">08</small><h3 style="margin:4px 0 0;font:600 .9rem/1.25 'Space Grotesk',system-ui,sans-serif;">Recruitment Platform</h3></div>
+        </article>
+      </div>
+    </section>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ isServices }}" hint-placeholder-val="{{ false }}">
+  <div>
+    <section style="position:relative;width:min(1120px,calc(100% - 48px));margin:0 auto;padding-block:56px 24px;overflow:visible;">
+      <span style="position:absolute;right:0;top:10px;font-size:44px;opacity:.5;animation:chip-drift 6s ease-in-out infinite;">🧠</span>
+      <div data-reveal style="max-width:44rem;"><p style="margin:0 0 10px;color:oklch(0.532 0.216 7);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.13em;">Services</p><h1 style="margin:0;font:600 clamp(2rem,3vw,3rem)/1.1 'Space Grotesk',system-ui,sans-serif;">Apps, websites, <em style="font-style:normal;color:oklch(0.64 0.26 7);">AI and more.</em></h1><p style="margin:14px 0 0;color:oklch(0.47 0.012 285);font-size:16px;line-height:1.65;">End-to-end product engineering that turns complex ideas into secure, useful, scalable systems.</p></div>
+    </section>
+    <section style="width:min(1120px,calc(100% - 48px));margin:0 auto;padding-block:16px 56px;">
+      <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(16px,2.5vw,24px);">
+        <article data-reveal style="border:1px solid oklch(0.86 0.014 285);border-radius:18px;overflow:hidden;background:#fff;transition:transform .3s ease,box-shadow .3s ease;">
+          <div style="aspect-ratio:16/9;overflow:hidden;"><img src="assets/service-ai.webp" alt="AI & ML" style="width:100%;height:100%;object-fit:cover;display:block;"/></div>
+          <div style="padding:22px;"><small style="color:oklch(0.532 0.216 7);font-weight:700;">01</small><h3 style="margin:6px 0 0;font:600 1.25rem/1.2 'Space Grotesk',system-ui,sans-serif;">AI & ML</h3><p style="margin:10px 0 0;color:oklch(0.47 0.012 285);font-size:14.5px;line-height:1.6;">We build AI-powered solutions that transform data into insights and drive smarter decisions.</p>
+            <ul style="list-style:none;margin:14px 0 0;padding:0;display:grid;grid-template-columns:repeat(2,1fr);gap:8px;font-size:13px;color:oklch(0.47 0.012 285);">
+              <li>✓ Predictive Analytics</li><li>✓ NLP & Conversational AI</li><li>✓ Computer Vision</li><li>✓ Generative Models</li>
+            </ul>
+          </div>
+        </article>
+        <article data-reveal style="border:1px solid oklch(0.86 0.014 285);border-radius:18px;overflow:hidden;background:#fff;transition:transform .3s ease,box-shadow .3s ease;">
+          <div style="aspect-ratio:16/9;overflow:hidden;"><img src="assets/service-web.webp" alt="Web, mobile, SaaS" style="width:100%;height:100%;object-fit:cover;display:block;"/></div>
+          <div style="padding:22px;"><small style="color:oklch(0.532 0.216 7);font-weight:700;">02</small><h3 style="margin:6px 0 0;font:600 1.25rem/1.2 'Space Grotesk',system-ui,sans-serif;">Web / Mobile App / SaaS</h3><p style="margin:10px 0 0;color:oklch(0.47 0.012 285);font-size:14.5px;line-height:1.6;">Scalable software and applications delivering seamless user experiences.</p>
+            <ul style="list-style:none;margin:14px 0 0;padding:0;display:grid;grid-template-columns:repeat(2,1fr);gap:8px;font-size:13px;color:oklch(0.47 0.012 285);">
+              <li>✓ Web App Development</li><li>✓ Mobile App Development</li><li>✓ Custom SaaS</li><li>✓ Workflow Automation</li>
+            </ul>
+          </div>
+        </article>
+        <article data-reveal style="border:1px solid oklch(0.86 0.014 285);border-radius:18px;overflow:hidden;background:#fff;transition:transform .3s ease,box-shadow .3s ease;">
+          <div style="aspect-ratio:16/9;overflow:hidden;"><img src="assets/service-commerce.png" alt="E-commerce" style="width:100%;height:100%;object-fit:cover;display:block;"/></div>
+          <div style="padding:22px;"><small style="color:oklch(0.532 0.216 7);font-weight:700;">03</small><h3 style="margin:6px 0 0;font:600 1.25rem/1.2 'Space Grotesk',system-ui,sans-serif;">E-commerce</h3><p style="margin:10px 0 0;color:oklch(0.47 0.012 285);font-size:14.5px;line-height:1.6;">Intelligent eCommerce platforms that elevate shopping experiences.</p>
+            <ul style="list-style:none;margin:14px 0 0;padding:0;display:grid;grid-template-columns:repeat(2,1fr);gap:8px;font-size:13px;color:oklch(0.47 0.012 285);">
+              <li>✓ Multi-Vendor Marketplace</li><li>✓ AI Personalization</li><li>✓ Subscription Billing</li><li>✓ Storefront UI/UX</li>
+            </ul>
+          </div>
+        </article>
+        <article data-reveal style="border:1px solid oklch(0.86 0.014 285);border-radius:18px;overflow:hidden;background:#fff;transition:transform .3s ease,box-shadow .3s ease;">
+          <div style="aspect-ratio:16/9;overflow:hidden;"><img src="assets/service-cloud.png" alt="Cloud" style="width:100%;height:100%;object-fit:cover;display:block;"/></div>
+          <div style="padding:22px;"><small style="color:oklch(0.532 0.216 7);font-weight:700;">04</small><h3 style="margin:6px 0 0;font:600 1.25rem/1.2 'Space Grotesk',system-ui,sans-serif;">Cloud</h3><p style="margin:10px 0 0;color:oklch(0.47 0.012 285);font-size:14.5px;line-height:1.6;">Cloud architectures that ensure scalability, security, and resilience.</p>
+            <ul style="list-style:none;margin:14px 0 0;padding:0;display:grid;grid-template-columns:repeat(2,1fr);gap:8px;font-size:13px;color:oklch(0.47 0.012 285);">
+              <li>✓ Cloud Migration</li><li>✓ Cloud-Native Apps</li><li>✓ Security & Compliance</li><li>✓ Disaster Recovery</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </section>
+    <section style="background:color-mix(in oklch,oklch(0.92 0.05 305) 55%,oklch(0.992 0.003 55));padding-block:56px;">
+      <div style="width:min(1120px,calc(100% - 48px));margin:0 auto;">
+        <div data-reveal style="max-width:44rem;margin-bottom:24px;"><p style="margin:0 0 10px;color:oklch(0.532 0.216 7);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.13em;">Platforms & partners</p><h2 style="margin:0;font:600 clamp(1.7rem,2.4vw,2.5rem)/1.08 'Space Grotesk',system-ui,sans-serif;">A modern technology toolkit.</h2></div>
+        <div style="width:100%;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6% 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6% 94%,transparent);">
+          <div style="display:flex;gap:44px;width:max-content;animation:marquee-scroll 22s linear infinite reverse;">
+            <div style="display:flex;gap:44px;align-items:center;">
+              <div style="display:flex;align-items:center;gap:10px;"><img src="assets/tech-langchain.png" alt="" style="height:26px;width:auto;"/><span style="font-size:13.5px;font-weight:600;color:oklch(0.47 0.012 285);">Langchain</span></div>
+              <div style="display:flex;align-items:center;gap:10px;"><img src="assets/tech-python.webp" alt="" style="height:26px;width:auto;"/><span style="font-size:13.5px;font-weight:600;color:oklch(0.47 0.012 285);">Python</span></div>
+              <div style="display:flex;align-items:center;gap:10px;"><img src="assets/tech-openai.png" alt="" style="height:26px;width:auto;"/><span style="font-size:13.5px;font-weight:600;color:oklch(0.47 0.012 285);">OpenAI</span></div>
+              <div style="display:flex;align-items:center;gap:10px;"><img src="assets/tech-tensorflow.png" alt="" style="height:26px;width:auto;"/><span style="font-size:13.5px;font-weight:600;color:oklch(0.47 0.012 285);">TensorFlow</span></div>
+              <div style="display:flex;align-items:center;gap:10px;"><img src="assets/tech-kafka.png" alt="" style="height:26px;width:auto;"/><span style="font-size:13.5px;font-weight:600;color:oklch(0.47 0.012 285);">Kafka</span></div>
+            </div>
+            <div style="display:flex;gap:44px;align-items:center;" aria-hidden="true">
+              <div style="display:flex;align-items:center;gap:10px;"><img src="assets/tech-langchain.png" alt="" style="height:26px;width:auto;"/><span style="font-size:13.5px;font-weight:600;color:oklch(0.47 0.012 285);">Langchain</span></div>
+              <div style="display:flex;align-items:center;gap:10px;"><img src="assets/tech-python.webp" alt="" style="height:26px;width:auto;"/><span style="font-size:13.5px;font-weight:600;color:oklch(0.47 0.012 285);">Python</span></div>
+              <div style="display:flex;align-items:center;gap:10px;"><img src="assets/tech-openai.png" alt="" style="height:26px;width:auto;"/><span style="font-size:13.5px;font-weight:600;color:oklch(0.47 0.012 285);">OpenAI</span></div>
+              <div style="display:flex;align-items:center;gap:10px;"><img src="assets/tech-tensorflow.png" alt="" style="height:26px;width:auto;"/><span style="font-size:13.5px;font-weight:600;color:oklch(0.47 0.012 285);">TensorFlow</span></div>
+              <div style="display:flex;align-items:center;gap:10px;"><img src="assets/tech-kafka.png" alt="" style="height:26px;width:auto;"/><span style="font-size:13.5px;font-weight:600;color:oklch(0.47 0.012 285);">Kafka</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section style="width:min(1120px,calc(100% - 48px));margin:0 auto;padding-block:56px;">
+      <div data-reveal style="max-width:44rem;margin-bottom:24px;"><p style="margin:0 0 10px;color:oklch(0.532 0.216 7);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.13em;">Industries</p><h2 style="margin:0;font:600 clamp(1.7rem,2.4vw,2.5rem)/1.08 'Space Grotesk',system-ui,sans-serif;">Solutions grounded in context.</h2></div>
+      <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;">
+        <article data-reveal style="padding:18px;border:1px solid oklch(0.86 0.014 285);border-radius:14px;"><small style="color:oklch(0.532 0.216 7);font-weight:700;">01</small><h3 style="margin:6px 0 0;font:600 1.05rem/1.2 'Space Grotesk',system-ui,sans-serif;">Healthcare</h3><p style="margin:8px 0 0;color:oklch(0.47 0.012 285);font-size:13px;">Telemedicine, EHR, patient management</p></article>
+        <article data-reveal style="padding:18px;border:1px solid oklch(0.86 0.014 285);border-radius:14px;"><small style="color:oklch(0.532 0.216 7);font-weight:700;">02</small><h3 style="margin:6px 0 0;font:600 1.05rem/1.2 'Space Grotesk',system-ui,sans-serif;">Fintech</h3><p style="margin:8px 0 0;color:oklch(0.47 0.012 285);font-size:13px;">Digital payments, mobile banking</p></article>
+        <article data-reveal style="padding:18px;border:1px solid oklch(0.86 0.014 285);border-radius:14px;"><small style="color:oklch(0.532 0.216 7);font-weight:700;">03</small><h3 style="margin:6px 0 0;font:600 1.05rem/1.2 'Space Grotesk',system-ui,sans-serif;">Logistics</h3><p style="margin:8px 0 0;color:oklch(0.47 0.012 285);font-size:13px;">Delivery, fleet, route optimization</p></article>
+        <article data-reveal style="padding:18px;border:1px solid oklch(0.86 0.014 285);border-radius:14px;"><small style="color:oklch(0.532 0.216 7);font-weight:700;">04</small><h3 style="margin:6px 0 0;font:600 1.05rem/1.2 'Space Grotesk',system-ui,sans-serif;">Retail</h3><p style="margin:8px 0 0;color:oklch(0.47 0.012 285);font-size:13px;">POS, inventory, loyalty programs</p></article>
+        <article data-reveal style="padding:18px;border:1px solid oklch(0.86 0.014 285);border-radius:14px;"><small style="color:oklch(0.532 0.216 7);font-weight:700;">05</small><h3 style="margin:6px 0 0;font:600 1.05rem/1.2 'Space Grotesk',system-ui,sans-serif;">Ecommerce</h3><p style="margin:8px 0 0;color:oklch(0.47 0.012 285);font-size:13px;">Marketplaces, B2B & B2C stores</p></article>
+        <article data-reveal style="padding:18px;border:1px solid oklch(0.86 0.014 285);border-radius:14px;"><small style="color:oklch(0.532 0.216 7);font-weight:700;">06</small><h3 style="margin:6px 0 0;font:600 1.05rem/1.2 'Space Grotesk',system-ui,sans-serif;">Education</h3><p style="margin:8px 0 0;color:oklch(0.47 0.012 285);font-size:13px;">LMS, virtual classrooms, AI tutoring</p></article>
+        <article data-reveal style="padding:18px;border:1px solid oklch(0.86 0.014 285);border-radius:14px;"><small style="color:oklch(0.532 0.216 7);font-weight:700;">07</small><h3 style="margin:6px 0 0;font:600 1.05rem/1.2 'Space Grotesk',system-ui,sans-serif;">BFSI Solutions</h3><p style="margin:8px 0 0;color:oklch(0.47 0.012 285);font-size:13px;">Core banking, loan origination</p></article>
+        <article data-reveal style="padding:18px;border:1px solid oklch(0.86 0.014 285);border-radius:14px;"><small style="color:oklch(0.532 0.216 7);font-weight:700;">08</small><h3 style="margin:6px 0 0;font:600 1.05rem/1.2 'Space Grotesk',system-ui,sans-serif;">Real Estate</h3><p style="margin:8px 0 0;color:oklch(0.47 0.012 285);font-size:13px;">Property management, virtual tours</p></article>
+      </div>
+    </section>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ isAbout }}" hint-placeholder-val="{{ false }}">
+  <div>
+    <section style="width:min(1120px,calc(100% - 48px));margin:0 auto;padding-block:56px 24px;">
+      <div data-reveal style="max-width:44rem;"><p style="margin:0 0 10px;color:oklch(0.532 0.216 7);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.13em;">What we are</p><h1 style="margin:0;font:600 clamp(2rem,3vw,3rem)/1.1 'Space Grotesk',system-ui,sans-serif;">Technology partners, <em style="font-style:normal;color:oklch(0.64 0.26 7);">not just developers.</em></h1><p style="margin:14px 0 0;color:oklch(0.47 0.012 285);font-size:16px;line-height:1.65;">We bridge complex technical possibilities and real business outcomes through AI-first thinking and accountable delivery.</p></div>
+    </section>
+    <section style="width:min(1120px,calc(100% - 48px));margin:0 auto;padding-block:16px 56px;display:grid;grid-template-columns:minmax(0,0.85fr) minmax(0,1.15fr);gap:clamp(24px,3vw,40px);align-items:center;">
+      <img data-reveal src="assets/about.webp" alt="DEMAze team collaboration" style="width:100%;border-radius:18px;display:block;"/>
+      <div data-reveal>
+        <p style="margin:0 0 10px;color:oklch(0.532 0.216 7);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.13em;">Who we are</p>
+        <h2 style="margin:0;font:600 clamp(1.6rem,2.2vw,2.2rem)/1.15 'Space Grotesk',system-ui,sans-serif;">Digital transformation architects.</h2>
+        <p style="margin:14px 0 0;color:oklch(0.47 0.012 285);line-height:1.65;">At DEMAze Technologies, we're a passionate team of 35+ technologists, innovators, and strategic thinkers who believe in the power of AI to reshape businesses — bridging complex technical possibilities with real outcomes.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:18px;">
+          <span style="padding:7px 13px;border-radius:99px;background:oklch(0.92 0.05 305);font-size:12.5px;font-weight:600;">AI-First Innovation</span>
+          <span style="padding:7px 13px;border-radius:99px;background:oklch(0.94 0.052 145);font-size:12.5px;font-weight:600;">Scalable Solutions</span>
+          <span style="padding:7px 13px;border-radius:99px;background:oklch(0.94 0.04 220);font-size:12.5px;font-weight:600;">Digital Transformation</span>
+          <span style="padding:7px 13px;border-radius:99px;background:oklch(0.96 0.06 88);font-size:12.5px;font-weight:600;">Future-Ready Architecture</span>
+          <span style="padding:7px 13px;border-radius:99px;background:oklch(0.92 0.05 305);font-size:12.5px;font-weight:600;">Automation Excellence</span>
+          <span style="padding:7px 13px;border-radius:99px;background:oklch(0.94 0.052 145);font-size:12.5px;font-weight:600;">Strategic Partnership</span>
+        </div>
+      </div>
+    </section>
+    <section style="background:oklch(0.16 0.004 285);color:oklch(0.992 0.003 55);padding-block:56px;">
+      <div style="width:min(1120px,calc(100% - 48px));margin:0 auto;">
+        <div data-reveal style="max-width:44rem;margin-bottom:24px;"><p style="margin:0 0 10px;color:oklch(0.82 0.17 7);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.13em;">What drives us</p><h2 style="margin:0;font:600 clamp(1.6rem,2.2vw,2.2rem)/1.1 'Space Grotesk',system-ui,sans-serif;color:oklch(0.992 0.003 55);">Principles behind the work.</h2></div>
+        <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px;">
+          <article data-reveal><small style="color:oklch(0.82 0.17 7);font-weight:700;">01</small><h3 style="margin:8px 0 0;font:600 1.05rem/1.25 'Space Grotesk',system-ui,sans-serif;">Innovation at Our Core</h3><p style="margin:8px 0 0;color:oklch(0.82 0.01 285);font-size:14px;line-height:1.6;">We continuously explore emerging technologies for clients.</p></article>
+          <article data-reveal><small style="color:oklch(0.82 0.17 7);font-weight:700;">02</small><h3 style="margin:8px 0 0;font:600 1.05rem/1.25 'Space Grotesk',system-ui,sans-serif;">Client Success Obsession</h3><p style="margin:8px 0 0;color:oklch(0.82 0.01 285);font-size:14px;line-height:1.6;">Outcomes guide every decision we make.</p></article>
+          <article data-reveal><small style="color:oklch(0.82 0.17 7);font-weight:700;">03</small><h3 style="margin:8px 0 0;font:600 1.05rem/1.25 'Space Grotesk',system-ui,sans-serif;">Technology for Good</h3><p style="margin:8px 0 0;color:oklch(0.82 0.01 285);font-size:14px;line-height:1.6;">Thoughtful tech should simplify work.</p></article>
+          <article data-reveal><small style="color:oklch(0.82 0.17 7);font-weight:700;">04</small><h3 style="margin:8px 0 0;font:600 1.05rem/1.25 'Space Grotesk',system-ui,sans-serif;">Continuous Learning</h3><p style="margin:8px 0 0;color:oklch(0.82 0.01 285);font-size:14px;line-height:1.6;">We invest in learning and knowledge sharing.</p></article>
+        </div>
+      </div>
+    </section>
+    <section style="width:min(1120px,calc(100% - 48px));margin:0 auto;padding-block:56px;">
+      <div data-reveal style="max-width:44rem;margin-bottom:24px;"><p style="margin:0 0 10px;color:oklch(0.532 0.216 7);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.13em;">Why choose us</p><h2 style="margin:0;font:600 clamp(1.6rem,2.2vw,2.2rem)/1.1 'Space Grotesk',system-ui,sans-serif;">Clarity at every level.</h2></div>
+      <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;">
+        <article data-reveal style="padding:22px;border-radius:16px;background:color-mix(in oklch,oklch(0.94 0.04 220) 50%,#fff);"><strong style="display:block;font:600 1.05rem 'Space Grotesk',system-ui,sans-serif;">Real-Time Analytics</strong><p style="margin:8px 0 0;color:oklch(0.47 0.012 285);font-size:14px;line-height:1.6;">Stay ahead with accurate, real-time performance tracking.</p></article>
+        <article data-reveal style="padding:22px;border-radius:16px;background:color-mix(in oklch,oklch(0.94 0.052 145) 50%,#fff);"><strong style="display:block;font:600 1.05rem 'Space Grotesk',system-ui,sans-serif;">AI-Driven Growth</strong><p style="margin:8px 0 0;color:oklch(0.47 0.012 285);font-size:14px;line-height:1.6;">Make smarter moves with real-time business insights.</p></article>
+        <article data-reveal style="padding:22px;border-radius:16px;background:color-mix(in oklch,oklch(0.92 0.05 305) 50%,#fff);"><strong style="display:block;font:600 1.05rem 'Space Grotesk',system-ui,sans-serif;">Live Collaboration</strong><p style="margin:8px 0 0;color:oklch(0.47 0.012 285);font-size:14px;line-height:1.6;">Connect instantly to track progress and updates.</p></article>
+      </div>
+    </section>
+    <section style="width:min(1120px,calc(100% - 48px));margin:0 auto;padding-block:56px;">
+      <div data-reveal style="display:grid;grid-template-columns:minmax(160px,220px) 1fr;gap:28px;align-items:center;padding:32px;border-radius:20px;background:color-mix(in oklch,oklch(0.96 0.06 88) 45%,oklch(0.992 0.003 55));">
+        <img src="assets/founder.webp" alt="Krupal Chaudhary" style="width:100%;border-radius:16px;display:block;object-fit:cover;aspect-ratio:1;"/>
+        <blockquote style="margin:0;"><p style="margin:0;font:500 clamp(1.15rem,1.7vw,1.5rem)/1.55 'Space Grotesk',system-ui,sans-serif;">"Through the strategic use of your vision and data, we design AI solutions that make your brand stand out and drive revenue growth, leading execution with focus and accountability."</p><footer style="margin-top:14px;"><strong style="display:block;font-size:15px;">Krupal Chaudhary</strong><span style="color:oklch(0.47 0.012 285);font-size:13.5px;">Founder & CEO</span></footer></blockquote>
+      </div>
+    </section>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ isContact }}" hint-placeholder-val="{{ false }}">
+  <div>
+    <section style="width:min(1120px,calc(100% - 48px));margin:0 auto;padding-block:56px 24px;">
+      <div data-reveal style="max-width:44rem;"><p style="margin:0 0 10px;color:oklch(0.532 0.216 7);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.13em;">Contact</p><h1 style="margin:0;font:600 clamp(2rem,3vw,3rem)/1.1 'Space Grotesk',system-ui,sans-serif;">Reach us <em style="font-style:normal;color:oklch(0.64 0.26 7);">at any time.</em></h1><p style="margin:14px 0 0;color:oklch(0.47 0.012 285);font-size:16px;line-height:1.65;">Tell us what you're building, improving, or trying to understand. We'll start with the useful questions.</p></div>
+    </section>
+    <section style="width:min(1120px,calc(100% - 48px));margin:0 auto;padding-block:16px 64px;display:grid;grid-template-columns:minmax(0,0.9fr) minmax(0,1.1fr);gap:clamp(24px,3vw,40px);align-items:start;">
+      <div data-reveal style="display:flex;flex-direction:column;gap:14px;">
+        <a href="mailto:contact@demazetech.com" style="text-decoration:none;display:flex;align-items:center;gap:14px;padding:18px;border:1px solid oklch(0.86 0.014 285);border-radius:14px;transition:transform .25s ease,box-shadow .25s ease;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+          <span><small style="display:block;color:oklch(0.47 0.012 285);font-size:12.5px;">Email us</small><strong style="font-size:14.5px;">contact@demazetech.com</strong></span>
+        </a>
+        <a href="#enquiry" style="text-decoration:none;display:flex;align-items:center;gap:14px;padding:18px;border:1px solid oklch(0.86 0.014 285);border-radius:14px;transition:transform .25s ease,box-shadow .25s ease;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>
+          <span><small style="display:block;color:oklch(0.47 0.012 285);font-size:12.5px;">Prefer a conversation?</small><strong style="font-size:14.5px;">Send a meeting request</strong></span>
+        </a>
+        <a href="https://www.google.com/maps/search/?api=1&query=A+804+Ganesh+Glory+11+Jagatpur+Road+Gota+Ahmedabad" target="_blank" rel="noreferrer" style="text-decoration:none;display:flex;align-items:center;gap:14px;padding:18px;border:1px solid oklch(0.86 0.014 285);border-radius:14px;transition:transform .25s ease,box-shadow .25s ease;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-6.5 7-11.5A7 7 0 0 0 5 9.5C5 14.5 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.3"/></svg>
+          <span><small style="display:block;color:oklch(0.47 0.012 285);font-size:12.5px;">Office location</small><strong style="font-size:14.5px;">A 804, Ganesh Glory 11, Jagatpur Road, Gota, Ahmedabad</strong></span>
+        </a>
+      </div>
+      <form data-reveal id="enquiry" onsubmit="return false" style="display:flex;flex-direction:column;gap:14px;padding:26px;border:1px solid oklch(0.86 0.014 285);border-radius:18px;background:#fff;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+          <input placeholder="Your name" style="padding:12px 14px;border:1px solid oklch(0.86 0.014 285);border-radius:8px;font-size:14px;font-family:inherit;"/>
+          <input placeholder="Email address" style="padding:12px 14px;border:1px solid oklch(0.86 0.014 285);border-radius:8px;font-size:14px;font-family:inherit;"/>
+        </div>
+        <input placeholder="Company (optional)" style="padding:12px 14px;border:1px solid oklch(0.86 0.014 285);border-radius:8px;font-size:14px;font-family:inherit;"/>
+        <textarea placeholder="Tell us about your project" rows="5" style="padding:12px 14px;border:1px solid oklch(0.86 0.014 285);border-radius:8px;font-size:14px;font-family:inherit;resize:vertical;"></textarea>
+        <button type="submit" style="align-self:flex-start;border:none;cursor:pointer;padding:13px 24px;border-radius:8px;background:oklch(0.532 0.216 7);color:#fff;font-size:14px;font-weight:700;">Send message ↗</button>
+      </form>
+    </section>
+  </div>
+  </sc-if>
+  </main>
+
+  <section style="width:min(1120px,calc(100% - 48px));margin:0 auto;padding-block:40px 24px;">
+    <div data-reveal style="display:grid;grid-template-columns:auto 1fr auto;gap:24px;align-items:center;padding:36px clamp(24px,4vw,48px);border-radius:22px;background:linear-gradient(120deg,oklch(0.94 0.052 135),oklch(0.94 0.04 220));">
+      <img src="assets/footer.png" alt="" style="height:64px;width:auto;display:block;"/>
+      <div><p style="margin:0 0 6px;color:oklch(0.532 0.216 7);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.13em;">Have a project in mind?</p><h2 style="margin:0;font:600 clamp(1.4rem,2vw,2rem)/1.15 'Space Grotesk',system-ui,sans-serif;">Let's build smarter, together.</h2></div>
+      <button onclick="{{ goContact }}" style="border:none;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;padding:14px 22px;border-radius:8px;background:oklch(0.532 0.216 7);color:#fff;font-size:14px;font-weight:700;white-space:nowrap;">Start a conversation ↗</button>
+    </div>
+  </section>
+  <footer style="width:min(1120px,calc(100% - 48px));margin:0 auto;padding-block:24px 40px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;border-top:1px solid oklch(0.86 0.014 285);color:oklch(0.47 0.012 285);font-size:13px;">
+    <span>DEMAze Technologies © 2026. All rights reserved.</span>
+    <span>Ahmedabad, India</span>
+  </footer>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;serviceImageFit&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;contain&quot;,&quot;tsType&quot;:&quot;'contain'|'cover'&quot;,&quot;options&quot;:[&quot;contain&quot;,&quot;cover&quot;],&quot;section&quot;:&quot;Services panel&quot;},&quot;motionIntensity&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;subtle&quot;,&quot;tsType&quot;:&quot;'subtle'|'moderate'|'bold'&quot;,&quot;options&quot;:[&quot;subtle&quot;,&quot;moderate&quot;,&quot;bold&quot;],&quot;section&quot;:&quot;Motion&quot;},&quot;autoplayHeroVideo&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Motion&quot;}}">
+const NAV_BASE = "border:none;background:none;cursor:pointer;text-decoration:none;font-size:14px;font-weight:600;padding-bottom:4px;color:oklch(0.16 0.004 285);border-bottom:2px solid transparent;";
+const NAV_ACTIVE = "border:none;background:none;cursor:pointer;text-decoration:none;font-size:14px;font-weight:600;padding-bottom:4px;color:oklch(0.532 0.216 7);border-bottom:2px solid oklch(0.64 0.26 7);";
+
+class Component extends DCLogic {
+  state = { page: "home" };
+
+  componentDidMount() {
+    this.initMotion();
+  }
+  componentWillUnmount() {
+    if (this._cleanup) this._cleanup();
+  }
+
+  setPage(page) {
+    if (this._cleanup) this._cleanup();
+    this.setState({ page }, () => {
+      window.scrollTo({ top: 0, behavior: "instant" in window ? "instant" : "auto" });
+      this.initMotion();
+    });
+  }
+
+  initMotion() {
+    const root = this.rootEl;
+    if (!root) return;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const intensity = this.props.motionIntensity ?? "subtle";
+    const distance = intensity === "bold" ? 40 : intensity === "moderate" ? 26 : 14;
+    const pinFalloff = intensity === "bold" ? 0.32 : intensity === "moderate" ? 0.45 : 0.6;
+    const fit = this.props.serviceImageFit ?? "contain";
+
+    const header = root.querySelector("#site-header");
+    const progress = root.querySelector("#scroll-progress");
+    const heroFrame = root.querySelector("#hero-video-frame");
+    const revealEls = Array.from(root.querySelectorAll("[data-reveal]"));
+    const metricEls = Array.from(root.querySelectorAll("[data-metric]"));
+    const servicesStage = root.querySelector("#services-stage");
+    const serviceRows = Array.from(root.querySelectorAll("[data-service-row]"));
+    const serviceImgs = Array.from(root.querySelectorAll("[data-service-img]"));
+    const parallaxImgs = Array.from(root.querySelectorAll("[data-parallax-img]"));
+    const heroVideo = root.querySelector("#hero-video-frame video");
+    if (heroVideo) {
+      // The bare `muted` attribute isn't reliably reflected as the element's
+      // property, and browsers block autoplay of unmuted video — set it
+      // imperatively before calling play(), same as the real hero-video.tsx.
+      heroVideo.muted = true;
+      if (this.props.autoplayHeroVideo === false) heroVideo.pause();
+      else if (heroVideo.paused) heroVideo.play().catch(() => {});
+    }
+    serviceImgs.forEach((img) => {
+      if (fit === "cover") {
+        img.style.inset = "0";
+        img.style.width = "100%";
+        img.style.height = "100%";
+        img.style.objectFit = "cover";
+      } else {
+        img.style.inset = "7%";
+        img.style.width = "86%";
+        img.style.height = "86%";
+        img.style.objectFit = "contain";
+      }
+    });
+
+    const cleanups = [];
+
+    // Pinned services: one lerp-smoothed paint loop drives image + text together,
+    // so the transition reads as one composed movement, not independent crossfades.
+    let servicesTarget = serviceRows.map(() => 0);
+    let servicesCurrent = serviceRows.map(() => 0);
+    let servicesFrame = 0;
+    const paintServices = () => {
+      servicesFrame = 0;
+      let unsettled = false;
+      const vh0 = window.innerHeight;
+      servicesCurrent = servicesCurrent.map((v, i) => {
+        const t = servicesTarget[i] ?? 0;
+        const next = v + (t - v) * 0.14;
+        if (Math.abs(t - next) > 0.0015) unsettled = true;
+        return Math.abs(t - next) <= 0.0015 ? t : next;
+      });
+      serviceRows.forEach((row, i) => {
+        const focus = servicesCurrent[i];
+        const bounds = row.getBoundingClientRect();
+        const direction = bounds.top > vh0 * 0.5 ? 1 : -1;
+        row.style.opacity = (0.32 + focus * 0.68).toFixed(3);
+        row.style.transform = `translate3d(${((1 - focus) * 10).toFixed(1)}px, ${(direction * (1 - focus) * 14).toFixed(1)}px, 0) scale(${(0.985 + focus * 0.015).toFixed(3)})`;
+        const img = serviceImgs[i];
+        if (img) {
+          img.style.opacity = focus.toFixed(3);
+          img.style.transform = `translate3d(0, ${(direction * (1 - focus) * 12).toFixed(1)}px, 0) scale(${(1.045 - focus * 0.045).toFixed(3)})`;
+          img.style.filter = `blur(${((1 - focus) * 1.6).toFixed(2)}px)`;
+        }
+      });
+      if (unsettled) servicesFrame = window.requestAnimationFrame(paintServices);
+    };
+    cleanups.push(() => { if (servicesFrame) window.cancelAnimationFrame(servicesFrame); });
+
+    const revealNow = (el) => {
+      el.style.opacity = "1";
+      el.style.transform = "translateY(0)";
+    };
+    revealEls.forEach((el) => {
+      el.style.opacity = reduced ? "1" : "0";
+      el.style.transform = reduced ? "none" : `translateY(${distance}px)`;
+      el.style.transition = "opacity .7s cubic-bezier(.2,.75,.25,1), transform .8s cubic-bezier(.2,.75,.25,1)";
+    });
+    if (!reduced) {
+      // Reveal anything already in (or above) the viewport synchronously — don't
+      // depend solely on the observer's first async callback landing.
+      const vh = window.innerHeight;
+      const pending = [];
+      revealEls.forEach((el) => {
+        const rb = el.getBoundingClientRect();
+        if (rb.top < vh * 1.05) revealNow(el);
+        else pending.push(el);
+      });
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              revealNow(e.target);
+              io.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.12, rootMargin: "0px 0px -8%" },
+      );
+      pending.forEach((el) => io.observe(el));
+      cleanups.push(() => io.disconnect());
+      // Safety net: a missed/late intersection callback (e.g. rapid page
+      // switches racing the observer) must never leave content invisible.
+      const safety = window.setTimeout(() => revealEls.forEach(revealNow), 1500);
+      cleanups.push(() => window.clearTimeout(safety));
+    }
+
+    const countUp = (el) => {
+      const target = parseFloat(el.dataset.target);
+      const suffix = el.dataset.suffix || "";
+      const prefix = el.dataset.prefix || "";
+      const strong = el.querySelector("strong");
+      if (!strong) return;
+      const start = performance.now();
+      const dur = reduced ? 1 : 1100;
+      const step = (t) => {
+        const p = Math.min(1, (t - start) / dur);
+        const eased = 1 - Math.pow(1 - p, 3);
+        strong.textContent = prefix + Math.round(target * eased) + suffix;
+        if (p < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    };
+    if (metricEls.length) {
+      const mio = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              countUp(e.target);
+              mio.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.4 },
+      );
+      metricEls.forEach((el) => mio.observe(el));
+      cleanups.push(() => mio.disconnect());
+    }
+
+    if (!reduced) {
+      let ticking = false;
+      const onScroll = () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+          ticking = false;
+          const scrollY = window.scrollY;
+          const vh = window.innerHeight;
+          const doc = document.documentElement;
+          const max = doc.scrollHeight - vh;
+          const pct = max > 0 ? (scrollY / max) * 100 : 0;
+          if (progress) progress.style.width = pct + "%";
+          if (header) {
+            if (scrollY > 40) {
+              header.style.background = "color-mix(in oklch, white 82%, transparent)";
+              header.style.boxShadow = "0 8px 30px rgba(20,10,30,.08)";
+              header.style.backdropFilter = "blur(14px)";
+              header.style.padding = "10px clamp(20px,4vw,48px)";
+            } else {
+              header.style.background = "transparent";
+              header.style.boxShadow = "none";
+              header.style.backdropFilter = "none";
+              header.style.padding = "14px clamp(20px,4vw,48px)";
+            }
+          }
+          if (heroFrame) {
+            const shift = Math.min(scrollY * 0.08, 60);
+            heroFrame.style.transform = `translateY(${shift}px) scale(${Math.max(0.96, 1 - scrollY * 0.00008)})`;
+          }
+          if (servicesStage) {
+            servicesTarget = serviceRows.map((row) => {
+              const rb = row.getBoundingClientRect();
+              const center = rb.top + rb.height / 2;
+              const dist = Math.abs(center - vh / 2);
+              return Math.max(0, 1 - dist / (vh * pinFalloff));
+            });
+            if (!servicesFrame) servicesFrame = window.requestAnimationFrame(paintServices);
+          }
+          parallaxImgs.forEach((img) => {
+            const parent = img.parentElement;
+            if (!parent) return;
+            const rb = parent.getBoundingClientRect();
+            const p = (vh - rb.top) / (vh + rb.height);
+            img.style.top = `${(-8 + (p - 0.5) * 10).toFixed(1)}%`;
+          });
+        });
+      };
+      window.addEventListener("scroll", onScroll, { passive: true });
+      window.addEventListener("resize", onScroll, { passive: true });
+      onScroll();
+      cleanups.push(() => {
+        window.removeEventListener("scroll", onScroll);
+        window.removeEventListener("resize", onScroll);
+      });
+    } else {
+      metricEls.forEach((el) => countUp(el));
+    }
+
+    this._cleanup = () => cleanups.forEach((fn) => fn());
+  }
+
+  renderVals() {
+    const page = this.state.page;
+    return {
+      rootRef: (el) => { this.rootEl = el; },
+      isHome: page === "home",
+      isProjects: page === "projects",
+      isServices: page === "services",
+      isAbout: page === "about",
+      isContact: page === "contact",
+      goHome: () => this.setPage("home"),
+      goProjects: () => this.setPage("projects"),
+      goServices: () => this.setPage("services"),
+      goAbout: () => this.setPage("about"),
+      goContact: () => this.setPage("contact"),
+      navProjectsStyle: page === "projects" ? NAV_ACTIVE : NAV_BASE,
+      navServicesStyle: page === "services" ? NAV_ACTIVE : NAV_BASE,
+      navAboutStyle: page === "about" ? NAV_ACTIVE : NAV_BASE,
+      navContactStyle: page === "contact" ? NAV_ACTIVE : NAV_BASE,
+    };
+  }
+}
+</script>
+</body>
+</html>

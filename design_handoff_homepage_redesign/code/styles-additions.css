@@ -1,0 +1,106 @@
+/* --- Scroll & motion effects addition (see design_handoff_scroll_effects) --- */
+
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0%;
+  z-index: 100;
+  background: linear-gradient(90deg, var(--raspberry), var(--lavender));
+  pointer-events: none;
+}
+
+.site-header {
+  transition: background 0.3s ease, box-shadow 0.3s ease, backdrop-filter 0.3s ease;
+}
+.site-header.is-condensed {
+  background: color-mix(in oklch, var(--background) 82%, transparent);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 8px 30px oklch(0.2 0.02 285 / 0.08);
+}
+
+@keyframes tech-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.tech-band {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 6% 94%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 6% 94%, transparent);
+}
+.tech-band-track {
+  display: flex;
+  gap: 3rem;
+  width: max-content;
+  animation: tech-marquee 26s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .tech-band-track {
+    animation: none;
+  }
+}
+
+.pinned-services-stage {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: clamp(1.25rem, 3vw, 2.5rem);
+}
+.pinned-services-visual {
+  position: sticky;
+  top: 14vh;
+  height: min(60vh, 520px);
+  align-self: start;
+  border-radius: 1.25rem;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--lavender), var(--sky));
+  box-shadow: var(--soft-shadow);
+}
+.pinned-services-visual img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.5s ease;
+}
+.pinned-services-list article {
+  min-height: min(60vh, 500px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 32rem;
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+.pinned-services-list small {
+  color: var(--raspberry-ink);
+  font-weight: 700;
+}
+.pinned-services-list h3 {
+  margin: 0.5rem 0 0;
+  font: 600 var(--display-md) / 1.2 var(--font-display);
+}
+.pinned-services-list p {
+  margin: 0.75rem 0 0;
+  color: var(--muted-foreground);
+  line-height: 1.65;
+}
+@media (max-width: 900px) {
+  .pinned-services-stage {
+    grid-template-columns: 1fr;
+  }
+  .pinned-services-visual {
+    position: static;
+    height: 260px;
+  }
+  .pinned-services-list article {
+    min-height: 0;
+    opacity: 1 !important;
+    transform: none !important;
+    padding-block: 1rem;
+  }
+}
