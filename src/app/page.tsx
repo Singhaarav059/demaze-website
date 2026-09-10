@@ -1,211 +1,240 @@
 import Image from "next/image";
 import Link from "next/link";
-import WorkCard from "@/components/WorkCard";
-import EvidenceStory from "@/components/EvidenceStory";
-import ScrollStory from "@/components/ScrollStory";
-import { homeCopy } from "@/content/editorial";
-import { projects } from "@/content/projects";
-import { serviceCategories } from "@/content/services";
-import { heroStats, heroTrustLogos, site } from "@/content/site";
-
-const selected = [projects[1], projects[2], projects[3], projects[13]];
+import {
+  homeHero,
+  homeHowWeWork,
+  homeSections,
+  homeServiceRows,
+  homeWhyChooseUs,
+  homeWorkCards,
+} from "@/content/editorial";
+import { techStackFlat } from "@/content/services";
+import { site } from "@/content/site";
 
 export default function Home() {
   return (
     <main id="main-content" tabIndex={-1}>
-      <section className="shell hero-section">
-        <div className="hero-grid">
-          <div className="hero-card">
-            <p className="eyebrow hero-eyebrow">
-              AI &amp; Software Engineering Studio
+      {/* HERO ------------------------------------------------------------ */}
+      <section className="home-hero">
+        <div className="home-hero-grid">
+          <div className="home-hero-copy" data-reveal>
+            <p className="home-hero-eyebrow">
+              <span className="home-hero-dot" aria-hidden />
+              {homeHero.eyebrow}
             </p>
-            <h1>
-              Complexity,
-              <br />
-              made{" "}
-              <span className="headline-accent-wrap">
-                <em>useful.</em>
-                <svg
-                  className="headline-underline"
-                  viewBox="0 0 220 20"
-                  preserveAspectRatio="none"
-                  aria-hidden
-                >
-                  <path d="M4,12 C50,4 90,16 130,8 C160,2 190,10 216,6" />
-                </svg>
-              </span>
+            <h1 className="home-hero-title">
+              {homeHero.headingLead}
+              <em>{homeHero.headingAccent}</em>
             </h1>
-            <p className="hero-intro">{homeCopy.intro}</p>
-            <div className="hero-actions">
-              <Link className="hero-btn-primary" href="/projects">
-                Explore our work <span aria-hidden>↗</span>
+            <p className="home-hero-intro">{homeHero.intro}</p>
+            <div className="home-hero-actions">
+              <Link className="pill-button" href="/contact-us">
+                Let&apos;s connect <span aria-hidden>-&gt;</span>
               </Link>
-              <Link className="hero-btn-ghost" href="/contact-us">
-                Have a challenge?
+              <Link className="arrow-link" href="/services">
+                Explore services <span aria-hidden>-&gt;</span>
               </Link>
-            </div>
-            <div className="hero-trust">
-              <p className="eyebrow hero-trust-label">
-                Trusted by forward-thinking teams
-              </p>
-              {/* The greyed wordmarks are decorative placeholders, so the row
-                  is aria-hidden and the plain brand names are exposed once,
-                  off-screen, for assistive technology. */}
-              <ul className="hero-trust-logos" aria-hidden>
-                {heroTrustLogos.map((brand) => (
-                  <li className="hero-trust-logo" key={brand}>
-                    {brand}
-                  </li>
-                ))}
-              </ul>
-              <p className="visually-hidden">
-                Trusted by {heroTrustLogos.join(", ")}.
-              </p>
             </div>
           </div>
-          <div className="hero-visual">
-            <div className="hero-visual-float" data-animated-visual aria-hidden>
-              <Image
-                src="/hero-stat-mascot-projects.png"
-                alt=""
-                width={1536}
-                height={1024}
-                sizes="(max-width: 820px) 80vw, 46vw"
-                priority
-              />
-            </div>
+          <div className="home-hero-frame" data-hero-frame aria-hidden>
+            <video autoPlay loop muted playsInline>
+              <source src="/hero-transform.mp4" type="video/mp4" />
+            </video>
           </div>
-        </div>
-        <div className="hero-statbar">
-          {heroStats.map((stat) => (
-            <div className="hero-statbar-item" key={stat.label}>
-              <span className="hero-statbar-value">{stat.display}</span>
-              <span className="hero-statbar-label">{stat.label}</span>
-            </div>
-          ))}
         </div>
       </section>
 
-      <ScrollStory />
-
-      <section className="shell home-work" id="selected-work">
-        <div className="section-kicker">
-          <span className="eyebrow">Selected work / In motion</span>
-          <span className="eyebrow">Built around the real world</span>
-        </div>
-        <div className="section-heading-row">
-          <h2 className="section-heading">
-            Different worlds.
-            <br />
-            Same depth of <em>thinking.</em>
-          </h2>
-          <div>
-            <p>{homeCopy.workIntro}</p>
-            <Link className="text-link" href="/projects">
-              Explore all {projects.length} projects <span aria-hidden>↗</span>
-            </Link>
+      {/* METRIC BAR ------------------------------------------------------ */}
+      <div className="home-metric-bar">
+        {site.stats.map((stat) => (
+          <div className="home-metric-cell" key={stat.label}>
+            <strong
+              data-metric
+              data-target={stat.value}
+              data-prefix={stat.prefix ?? ""}
+              data-suffix={stat.suffix}
+            >
+              {stat.prefix ?? ""}
+              {stat.value}
+              {stat.suffix}
+            </strong>
+            <span>{stat.label}</span>
           </div>
-        </div>
-        <p className="visual-disclosure">
-          Original animated product studies. Illustrative data, not client
-          screenshots.
-        </p>
-        <div className="work-grid">
-          {selected.map((project, i) => (
-            <WorkCard project={project} index={i + 1} key={project.slug} />
+        ))}
+      </div>
+
+      {/* OUR WORK -------------------------------------------------------- */}
+      <section className="home-work-section">
+        <header className="home-section-head" data-reveal>
+          <p className="eyebrow-dot">{homeSections.work.eyebrow}</p>
+          <h2 className="home-section-heading">{homeSections.work.heading}</h2>
+          <p className="home-section-sub">{homeSections.work.sub}</p>
+        </header>
+        <div className="home-work-grid">
+          {homeWorkCards.map((card) => (
+            <article className="home-work-card" data-reveal key={card.slug}>
+              <Link
+                className="home-work-card-link"
+                href={`/projects/${card.slug}`}
+              >
+                <span
+                  className="home-work-media"
+                  style={{ background: card.tint }}
+                  aria-hidden
+                />
+                <span className="home-work-body">
+                  <span className="home-work-title">{card.title}</span>
+                  <span className="home-work-copy">{card.copy}</span>
+                </span>
+              </Link>
+            </article>
           ))}
         </div>
-      </section>
-
-      <EvidenceStory />
-
-      <section className="shell home-expertise">
-        <div className="section-kicker">
-          <span className="eyebrow">03 / Connected expertise</span>
-          <Link className="text-link" href="/services">
-            How we can help <span aria-hidden>↗</span>
+        <div className="home-center-cta">
+          <Link className="pill-button" href="/projects">
+            View all work <span aria-hidden>-&gt;</span>
           </Link>
         </div>
-        <div className="expertise-grid">
-          <div>
-            <h2 className="section-heading">
-              The whole system.
-              <br />
-              <em>Not just a piece.</em>
-            </h2>
-            <p>
-              Good products don’t happen in silos. We bring the data, the
-              experience, and the infrastructure into the same conversation.
-            </p>
-            <div className="expertise-mark" aria-hidden>
-              <span>Think</span>
-              <span>Make</span>
-              <span>Connect</span>
-              <svg viewBox="0 0 300 120">
-                <path
-                  d="M15 20H110L155 60H280M15 100H110L155 60M200 20L240 60L200 100"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                />
-              </svg>
+      </section>
+
+      {/* SERVICES STICKY-STAGE ------------------------------------------- */}
+      <section className="home-services">
+        <header className="home-section-head" data-reveal>
+          <p className="eyebrow-dot">{homeSections.services.eyebrow}</p>
+          <h2 className="home-section-heading">
+            {homeSections.services.heading}
+          </h2>
+        </header>
+        <div className="home-services-stage" id="services-stage">
+          <div className="home-services-sticky">
+            <div className="home-services-stack">
+              {homeServiceRows.map((row, i) => (
+                <div
+                  className="home-service-img"
+                  data-service-img={i}
+                  key={row.name}
+                  aria-hidden
+                >
+                  <span className="home-service-img-no">{row.no}</span>
+                  <span className="home-service-img-name">{row.name}</span>
+                </div>
+              ))}
             </div>
           </div>
-          <div className="expertise-list">
-            {serviceCategories.map((service, i) => (
-              <Link href={`/services#${service.key}`} key={service.key}>
-                <span className="eyebrow">0{i + 1}</span>
-                <div>
-                  <h3>{service.name}</h3>
-                  <p>{service.items.slice(0, 3).join(" · ")}</p>
-                </div>
-                <span aria-hidden>↗</span>
-              </Link>
+          <div className="home-services-rows">
+            {homeServiceRows.map((row, i) => (
+              <article
+                className="home-service-row"
+                data-service-row={i}
+                key={row.name}
+              >
+                <span className="home-service-no">{row.no}</span>
+                <h3 className="home-service-name">{row.name}</h3>
+                <p className="home-service-copy">{row.copy}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+        <div className="home-center-cta">
+          <Link className="pill-button" href="/services">
+            Explore services <span aria-hidden>-&gt;</span>
+          </Link>
+        </div>
+      </section>
+
+      {/* TECH MARQUEE ---------------------------------------------------- */}
+      <section className="home-marquee-section">
+        <header className="home-section-head" data-reveal>
+          <p className="eyebrow-dot">{homeSections.marquee.eyebrow}</p>
+          <h2 className="home-section-heading">
+            {homeSections.marquee.heading}
+          </h2>
+        </header>
+        <div className="home-marquee">
+          <div className="home-marquee-track" aria-hidden>
+            {techStackFlat.map((tech) => (
+              <span className="home-marquee-item" key={`a-${tech}`}>
+                {tech}
+              </span>
+            ))}
+          </div>
+          <div className="home-marquee-track" aria-hidden>
+            {techStackFlat.map((tech) => (
+              <span className="home-marquee-item" key={`b-${tech}`}>
+                {tech}
+              </span>
+            ))}
+          </div>
+        </div>
+        <p className="visually-hidden">
+          Tools and technologies we work with: {techStackFlat.join(", ")}.
+        </p>
+      </section>
+
+      {/* WHY CHOOSE US --------------------------------------------------- */}
+      <section className="home-why">
+        <div className="home-why-inner">
+          <header className="home-section-head home-section-head-dark" data-reveal>
+            <p className="eyebrow-dot">{homeSections.whyChooseUs.eyebrow}</p>
+            <h2 className="home-section-heading">
+              {homeSections.whyChooseUs.heading}
+            </h2>
+          </header>
+          <div className="home-quad-grid">
+            {homeWhyChooseUs.map((item) => (
+              <article className="home-quad-card" data-reveal key={item.no}>
+                <span className="home-quad-no">{item.no}</span>
+                <h3 className="home-quad-title">{item.title}</h3>
+                <p className="home-quad-copy">{item.copy}</p>
+              </article>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="home-studio">
-        <div className="shell home-studio-grid">
-          <div className="home-portrait">
+      {/* FOUNDER QUOTE --------------------------------------------------- */}
+      <section className="home-founder">
+        <figure className="home-founder-grid" data-reveal>
+          <div className="home-founder-photo">
             <Image
               src={site.founder.photo}
-              alt="Krupal Chaudhary, founder of Demaze Technologies"
-              width={895}
-              height={980}
-              sizes="(max-width: 700px) 90vw, 380px"
+              alt={`${site.founder.name}, ${site.founder.title} of ${site.name}`}
+              width={440}
+              height={440}
+              sizes="(max-width: 820px) 60vw, 220px"
             />
-            <span className="eyebrow">Krupal Chaudhary / Founder & CEO</span>
           </div>
-          <div>
-            <p className="eyebrow">04 / People behind the systems</p>
-            <h2 className="section-heading">
-              Technology is complex.
-              <br />
-              Working together
-              <br />
-              shouldn’t <em>be.</em>
-            </h2>
+          <blockquote className="home-founder-quote">
             <p>
-              We’re a team of engineers, designers, and strategic thinkers based
-              in Ahmedabad. Curious about the problem. Invested in the people.
-              Accountable for what we build.
+              Through the strategic use of your vision and data, we design AI
+              solutions that make your brand stand out and drive revenue growth,
+              leading execution with focus and accountability.
             </p>
-            <Link className="text-link" href="/about-us">
-              Get to know Demaze <span aria-hidden>↗</span>
-            </Link>
-            <div className="home-stats">
-              {[site.stats[0], site.stats[2], site.stats[3]].map((stat) => (
-                <div key={stat.label}>
-                  <strong>
-                    {stat.value}
-                    {stat.suffix}
-                  </strong>
-                  <span>{stat.label}</span>
-                </div>
-              ))}
-            </div>
+            <figcaption className="home-founder-caption">
+              <strong>{site.founder.name}</strong>
+              <span>{site.founder.title}</span>
+            </figcaption>
+          </blockquote>
+        </figure>
+      </section>
+
+      {/* HOW WE WORK ----------------------------------------------------- */}
+      <section className="home-how">
+        <div className="home-how-inner">
+          <header className="home-section-head" data-reveal>
+            <p className="eyebrow-dot">{homeSections.howWeWork.eyebrow}</p>
+            <h2 className="home-section-heading">
+              {homeSections.howWeWork.heading}
+            </h2>
+          </header>
+          <div className="home-quad-grid">
+            {homeHowWeWork.map((item) => (
+              <article className="home-quad-card" data-reveal key={item.no}>
+                <span className="home-quad-no">{item.no}</span>
+                <h3 className="home-quad-title">{item.title}</h3>
+                <p className="home-quad-copy">{item.copy}</p>
+              </article>
+            ))}
           </div>
         </div>
       </section>

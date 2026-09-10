@@ -44,6 +44,147 @@ export const homeCopy = {
     "Four studies from sixteen engagements. Each began with an operation that had outgrown its spreadsheets, and ended with a system the team still opens every morning.",
 };
 
+/**
+ * The redesigned home page (FEAT-002) sources its exact prototype copy from
+ * here so the hero intro and per-section subheadings live in content rather
+ * than in the page component. All strings are check:copy-clean (hyphens and
+ * commas only, no em dashes).
+ */
+export const homeHero = {
+  eyebrow: "Expertise / Innovation / Partnership",
+  headingLead: "Your strategic partner in building ",
+  headingAccent: "scalable AI products.",
+  intro:
+    "We combine AI, software engineering, and automation with deep industry expertise to build scalable, sustainable solutions, working alongside you as a trusted, long-term partner.",
+};
+
+export const homeSections = {
+  work: {
+    eyebrow: "Our work",
+    heading: "Complex problems, useful products.",
+    sub: "Selected platforms designed around real operations, customers, and growth.",
+  },
+  services: {
+    eyebrow: "Services",
+    heading: "Apps, websites, AI and more.",
+  },
+  marquee: {
+    eyebrow: "Platforms & partners",
+    heading: "Tools and technologies.",
+  },
+  whyChooseUs: {
+    eyebrow: "Why choose us",
+    heading: "Built for lasting impact.",
+  },
+  howWeWork: {
+    eyebrow: "How we work",
+    heading: "Clear from idea to scale.",
+  },
+};
+
+/** The four Our Work cards, mapped to real project slugs and per-card tints. */
+export const homeWorkCards: {
+  slug: string;
+  title: string;
+  copy: string;
+  tint: string;
+}[] = [
+  {
+    slug: "luxury-car-dealer-software",
+    title: "AI-Based Software for Luxury Car Dealers",
+    copy: "Valuation, EMI, refurbishment and the sales backend in one platform for luxury dealership groups.",
+    tint: "oklch(0.92 0.05 305)",
+  },
+  {
+    slug: "investigative-case-management",
+    title: "Investigative Case Management Software",
+    copy: "AI-assisted case, media and workflow tooling for private investigators, secure and accessible anywhere.",
+    tint: "oklch(0.94 0.04 220)",
+  },
+  {
+    slug: "luxury-ecommerce-platform",
+    title: "AI-Powered Luxury eCommerce Platform",
+    copy: "A sustainability-led luxury storefront with AI search, try-ons, personalisation and a drag-and-drop CMS.",
+    tint: "oklch(0.94 0.052 145)",
+  },
+  {
+    slug: "senior-engagement-platform",
+    title: "Senior Engagement & Support Platform",
+    copy: "Coaching, meetups and companion community designed for older adults and the people who support them.",
+    tint: "oklch(0.96 0.06 88)",
+  },
+];
+
+/** Services sticky-stage rows (index order matches the motion module contract). */
+export const homeServiceRows: { no: string; name: string; copy: string }[] = [
+  {
+    no: "01",
+    name: "AI & ML",
+    copy: "Predictive analytics, computer vision, and generative AI that turn data into decisions.",
+  },
+  {
+    no: "02",
+    name: "Web / Mobile App / SaaS",
+    copy: "Enterprise SaaS, web, and mobile apps built to perform and grow.",
+  },
+  {
+    no: "03",
+    name: "E-commerce",
+    copy: "Marketplaces and subscription commerce that improve conversions.",
+  },
+  {
+    no: "04",
+    name: "Cloud",
+    copy: "Migration, DevOps automation, and disaster recovery for resilient systems.",
+  },
+];
+
+export const homeWhyChooseUs: { no: string; title: string; copy: string }[] = [
+  {
+    no: "01",
+    title: "Innovation at Our Core",
+    copy: "We continuously explore emerging technologies to keep clients ahead.",
+  },
+  {
+    no: "02",
+    title: "Client Success Obsession",
+    copy: "Your outcomes guide every decision, first idea through long-term growth.",
+  },
+  {
+    no: "03",
+    title: "Technology for Good",
+    copy: "Thoughtful technology should simplify work and create sustainable value.",
+  },
+  {
+    no: "04",
+    title: "Continuous Learning",
+    copy: "We invest in learning so every solution benefits from current thinking.",
+  },
+];
+
+export const homeHowWeWork: { no: string; title: string; copy: string }[] = [
+  {
+    no: "01",
+    title: "Discover & Define",
+    copy: "Focused discovery, research, and clear success metrics.",
+  },
+  {
+    no: "02",
+    title: "Design & Prototype",
+    copy: "User-focused designs and interactive prototypes before development.",
+  },
+  {
+    no: "03",
+    title: "Build & Integrate",
+    copy: "Scalable, secure, high-performance products with continuous feedback.",
+  },
+  {
+    no: "04",
+    title: "Launch & Scale",
+    copy: "Confident launches and support for long-term optimization.",
+  },
+];
+
 export const projectEditorial: Record<Project["slug"], ProjectEditorial> = {
   "luxury-car-dealer-software": {
     title: "A dealership that knows what every car is worth",
