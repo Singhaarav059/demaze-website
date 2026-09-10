@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, ArrowUpRight, Check } from "lucide-react";
 import {
@@ -8,6 +9,9 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
+import { Marquee } from "@/components/motion/marquee";
+import { Reveal } from "@/components/motion/reveal";
+import { Magnetic } from "@/components/motion/magnetic";
 import {
   faqs,
   industries,
@@ -30,11 +34,11 @@ export function SectionHeading({
   copy?: string;
 }) {
   return (
-    <div className="section-heading">
+    <Reveal className="section-heading">
       <p className="section-kicker">{eyebrow}</p>
       <h2>{title}</h2>
       {copy && <p>{copy}</p>}
-    </div>
+    </Reveal>
   );
 }
 
@@ -427,7 +431,7 @@ function TechnologyRow() {
   return (
     <>
       {technologies.map(([name, image]) => (
-        <div key={name}>
+        <div className="tech-band-item" key={name}>
           <img {...image} alt={`${name} logo`} loading="lazy" decoding="async" />
           <span>{name}</span>
         </div>
@@ -437,20 +441,21 @@ function TechnologyRow() {
 }
 
 export function TechnologyBand({ reverse = false }: { reverse?: boolean }) {
+  // Built on the accessible <Marquee> primitive: it handles the seamless
+  // duplicated track (with the clone hidden from assistive tech), a keyboard/
+  // pointer-reachable pause control, and full neutralisation under reduced
+  // motion. The `reverse` prop maps to the marquee's scroll direction so the
+  // /services band still runs the opposite way from the homepage band. The
+  // outer .tech-band keeps the existing frame, edge mask, and logo styling.
   return (
-    <div className="tech-band">
-      {/* Duplicated so the marquee's halfway point (see @keyframes tech-marquee)
-          lands exactly on a repeat of the same list, hiding the loop seam. The
-          second copy is a pure visual continuation, so it's hidden from
-          assistive tech to avoid announcing every logo name twice. */}
-      <div className={`tech-band-track ${reverse ? "reverse" : ""}`}>
+    <div className="tech-band tech-band-marquee">
+      <Marquee
+        speed={reverse ? 30 : 26}
+        direction={reverse ? "right" : "left"}
+        label="Platforms and technologies we work with"
+      >
         <TechnologyRow />
-        {/* A <span>, not a <div>, so it can never match the ".tech-band-track >
-            div" item styling below and fight display: contents for it. */}
-        <span aria-hidden="true" className="tech-band-duplicate">
-          <TechnologyRow />
-        </span>
-      </div>
+      </Marquee>
     </div>
   );
 }
@@ -459,25 +464,28 @@ export function ServicesCards() {
   return (
     <div className="services-cards">
       {services.map((service, index) => (
-        <article
-          id={service.id}
-          className={`services-card-custom services-card-pastel-${index + 1}`}
-          key={service.title}
-        >
-          <div className="services-card-media">
-            <img {...service.image} alt="" loading="lazy" decoding="async" />
-          </div>
-          <div className="services-card-body">
-            <span className="services-card-no">{service.number}</span>
-            <h3 className="services-card-title">{service.title}</h3>
-            <p className="services-card-copy">{service.description}</p>
-            <ul className="services-card-list">
-              {service.items.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-          </div>
-        </article>
+        // The `id` is a deep-link anchor target (e.g. #ai-ml), so it stays on a
+        // real <article>. Reveal wraps it for the staggered scroll entrance.
+        <Reveal key={service.title} className="services-card-reveal" stagger={index}>
+          <article
+            id={service.id}
+            className={`services-card-custom services-card-pastel-${index + 1}`}
+          >
+            <div className="services-card-media">
+              <img {...service.image} alt="" loading="lazy" decoding="async" />
+            </div>
+            <div className="services-card-body">
+              <span className="services-card-no">{service.number}</span>
+              <h3 className="services-card-title">{service.title}</h3>
+              <p className="services-card-copy">{service.description}</p>
+              <ul className="services-card-list">
+                {service.items.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          </article>
+        </Reveal>
       ))}
     </div>
   );
@@ -488,7 +496,7 @@ export function IndustryGrid({ limit }: { limit?: number }) {
   return (
     <div className="industry-grid">
       {entries.map(([industry, solutions], index) => (
-        <article key={industry}>
+        <Reveal as="article" key={industry} stagger={index}>
           <small>{String(index + 1).padStart(2, "0")}</small>
           <h3>{industry}</h3>
           <ul>
@@ -496,7 +504,7 @@ export function IndustryGrid({ limit }: { limit?: number }) {
               <li key={solution}>{solution}</li>
             ))}
           </ul>
-        </article>
+        </Reveal>
       ))}
     </div>
   );
@@ -506,11 +514,11 @@ export function ValuesGrid() {
   return (
     <div className="values-grid">
       {values.map(([title, copy], index) => (
-        <article key={title}>
+        <Reveal as="article" key={title} stagger={index}>
           <small>0{index + 1}</small>
           <h3>{title}</h3>
           <p>{copy}</p>
-        </article>
+        </Reveal>
       ))}
     </div>
   );
@@ -520,11 +528,11 @@ export function ProcessGrid() {
   return (
     <div className="process-grid">
       {process.map(([title, copy], index) => (
-        <article key={title}>
+        <Reveal as="article" key={title} stagger={index}>
           <span>0{index + 1}</span>
           <h3>{title}</h3>
           <p>{copy}</p>
-        </article>
+        </Reveal>
       ))}
     </div>
   );
@@ -576,11 +584,13 @@ export function ExploreCta({
   to?: "/projects" | "/services" | "/about-us" | "/contact-us";
 }) {
   return (
-    <Button variant="editorial" size="hero" asChild>
-      <Link to={to}>
-        {label}
-        <ArrowUpRight />
-      </Link>
-    </Button>
+    <Magnetic strength={14}>
+      <Button variant="editorial" size="hero" asChild>
+        <Link to={to}>
+          {label}
+          <ArrowUpRight />
+        </Link>
+      </Button>
+    </Magnetic>
   );
 }

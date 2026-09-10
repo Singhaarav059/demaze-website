@@ -3774,3 +3774,117 @@
     transform: translate3d(-50%, 0, 0);
   }
 }
+
+/* ==========================================================================
+   Layout shell + section rebuild on the immersive system (FEAT-003)
+   These styles wire the new motion primitives (Reveal, Magnetic, Marquee) and
+   the 3D hero backdrop into the shared shell and section components. Everything
+   here reuses the FEAT-001 tokens and stays WCAG AA (small text uses
+   --raspberry-ink, tap targets >= 24px). Motion is namespaced so the existing
+   prefers-reduced-motion guards neutralise it.
+   ========================================================================== */
+
+/* Home hero: scope the decorative 3D canvas to the hero section and keep the
+   copy + perspective card above it. .home-hero is a grid, so the canvas layer
+   is taken out of flow with position:absolute (via .immersive-canvas-layer) and
+   the real content is lifted onto its own stacking level. */
+.immersive-hero-section {
+  position: relative;
+}
+.immersive-hero-section > .hero-copy,
+.immersive-hero-section > .hero-perspective-stage {
+  position: relative;
+  z-index: 1;
+}
+/* The canvas layer already carries position:absolute; inset:0; pointer-events:
+   none; z-index:var(--z-canvas). Pin it to the hero section and let it bleed a
+   little past the edges so the scene fills the backdrop. */
+.immersive-canvas-layer.home-hero-canvas {
+  inset: -8% -6%;
+  z-index: 0;
+  border-radius: inherit;
+}
+/* Static fallback for the hero canvas (server / no WebGL / reduced motion): a
+   soft brand-tinted aurora so the backdrop is never blank. */
+.home-hero-canvas-fallback {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      ellipse at 30% 25%,
+      color-mix(in oklch, var(--color-pastel-lavender) 60%, transparent) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse at 75% 60%,
+      color-mix(in oklch, var(--color-pastel-blue) 45%, transparent) 0%,
+      transparent 62%
+    );
+  filter: blur(40px);
+  opacity: 0.7;
+}
+
+/* Dedicated ImmersiveHero component (opt-in full-bleed 3D hero for pages that
+   want it). The canvas sits behind a centred copy overlay; the section has a
+   sensible min-height so the absolute canvas layer has a box to fill. */
+.immersive-hero {
+  position: relative;
+  isolation: isolate;
+  min-height: min(620px, calc(100svh - 6rem));
+  display: grid;
+  align-items: center;
+  overflow: clip;
+}
+.immersive-hero-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.immersive-hero-canvas .immersive-canvas-layer {
+  inset: 0;
+}
+.immersive-hero-overlay {
+  position: relative;
+  z-index: 1;
+}
+
+/* Technology band rebuilt on the <Marquee> primitive. The outer .tech-band
+   keeps the frame + edge mask; the inner .immersive-marquee handles motion and
+   the pause control. These rules restyle the logo items (previously matched by
+   ".tech-band-track > div", which the marquee markup no longer produces). */
+.tech-band-marquee {
+  padding: 0.35rem 0.6rem;
+}
+.tech-band-marquee .immersive-marquee-track {
+  align-items: center;
+  gap: 0;
+}
+.tech-band-item {
+  min-width: 0;
+  display: grid;
+  justify-items: center;
+  gap: 0.65rem;
+  padding: 1.1rem 1.5rem;
+  text-align: center;
+  font-size: 0.65rem;
+  font-weight: 600;
+}
+.tech-band-marquee .immersive-marquee-toggle {
+  align-self: center;
+  min-height: 24px;
+}
+
+/* Reveal wrapper around the services cards must not collapse the 2-up grid: as
+   a grid itself it stretches the single card child to fill the cell height. */
+.services-card-reveal {
+  display: grid;
+}
+.services-card-reveal > .services-card-custom {
+  height: 100%;
+}
+
+/* Keep the magnetic wrapper inline even when the effect is disabled (touch /
+   reduced motion), so wrapping a CTA never turns it into a full-width block. */
+.immersive-magnetic {
+  display: inline-flex;
+}
