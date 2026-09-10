@@ -277,10 +277,10 @@
 }
 
 .animate-rise {
-  animation: rise 0.75s 0.08s cubic-bezier(0.2, 0.75, 0.25, 1) both;
+  animation: rise 0.75s 0.08s var(--ease-out) both;
 }
 .animate-visual {
-  animation: visual-in 0.95s 0.14s cubic-bezier(0.2, 0.75, 0.25, 1) both;
+  animation: visual-in 0.95s 0.14s var(--ease-out) both;
 }
 .section-wrap {
   width: min(1120px, calc(100% - 3rem));
@@ -349,9 +349,9 @@
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
   transition:
-    background 0.3s ease,
-    box-shadow 0.3s ease,
-    backdrop-filter 0.3s ease;
+    background 0.3s var(--ease-out),
+    box-shadow 0.3s var(--ease-out),
+    backdrop-filter 0.3s var(--ease-out);
 }
 /* Condenses once the page scrolls under the now-persistent header. Toggled by
    site-shell.tsx's scroll listener. */
@@ -419,7 +419,7 @@
   bottom: 0.55rem;
   height: 2px;
   background: var(--raspberry);
-  transition: right 0.2s ease;
+  transition: right 0.25s var(--ease-out);
 }
 .desktop-nav a:hover::after,
 .desktop-nav a.active::after {
@@ -777,7 +777,7 @@
   margin: 0.2rem 0 0;
   font: 600 1.05rem/1.2 var(--font-display);
   color: var(--muted-foreground);
-  transition: color 0.3s ease;
+  transition: color 0.3s var(--ease-out);
 }
 .pinned-services-list article.is-service-row-active h3 {
   color: var(--foreground);
@@ -791,8 +791,8 @@
   font-size: var(--text-sm);
   line-height: 1.5;
   transition:
-    max-height 0.4s ease,
-    opacity 0.3s ease;
+    max-height 0.4s var(--ease-out),
+    opacity 0.3s var(--ease-out);
 }
 .pinned-services-list article.is-service-row-active p {
   max-height: 7rem;
@@ -963,7 +963,7 @@
      beheading the UI at the vertical center of the 16/10 frame. */
   object-position: center top;
   display: block;
-  transition: transform 0.6s cubic-bezier(0.2, 0.75, 0.25, 1);
+  transition: transform 0.6s var(--ease-out);
 }
 .project-card:hover .project-image img {
   transform: scale(1.025);
@@ -975,6 +975,13 @@
   grid-template-columns: repeat(4, minmax(0, 1fr));
   grid-auto-rows: 220px;
   gap: clamp(0.9rem, 2vw, 1.4rem);
+  /* Dense packing lets the smaller 1x1 tiles backfill the holes the 2x2
+     feature tiles would otherwise leave at row ends, so the editorial wall
+     stays gap-free regardless of where the large spans land. Order can shift
+     slightly, which is fine for a decorative portfolio wall (numbered captions
+     still identify each project). Harmless at the <=900px 2-col variant where
+     .project-showcase-card resets grid-area to auto. */
+  grid-auto-flow: dense;
 }
 .project-showcase-card {
   position: relative;
@@ -1110,7 +1117,7 @@
   filter: blur(14px);
   opacity: 0.72;
   transform: translate3d(-50%, -50%, 0);
-  transition: opacity 0.3s ease;
+  transition: opacity 0.3s var(--ease-out);
   will-change: left, top;
 }
 .service-grid-lines {
@@ -1165,9 +1172,9 @@
     )
     scale(calc(0.972 + var(--service-focus) * 0.028));
   transition:
-    border-color 0.25s ease,
-    box-shadow 0.25s ease,
-    background 0.25s ease;
+    border-color 0.25s var(--ease-out),
+    box-shadow 0.25s var(--ease-out),
+    background 0.25s var(--ease-out);
   will-change: transform, opacity, filter;
 }
 .service-card::after {
@@ -1635,7 +1642,9 @@
   border-radius: 0.5rem;
   background: color-mix(in oklch, var(--background) 75%, transparent);
   text-decoration: none;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transition:
+    transform 0.25s var(--ease-out),
+    box-shadow 0.25s var(--ease-out);
 }
 .contact-options > a:hover {
   transform: translateY(-3px);
