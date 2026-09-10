@@ -16,18 +16,25 @@ export function PinnedServicesShowcase() {
   return (
     <div className="cinema-services-grid">
       <div className="cinema-services-visual-wrap">
-        {services.map((service, i) => (
-          <img
-            key={service.id}
-            {...service.image}
-            alt={`${service.title} architecture`}
-            style={{
-              opacity: i === activeIdx ? 1 : 0,
-              transform: i === activeIdx ? "scale(1)" : "scale(0.96)",
-              pointerEvents: "none",
-            }}
-          />
-        ))}
+        {services.map((service, i) => {
+          const isActive = i === activeIdx;
+          return (
+            <img
+              key={service.id}
+              {...service.image}
+              // Only the visible image exposes a description; the stacked
+              // duplicates are hidden from assistive tech so screen readers
+              // announce one image, not four overlapping ones.
+              alt={isActive ? `${service.title} architecture` : ""}
+              aria-hidden={!isActive}
+              style={{
+                opacity: isActive ? 1 : 0,
+                transform: isActive ? "scale(1)" : "scale(0.96)",
+                pointerEvents: "none",
+              }}
+            />
+          );
+        })}
       </div>
 
       <div className="cinema-services-list">
@@ -38,6 +45,7 @@ export function PinnedServicesShowcase() {
               key={service.id}
               className={`cinema-service-item ${isActive ? "is-active" : ""}`}
               onMouseEnter={() => setActiveIdx(i)}
+              onFocus={() => setActiveIdx(i)}
               onClick={() => setActiveIdx(i)}
               role="button"
               tabIndex={0}

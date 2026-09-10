@@ -6,6 +6,9 @@ export function HeroVideo({ poster, mp4 }: { poster: string; mp4: string }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [playing, setPlaying] = useState(false);
+  // Tracks a pause the user triggered via the control button, so the
+  // IntersectionObserver does not auto-resume a video they deliberately stopped.
+  const userPausedRef = useRef(false);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -18,6 +21,7 @@ export function HeroVideo({ poster, mp4 }: { poster: string; mp4: string }) {
         video.pause();
         return;
       }
+      if (userPausedRef.current) return;
       void video
         .play()
         .then(() => setPlaying(true))
@@ -25,6 +29,26 @@ export function HeroVideo({ poster, mp4 }: { poster: string; mp4: string }) {
     };
     apply();
     reducedMotion.addEventListener("change", apply);
+
+    // Pause the looping video while it is scrolled off-screen so it stops
+    // decoding, and resume when it returns (unless reduced motion is on or the
+    // user manually paused it).
+    const visibilityObserver = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry) return;
+        if (!entry.isIntersecting) {
+          video.pause();
+          return;
+        }
+        if (reducedMotion.matches || userPausedRef.current) return;
+        void video
+          .play()
+          .then(() => setPlaying(true))
+          .catch(() => setPlaying(false));
+      },
+      { threshold: 0.1 },
+    );
+    visibilityObserver.observe(video);
 
     // RedSun-inspired scroll-driven 3D perspective tilt & scale
     let scheduled = false;
@@ -49,6 +73,7 @@ export function HeroVideo({ poster, mp4 }: { poster: string; mp4: string }) {
 
     return () => {
       reducedMotion.removeEventListener("change", apply);
+      visibilityObserver.disconnect();
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", handleScroll);
     };
@@ -57,8 +82,11 @@ export function HeroVideo({ poster, mp4 }: { poster: string; mp4: string }) {
   const toggle = () => {
     const video = videoRef.current;
     if (!video) return;
-    if (video.paused) void video.play().then(() => setPlaying(true));
-    else {
+    if (video.paused) {
+      userPausedRef.current = false;
+      void video.play().then(() => setPlaying(true));
+    } else {
+      userPausedRef.current = true;
       video.pause();
       setPlaying(false);
     }

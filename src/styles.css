@@ -2814,8 +2814,13 @@
 .cinema-service-item:first-child {
   border-top: 1px solid var(--color-line-oklch);
 }
-.cinema-service-item.is-active {
+.cinema-service-item.is-active,
+.cinema-service-item:focus-visible {
   background: color-mix(in oklch, var(--color-pastel-lavender) 40%, var(--background));
+}
+.cinema-service-item:focus-visible {
+  outline: 2px solid var(--color-accent-oklch);
+  outline-offset: 2px;
 }
 .cinema-service-header {
   display: flex;
@@ -2839,6 +2844,7 @@
   transition: color 0.2s var(--ease-out);
 }
 .cinema-service-item:hover .cinema-service-title,
+.cinema-service-item:focus-visible .cinema-service-title,
 .cinema-service-item.is-active .cinema-service-title {
   color: var(--color-accent-hover);
 }
