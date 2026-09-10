@@ -420,6 +420,28 @@
 .animate-rise {
   animation: rise 0.75s 0.08s cubic-bezier(0.2, 0.75, 0.25, 1) both;
 }
+/* Staggered hero entrance: the badge, headline, intro, and actions cascade in
+   sequence for a more composed, editorial reveal. The parent .animate-rise no
+   longer needs its own transform once children animate individually, so we keep
+   its fade for grouping and let each child ride the shared `rise` keyframe with
+   an incremental delay. Pure CSS, no layout reads, SSR-safe. Neutralised by the
+   prefers-reduced-motion guard (the global `* { animation: none }` rule zeroes
+   these and the guard forces resting opacity/transform below). */
+.hero-copy.animate-rise > * {
+  animation: rise 0.7s cubic-bezier(0.2, 0.75, 0.25, 1) both;
+}
+.hero-copy.animate-rise > .badge-dual-pill {
+  animation-delay: 0.12s;
+}
+.hero-copy.animate-rise > h1 {
+  animation-delay: 0.2s;
+}
+.hero-copy.animate-rise > .intro {
+  animation-delay: 0.32s;
+}
+.hero-copy.animate-rise > .hero-actions {
+  animation-delay: 0.44s;
+}
 .animate-visual {
   animation: visual-in 0.95s 0.14s cubic-bezier(0.2, 0.75, 0.25, 1) both;
 }
@@ -764,6 +786,10 @@
 }
 .metrics-strip strong {
   font: 600 clamp(1.8rem, 2.4vw, 2.5rem)/1 var(--font-display);
+  transition: color 0.25s var(--ease-out);
+}
+.metrics-strip > div:hover strong {
+  color: var(--color-accent-hover);
 }
 .metrics-strip span {
   color: var(--muted-foreground);
@@ -1058,7 +1084,9 @@
 .footer-cta h2 {
   margin: 0;
   font: 600 var(--display-lg)/1.04 var(--font-display);
-  letter-spacing: 0;
+  /* Subtle negative tracking for a tighter, editorial display look, matching
+     .cta-band-copy h2. Applies site-wide via the shared SectionHeading. */
+  letter-spacing: -0.015em;
 }
 .section-heading > p:last-child {
   max-width: 40rem;
@@ -2119,8 +2147,11 @@
   pointer-events: none;
   z-index: 0;
   overflow: hidden;
-  filter: blur(80px);
-  opacity: 0.85;
+  /* A touch more blur and slightly lower opacity keep the backdrop soft and
+     refined rather than busy, so the hero copy and perspective card stay the
+     focal point. */
+  filter: blur(90px);
+  opacity: 0.72;
 }
 .aurora-blob {
   position: absolute;
@@ -2324,10 +2355,10 @@
     color-mix(in oklch, var(--color-pastel-blue) 50%, transparent) 38%,
     transparent 70%
   );
-  filter: blur(65px);
+  filter: blur(70px);
   pointer-events: none;
   z-index: 0;
-  opacity: 0.9;
+  opacity: 0.8;
 }
 .hero-perspective-card {
   position: relative;
@@ -2520,10 +2551,11 @@
   box-shadow: 0 12px 35px oklch(0.25 0.02 285 / 0.05);
   transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease-out;
 }
-.home-work-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 24px 60px oklch(0.25 0.02 285 / 0.12);
-  border-color: color-mix(in oklch, var(--color-accent-oklch) 30%, transparent);
+.home-work-card:hover,
+.home-work-card:focus-within {
+  transform: translateY(-7px);
+  box-shadow: 0 28px 66px oklch(0.25 0.02 285 / 0.14);
+  border-color: color-mix(in oklch, var(--color-accent-oklch) 32%, transparent);
 }
 .home-work-card-link {
   display: flex;
@@ -2531,6 +2563,14 @@
   height: 100%;
   text-decoration: none;
   color: inherit;
+  border-radius: inherit;
+  outline: none;
+}
+/* WCAG AA keyboard affordance for the card link (previously only hoverable).
+   Matches the accent-outline pattern used by .cinema-service-item:focus-visible. */
+.home-work-card-link:focus-visible {
+  outline: 2px solid var(--color-accent-oklch);
+  outline-offset: 3px;
 }
 .home-work-media {
   position: relative;
@@ -2546,10 +2586,11 @@
   height: 100%;
   object-fit: contain;
   display: block;
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.home-work-card:hover .home-work-img {
-  transform: scale(1.05);
+.home-work-card:hover .home-work-img,
+.home-work-card:focus-within .home-work-img {
+  transform: scale(1.06);
 }
 .home-work-body {
   display: flex;
@@ -2580,7 +2621,8 @@
   color: var(--color-muted-oklch);
   transition: all 0.25s var(--ease-out);
 }
-.home-work-card:hover .home-work-arrow {
+.home-work-card:hover .home-work-arrow,
+.home-work-card:focus-within .home-work-arrow {
   color: var(--color-accent-oklch);
   transform: translate(3px, -3px);
 }
@@ -2593,7 +2635,8 @@
   color: var(--color-ink-oklch);
   transition: color 0.2s var(--ease-out);
 }
-.home-work-card:hover .home-work-title {
+.home-work-card:hover .home-work-title,
+.home-work-card:focus-within .home-work-title {
   color: var(--color-accent-hover);
 }
 .home-work-copy {
@@ -3088,6 +3131,12 @@
   border-radius: 1.35rem;
   background: linear-gradient(120deg, var(--color-pastel-mint), var(--color-pastel-blue));
   box-shadow: 0 18px 45px oklch(0.25 0.03 285 / 0.08);
+  transition: transform 0.35s var(--ease-out), box-shadow 0.35s var(--ease-out);
+}
+.cta-band:hover,
+.cta-band:focus-within {
+  transform: translateY(-3px);
+  box-shadow: 0 26px 58px oklch(0.25 0.03 285 / 0.13);
 }
 .cta-band-mark {
   flex: none;
@@ -3610,6 +3659,15 @@
     transition-duration: 0.01ms !important;
   }
   .scroll-reveal {
+    opacity: 1;
+    transform: none;
+  }
+  /* Hero staggered entrance (FEAT-003): the global rule zeroes the animation,
+     but each cascaded child would otherwise stay in the `rise` keyframe's
+     starting transform/opacity. Force them to their resolved resting state so
+     reduced-motion users see the full, static hero immediately. */
+  .hero-copy.animate-rise,
+  .hero-copy.animate-rise > * {
     opacity: 1;
     transform: none;
   }
