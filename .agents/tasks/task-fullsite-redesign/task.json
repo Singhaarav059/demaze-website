@@ -1,0 +1,15 @@
+{
+  "task_id": "task-fullsite-redesign",
+  "task_description": "Full-site visual redesign of the Demaze Technologies Next.js 16 App Router website, porting the provided static HTML prototype (Document 1) into idiomatic App Router surfaces: DM Sans + Space Grotesk fonts, an oklch color system, a scroll-progress + sticky-header chrome shell, reworked Nav and Footer, a shared reduced-motion/no-JS-safe client motion module (reveal, count-up, hero parallax, services sticky-stage, img parallax), and rebuilt home/projects/services/about-us/contact-us pages matching the prototype's layout, copy, color, typography, spacing, components and interactions. All missing prototype assets are substituted with reused existing files, inline-SVG or CSS-gradient placeholders (never dead srcs). Committed directly to main; no PR. Document 2 (7shifts) informs patterns/radii/spacing only; the prototype's pink oklch palette wins on concrete values.",
+  "status": "completed",
+  "feature_order": ["FEAT-001", "FEAT-002", "FEAT-003", "FEAT-004"],
+  "blocked_reason": null,
+  "verification": {
+    "build": "skipped",
+    "tests": "skipped",
+    "test_quality": "n/a",
+    "docker_build": "skipped",
+    "summary": "Dependencies are not installable under INTEGRATIONS_ONLY (node_modules is not properly installed; node_modules/next/dist is empty), so next build / eslint / prettier / playwright / docker build could not run in-sandbox, as anticipated in context.json. Verified correct-by-construction via reading and the one runnable gate: `unset NODE_OPTIONS && node scripts/check-copy.mjs src` passes (32 files, no em dashes), including the restructured About who-we-are copy. Every shipping <img>/<video>/<source>/next Image src points to a file that exists (/hero-transform.mp4, /demaze-logo.png, /krupal-chaudhary.jpg); all other prototype imagery is substituted with inline-SVG / CSS-gradient / text-wordmark placeholders (aria-hidden), so nothing 404s (see asset-checklist.md). Fonts wired via next/font/google (DM Sans body/UI, Space Grotesk headings/metric-values/founder-quote). SiteMotion hook contract ([data-reveal],[data-metric],[data-hero-frame],#services-stage/[data-service-row]/[data-service-img],[data-parallax-img],#scroll-progress,[data-hero-video]) matches page markup; reduced-motion + no-JS safe; service-card deep-link ids ai-ml/web-mobile-saas/ecommerce/cloud preserved. No test files added or changed (existing Playwright suite untouched); final build/lint/e2e must be confirmed in CI or a preview deploy. Semantic review: v1 NEEDS_CHANGES (hero video not paused under reduced-motion + 3 minor items) -> fix commit 1d24a0d -> v2 APPROVED with zero remaining issues.",
+    "commits": ["68c0156", "2b1af19", "25d1604", "43f2dd7", "1d24a0d", "8ba8a26"]
+  }
+}
