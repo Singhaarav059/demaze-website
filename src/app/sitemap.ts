@@ -8,6 +8,10 @@ const paths = [
   "/services",
   "/about-us",
   "/contact-us",
+  "/privacy-policy",
+  "/terms-of-service",
+  "/ai-dev-automation-playbook",
+  "/ai-dev-automation-playbook-form",
   ...projects.map((project) => `/projects/${project.slug}`),
 ];
 

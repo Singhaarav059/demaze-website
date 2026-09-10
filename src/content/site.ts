@@ -61,6 +61,10 @@ export const site = {
     { label: "About us", href: "/about-us" },
     { label: "Contact us", href: "/contact-us" },
   ],
+  legalNav: [
+    { label: "Privacy Policy", href: "/privacy-policy" },
+    { label: "Terms of Service", href: "/terms-of-service" },
+  ],
 };
 
 /**

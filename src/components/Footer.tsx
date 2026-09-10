@@ -39,6 +39,13 @@ export default function Footer() {
               </Link>
             ))}
           </nav>
+          <nav aria-label="Legal">
+            {site.legalNav.map((link) => (
+              <Link key={link.href} href={link.href}>
+                {link.label}
+              </Link>
+            ))}
+          </nav>
           <p>Ahmedabad, India</p>
         </div>
       </div>
