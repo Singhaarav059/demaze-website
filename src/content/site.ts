@@ -34,7 +34,7 @@ export const site = {
     name: "Krupal Chaudhary",
     title: "Founder & CEO",
     linkedin: "https://www.linkedin.com/in/krupalchaudhary-ai/",
-    photo: "/krupal-chaudhary.jpg",
+    photo: "/founder.webp",
     // Set at ~60px, the largest sustained block of text on the site, so it has
     // to be worth that size. The previous version ("through strategic use of
     // your vision and data, we design AI solutions that make your brand stand

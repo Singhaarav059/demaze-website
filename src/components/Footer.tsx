@@ -1,11 +1,12 @@
+import Image from "next/image";
 import Link from "next/link";
 import { site } from "@/content/site";
 
 /**
  * Shared redesign footer for every page: a gradient CTA band leading into a
- * slim copyright/location strip. The decorative mark is an inline SVG (no
- * missing asset), and the copyright uses the real copyright symbol so the copy
- * check passes.
+ * slim copyright/location strip. The decorative mark is the Demaze logo mark
+ * (aria-hidden / alt=""), and the copyright uses the real copyright symbol so
+ * the copy check passes.
  */
 export default function Footer() {
   return (
@@ -13,20 +14,13 @@ export default function Footer() {
       <div className="shell">
         <div className="cta-band">
           <span className="cta-band-mark" aria-hidden>
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden>
-              <path
-                d="M12 2 4 6v6c0 5 3.4 8.6 8 10 4.6-1.4 8-5 8-10V6l-8-4Z"
-                fill="currentColor"
-                opacity="0.16"
-              />
-              <path
-                d="m8.5 12 2.4 2.4L15.8 9.5"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+            <Image
+              src="/demaze-logo-mark.png"
+              alt=""
+              width={34}
+              height={34}
+              className="cta-band-mark-img"
+            />
           </span>
           <div className="cta-band-copy">
             <span className="eyebrow-dot">Have a project in mind?</span>

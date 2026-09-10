@@ -8,7 +8,7 @@ import {
   homeWhyChooseUs,
   homeWorkCards,
 } from "@/content/editorial";
-import { techStackFlat } from "@/content/services";
+import { techLogos } from "@/content/services";
 import { site } from "@/content/site";
 
 export default function Home() {
@@ -40,10 +40,15 @@ export default function Home() {
             {/* No `autoPlay`: SiteMotion starts playback only when autoplay is
                 enabled and reduced motion is not requested, and pauses under a
                 reduced-motion preference. Without JS the video simply does not
-                autoplay, and the frame's CSS gradient is the first-frame
-                fallback (there is no poster asset in public/). */}
-            <video data-hero-video loop muted playsInline>
-              <source src="/hero-transform.mp4" type="video/mp4" />
+                autoplay, and the poster is shown as the first-frame fallback. */}
+            <video
+              data-hero-video
+              loop
+              muted
+              playsInline
+              poster="/demaze-robot-studio-poster.webp"
+            >
+              <source src="/demaze-robot-studio.mp4" type="video/mp4" />
             </video>
           </div>
         </div>
@@ -85,8 +90,15 @@ export default function Home() {
                 <span
                   className="home-work-media"
                   style={{ background: card.tint }}
-                  aria-hidden
-                />
+                >
+                  <Image
+                    src={card.image}
+                    alt={card.alt}
+                    fill
+                    sizes="(max-width: 820px) 100vw, 44vw"
+                    className="home-work-img"
+                  />
+                </span>
                 <span className="home-work-body">
                   <span className="home-work-title">{card.title}</span>
                   <span className="home-work-copy">{card.copy}</span>
@@ -120,6 +132,13 @@ export default function Home() {
                   key={row.name}
                   aria-hidden
                 >
+                  <Image
+                    src={row.image}
+                    alt=""
+                    fill
+                    sizes="(max-width: 820px) 90vw, 40vw"
+                    className="home-service-img-media"
+                  />
                   <span className="home-service-img-no">{row.no}</span>
                   <span className="home-service-img-name">{row.name}</span>
                 </div>
@@ -157,22 +176,37 @@ export default function Home() {
         </header>
         <div className="home-marquee">
           <div className="home-marquee-track" aria-hidden>
-            {techStackFlat.map((tech) => (
-              <span className="home-marquee-item" key={`a-${tech}`}>
-                {tech}
+            {techLogos.map((tech) => (
+              <span className="home-marquee-item" key={`a-${tech.name}`}>
+                <Image
+                  className="home-marquee-logo"
+                  src={tech.logo}
+                  alt=""
+                  width={28}
+                  height={28}
+                />
+                <span className="home-marquee-name">{tech.name}</span>
               </span>
             ))}
           </div>
           <div className="home-marquee-track" aria-hidden>
-            {techStackFlat.map((tech) => (
-              <span className="home-marquee-item" key={`b-${tech}`}>
-                {tech}
+            {techLogos.map((tech) => (
+              <span className="home-marquee-item" key={`b-${tech.name}`}>
+                <Image
+                  className="home-marquee-logo"
+                  src={tech.logo}
+                  alt=""
+                  width={28}
+                  height={28}
+                />
+                <span className="home-marquee-name">{tech.name}</span>
               </span>
             ))}
           </div>
         </div>
         <p className="visually-hidden">
-          Tools and technologies we work with: {techStackFlat.join(", ")}.
+          Tools and technologies we work with:{" "}
+          {techLogos.map((tech) => tech.name).join(", ")}.
         </p>
       </section>
 

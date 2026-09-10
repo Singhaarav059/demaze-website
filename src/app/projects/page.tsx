@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { pageMeta } from "@/content/site";
 
@@ -14,6 +15,8 @@ type BentoTile = {
   slug: string;
   span: "span1" | "span2" | "span2row2";
   pastel: 1 | 2 | 3 | 4;
+  image: string;
+  alt: string;
 };
 
 const bentoTiles: BentoTile[] = [
@@ -23,6 +26,8 @@ const bentoTiles: BentoTile[] = [
     slug: "luxury-car-dealer-software",
     span: "span2row2",
     pastel: 1,
+    image: "/project-car.webp",
+    alt: "AI-based dealership platform for luxury car dealers",
   },
   {
     no: "02",
@@ -30,6 +35,8 @@ const bentoTiles: BentoTile[] = [
     slug: "investigative-case-management",
     span: "span2",
     pastel: 2,
+    image: "/project-investigation.webp",
+    alt: "Investigative case management software interface",
   },
   {
     no: "03",
@@ -37,6 +44,8 @@ const bentoTiles: BentoTile[] = [
     slug: "luxury-ecommerce-platform",
     span: "span1",
     pastel: 3,
+    image: "/project-luxury.webp",
+    alt: "AI-powered luxury eCommerce storefront",
   },
   {
     no: "04",
@@ -44,6 +53,8 @@ const bentoTiles: BentoTile[] = [
     slug: "senior-engagement-platform",
     span: "span1",
     pastel: 4,
+    image: "/project-sukoon.webp",
+    alt: "Senior engagement and support community platform",
   },
   {
     no: "05",
@@ -51,6 +62,8 @@ const bentoTiles: BentoTile[] = [
     slug: "multi-vendor-ecommerce-marketplace",
     span: "span2",
     pastel: 1,
+    image: "/project-marketplace.webp",
+    alt: "Multi-vendor eCommerce marketplace",
   },
   {
     no: "06",
@@ -58,6 +71,8 @@ const bentoTiles: BentoTile[] = [
     slug: "food-grocery-delivery-app",
     span: "span2row2",
     pastel: 2,
+    image: "/project-grocery.webp",
+    alt: "Food and grocery delivery app",
   },
   {
     no: "07",
@@ -65,6 +80,8 @@ const bentoTiles: BentoTile[] = [
     slug: "cma-report-generation-software",
     span: "span1",
     pastel: 3,
+    image: "/project-cma.webp",
+    alt: "CMA report generation software",
   },
   {
     no: "08",
@@ -72,6 +89,8 @@ const bentoTiles: BentoTile[] = [
     slug: "recruitment-platform",
     span: "span1",
     pastel: 4,
+    image: "/project-recruitment.webp",
+    alt: "Recruitment platform interface",
   },
 ];
 
@@ -102,11 +121,15 @@ export default function ProjectsPage() {
               key={tile.slug}
             >
               <Link className="projects-tile-link" href={`/projects/${tile.slug}`}>
-                <span
-                  className="projects-tile-media"
-                  data-parallax-img
-                  aria-hidden
-                />
+                <span className="projects-tile-media" data-parallax-img>
+                  <Image
+                    src={tile.image}
+                    alt={tile.alt}
+                    fill
+                    sizes="(max-width: 820px) 100vw, 50vw"
+                    className="projects-tile-img"
+                  />
+                </span>
                 <span className="projects-tile-overlay">
                   <span className="projects-tile-no">{tile.no}</span>
                   <h3 className="projects-tile-title">{tile.title}</h3>

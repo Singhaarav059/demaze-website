@@ -76,3 +76,22 @@ export const techStackFlat = [
   "Apache Kafka",
   "Elastic Search",
 ];
+
+/**
+ * Real logo marks for the home and services tech marquees. `name` is the label
+ * shown beside each mark (kept as visible text so the row still reads as a
+ * word); `logo` is a file that exists in public/. The screen-reader summaries
+ * on each marquee use these names, and the duplicated (looping) track renders
+ * its logos with alt="" while the first track carries the accessible name, so
+ * the logo images themselves are decorative.
+ */
+export const techLogos: { name: string; logo: string }[] = [
+  { name: "Langchain", logo: "/tech-langchain.png" },
+  { name: "Python", logo: "/tech-python.webp" },
+  { name: "TensorFlow", logo: "/tech-tensorflow.png" },
+  { name: "OpenAI", logo: "/tech-openai.png" },
+  { name: "Hugging Face", logo: "/tech-huggingface.png" },
+  { name: "Pinecone Database", logo: "/tech-pinecone.png" },
+  { name: "Apache Kafka", logo: "/tech-kafka.png" },
+  { name: "Elasticsearch", logo: "/tech-elastic.png" },
+];

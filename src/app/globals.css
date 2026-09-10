@@ -471,9 +471,11 @@ html:not([data-js]) [data-hero-frame] {
   border-radius: 18px;
   background: color-mix(in oklch, white 70%, transparent);
 }
-.cta-band-mark svg {
+.cta-band-mark svg,
+.cta-band-mark-img {
   width: 34px;
   height: 34px;
+  object-fit: contain;
   color: var(--color-accent-oklch);
 }
 .cta-band-copy .eyebrow-dot {
@@ -738,8 +740,13 @@ html:not([data-js]) .home-hero-dot {
   display: block;
 }
 .home-work-media {
+  position: relative;
   display: block;
   aspect-ratio: 16 / 10;
+  overflow: hidden;
+}
+.home-work-img {
+  object-fit: cover;
 }
 .home-work-body {
   display: block;
@@ -801,6 +808,7 @@ html:not([data-js]) .home-hero-dot {
   gap: 6px;
   padding: 28px;
   border-radius: 16px;
+  overflow: hidden;
   background: color-mix(in oklch, white 62%, transparent);
   box-shadow: 0 18px 40px oklch(0.28 0.03 285 / 0.12);
   opacity: 0;
@@ -834,7 +842,13 @@ html:not([data-js]) .home-hero-dot {
     color-mix(in oklch, oklch(0.92 0.05 305) 70%, white)
   );
 }
+.home-service-img-media {
+  object-fit: cover;
+  z-index: 0;
+}
 .home-service-img-no {
+  position: relative;
+  z-index: 1;
   font-family: var(--font-space-grotesk);
   font-weight: 600;
   font-size: 2.4rem;
@@ -842,10 +856,13 @@ html:not([data-js]) .home-hero-dot {
   color: var(--color-accent-hover);
 }
 .home-service-img-name {
+  position: relative;
+  z-index: 1;
   font-family: var(--font-space-grotesk);
   font-weight: 600;
   font-size: 1.35rem;
   color: var(--color-ink-oklch);
+  text-shadow: 0 1px 10px oklch(1 0 0 / 0.7);
 }
 .home-services-rows {
   display: flex;
@@ -930,11 +947,22 @@ html[data-js] .home-marquee-track {
   animation: marquee-scroll 26s linear infinite;
 }
 .home-marquee-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
   font-family: var(--font-dm-sans);
   font-size: 14px;
   font-weight: 600;
   white-space: nowrap;
   color: var(--color-muted-oklch);
+}
+.home-marquee-logo {
+  height: 28px;
+  width: auto;
+  object-fit: contain;
+}
+.home-marquee-name {
+  white-space: nowrap;
 }
 @media (prefers-reduced-motion: reduce) {
   .home-marquee-track {
@@ -1229,6 +1257,9 @@ html[data-js] .home-marquee-track {
     ),
     radial-gradient(90% 90% at 85% 90%, oklch(0.7 0.12 7 / 0.16), transparent 60%);
 }
+.projects-tile-img {
+  object-fit: cover;
+}
 .projects-tile-overlay {
   position: absolute;
   inset: 0;
@@ -1340,8 +1371,13 @@ html:not([data-js]) .services-hero-float {
   box-shadow: 0 22px 55px oklch(0.25 0.02 285 / 0.12);
 }
 .services-card-media {
+  position: relative;
   display: block;
   aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+.services-card-img {
+  object-fit: cover;
 }
 .services-card-pastel-1 .services-card-media {
   background: linear-gradient(
@@ -1466,12 +1502,23 @@ html[data-js] .services-marquee-track {
   animation: marquee-scroll 22s linear infinite reverse;
 }
 .services-marquee-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
   font-family: var(--font-space-grotesk);
   font-size: clamp(1.4rem, 3vw, 2.2rem);
   font-weight: 600;
   letter-spacing: -0.01em;
   white-space: nowrap;
   color: var(--color-muted-oklch);
+}
+.services-marquee-logo {
+  height: clamp(28px, 4vw, 44px);
+  width: auto;
+  object-fit: contain;
+}
+.services-marquee-name {
+  white-space: nowrap;
 }
 @media (prefers-reduced-motion: reduce) {
   .services-marquee-track {

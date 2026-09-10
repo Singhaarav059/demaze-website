@@ -82,60 +82,89 @@ export const homeSections = {
   },
 };
 
-/** The four Our Work cards, mapped to real project slugs and per-card tints. */
+/**
+ * The four Our Work cards, mapped to real project slugs and per-card tints.
+ * `image` is a real file in public/ used as the tile media; the tint remains
+ * as the box background behind and around the image (and as the no-image
+ * fallback). `alt` is descriptive because these are meaningful content images.
+ */
 export const homeWorkCards: {
   slug: string;
   title: string;
   copy: string;
   tint: string;
+  image: string;
+  alt: string;
 }[] = [
   {
     slug: "luxury-car-dealer-software",
     title: "AI-Based Software for Luxury Car Dealers",
     copy: "Valuation, EMI, refurbishment and the sales backend in one platform for luxury dealership groups.",
     tint: "oklch(0.92 0.05 305)",
+    image: "/project-car.webp",
+    alt: "AI-based dealership platform for luxury car dealers",
   },
   {
     slug: "investigative-case-management",
     title: "Investigative Case Management Software",
     copy: "AI-assisted case, media and workflow tooling for private investigators, secure and accessible anywhere.",
     tint: "oklch(0.94 0.04 220)",
+    image: "/project-investigation.webp",
+    alt: "Investigative case management software interface",
   },
   {
     slug: "luxury-ecommerce-platform",
     title: "AI-Powered Luxury eCommerce Platform",
     copy: "A sustainability-led luxury storefront with AI search, try-ons, personalisation and a drag-and-drop CMS.",
     tint: "oklch(0.94 0.052 145)",
+    image: "/project-luxury.webp",
+    alt: "AI-powered luxury eCommerce storefront",
   },
   {
     slug: "senior-engagement-platform",
     title: "Senior Engagement & Support Platform",
     copy: "Coaching, meetups and companion community designed for older adults and the people who support them.",
     tint: "oklch(0.96 0.06 88)",
+    image: "/project-sukoon.webp",
+    alt: "Senior engagement and support community platform",
   },
 ];
 
-/** Services sticky-stage rows (index order matches the motion module contract). */
-export const homeServiceRows: { no: string; name: string; copy: string }[] = [
+/**
+ * Services sticky-stage rows (index order matches the motion module contract).
+ * `image` is a real file in public/; the stage stacks all four and crossfades
+ * opacity so only one shows at a time. The images are decorative (the row copy
+ * carries the meaning), so the stage stays aria-hidden and each image alt="".
+ */
+export const homeServiceRows: {
+  no: string;
+  name: string;
+  copy: string;
+  image: string;
+}[] = [
   {
     no: "01",
     name: "AI & ML",
     copy: "Predictive analytics, computer vision, and generative AI that turn data into decisions.",
+    image: "/service-ai.webp",
   },
   {
     no: "02",
     name: "Web / Mobile App / SaaS",
     copy: "Enterprise SaaS, web, and mobile apps built to perform and grow.",
+    image: "/service-web.webp",
   },
   {
     no: "03",
     name: "E-commerce",
     copy: "Marketplaces and subscription commerce that improve conversions.",
+    image: "/service-commerce.png",
   },
   {
     no: "04",
     name: "Cloud",
     copy: "Migration, DevOps automation, and disaster recovery for resilient systems.",
+    image: "/service-cloud.png",
   },
 ];
 

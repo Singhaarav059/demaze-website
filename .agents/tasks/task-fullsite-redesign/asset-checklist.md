@@ -1,5 +1,15 @@
 # Asset drop-in checklist (full-site redesign)
 
+> UPDATE 2026-09-10: the real prototype assets were sourced from `origin/main`
+> (its committed binaries under `src/assets/` and `public/`, code/config
+> ignored) and wired into this branch. The video/poster, tech logos, project
+> tiles, service imagery, about who-we-are media, founder portrait and footer
+> mark below are now REAL files in `public/`, rendered via `next/image`
+> `<Image>` (or a plain `<video>` for the mp4). The substitute notes are kept
+> for history; the "Location where a real asset drops in" column now describes
+> where the real asset already lives. All effects, animations, reduced-motion
+> gating and no-JS fallbacks were preserved unchanged.
+
 The redesign is built correct-by-construction against the assets that actually
 exist in `public/`:
 

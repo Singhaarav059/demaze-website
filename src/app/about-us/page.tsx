@@ -50,10 +50,10 @@ export default function AboutPage() {
       {/* WHO WE ARE ------------------------------------------------------ */}
       <section className="about-who">
         <div className="about-who-grid">
-          <div className="about-who-media" data-reveal aria-hidden>
+          <div className="about-who-media" data-reveal>
             <Image
-              src={site.founder.photo}
-              alt=""
+              src="/about.webp"
+              alt="The Demaze Technologies team at work"
               fill
               sizes="(max-width: 820px) 100vw, 46vw"
               className="about-who-photo"

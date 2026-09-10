@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { serviceCategories } from "@/content/services";
+import Image from "next/image";
+import { serviceCategories, techLogos } from "@/content/services";
 import { industries } from "@/content/industries";
 import { pageMeta } from "@/content/site";
 
@@ -38,6 +39,16 @@ const cardChecklists: Record<string, string[]> = {
   ],
 };
 
+// Real service artwork, keyed to the serviceCategories ids. The card media sits
+// behind the pastel gradient and is decorative (the card title/copy carry the
+// meaning), so each image is alt="" inside the aria-hidden media span.
+const cardImages: Record<string, string> = {
+  "ai-ml": "/service-ai.webp",
+  "web-mobile-saas": "/service-web.webp",
+  ecommerce: "/service-commerce.png",
+  cloud: "/service-cloud.png",
+};
+
 const cardSummaries: Record<string, string> = {
   "ai-ml":
     "AI-powered solutions that turn data into insights, automate complex tasks, and drive smarter decisions.",
@@ -48,9 +59,6 @@ const cardSummaries: Record<string, string> = {
   cloud:
     "Cloud architectures built for scalability, security, and resilience across modern workloads.",
 };
-
-// Reversed tech marquee wordmarks (text only, no missing logo assets).
-const techWordmarks = ["Langchain", "Python", "OpenAI", "Tensorflow", "Kafka"];
 
 // The eight industry tiles the prototype shows, each pinned to its descriptor.
 // This is the explicit source of truth for the grid: the first seven names
@@ -121,7 +129,15 @@ export default function ServicesPage() {
               id={category.key}
               key={category.key}
             >
-              <span className="services-card-media" aria-hidden />
+              <span className="services-card-media" aria-hidden>
+                <Image
+                  src={cardImages[category.key]}
+                  alt=""
+                  fill
+                  sizes="(max-width: 820px) 100vw, 50vw"
+                  className="services-card-img"
+                />
+              </span>
               <div className="services-card-body">
                 <span className="services-card-no">0{index + 1}</span>
                 <h3 className="services-card-title">{category.name}</h3>
@@ -153,23 +169,38 @@ export default function ServicesPage() {
           </h2>
         </header>
         <div className="services-marquee">
-          <div className="services-marquee-track">
-            {techWordmarks.map((tech) => (
-              <span className="services-marquee-item" key={`a-${tech}`}>
-                {tech}
+          <div className="services-marquee-track" aria-hidden>
+            {techLogos.map((tech) => (
+              <span className="services-marquee-item" key={`a-${tech.name}`}>
+                <Image
+                  className="services-marquee-logo"
+                  src={tech.logo}
+                  alt=""
+                  width={28}
+                  height={28}
+                />
+                <span className="services-marquee-name">{tech.name}</span>
               </span>
             ))}
           </div>
           <div className="services-marquee-track" aria-hidden>
-            {techWordmarks.map((tech) => (
-              <span className="services-marquee-item" key={`b-${tech}`}>
-                {tech}
+            {techLogos.map((tech) => (
+              <span className="services-marquee-item" key={`b-${tech.name}`}>
+                <Image
+                  className="services-marquee-logo"
+                  src={tech.logo}
+                  alt=""
+                  width={28}
+                  height={28}
+                />
+                <span className="services-marquee-name">{tech.name}</span>
               </span>
             ))}
           </div>
         </div>
         <p className="visually-hidden">
-          Platforms and partners we build with: {techWordmarks.join(", ")}.
+          Platforms and partners we build with:{" "}
+          {techLogos.map((tech) => tech.name).join(", ")}.
         </p>
       </section>
 
