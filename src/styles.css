@@ -3619,3 +3619,158 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* ───────────────────────────────────────────────────────────────────────────
+   Immersive component styles (FEAT-002)
+   Layering, cursor, marquee, and magnetic primitives for the 3D/motion layer.
+   All motion here is neutralised by the prefers-reduced-motion guard above
+   (classes are namespaced with `immersive-`), so reduced-motion users get
+   static, immediately-visible content.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+/* Screen-reader-only utility used by the marquee control's descriptive text. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* The WebGL canvas layer sits behind all content and never intercepts pointer
+   events or blocks scrolling. It fills its positioned parent (the hero visual
+   container), matching the video fallback it swaps in for. */
+.immersive-canvas-layer {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-canvas);
+  pointer-events: none;
+  overflow: hidden;
+}
+.immersive-canvas-layer canvas,
+.immersive-canvas-inner {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+  pointer-events: none;
+}
+
+/* Custom cursor: two fixed, decorative layers that ride above everything. The
+   native cursor is intentionally left visible so keyboard/AT users and hit
+   testing are unaffected; these are additive flourishes only. */
+.immersive-cursor-dot,
+.immersive-cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: var(--z-cursor);
+  pointer-events: none;
+  opacity: 0;
+  will-change: transform;
+  transform: translate3d(-100px, -100px, 0);
+  margin-left: 0;
+  margin-top: 0;
+}
+.immersive-cursor-dot {
+  width: 8px;
+  height: 8px;
+  margin-left: -4px;
+  margin-top: -4px;
+  border-radius: 999px;
+  background: var(--raspberry);
+  transition: opacity var(--motion-fast) var(--ease-out);
+}
+.immersive-cursor-ring {
+  width: 38px;
+  height: 38px;
+  margin-left: -19px;
+  margin-top: -19px;
+  border-radius: 999px;
+  border: 1.5px solid oklch(0.64 0.26 7 / 0.5);
+  transition:
+    opacity var(--motion-fast) var(--ease-out),
+    width var(--motion-base) var(--ease-spring),
+    height var(--motion-base) var(--ease-spring),
+    border-color var(--motion-base) var(--ease-out),
+    margin var(--motion-base) var(--ease-spring);
+}
+.immersive-cursor-dot.is-visible,
+.immersive-cursor-ring.is-visible {
+  opacity: 1;
+}
+.immersive-cursor-ring.is-hovering {
+  width: 58px;
+  height: 58px;
+  margin-left: -29px;
+  margin-top: -29px;
+  border-color: oklch(0.64 0.26 7 / 0.85);
+}
+
+/* Magnetic wrapper: the element eases toward the pointer via CSS variables the
+   component sets each frame, and springs back when they reset to 0. */
+.immersive-magnetic.is-active {
+  display: inline-flex;
+  transform: translate3d(var(--magnetic-x, 0), var(--magnetic-y, 0), 0);
+  transition: transform var(--motion-slow) var(--ease-spring);
+}
+
+/* Marquee: a seamless, duplicated track. Motion is CSS-driven so it pauses via
+   a class toggle and is neutralised entirely under reduced motion. */
+.immersive-marquee {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.immersive-marquee-viewport {
+  flex: 1;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 8%,
+    #000 92%,
+    transparent
+  );
+  mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+  display: flex;
+  width: 100%;
+}
+.immersive-marquee-track {
+  display: flex;
+  flex-shrink: 0;
+  gap: 3rem;
+  padding-right: 3rem;
+  min-width: 100%;
+  animation: immersive-marquee-scroll var(--marquee-duration, 32s) linear infinite;
+  animation-direction: var(--marquee-direction, normal);
+}
+.immersive-marquee.is-paused .immersive-marquee-track {
+  animation-play-state: paused;
+}
+.immersive-marquee-toggle {
+  flex-shrink: 0;
+  font-size: 0.75rem;
+  line-height: 1;
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+.immersive-marquee-toggle:hover {
+  border-color: var(--raspberry);
+}
+@keyframes immersive-marquee-scroll {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
