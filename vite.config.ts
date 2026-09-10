@@ -9,7 +9,8 @@ import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 export default defineConfig({
   tanstackStart: {
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
-    // nitro/vite builds from this
+    // nitro/vite builds from this. Security headers are applied there too, since the
+    // Lovable config wrapper does not expose nitro routeRules.
     server: { entry: "server" },
   },
   // Self-hosted on Railway (Node), not Lovable/Cloudflare, so override the default preset.

@@ -10,9 +10,13 @@ import {
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
+import dmSans from "@fontsource-variable/dm-sans/files/dm-sans-latin-wght-normal.woff2?url";
+import spaceGrotesk from "@fontsource-variable/space-grotesk/files/space-grotesk-latin-wght-normal.woff2?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { PrivacyAnalytics } from "../components/privacy-analytics";
 import { Button } from "../components/ui/button";
+
+const SITE_URL = "https://www.demazetech.com";
 
 const organizationData = {
   "@context": "https://schema.org",
@@ -92,28 +96,45 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "DEMAze Technologies" },
       { name: "description", content: "AI engineering and product development partner." },
       { name: "author", content: "DEMAze Technologies" },
+      { name: "theme-color", content: "#fdfcfb" },
       { property: "og:title", content: "DEMAze Technologies" },
       { property: "og:description", content: "AI engineering and product development partner." },
       { property: "og:type", content: "website" },
-      { property: "og:image", content: "https://www.demazetech.com/social-preview.jpg" },
+      { property: "og:url", content: SITE_URL },
+      { property: "og:site_name", content: "DEMAze Technologies" },
+      { property: "og:locale", content: "en_IN" },
+      { property: "og:image", content: `${SITE_URL}/social-preview.jpg` },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "640" },
       {
         property: "og:image:alt",
         content: "DEMAze Technologies, AI engineering and product development",
       },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:image", content: "https://www.demazetech.com/social-preview.jpg" },
+      { name: "twitter:image", content: `${SITE_URL}/social-preview.jpg` },
     ],
     links: [
+      // Fonts before the stylesheet: both are render-blocking, and the woff2 fetch
+      // is the one on the critical path for first contentful paint.
       {
-        rel: "stylesheet",
-        href: appCss,
+        rel: "preload",
+        as: "font",
+        type: "font/woff2",
+        href: dmSans,
+        crossOrigin: "anonymous",
       },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      {
+        rel: "preload",
+        as: "font",
+        type: "font/woff2",
+        href: spaceGrotesk,
+        crossOrigin: "anonymous",
+      },
+      { rel: "stylesheet", href: appCss },
+      { rel: "icon", href: "/favicon.ico", sizes: "48x48" },
+      { rel: "icon", href: "/icon-512.png", type: "image/png", sizes: "512x512" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
       { rel: "manifest", href: "/manifest.webmanifest" },
-      {
-        rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap",
-      },
     ],
   }),
   shellComponent: RootShell,

@@ -1,0 +1,22 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "broken-image",
+        "value": "*",
+        "files": ["src/components/content-sections.tsx"],
+        "createdAt": "2026-09-10T07:15:06.391Z",
+        "reason": "false positive: every img here spreads {...image} from the generated src/assets/images.ts, so src is always a real bundled URL the scanner cannot see through; alt='' is correct because the wrapper carries role=img + aria-label"
+      },
+      {
+        "rule": "broken-image",
+        "value": "*",
+        "files": ["src/components/site-shell.tsx"],
+        "createdAt": "2026-09-10T07:15:48.643Z",
+        "reason": "false positive: footer img spreads {...images.footer} from generated src/assets/images.ts so src is a real bundled URL; header logo uses a literal /demaze-logo.png. alt='' on both is deliberate (decorative art, and link already carries aria-label)"
+      }
+    ]
+  }
+}

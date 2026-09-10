@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowUpRight } from "lucide-react";
 import { PageIntro, PageLayout } from "@/components/site-shell";
 import { Button } from "@/components/ui/button";
-import blogImage from "@/assets/original/project-investigation.png";
+import { images } from "@/assets/images";
 export const Route = createFileRoute("/blogs")({
   head: () => ({
     meta: [
@@ -36,7 +36,11 @@ function BlogsPage() {
         />
         <section className="content-section section-wrap">
           <article className="featured-article">
-            <img src={blogImage} alt="MedixCare AI triage platform interface" />
+            <img
+              {...images["project-investigation"]}
+              alt="MedixCare AI triage platform interface"
+              decoding="async"
+            />
             <div>
               <p className="section-kicker">Healthcare · AI</p>
               <h2>MedixCare, AI Triage Assistant for Healthcare</h2>

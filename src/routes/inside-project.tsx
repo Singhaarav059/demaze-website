@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageIntro, PageLayout } from "@/components/site-shell";
-import projectImage from "@/assets/original/project-investigation.png";
+import { images } from "@/assets/images";
 import { ScrollFocusStack } from "@/components/scroll-focus-stack";
 export const Route = createFileRoute("/inside-project")({
   head: () => ({
@@ -38,7 +38,11 @@ function InsideProject() {
         />
         <ScrollFocusStack className="interior-motion-stack">
           <section className="case-visual section-wrap motion-chapter">
-            <img src={projectImage} alt="MedixCare AI triage product interface" />
+            <img
+              {...images["project-investigation"]}
+              alt="MedixCare AI triage product interface"
+              decoding="async"
+            />
           </section>
           <section className="case-content section-wrap motion-chapter">
             <div className="case-metrics">

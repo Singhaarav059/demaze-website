@@ -1,31 +1,4 @@
-import car from "@/assets/original/project-car.png";
-import investigation from "@/assets/original/project-investigation.png";
-import luxury from "@/assets/original/project-luxury.png";
-import sukoon from "@/assets/original/project-sukoon.png";
-import marketplace from "@/assets/original/project-marketplace.png";
-import grocery from "@/assets/original/project-grocery.png";
-import carService from "@/assets/original/project-car-service.png";
-import gifting from "@/assets/original/project-gifting.png";
-import payment from "@/assets/original/project-payment.png";
-import cma from "@/assets/original/project-cma.png";
-import recruitment from "@/assets/original/project-recruitment.png";
-import management from "@/assets/original/project-management.png";
-import lms from "@/assets/original/project-lms.png";
-import storyboard from "@/assets/original/project-storyboard.png";
-import insurance from "@/assets/original/project-insurance.png";
-import social from "@/assets/original/project-social.png";
-import aiService from "@/assets/original/service-ai.png";
-import webService from "@/assets/original/service-web.png";
-import commerceService from "@/assets/original/service-commerce.png";
-import cloudService from "@/assets/original/service-cloud.png";
-import langchain from "@/assets/original/tech-langchain.png";
-import python from "@/assets/original/tech-python.png";
-import tensorflow from "@/assets/original/tech-tensorflow.png";
-import openai from "@/assets/original/tech-openai.png";
-import huggingface from "@/assets/original/tech-huggingface.png";
-import pinecone from "@/assets/original/tech-pinecone.png";
-import kafka from "@/assets/original/tech-kafka.png";
-import elastic from "@/assets/original/tech-elastic.png";
+import { images } from "@/assets/images";
 
 export const projects = [
   {
@@ -38,14 +11,14 @@ export const projects = [
       "Seamless car refurbishment",
       "Efficient sales operations",
     ],
-    image: car,
+    image: images["project-car"],
   },
   {
     title: "Investigative Case Management Software",
     description:
       "An advanced web platform that equips private investigators with AI-powered tools, structured case management, secure media storage, and automated workflows.",
     features: ["Case management", "AI-powered tools", "Document automation", "Secure web access"],
-    image: investigation,
+    image: images["project-investigation"],
   },
   {
     title: "AI-Powered Luxury eCommerce Platform",
@@ -57,7 +30,7 @@ export const projects = [
       "Live selling and automation",
       "Smart inventory management",
     ],
-    image: luxury,
+    image: images["project-luxury"],
   },
   {
     title: "Senior Engagement & Support Platform",
@@ -69,7 +42,7 @@ export const projects = [
       "Social meetups",
       "Sukoon Corner blog",
     ],
-    image: sukoon,
+    image: images["project-sukoon"],
   },
   {
     title: "Multi-Vendor eCommerce Marketplace",
@@ -81,7 +54,7 @@ export const projects = [
       "Live auctions",
       "99% Lighthouse score",
     ],
-    image: marketplace,
+    image: images["project-marketplace"],
   },
   {
     title: "Food & Grocery Delivery App",
@@ -93,7 +66,7 @@ export const projects = [
       "Digital storefront control",
       "Flexible delivery areas",
     ],
-    image: grocery,
+    image: images["project-grocery"],
   },
   {
     title: "Car Service & Customer Engagement Platform",
@@ -105,7 +78,7 @@ export const projects = [
       "Automated communication",
       "Role-based access",
     ],
-    image: carService,
+    image: images["project-car-service"],
   },
   {
     title: "B2B Gift Marketplace",
@@ -117,7 +90,7 @@ export const projects = [
       "AI product discovery",
       "Admin analytics",
     ],
-    image: gifting,
+    image: images["project-gifting"],
   },
   {
     title: "Global Payment Transfer Platform",
@@ -129,7 +102,7 @@ export const projects = [
       "Stablecoin integration",
       "Accessible transfers",
     ],
-    image: payment,
+    image: images["project-payment"],
   },
   {
     title: "CMA Report Generation Software",
@@ -141,14 +114,14 @@ export const projects = [
       "PDF and Excel downloads",
       "Efficient report preparation",
     ],
-    image: cma,
+    image: images["project-cma"],
   },
   {
     title: "Recruitment Platform",
     description:
       "A recruitment consultancy platform that helps employers create listings, communicate in real time, and track candidates from application to offer.",
     features: ["Job listings", "Real-time chat", "Candidate tracking", "Analytics and reporting"],
-    image: recruitment,
+    image: images["project-recruitment"],
   },
   {
     title: "Task, Staff & Document Management",
@@ -160,7 +133,7 @@ export const projects = [
       "Structured document search",
       "Efficient workflows",
     ],
-    image: management,
+    image: images["project-management"],
   },
   {
     title: "Educational Courses & LMS Platform",
@@ -172,7 +145,7 @@ export const projects = [
       "AI recommendations",
       "VR learning content",
     ],
-    image: lms,
+    image: images["project-lms"],
   },
   {
     title: "AI Storyboard Creation for Film",
@@ -184,7 +157,7 @@ export const projects = [
       "Context consistency",
       "Intuitive editing",
     ],
-    image: storyboard,
+    image: images["project-storyboard"],
   },
   {
     title: "Insurance Management Platform",
@@ -196,7 +169,7 @@ export const projects = [
       "Coverage updates",
       "Payment reminders",
     ],
-    image: insurance,
+    image: images["project-insurance"],
   },
   {
     title: "Social Media & Social Commerce Platform",
@@ -208,7 +181,7 @@ export const projects = [
       "Peer-to-peer marketplace",
       "Crypto wallet integration",
     ],
-    image: social,
+    image: images["project-social"],
   },
 ];
 
@@ -217,7 +190,7 @@ export const services = [
     id: "ai-ml",
     number: "01",
     title: "AI & ML",
-    image: aiService,
+    image: images["service-ai"],
     description:
       "We build AI-powered solutions that transform data into insights, automate complex tasks, and drive smarter decisions. From predictive analytics to computer vision and generative AI, our systems help businesses innovate and scale with confidence.",
     items: [
@@ -233,7 +206,7 @@ export const services = [
     id: "web-mobile-saas",
     number: "02",
     title: "Web / Mobile App / SaaS",
-    image: webService,
+    image: images["service-web"],
     description:
       "We create scalable software and applications that deliver seamless user experiences and business value. From enterprise SaaS platforms to web and mobile apps, our solutions are built to perform, adapt, and grow with your needs.",
     items: [
@@ -249,7 +222,7 @@ export const services = [
     id: "ecommerce",
     number: "03",
     title: "E-commerce",
-    image: commerceService,
+    image: images["service-commerce"],
     description:
       "We build intelligent eCommerce platforms that elevate shopping experiences, improve conversions, and drive growth. From marketplaces to subscription commerce and AI personalization, our solutions help retailers thrive.",
     items: [
@@ -265,7 +238,7 @@ export const services = [
     id: "cloud",
     number: "04",
     title: "Cloud",
-    image: cloudService,
+    image: images["service-cloud"],
     description:
       "We design cloud architectures that ensure scalability, security, and resilience. From migration to DevOps automation and disaster recovery, our services improve performance and reduce cost.",
     items: [
@@ -280,14 +253,14 @@ export const services = [
 ];
 
 export const technologies = [
-  ["Langchain", langchain],
-  ["Python", python],
-  ["TensorFlow", tensorflow],
-  ["OpenAI", openai],
-  ["Hugging Face", huggingface],
-  ["Pinecone Database", pinecone],
-  ["Apache Kafka", kafka],
-  ["Elasticsearch", elastic],
+  ["Langchain", images["tech-langchain"]],
+  ["Python", images["tech-python"]],
+  ["TensorFlow", images["tech-tensorflow"]],
+  ["OpenAI", images["tech-openai"]],
+  ["Hugging Face", images["tech-huggingface"]],
+  ["Pinecone Database", images["tech-pinecone"]],
+  ["Apache Kafka", images["tech-kafka"]],
+  ["Elasticsearch", images["tech-elastic"]],
 ] as const;
 
 export const industries = [

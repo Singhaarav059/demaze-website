@@ -35,7 +35,11 @@ function ProjectsPage() {
           }
           copy="AI systems, marketplaces, business platforms, and customer experiences designed to solve substantial problems."
         />
-        <section className="content-section section-wrap">
+        <section className="content-section section-wrap" aria-labelledby="all-projects">
+          {/* The cards are h3, so without this the outline jumps h1 -> h3. */}
+          <h2 id="all-projects" className="sr-only">
+            All projects
+          </h2>
           <ProjectsGrid />
         </section>
       </main>

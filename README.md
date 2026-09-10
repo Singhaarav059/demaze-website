@@ -1,64 +1,71 @@
 # DEMAze Technologies website
 
-Complete production-ready source export of the DEMAze website, including all local images, the animated robot video, public metadata, tests, and the Lovable Cloud database migration.
+Marketing site for DEMAze Technologies. TanStack Start (SSR) on Vite, Tailwind v4,
+deployed to Railway on the Nitro `node-server` preset.
 
 ## Run locally
 
-Recommended: Bun 1.2+ and Node.js 20+.
-
-```bash
-bun install
-bun run dev
-```
-
-Open the local URL printed by Vite.
-
-Alternative npm commands:
+Node.js 20.19+ or 22.12+.
 
 ```bash
 npm install
 npm run dev
 ```
 
+The dev server listens on http://localhost:8080.
+
 ## Quality checks
 
 ```bash
-bun run test
-bun run lint
-bun run build
+npm run typecheck && npm run lint && npm test && npm run build
 ```
+
+CI runs exactly these four on every push and pull request (`.github/workflows/ci.yml`).
 
 ## Environment variables
 
-The archive intentionally excludes `.env` and all secrets. To connect forms and analytics to a backend outside the original Lovable project, configure:
+Copy `.env.example` to `.env` (git-ignored) and set the values on the Railway service.
 
-- `VITE_SUPABASE_URL`
-- `VITE_SUPABASE_PUBLISHABLE_KEY`
-- `VITE_SUPABASE_PROJECT_ID`
+| Variable                   | Required | Purpose                                       |
+| -------------------------- | -------- | --------------------------------------------- |
+| `SUPABASE_URL`             | yes      | Contact and playbook form inserts             |
+| `SUPABASE_PUBLISHABLE_KEY` | yes      | Same, publishable/anon key (server-side only) |
+| `RESEND_API_KEY`           | no       | Sends a notification email per submission     |
+| `NOTIFY_EMAIL`             | no       | Where those notifications go                  |
+| `NOTIFY_FROM`              | no       | Sender, must be a domain verified in Resend   |
 
-The website still renders locally without private secrets. The database schema and policies are in `supabase/migrations/`.
+Without the Supabase pair the forms return an error. Without the Resend trio the row
+is still saved, but nobody is notified, so set them before launch.
 
-## Important launch notes
+The database schema and RLS policies are in `supabase/migrations/`.
 
-See `roadmap.md` for the completed production pass and remaining business approvals. The privacy policy and terms are drafts and require legal review before launch.
+## Images
+
+Source art lives in `src/assets/original/`. After adding or replacing anything there:
+
+```bash
+npm run images
+```
+
+That resizes to 1240px wide, converts to WebP when smaller than the source, and
+regenerates `src/assets/images.ts`, which pairs each URL with its intrinsic
+width and height. Components spread those onto `<img>`, which is what keeps the
+layout from shifting as images load. Do not hand-edit `src/assets/images.ts`.
 
 ## Deployment
 
-Deployed on Railway via `railway.json` (Nixpacks): `npm run build`, then
+Railway builds with Nixpacks via `railway.json`: `npm run build`, then
 `node .output/server/index.mjs`. `vite.config.ts` sets the Nitro preset to
-`node-server` since this is self-hosted rather than run inside Lovable's
-Cloudflare-backed sandbox, and `package.json` pins an `engines.node` range
-so Nixpacks doesn't default to an EOL Node version. Set the Supabase
-environment variables above on the Railway service for the contact and
-playbook forms to work in production.
+`node-server` because this is self-hosted rather than running inside Lovable's
+Cloudflare sandbox, and `package.json` pins an `engines.node` range so Nixpacks
+does not fall back to an EOL Node version.
 
-## Included
+Security headers (CSP, HSTS, Referrer-Policy, Permissions-Policy,
+X-Content-Type-Options, COOP) and immutable caching for `/assets/**` are applied in
+`src/server.ts`, because the Lovable Vite config wrapper does not expose Nitro
+`routeRules`. Adding a new third-party script, font, or API host means widening the
+CSP there first.
 
-- All site pages and reusable interface code
-- Responsive styling and scroll-driven animation
-- Local project, service, technology, founder, footer, and hero media
-- Contact and playbook forms
-- Privacy-friendly analytics consent
-- Accessibility and reduced-motion behavior
-- SEO metadata, sitemap, robots file, manifest, social preview, and structured data
-- Unit tests and database migration
+## Launch checklist
+
+See `roadmap.md`.

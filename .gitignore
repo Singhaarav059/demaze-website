@@ -16,9 +16,17 @@ dist-ssr
 .nitro
 *.local
 
+# Secrets
+.env
+.env.*
+!.env.example
+
 # Wrangler / Cloudflare
 .wrangler/
 .dev.vars
+
+# Impeccable design-review session cache (local paths, not project config)
+.impeccable/hook.cache.json
 
 # Editor directories and files
 .vscode/*

@@ -7,7 +7,7 @@ import {
 } from "@/components/content-sections";
 import { PageIntro, PageLayout } from "@/components/site-shell";
 import { ScrollFocusStack } from "@/components/scroll-focus-stack";
-import about from "@/assets/original/about.png";
+import { images } from "@/assets/images";
 export const Route = createFileRoute("/about-us")({
   head: () => ({
     meta: [
@@ -44,7 +44,12 @@ function AboutPage() {
         />
         <ScrollFocusStack className="interior-motion-stack">
           <section className="content-section section-wrap about-split motion-chapter">
-            <img src={about} alt="DEMAze team collaboration illustration" />
+            <img
+              {...images.about}
+              alt="DEMAze team collaboration illustration"
+              loading="lazy"
+              decoding="async"
+            />
             <div>
               <SectionHeading eyebrow="Who we are" title="Digital transformation architects." />
               <p>

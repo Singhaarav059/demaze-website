@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowUpRight, Menu, X } from "lucide-react";
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import footerArt from "@/assets/original/footer.png";
+import { images } from "@/assets/images";
 import { Button } from "@/components/ui/button";
 
 const navigation = [
@@ -28,17 +28,30 @@ export function Brand() {
 export function SiteHeader({ overlay = false }: { overlay?: boolean }) {
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLElement>(null);
+  const toggleRef = useRef<HTMLButtonElement>(null);
   useEffect(() => {
     if (!open) return;
+    const menu = menuRef.current;
+    const toggle = toggleRef.current;
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    menuRef.current?.querySelector<HTMLAnchorElement>("a")?.focus();
+    menu?.querySelector<HTMLAnchorElement>("a")?.focus();
+
+    // Take the rest of the page out of the tab order and the accessibility tree
+    // while the overlay covers it. `inert` is the native primitive for exactly this.
+    const backdrop = Array.from(menu?.closest(".site-page")?.children ?? []).filter(
+      (child): child is HTMLElement => child instanceof HTMLElement && !child.contains(menu),
+    );
+    backdrop.forEach((element) => (element.inert = true));
+
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") setOpen(false);
-      if (event.key !== "Tab" || !menuRef.current) return;
-      const links = Array.from(menuRef.current.querySelectorAll<HTMLAnchorElement>("a"));
-      const first = links[0];
-      const last = links.at(-1);
+      if (event.key !== "Tab" || !menu || !toggle) return;
+      // The close button lives outside the <nav>, so include it in the cycle
+      // or keyboard users can never reach it.
+      const stops = [...menu.querySelectorAll<HTMLElement>("a, button"), toggle];
+      const first = stops[0];
+      const last = stops.at(-1);
       if (!first || !last) return;
       if (event.shiftKey && document.activeElement === first) {
         event.preventDefault();
@@ -51,13 +64,16 @@ export function SiteHeader({ overlay = false }: { overlay?: boolean }) {
     window.addEventListener("keydown", onKeyDown);
     return () => {
       document.body.style.overflow = previousOverflow;
+      backdrop.forEach((element) => (element.inert = false));
       window.removeEventListener("keydown", onKeyDown);
+      toggle?.focus();
     };
   }, [open]);
   return (
     <header className={`site-header ${overlay ? "site-header-overlay" : ""}`}>
       <Link to="/" className="header-logo" aria-label="DEMAze Technologies home">
-        <img src="/demaze-logo.png" alt="Demaze" />
+        {/* alt="" so the link's aria-label is not announced twice. */}
+        <img src="/demaze-logo.png" alt="" width={1344} height={420} fetchPriority="high" />
       </Link>
       <nav className="desktop-nav" aria-label="Main navigation">
         {navigation.map(([label, to]) => (
@@ -72,6 +88,7 @@ export function SiteHeader({ overlay = false }: { overlay?: boolean }) {
         </Link>
       </Button>
       <Button
+        ref={toggleRef}
         className="menu-toggle"
         variant="ghost"
         size="icon"
@@ -90,7 +107,12 @@ export function SiteHeader({ overlay = false }: { overlay?: boolean }) {
           aria-label="Mobile navigation"
         >
           {navigation.map(([label, to]) => (
-            <Link key={to} to={to} onClick={() => setOpen(false)}>
+            <Link
+              key={to}
+              to={to}
+              activeProps={{ className: "active", "aria-current": "page" }}
+              onClick={() => setOpen(false)}
+            >
               {label}
             </Link>
           ))}
@@ -107,7 +129,7 @@ export function SiteFooter() {
   return (
     <footer className="site-footer">
       <div className="footer-cta section-wrap">
-        <img src={footerArt} alt="Abstract DEMAze collaboration graphic" loading="lazy" />
+        <img {...images.footer} alt="" loading="lazy" decoding="async" />
         <div>
           <p className="section-kicker">Have a project in mind?</p>
           <h2>

@@ -42,7 +42,14 @@ function ServicesPage() {
           copy="End-to-end product engineering that turns complex ideas into secure, useful, scalable systems."
         />
         <ScrollFocusStack className="interior-motion-stack">
-          <section className="content-section section-wrap motion-chapter motion-chapter-long">
+          <section
+            className="content-section section-wrap motion-chapter motion-chapter-long"
+            aria-labelledby="all-services"
+          >
+            {/* The cards are h3, so without this the outline jumps h1 -> h3. */}
+            <h2 id="all-services" className="sr-only">
+              What we build
+            </h2>
             <ServicesGrid detailed />
           </section>
           <section className="content-section wash-lavender motion-chapter">

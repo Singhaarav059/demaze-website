@@ -16,7 +16,10 @@ export function ContactForm() {
     event.preventDefault();
     setState("sending");
     setError("");
-    const form = new FormData(event.currentTarget);
+    // React nulls event.currentTarget once the sync part of the handler returns,
+    // so capture the element before the first await or .reset() throws on null.
+    const formEl = event.currentTarget;
+    const form = new FormData(formEl);
     try {
       await submit({
         data: {
@@ -28,7 +31,7 @@ export function ContactForm() {
           startedAt,
         },
       });
-      event.currentTarget.reset();
+      formEl.reset();
       setState("sent");
       requestAnimationFrame(() => statusRef.current?.focus());
     } catch {

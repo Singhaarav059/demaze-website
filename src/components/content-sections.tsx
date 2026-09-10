@@ -18,7 +18,7 @@ import {
   technologies,
   values,
 } from "@/lib/site-data";
-import founder from "@/assets/original/founder.jpeg";
+import { images, type SiteImage } from "@/assets/images";
 
 export function SectionHeading({
   eyebrow,
@@ -60,9 +60,10 @@ export function ProjectsGrid({ limit }: { limit?: number }) {
         <article className="project-card" key={project.title}>
           <div className="project-image">
             <img
-              src={project.image}
+              {...project.image}
               alt={`${project.title} interface`}
               loading={index < 2 ? "eager" : "lazy"}
+              decoding="async"
             />
           </div>
           <div className="project-body">
@@ -89,7 +90,7 @@ function AnimatedServiceVisual({
   title,
   index,
 }: {
-  image: string;
+  image: SiteImage;
   title: string;
   index: number;
 }) {
@@ -149,7 +150,7 @@ function AnimatedServiceVisual({
         <i />
       </span>
       <span className="service-scan" aria-hidden="true" />
-      <img src={image} alt="" loading="lazy" />
+      <img {...image} alt="" loading="lazy" decoding="async" />
     </div>
   );
 }
@@ -237,13 +238,25 @@ export function ServicesGrid({ detailed = false }: { detailed?: boolean }) {
       if (!frame) frame = window.requestAnimationFrame(paint);
     };
 
+    // Same reason as ScrollFocusStack: one forced layout read per frame, not per
+    // scroll event.
+    let scheduled = 0;
+    const onScroll = () => {
+      if (scheduled) return;
+      scheduled = window.requestAnimationFrame(() => {
+        scheduled = 0;
+        measure();
+      });
+    };
+
     measure();
-    window.addEventListener("scroll", measure, { passive: true });
-    window.addEventListener("resize", measure, { passive: true });
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
     return () => {
       observer.disconnect();
-      window.removeEventListener("scroll", measure);
-      window.removeEventListener("resize", measure);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      if (scheduled) window.cancelAnimationFrame(scheduled);
       if (frame) window.cancelAnimationFrame(frame);
     };
   }, []);
@@ -290,7 +303,7 @@ export function TechnologyBand() {
     <div className="tech-band">
       {technologies.map(([name, image]) => (
         <div key={name}>
-          <img src={image} alt={`${name} logo`} loading="lazy" />
+          <img {...image} alt={`${name} logo`} loading="lazy" decoding="async" />
           <span>{name}</span>
         </div>
       ))}
@@ -298,10 +311,11 @@ export function TechnologyBand() {
   );
 }
 
-export function IndustryGrid() {
+export function IndustryGrid({ limit }: { limit?: number }) {
+  const entries = typeof limit === "number" ? industries.slice(0, limit) : industries;
   return (
     <div className="industry-grid">
-      {industries.map(([industry, solutions], index) => (
+      {entries.map(([industry, solutions], index) => (
         <article key={industry}>
           <small>{String(index + 1).padStart(2, "0")}</small>
           <h3>{industry}</h3>
@@ -348,9 +362,10 @@ export function FounderStory() {
   return (
     <div className="founder-story">
       <img
-        src={founder}
+        {...images.founder}
         alt="Krupal Chaudhary, Founder and CEO of DEMAze Technologies"
         loading="lazy"
+        decoding="async"
       />
       <blockquote>
         <p>

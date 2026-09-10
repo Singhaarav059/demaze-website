@@ -16,8 +16,7 @@ import {
 import { PageLayout } from "@/components/site-shell";
 import { ScrollFocusStack } from "@/components/scroll-focus-stack";
 import robotsVideo from "@/assets/demaze-robot-studio.mp4";
-import robotsPoster from "@/assets/demaze-robot-studio-poster.jpg";
-import robotsVideoWebm from "@/assets/demaze-robot-studio.webm";
+import robotsPoster from "@/assets/demaze-robot-studio-poster.webp";
 import { HeroVideo } from "@/components/hero-video";
 
 export const Route = createFileRoute("/")({
@@ -72,7 +71,7 @@ function Home() {
                 </Link>
               </div>
             </div>
-            <HeroVideo poster={robotsPoster} webm={robotsVideoWebm} mp4={robotsVideo} />
+            <HeroVideo poster={robotsPoster} mp4={robotsVideo} />
           </section>
           <MetricsStrip />
           <ScrollFocusStack className="home-stack">
@@ -123,7 +122,15 @@ function Home() {
                   title="Deep context across sectors."
                   copy="We combine technology depth with an understanding of the systems, customers, and constraints that shape each industry."
                 />
-                <IndustryGrid />
+                {/* All 19 sit on /services. Eight here keeps the homepage scannable. */}
+                <IndustryGrid limit={8} />
+                <div className="section-action">
+                  <Button variant="editorial" size="hero" asChild>
+                    <Link to="/services">
+                      See all industries <ArrowUpRight />
+                    </Link>
+                  </Button>
+                </div>
               </div>
             </section>
             <section className="content-section stack-chapter dark-band">

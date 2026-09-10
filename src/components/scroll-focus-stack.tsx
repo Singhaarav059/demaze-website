@@ -86,12 +86,25 @@ export function ScrollFocusStack({
       if (!frame) frame = window.requestAnimationFrame(paint);
     };
 
+    // measure() reads getBoundingClientRect for every stage, which forces layout.
+    // Scroll fires more often than the compositor paints, so coalesce to one read
+    // per frame instead of one per event.
+    let scheduled = 0;
+    const onScroll = () => {
+      if (scheduled) return;
+      scheduled = window.requestAnimationFrame(() => {
+        scheduled = 0;
+        measure();
+      });
+    };
+
     measure();
-    window.addEventListener("scroll", measure, { passive: true });
-    window.addEventListener("resize", measure, { passive: true });
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
     return () => {
-      window.removeEventListener("scroll", measure);
-      window.removeEventListener("resize", measure);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      if (scheduled) window.cancelAnimationFrame(scheduled);
       if (frame) window.cancelAnimationFrame(frame);
     };
   }, []);

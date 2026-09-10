@@ -13,7 +13,10 @@ export function PlaybookForm() {
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setState("sending");
-    const form = new FormData(event.currentTarget);
+    // React nulls event.currentTarget once the sync part of the handler returns,
+    // so capture the element before the first await or .reset() throws on null.
+    const formEl = event.currentTarget;
+    const form = new FormData(formEl);
     try {
       await submit({
         data: {
@@ -23,7 +26,7 @@ export function PlaybookForm() {
           startedAt,
         },
       });
-      event.currentTarget.reset();
+      formEl.reset();
       setState("sent");
       requestAnimationFrame(() => statusRef.current?.focus());
     } catch {
@@ -35,8 +38,10 @@ export function PlaybookForm() {
     return (
       <div ref={statusRef} tabIndex={-1} className="form-success" role="status">
         <CheckCircle2 />
-        <h3>Your request is saved.</h3>
-        <p>The DEMAze team will send the guide to the email you provided.</p>
+        <h3>Your request is in.</h3>
+        <p>
+          We will email the playbook to the address you gave us, usually within one working day.
+        </p>
       </div>
     );
   return (
