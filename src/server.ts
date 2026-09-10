@@ -11,13 +11,24 @@ type ServerEntry = {
 // the only cross-origin call (the Supabase REST insert) happens server-side. The
 // 'unsafe-inline' allowances cover React's inline <script> hydration payload and the
 // per-frame inline styles the scroll animations set.
+//
+// The remaining client-side motion is the smooth-scroll layer (lenis) plus the
+// self-hosted hero video and CSS-driven flourishes: all pure JavaScript/CSS bundled
+// same-origin and driven by requestAnimationFrame, so no 'unsafe-eval' or
+// 'wasm-unsafe-eval' source is required. Images and video are served from 'self'
+// (or inlined as data: URIs); no client code generates blob: image URLs.
 const CSP = [
   "default-src 'self'",
   "script-src 'self' 'unsafe-inline'",
   // Vite's dev client (HMR, the TanStack Router devtools panel) spawns blob:
   // workers; without this they're silently blocked by the script-src fallback.
+  // These workers are generated from same-origin, bundled code, never a
+  // third-party host. In production the app itself spawns no workers.
   "worker-src 'self' blob:",
   "style-src 'self' 'unsafe-inline'",
+  // 'self' + data: cover every image the site loads: bundled art from the
+  // build output and small inlined data: URIs. No client code produces blob:
+  // image URLs, so no blob: source is needed here.
   "img-src 'self' data:",
   "font-src 'self'",
   "media-src 'self'",

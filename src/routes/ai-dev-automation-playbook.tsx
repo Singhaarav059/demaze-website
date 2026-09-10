@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowUpRight } from "lucide-react";
 import { PageLayout } from "@/components/site-shell";
+import { Magnetic } from "@/components/motion/magnetic";
 import { Button } from "@/components/ui/button";
 export const Route = createFileRoute("/ai-dev-automation-playbook")({
   head: () => ({
@@ -38,11 +39,13 @@ function PlaybookPage() {
               <span>Krupal</span>
               <span>Nov 13, 2025</span>
             </div>
-            <Button variant="editorial" size="hero" asChild>
-              <Link to="/ai-dev-automation-playbook-form">
-                Download guide <ArrowUpRight />
-              </Link>
-            </Button>
+            <Magnetic strength={14}>
+              <Button variant="editorial" size="hero" asChild>
+                <Link to="/ai-dev-automation-playbook-form">
+                  Download guide <ArrowUpRight />
+                </Link>
+              </Button>
+            </Magnetic>
           </div>
           <div className="playbook-cover" aria-hidden="true">
             <small>DEMAze / Resources</small>

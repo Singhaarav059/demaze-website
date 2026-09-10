@@ -18,6 +18,7 @@ import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
 import { Route as ProjectsRouteImport } from './routes/projects'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as TermsOfServiceRouteImport } from './routes/terms-of-service'
+import { Route as WebsiteRedesignPreviewRouteImport } from './routes/website-redesign-preview'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -65,6 +66,11 @@ const TermsOfServiceRoute = TermsOfServiceRouteImport.update({
   path: '/terms-of-service',
   getParentRoute: () => rootRouteImport,
 } as any)
+const WebsiteRedesignPreviewRoute = WebsiteRedesignPreviewRouteImport.update({
+  id: '/website-redesign-preview',
+  path: '/website-redesign-preview',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -76,6 +82,7 @@ export interface FileRoutesByFullPath {
   '/projects': typeof ProjectsRoute
   '/services': typeof ServicesRoute
   '/terms-of-service': typeof TermsOfServiceRoute
+  '/website-redesign-preview': typeof WebsiteRedesignPreviewRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -87,6 +94,7 @@ export interface FileRoutesByTo {
   '/projects': typeof ProjectsRoute
   '/services': typeof ServicesRoute
   '/terms-of-service': typeof TermsOfServiceRoute
+  '/website-redesign-preview': typeof WebsiteRedesignPreviewRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -99,6 +107,7 @@ export interface FileRoutesById {
   '/projects': typeof ProjectsRoute
   '/services': typeof ServicesRoute
   '/terms-of-service': typeof TermsOfServiceRoute
+  '/website-redesign-preview': typeof WebsiteRedesignPreviewRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -112,6 +121,7 @@ export interface FileRouteTypes {
     | '/projects'
     | '/services'
     | '/terms-of-service'
+    | '/website-redesign-preview'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -123,6 +133,7 @@ export interface FileRouteTypes {
     | '/projects'
     | '/services'
     | '/terms-of-service'
+    | '/website-redesign-preview'
   id:
     | '__root__'
     | '/'
@@ -134,6 +145,7 @@ export interface FileRouteTypes {
     | '/projects'
     | '/services'
     | '/terms-of-service'
+    | '/website-redesign-preview'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -146,6 +158,7 @@ export interface RootRouteChildren {
   ProjectsRoute: typeof ProjectsRoute
   ServicesRoute: typeof ServicesRoute
   TermsOfServiceRoute: typeof TermsOfServiceRoute
+  WebsiteRedesignPreviewRoute: typeof WebsiteRedesignPreviewRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -213,6 +226,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TermsOfServiceRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/website-redesign-preview': {
+      id: '/website-redesign-preview'
+      path: '/website-redesign-preview'
+      fullPath: '/website-redesign-preview'
+      preLoaderRoute: typeof WebsiteRedesignPreviewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -226,6 +246,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProjectsRoute: ProjectsRoute,
   ServicesRoute: ServicesRoute,
   TermsOfServiceRoute: TermsOfServiceRoute,
+  WebsiteRedesignPreviewRoute: WebsiteRedesignPreviewRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

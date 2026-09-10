@@ -4,6 +4,8 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { images } from "@/assets/images";
 import { Button } from "@/components/ui/button";
 import { ScrollProgress } from "@/components/scroll-progress";
+import { SmoothScrollProvider } from "@/components/motion/smooth-scroll";
+import { CustomCursor } from "@/components/motion/custom-cursor";
 
 const navigation = [
   ["Projects", "/projects"],
@@ -193,13 +195,22 @@ export function PageLayout({
 }) {
   const pageRef = useRef<HTMLDivElement>(null);
 
+  // Centralised scroll-reveal observer for the sections that are NOT already
+  // wrapped in the <Reveal> primitive (SectionHeading and the industry/values/
+  // process grids now compose <Reveal> directly). This keeps the same reduced-
+  // motion behaviour as before: under prefers-reduced-motion nothing is
+  // observed and every element stays in its natural, fully-visible state. The
+  // add-`is-visible`-then-unobserve pattern is identical to <Reveal>, so the
+  // two never fight over the same node.
   useEffect(() => {
     const page = pageRef.current;
     if (!page || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const items = page.querySelectorAll<HTMLElement>(
-      ".section-heading, .project-card, .project-showcase-card, .industry-grid article, .values-grid article, .process-grid article, .founder-story, .tech-band, .faq-list, .about-split, .benefit-row article, .contact-options > a, .contact-form, .playbook-form",
+      ".project-card, .project-showcase-card, .founder-story, .about-split, .benefit-row article, .contact-options > a, .contact-form, .playbook-form",
     );
-    const revealItems = Array.from(items).filter((item) => !item.closest(".motion-stack"));
+    const revealItems = Array.from(items).filter(
+      (item) => !item.closest(".motion-stack") && !item.closest(".scroll-reveal"),
+    );
     revealItems.forEach((item, index) => {
       item.classList.add("scroll-reveal");
       item.style.setProperty("--reveal-delay", `${Math.min(index % 4, 3) * 55}ms`);
@@ -219,18 +230,23 @@ export function PageLayout({
   }, []);
 
   return (
-    <div ref={pageRef} className="site-page">
-      <ScrollProgress />
-      <div className="site-atmosphere" aria-hidden="true">
-        <i />
-        <i />
-        <i />
+    <SmoothScrollProvider>
+      <div ref={pageRef} className="site-page">
+        <ScrollProgress />
+        {/* Decorative, aria-hidden, and self-disabling on touch/coarse pointers
+            and under reduced motion (never hides the native cursor). */}
+        <CustomCursor />
+        <div className="site-atmosphere" aria-hidden="true">
+          <i />
+          <i />
+          <i />
+        </div>
+        <div className="film-grain-overlay" aria-hidden="true" />
+        <SiteHeader overlay={overlayHeader} />
+        {children}
+        <SiteFooter />
       </div>
-      <div className="film-grain-overlay" aria-hidden="true" />
-      <SiteHeader overlay={overlayHeader} />
-      {children}
-      <SiteFooter />
-    </div>
+    </SmoothScrollProvider>
   );
 }
 

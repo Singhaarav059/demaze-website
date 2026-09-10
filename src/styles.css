@@ -105,6 +105,42 @@
   --color-pastel-blue: var(--sky);
   --color-pastel-mint: var(--mint);
   --color-pastel-butter: var(--butter);
+
+  /* ─────────────────────────────────────────────────────────────────────────
+     Immersive system tokens (FEAT-001)
+     Additive layer for the WebGL/3D + smooth-scroll rebuild. These extend the
+     existing tokens above; nothing here overrides brand colour, type, or the
+     self-hosted font stack. Consumed by the immersive canvas, spatial cards,
+     and custom cursor introduced in later features.
+     ───────────────────────────────────────────────────────────────────────── */
+
+  /* Z-index scale so the decorative backdrop, page content, sticky chrome, and
+     the custom cursor stack deterministically instead of fighting ad-hoc values. */
+  --z-content: 10; /* normal document flow above the backdrop */
+  --z-sticky: 40; /* sticky header / scroll progress */
+  --z-overlay: 60; /* modals, mobile menu, toasts */
+  --z-cursor: 90; /* bespoke cursor, always on top */
+
+  /* Motion durations: a small, named ramp so animations stay consistent. */
+  --motion-instant: 80ms;
+  --motion-fast: 160ms;
+  --motion-base: 280ms;
+  --motion-slow: 520ms;
+  --motion-slowest: 900ms;
+
+  /* Easing curves for the immersive layer. --ease-out already exists above; the
+     rest give entrances, springs, and emphatic moves a shared vocabulary. */
+  --ease-immersive: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-emphasized: cubic-bezier(0.2, 0, 0, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Spatial / elevation tokens for parallax depth and layered shadows. */
+  --space-depth-near: 40px;
+  --space-depth-mid: 120px;
+  --space-depth-far: 260px;
+  --elevation-1: 0 2px 8px oklch(0.28 0.03 285 / 0.06);
+  --elevation-2: 0 12px 32px oklch(0.28 0.03 285 / 0.1);
+  --elevation-3: 0 28px 70px oklch(0.28 0.03 285 / 0.16);
 }
 
 @layer base {
@@ -383,6 +419,28 @@
 
 .animate-rise {
   animation: rise 0.75s 0.08s cubic-bezier(0.2, 0.75, 0.25, 1) both;
+}
+/* Staggered hero entrance: the badge, headline, intro, and actions cascade in
+   sequence for a more composed, editorial reveal. The parent .animate-rise no
+   longer needs its own transform once children animate individually, so we keep
+   its fade for grouping and let each child ride the shared `rise` keyframe with
+   an incremental delay. Pure CSS, no layout reads, SSR-safe. Neutralised by the
+   prefers-reduced-motion guard (the global `* { animation: none }` rule zeroes
+   these and the guard forces resting opacity/transform below). */
+.hero-copy.animate-rise > * {
+  animation: rise 0.7s cubic-bezier(0.2, 0.75, 0.25, 1) both;
+}
+.hero-copy.animate-rise > .badge-dual-pill {
+  animation-delay: 0.12s;
+}
+.hero-copy.animate-rise > h1 {
+  animation-delay: 0.2s;
+}
+.hero-copy.animate-rise > .intro {
+  animation-delay: 0.32s;
+}
+.hero-copy.animate-rise > .hero-actions {
+  animation-delay: 0.44s;
 }
 .animate-visual {
   animation: visual-in 0.95s 0.14s cubic-bezier(0.2, 0.75, 0.25, 1) both;
@@ -728,6 +786,10 @@
 }
 .metrics-strip strong {
   font: 600 clamp(1.8rem, 2.4vw, 2.5rem)/1 var(--font-display);
+  transition: color 0.25s var(--ease-out);
+}
+.metrics-strip > div:hover strong {
+  color: var(--color-accent-hover);
 }
 .metrics-strip span {
   color: var(--muted-foreground);
@@ -1022,7 +1084,9 @@
 .footer-cta h2 {
   margin: 0;
   font: 600 var(--display-lg)/1.04 var(--font-display);
-  letter-spacing: 0;
+  /* Subtle negative tracking for a tighter, editorial display look, matching
+     .cta-band-copy h2. Applies site-wide via the shared SectionHeading. */
+  letter-spacing: -0.015em;
 }
 .section-heading > p:last-child {
   max-width: 40rem;
@@ -1200,7 +1264,9 @@
   opacity: 0.72;
   transform: translate3d(-50%, -50%, 0);
   transition: opacity 0.3s ease;
-  will-change: left, top;
+  /* will-change removed: this decorative glow follows the pointer via left/top,
+     which are not compositor-accelerated properties, so will-change gave no
+     paint benefit while permanently pinning a layer (memory + heaviness). */
 }
 .service-grid-lines {
   position: absolute;
@@ -1349,11 +1415,13 @@
   object-fit: contain;
   transform-origin: 50% 58%;
   transition: transform 0.55s var(--ease-out);
-  will-change: transform;
 }
 .service-live-visual.is-live img {
   animation: service-float 6.8s ease-in-out infinite;
   animation-delay: calc(var(--scene-delay, 0) * -1s);
+  /* Only the live visual runs the continuous float, so scope will-change to it
+     rather than pinning a compositor layer on every (static) service image. */
+  will-change: transform;
 }
 .service-orbit {
   position: absolute;
@@ -2079,8 +2147,11 @@
   pointer-events: none;
   z-index: 0;
   overflow: hidden;
-  filter: blur(80px);
-  opacity: 0.85;
+  /* A touch more blur and slightly lower opacity keep the backdrop soft and
+     refined rather than busy, so the hero copy and perspective card stay the
+     focal point. */
+  filter: blur(90px);
+  opacity: 0.72;
 }
 .aurora-blob {
   position: absolute;
@@ -2284,10 +2355,10 @@
     color-mix(in oklch, var(--color-pastel-blue) 50%, transparent) 38%,
     transparent 70%
   );
-  filter: blur(65px);
+  filter: blur(70px);
   pointer-events: none;
   z-index: 0;
-  opacity: 0.9;
+  opacity: 0.8;
 }
 .hero-perspective-card {
   position: relative;
@@ -2480,10 +2551,11 @@
   box-shadow: 0 12px 35px oklch(0.25 0.02 285 / 0.05);
   transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease-out;
 }
-.home-work-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 24px 60px oklch(0.25 0.02 285 / 0.12);
-  border-color: color-mix(in oklch, var(--color-accent-oklch) 30%, transparent);
+.home-work-card:hover,
+.home-work-card:focus-within {
+  transform: translateY(-7px);
+  box-shadow: 0 28px 66px oklch(0.25 0.02 285 / 0.14);
+  border-color: color-mix(in oklch, var(--color-accent-oklch) 32%, transparent);
 }
 .home-work-card-link {
   display: flex;
@@ -2491,6 +2563,14 @@
   height: 100%;
   text-decoration: none;
   color: inherit;
+  border-radius: inherit;
+  outline: none;
+}
+/* WCAG AA keyboard affordance for the card link (previously only hoverable).
+   Matches the accent-outline pattern used by .cinema-service-item:focus-visible. */
+.home-work-card-link:focus-visible {
+  outline: 2px solid var(--color-accent-oklch);
+  outline-offset: 3px;
 }
 .home-work-media {
   position: relative;
@@ -2506,10 +2586,11 @@
   height: 100%;
   object-fit: contain;
   display: block;
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.home-work-card:hover .home-work-img {
-  transform: scale(1.05);
+.home-work-card:hover .home-work-img,
+.home-work-card:focus-within .home-work-img {
+  transform: scale(1.06);
 }
 .home-work-body {
   display: flex;
@@ -2540,7 +2621,8 @@
   color: var(--color-muted-oklch);
   transition: all 0.25s var(--ease-out);
 }
-.home-work-card:hover .home-work-arrow {
+.home-work-card:hover .home-work-arrow,
+.home-work-card:focus-within .home-work-arrow {
   color: var(--color-accent-oklch);
   transform: translate(3px, -3px);
 }
@@ -2553,7 +2635,8 @@
   color: var(--color-ink-oklch);
   transition: color 0.2s var(--ease-out);
 }
-.home-work-card:hover .home-work-title {
+.home-work-card:hover .home-work-title,
+.home-work-card:focus-within .home-work-title {
   color: var(--color-accent-hover);
 }
 .home-work-copy {
@@ -3030,6 +3113,14 @@
 /* REDESIGNED TWO-TIER FOOTER */
 .site-cta-footer {
   padding-block: clamp(3rem, 6vw, 5rem) 2rem;
+  /* Below-the-fold on every page: skip its rendering/layout while off-screen so
+     scrolling the content above stays light. The footer is NOT measured by
+     ScrollFocusStack (it lives outside the .motion-stack), so a placeholder size
+     here cannot disturb the stack's sticky/scroll-focus math. The intrinsic size
+     is a close estimate of the rendered footer so the scrollbar/scroll-progress
+     barely shifts when it paints in. */
+  content-visibility: auto;
+  contain-intrinsic-size: auto 480px;
 }
 .cta-band {
   display: grid;
@@ -3040,6 +3131,12 @@
   border-radius: 1.35rem;
   background: linear-gradient(120deg, var(--color-pastel-mint), var(--color-pastel-blue));
   box-shadow: 0 18px 45px oklch(0.25 0.03 285 / 0.08);
+  transition: transform 0.35s var(--ease-out), box-shadow 0.35s var(--ease-out);
+}
+.cta-band:hover,
+.cta-band:focus-within {
+  transform: translateY(-3px);
+  box-shadow: 0 26px 58px oklch(0.25 0.03 285 / 0.13);
 }
 .cta-band-mark {
   flex: none;
@@ -3565,7 +3662,668 @@
     opacity: 1;
     transform: none;
   }
+  /* Hero staggered entrance (FEAT-003): the global rule zeroes the animation,
+     but each cascaded child would otherwise stay in the `rise` keyframe's
+     starting transform/opacity. Force them to their resolved resting state so
+     reduced-motion users see the full, static hero immediately. */
+  .hero-copy.animate-rise,
+  .hero-copy.animate-rise > * {
+    opacity: 1;
+    transform: none;
+  }
   .hero-visual::before {
     opacity: 0.2;
+  }
+
+  /* Immersive system guard (FEAT-001): neutralise the parallax/spring motion of
+     the immersive classes and force them to their resolved resting state. This
+     handles the CSS-driven depth, cursor, and reveal layers. */
+  [class*="immersive-"],
+  [class*="immersive-"]::before,
+  [class*="immersive-"]::after {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+    transform: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   Immersive component styles (FEAT-002)
+   Layering, cursor, marquee, and magnetic primitives for the 3D/motion layer.
+   All motion here is neutralised by the prefers-reduced-motion guard above
+   (classes are namespaced with `immersive-`), so reduced-motion users get
+   static, immediately-visible content.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+/* Screen-reader-only utility used by the marquee control's descriptive text. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Custom cursor: two fixed, decorative layers that ride above everything. The
+   native cursor is intentionally left visible so keyboard/AT users and hit
+   testing are unaffected; these are additive flourishes only. */
+.immersive-cursor-dot,
+.immersive-cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: var(--z-cursor);
+  pointer-events: none;
+  opacity: 0;
+  will-change: transform;
+  transform: translate3d(-100px, -100px, 0);
+  margin-left: 0;
+  margin-top: 0;
+}
+.immersive-cursor-dot {
+  width: 8px;
+  height: 8px;
+  margin-left: -4px;
+  margin-top: -4px;
+  border-radius: 999px;
+  background: var(--raspberry);
+  transition: opacity var(--motion-fast) var(--ease-out);
+}
+.immersive-cursor-ring {
+  width: 38px;
+  height: 38px;
+  margin-left: -19px;
+  margin-top: -19px;
+  border-radius: 999px;
+  border: 1.5px solid oklch(0.64 0.26 7 / 0.5);
+  transition:
+    opacity var(--motion-fast) var(--ease-out),
+    width var(--motion-base) var(--ease-spring),
+    height var(--motion-base) var(--ease-spring),
+    border-color var(--motion-base) var(--ease-out),
+    margin var(--motion-base) var(--ease-spring);
+}
+.immersive-cursor-dot.is-visible,
+.immersive-cursor-ring.is-visible {
+  opacity: 1;
+}
+.immersive-cursor-ring.is-hovering {
+  width: 58px;
+  height: 58px;
+  margin-left: -29px;
+  margin-top: -29px;
+  border-color: oklch(0.64 0.26 7 / 0.85);
+}
+
+/* Magnetic wrapper: the element eases toward the pointer via CSS variables the
+   component sets each frame, and springs back when they reset to 0. */
+.immersive-magnetic.is-active {
+  display: inline-flex;
+  transform: translate3d(var(--magnetic-x, 0), var(--magnetic-y, 0), 0);
+  transition: transform var(--motion-slow) var(--ease-spring);
+}
+
+/* Marquee: a seamless, duplicated track. Motion is CSS-driven so it pauses via
+   a class toggle and is neutralised entirely under reduced motion. */
+.immersive-marquee {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.immersive-marquee-viewport {
+  flex: 1;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 8%,
+    #000 92%,
+    transparent
+  );
+  mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+  display: flex;
+  width: 100%;
+}
+.immersive-marquee-track {
+  display: flex;
+  flex-shrink: 0;
+  gap: 3rem;
+  padding-right: 3rem;
+  min-width: 100%;
+  animation: immersive-marquee-scroll var(--marquee-duration, 32s) linear infinite;
+  animation-direction: var(--marquee-direction, normal);
+}
+.immersive-marquee.is-paused .immersive-marquee-track {
+  animation-play-state: paused;
+}
+.immersive-marquee-toggle {
+  flex-shrink: 0;
+  font-size: 0.75rem;
+  line-height: 1;
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+.immersive-marquee-toggle:hover {
+  border-color: var(--raspberry);
+}
+@keyframes immersive-marquee-scroll {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+/* ==========================================================================
+   Layout shell + section rebuild on the immersive system (FEAT-003)
+   These styles wire the new motion primitives (Reveal, Magnetic, Marquee) and
+   the 3D hero backdrop into the shared shell and section components. Everything
+   here reuses the FEAT-001 tokens and stays WCAG AA (small text uses
+   --raspberry-ink, tap targets >= 24px). Motion is namespaced so the existing
+   prefers-reduced-motion guards neutralise it.
+   ========================================================================== */
+
+/* Home hero: keep the copy + perspective card lifted above the decorative
+   aurora mesh backdrop. .home-hero is a grid, so the aurora layer is taken out
+   of flow and the real content is lifted onto its own stacking level. */
+.immersive-hero-section {
+  position: relative;
+}
+.immersive-hero-section > .hero-copy,
+.immersive-hero-section > .hero-perspective-stage {
+  position: relative;
+  z-index: 1;
+}
+
+/* Technology band rebuilt on the <Marquee> primitive. The outer .tech-band
+   keeps the frame + edge mask; the inner .immersive-marquee handles motion and
+   the pause control. These rules restyle the logo items (previously matched by
+   ".tech-band-track > div", which the marquee markup no longer produces). */
+.tech-band-marquee {
+  padding: 0.35rem 0.6rem;
+}
+.tech-band-marquee .immersive-marquee-track {
+  align-items: center;
+  gap: 0;
+}
+.tech-band-item {
+  min-width: 0;
+  display: grid;
+  justify-items: center;
+  gap: 0.65rem;
+  padding: 1.1rem 1.5rem;
+  text-align: center;
+  font-size: 0.65rem;
+  font-weight: 600;
+}
+.tech-band-marquee .immersive-marquee-toggle {
+  align-self: center;
+  min-height: 24px;
+}
+
+/* Reveal wrapper around the services cards must not collapse the 2-up grid: as
+   a grid itself it stretches the single card child to fill the cell height. */
+.services-card-reveal {
+  display: grid;
+}
+.services-card-reveal > .services-card-custom {
+  height: 100%;
+}
+
+/* Keep the magnetic wrapper inline even when the effect is disabled (touch /
+   reduced motion), so wrapping a CTA never turns it into a full-width block. */
+.immersive-magnetic {
+  display: inline-flex;
+}
+
+/* -------------------------------------------------------------------------
+   Website Redesign Preview (route: /website-redesign-preview)
+   Preview-only styling for the rebuilt home-page design. All rules are scoped
+   under .redesign-preview so they never affect the live site. Uses the
+   existing oklch tokens (--primary, --foreground, --background, --font-display)
+   rather than raw values copied from the design bundle.
+   ------------------------------------------------------------------------- */
+.redesign-preview .preview-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 16px;
+  color: var(--primary);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+}
+.redesign-preview .preview-eyebrow-light {
+  color: oklch(0.82 0.17 7);
+}
+.redesign-preview .preview-eyebrow-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: oklch(0.64 0.26 7);
+}
+.redesign-preview .preview-section-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.7rem, 2.4vw, 2.5rem);
+  line-height: 1.08;
+}
+.redesign-preview .preview-title-light {
+  color: var(--background);
+}
+.redesign-preview .preview-section-copy {
+  margin: 12px 0 0;
+  color: oklch(0.47 0.012 285);
+  line-height: 1.6;
+}
+
+/* Hero */
+.redesign-preview .preview-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.12fr);
+  gap: clamp(24px, 4vw, 56px);
+  align-items: center;
+  min-height: min(80vh, 660px);
+  padding-block: clamp(20px, 3vw, 40px);
+}
+.redesign-preview .preview-hero-copy {
+  min-width: 0;
+}
+.redesign-preview .preview-hero-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(2.2rem, 3.4vw, 3.5rem);
+  line-height: 1.05;
+}
+.redesign-preview .preview-mask-line {
+  display: block;
+  overflow: hidden;
+}
+.redesign-preview .preview-mask-line > span {
+  display: block;
+}
+.redesign-preview .preview-hero-em {
+  font-style: normal;
+  color: oklch(0.64 0.26 7);
+}
+.redesign-preview .preview-hero-lede {
+  max-width: 34rem;
+  margin: 20px 0 0;
+  color: oklch(0.47 0.012 285);
+  font-size: 17px;
+  line-height: 1.65;
+}
+.redesign-preview .preview-hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 28px;
+  flex-wrap: wrap;
+}
+.redesign-preview .preview-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+}
+.redesign-preview .preview-btn-primary {
+  padding: 14px 22px;
+  border-radius: 8px;
+  background: var(--primary);
+  color: #fff;
+  box-shadow: 0 14px 34px -18px oklch(0.64 0.26 7 / 0.62);
+}
+.redesign-preview .preview-btn-ghost {
+  color: var(--primary);
+}
+.redesign-preview .preview-hero-frame {
+  min-width: 0;
+}
+
+/* Metrics band */
+.redesign-preview .preview-metrics {
+  margin-bottom: 64px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border: 1px solid oklch(0.86 0.014 285);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.redesign-preview .preview-metric {
+  position: relative;
+  padding: 20px 18px;
+  border-right: 1px solid oklch(0.86 0.014 285);
+}
+.redesign-preview .preview-metric:last-child {
+  border-right: none;
+}
+.redesign-preview .preview-metric-value {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.7rem, 2.3vw, 2.4rem);
+  line-height: 1;
+}
+.redesign-preview .preview-metric-label {
+  color: oklch(0.47 0.012 285);
+  font-size: 12.5px;
+}
+.redesign-preview .preview-metric-rule {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 2px;
+  width: 40%;
+  background: oklch(0.64 0.26 7);
+  display: block;
+}
+
+/* Projects gallery */
+.redesign-preview .preview-gallery {
+  padding-block: 24px 64px;
+}
+.redesign-preview .preview-gallery-intro {
+  max-width: 44rem;
+  margin-bottom: 24px;
+}
+.redesign-preview .preview-gallery-track {
+  display: flex;
+  align-items: stretch;
+  gap: clamp(18px, 2.4vw, 32px);
+  padding-inline: max(24px, calc((100vw - 1120px) / 2));
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+}
+.redesign-preview .preview-gallery-card {
+  flex: 0 0 clamp(280px, 34vw, 420px);
+  border: 1px solid oklch(0.86 0.014 285);
+  border-radius: 22px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 18px 50px oklch(0.25 0.02 285 / 0.07);
+  scroll-snap-align: start;
+}
+.redesign-preview .preview-gallery-media {
+  height: clamp(170px, 24vh, 250px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  overflow: hidden;
+  background: linear-gradient(150deg, oklch(0.92 0.05 305), oklch(0.94 0.04 220));
+}
+.redesign-preview .preview-gallery-img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+.redesign-preview .preview-gallery-body {
+  padding: 18px 22px 22px;
+}
+.redesign-preview .preview-gallery-no {
+  color: var(--primary);
+  font-weight: 700;
+  font-size: 12px;
+}
+.redesign-preview .preview-gallery-card-title {
+  margin: 6px 0 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.15rem;
+  line-height: 1.25;
+}
+.redesign-preview .preview-gallery-card-copy {
+  margin: 10px 0 0;
+  color: oklch(0.47 0.012 285);
+  font-size: 14.5px;
+  line-height: 1.6;
+}
+.redesign-preview .preview-gallery-tail {
+  flex: 0 0 clamp(212px, 20vw, 272px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 16px;
+}
+.redesign-preview .preview-gallery-tail-copy {
+  margin: 0;
+  color: oklch(0.47 0.012 285);
+  font-size: 14.5px;
+  line-height: 1.6;
+}
+.redesign-preview .preview-gallery-tail .preview-btn {
+  align-self: flex-start;
+}
+
+/* Services */
+.redesign-preview .preview-services {
+  padding-block: 32px 64px;
+}
+.redesign-preview .preview-services-intro {
+  max-width: 44rem;
+  margin-bottom: 24px;
+}
+.redesign-preview .preview-services-grid {
+  display: grid;
+  gap: clamp(20px, 3vw, 32px);
+}
+.redesign-preview .preview-service-row {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: clamp(18px, 3vw, 40px);
+  align-items: center;
+  padding: clamp(20px, 3vw, 32px);
+  border: 1px solid oklch(0.86 0.014 285);
+  border-radius: 24px;
+  background: linear-gradient(150deg, oklch(0.92 0.05 305), oklch(0.94 0.04 220));
+}
+.redesign-preview .preview-service-media {
+  border-radius: 18px;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+}
+.redesign-preview .preview-service-media img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+.redesign-preview .preview-service-no {
+  color: var(--primary);
+  font-weight: 700;
+}
+.redesign-preview .preview-service-title {
+  margin: 8px 0 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.55rem;
+  line-height: 1.2;
+}
+.redesign-preview .preview-service-desc {
+  margin: 12px 0 0;
+  max-width: 32rem;
+  color: oklch(0.47 0.012 285);
+  line-height: 1.65;
+}
+.redesign-preview .preview-service-pills {
+  list-style: none;
+  margin: 16px 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.redesign-preview .preview-service-pill {
+  padding: 6px 12px;
+  border-radius: 99px;
+  background: color-mix(in oklch, #fff 60%, transparent);
+  font-size: 12.5px;
+  font-weight: 600;
+}
+
+/* Technology band spacing */
+.redesign-preview .preview-tech {
+  padding-block: 24px 56px;
+}
+
+/* Values band (dark) */
+.redesign-preview .preview-values-band {
+  background: oklch(0.16 0.004 285);
+  color: var(--background);
+  padding-block: 72px;
+}
+.redesign-preview .preview-values-intro {
+  max-width: 44rem;
+  margin-bottom: 32px;
+}
+.redesign-preview .preview-values-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 24px;
+}
+.redesign-preview .preview-value-card {
+  padding-top: 18px;
+  border-top: 1px solid oklch(0.35 0.01 285);
+}
+.redesign-preview .preview-value-no {
+  color: oklch(0.82 0.17 7);
+  font-weight: 700;
+}
+.redesign-preview .preview-value-title {
+  margin: 10px 0 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.1rem;
+  line-height: 1.25;
+}
+.redesign-preview .preview-value-copy {
+  margin: 10px 0 0;
+  color: oklch(0.82 0.01 285);
+  font-size: 14.5px;
+  line-height: 1.6;
+}
+
+/* Founder quote */
+.redesign-preview .preview-founder {
+  padding-block: 72px;
+  display: grid;
+  grid-template-columns: minmax(180px, 240px) 1fr;
+  gap: 36px;
+  align-items: center;
+}
+.redesign-preview .preview-founder-media {
+  aspect-ratio: 1 / 1;
+  border-radius: 20px;
+  overflow: hidden;
+  background: linear-gradient(150deg, oklch(0.96 0.06 88), oklch(0.92 0.05 305));
+  display: grid;
+  place-items: center;
+}
+.redesign-preview .preview-founder-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+.redesign-preview .preview-founder-quote {
+  margin: 0;
+}
+.redesign-preview .preview-founder-quote > p {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(1.15rem, 1.7vw, 1.5rem);
+  line-height: 1.55;
+}
+.redesign-preview .preview-founder-quote footer {
+  margin-top: 18px;
+}
+.redesign-preview .preview-founder-quote footer strong {
+  display: block;
+  font-size: 15px;
+}
+.redesign-preview .preview-founder-quote footer span {
+  color: oklch(0.47 0.012 285);
+  font-size: 13.5px;
+}
+
+/* Process band */
+.redesign-preview .preview-process-band {
+  background: color-mix(in oklch, oklch(0.92 0.05 305) 42%, var(--background));
+  padding-block: 72px;
+}
+.redesign-preview .preview-process-intro {
+  max-width: 44rem;
+  margin-bottom: 32px;
+}
+.redesign-preview .preview-process-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 24px;
+}
+.redesign-preview .preview-process-card {
+  padding-top: 20px;
+  border-top: 2px solid color-mix(in oklch, oklch(0.64 0.26 7) 30%, transparent);
+}
+.redesign-preview .preview-process-no {
+  color: var(--primary);
+  font-weight: 700;
+  font-size: 13px;
+}
+.redesign-preview .preview-process-title {
+  margin: 8px 0 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.1rem;
+  line-height: 1.25;
+}
+.redesign-preview .preview-process-copy {
+  margin: 10px 0 0;
+  color: oklch(0.47 0.012 285);
+  font-size: 14.5px;
+  line-height: 1.6;
+}
+.redesign-preview .preview-all-work {
+  padding-block: 24px 64px;
+}
+
+/* Responsive collapse for the multi-column preview grids */
+@media (max-width: 860px) {
+  .redesign-preview .preview-hero {
+    grid-template-columns: 1fr;
+  }
+  .redesign-preview .preview-metrics {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .redesign-preview .preview-service-row {
+    grid-template-columns: 1fr;
+  }
+  .redesign-preview .preview-values-grid,
+  .redesign-preview .preview-process-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .redesign-preview .preview-founder {
+    grid-template-columns: 1fr;
   }
 }

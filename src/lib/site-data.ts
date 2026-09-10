@@ -447,61 +447,61 @@ export const industries = [
 export const values = [
   [
     "Innovation at Our Core",
-    "We continuously explore emerging technologies and challenge conventional approaches to create solutions that keep our clients ahead.",
+    "We stay close to emerging technology and question the default approach, so our clients ship ahead of the curve instead of behind it.",
   ],
   [
     "Client Success Obsession",
-    "Your outcomes guide every decision. We work as an accountable extension of your team from first idea through long-term growth.",
+    "Your outcomes drive every decision. We work as an accountable extension of your team, from the first idea through long-term growth.",
   ],
   [
     "Technology for Good",
-    "We believe thoughtfully designed technology should make work simpler, improve lives, and create sustainable value.",
+    "Technology should make work simpler, improve lives, and create value that lasts. We design with that standard in mind.",
   ],
   [
     "Continuous Learning",
-    "We invest in learning, experimentation, and knowledge sharing so every solution benefits from current thinking.",
+    "We invest in learning, experimentation, and shared knowledge, so every project benefits from our best current thinking.",
   ],
 ] as const;
 
 export const process = [
   [
     "Discover & Define",
-    "We understand your vision, challenges, and goals through focused discovery, research, and clear success metrics.",
+    "We get to the heart of your vision, challenges, and goals through focused discovery, research, and clear success metrics.",
   ],
   [
     "Design & Prototype",
-    "Ideas become user-focused designs and interactive prototypes, creating clarity before development begins.",
+    "Ideas turn into user-focused designs and interactive prototypes, so everyone sees the product clearly before we build it.",
   ],
   [
     "Build & Integrate",
-    "Our engineers develop scalable, secure, high-performance products with continuous feedback and seamless integration.",
+    "Our engineers ship scalable, secure, high-performance products with continuous feedback and clean integration into your stack.",
   ],
   [
     "Launch & Scale",
-    "After testing and refinement, we launch confidently and support optimization and evolution for long-term growth.",
+    "After testing and refinement, we launch with confidence and keep optimizing and evolving the product as you grow.",
   ],
 ] as const;
 
 export const faqs = [
   [
     "What makes Demaze different from other development companies?",
-    "We combine AI expertise, product engineering, and accountable long-term partnership instead of treating delivery as a one-time handoff.",
+    "We combine applied AI, product engineering, and an accountable long-term partnership, rather than treating delivery as a one-time handoff.",
   ],
   [
     "How long does it typically take to develop a custom solution?",
-    "Timelines depend on scope, integrations, and validation needs. Discovery establishes a practical roadmap and delivery milestones before development begins.",
+    "It depends on scope, integrations, and validation needs. Discovery sets a practical roadmap and delivery milestones before development begins.",
   ],
   [
     "Do you work with startups or only established enterprises?",
-    "We partner with both growing startups and established organizations when technology can create measurable operational or customer value.",
+    "Both. We partner with growing startups and established organizations wherever technology can create real operational or customer value.",
   ],
   [
     "What ongoing support do you provide after project completion?",
-    "We support launch, monitoring, optimization, scaling, and continued product development according to each engagement.",
+    "We stay involved through launch, monitoring, optimization, scaling, and continued product development, tailored to each engagement.",
   ],
   [
     "How do you ensure the security and confidentiality of our project?",
-    "Security is considered throughout architecture, development, access control, testing, and deployment, with confidentiality aligned to the engagement.",
+    "Security runs through architecture, development, access control, testing, and deployment, with confidentiality aligned to your engagement.",
   ],
 ] as const;
 

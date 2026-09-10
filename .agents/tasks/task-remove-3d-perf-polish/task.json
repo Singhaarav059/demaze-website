@@ -1,0 +1,7 @@
+{
+  "task_id": "task-remove-3d-perf-polish",
+  "task_description": "Remove the disliked WebGL/R3F 3D hero background animation and keep the hero polished with the existing video + aurora backdrop; diagnose and fix why the site feels heavy and not smooth (Lenis smooth-scroll on touch, concurrent rAF loops, layout thrash in ScrollFocusStack, stacked backdrop-filter blur + permanent will-change, and the R3F bundle weight itself); and apply further low-risk performance/polish improvements. Work on branch rebuild/immersive-3d (PR #11), commit locally only. Lockfile cannot be regenerated in-sandbox (INTEGRATIONS_ONLY).",
+  "status": "in_progress",
+  "feature_order": ["FEAT-001", "FEAT-002"],
+  "blocked_reason": null
+}
