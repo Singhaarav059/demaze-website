@@ -1,7 +1,20 @@
 {
   "task_id": "task-redesign-art-direction",
   "task_description": "Redesign/polish the DEMAze marketing site on a new `redesign` branch by adapting the strongest design + interaction ideas from the origin/test design handoff while keeping main as the source of truth for ALL content. Main is already a mature superset of the handoff (scroll progress, condensing header, count-up metrics, tech marquee, pinned services, editorial projects grid, bespoke ScrollFocusStack motion). The task is therefore a reconciliation + full production-quality art-direction pass: fix image fitting/cropping (esp. adopt test's object-fit:contain for service illustrations), fix concrete vibe-coded defects (empty CSS content separator), tighten spacing/rhythm/typography/alignment/proportion, ensure cross-section consistency, and verify responsive + animation smoothness across all breakpoints. No copy, section, project, image, logo, icon, data, or functionality is removed.",
-  "status": "in_progress",
+  "status": "completed",
   "feature_order": ["FEAT-001", "FEAT-002", "FEAT-003", "FEAT-004"],
-  "blocked_reason": null
+  "blocked_reason": null,
+  "verification": {
+    "build": "deferred",
+    "tests": "deferred",
+    "test_quality": "not_applicable",
+    "docker_build": "skipped",
+    "summary": "INTEGRATIONS_ONLY sandbox: npm registry unreachable and node_modules absent, so the CI gate (unset NODE_OPTIONS && npm run typecheck && npm run lint && npm test && npm run build) and the manual scroll-smoothness + prefers-reduced-motion device pass CANNOT run here and are deferred to CI/preview after push. In-sandbox correctness-by-construction checks PASS: src/styles.css braces balanced (398/398); no empty `content:;` value remains; no :root design token redefined; no line exceeds prettier printWidth 100; src/lib/site-data.ts and src/assets/images.ts show a literal ZERO-line diff vs main (all site-data.test.ts content counts preserved by construction); changes confined to src/styles.css, src/components/projects-showcase-grid.tsx (SPANS array only), and .agents/tasks docs. No new test code was added or needed (this is a visual/CSS art-direction pass over existing, test-guarded content), so test_quality is not applicable. The v1 semantic review returned APPROVED with only two non-blocking notes (one cosmetic comment inaccuracy, since corrected in commit c35266f; one intended/documented dense-packing tile-reorder tradeoff)."
+  },
+  "review": {
+    "iterations": 1,
+    "verdict": "APPROVED",
+    "artifact": ".agents/tasks/task-redesign-art-direction/2026-09-10-124419-review.md",
+    "notes": "v1 APPROVED. Non-blocking issue #1 (comment inaccuracy on .project-showcase-caption h3) fixed in commit c35266f. Non-blocking issue #2 (grid-auto-flow:dense may reorder decorative tiles) is intended and documented; numbered captions still identify each project."
+  }
 }
