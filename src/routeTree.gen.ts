@@ -13,9 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutUsRouteImport } from './routes/about-us'
 import { Route as AiDevAutomationPlaybookRouteImport } from './routes/ai-dev-automation-playbook'
 import { Route as AiDevAutomationPlaybookFormRouteImport } from './routes/ai-dev-automation-playbook-form'
-import { Route as BlogsRouteImport } from './routes/blogs'
 import { Route as ContactUsRouteImport } from './routes/contact-us'
-import { Route as InsideProjectRouteImport } from './routes/inside-project'
 import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
 import { Route as ProjectsRouteImport } from './routes/projects'
 import { Route as ServicesRouteImport } from './routes/services'
@@ -42,19 +40,9 @@ const AiDevAutomationPlaybookFormRoute =
     path: '/ai-dev-automation-playbook-form',
     getParentRoute: () => rootRouteImport,
   } as any)
-const BlogsRoute = BlogsRouteImport.update({
-  id: '/blogs',
-  path: '/blogs',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ContactUsRoute = ContactUsRouteImport.update({
   id: '/contact-us',
   path: '/contact-us',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const InsideProjectRoute = InsideProjectRouteImport.update({
-  id: '/inside-project',
-  path: '/inside-project',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
@@ -83,9 +71,7 @@ export interface FileRoutesByFullPath {
   '/about-us': typeof AboutUsRoute
   '/ai-dev-automation-playbook': typeof AiDevAutomationPlaybookRoute
   '/ai-dev-automation-playbook-form': typeof AiDevAutomationPlaybookFormRoute
-  '/blogs': typeof BlogsRoute
   '/contact-us': typeof ContactUsRoute
-  '/inside-project': typeof InsideProjectRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/projects': typeof ProjectsRoute
   '/services': typeof ServicesRoute
@@ -96,9 +82,7 @@ export interface FileRoutesByTo {
   '/about-us': typeof AboutUsRoute
   '/ai-dev-automation-playbook': typeof AiDevAutomationPlaybookRoute
   '/ai-dev-automation-playbook-form': typeof AiDevAutomationPlaybookFormRoute
-  '/blogs': typeof BlogsRoute
   '/contact-us': typeof ContactUsRoute
-  '/inside-project': typeof InsideProjectRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/projects': typeof ProjectsRoute
   '/services': typeof ServicesRoute
@@ -110,9 +94,7 @@ export interface FileRoutesById {
   '/about-us': typeof AboutUsRoute
   '/ai-dev-automation-playbook': typeof AiDevAutomationPlaybookRoute
   '/ai-dev-automation-playbook-form': typeof AiDevAutomationPlaybookFormRoute
-  '/blogs': typeof BlogsRoute
   '/contact-us': typeof ContactUsRoute
-  '/inside-project': typeof InsideProjectRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/projects': typeof ProjectsRoute
   '/services': typeof ServicesRoute
@@ -125,9 +107,7 @@ export interface FileRouteTypes {
     | '/about-us'
     | '/ai-dev-automation-playbook'
     | '/ai-dev-automation-playbook-form'
-    | '/blogs'
     | '/contact-us'
-    | '/inside-project'
     | '/privacy-policy'
     | '/projects'
     | '/services'
@@ -138,9 +118,7 @@ export interface FileRouteTypes {
     | '/about-us'
     | '/ai-dev-automation-playbook'
     | '/ai-dev-automation-playbook-form'
-    | '/blogs'
     | '/contact-us'
-    | '/inside-project'
     | '/privacy-policy'
     | '/projects'
     | '/services'
@@ -151,9 +129,7 @@ export interface FileRouteTypes {
     | '/about-us'
     | '/ai-dev-automation-playbook'
     | '/ai-dev-automation-playbook-form'
-    | '/blogs'
     | '/contact-us'
-    | '/inside-project'
     | '/privacy-policy'
     | '/projects'
     | '/services'
@@ -165,9 +141,7 @@ export interface RootRouteChildren {
   AboutUsRoute: typeof AboutUsRoute
   AiDevAutomationPlaybookRoute: typeof AiDevAutomationPlaybookRoute
   AiDevAutomationPlaybookFormRoute: typeof AiDevAutomationPlaybookFormRoute
-  BlogsRoute: typeof BlogsRoute
   ContactUsRoute: typeof ContactUsRoute
-  InsideProjectRoute: typeof InsideProjectRoute
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
   ProjectsRoute: typeof ProjectsRoute
   ServicesRoute: typeof ServicesRoute
@@ -204,25 +178,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AiDevAutomationPlaybookFormRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/blogs': {
-      id: '/blogs'
-      path: '/blogs'
-      fullPath: '/blogs'
-      preLoaderRoute: typeof BlogsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/contact-us': {
       id: '/contact-us'
       path: '/contact-us'
       fullPath: '/contact-us'
       preLoaderRoute: typeof ContactUsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/inside-project': {
-      id: '/inside-project'
-      path: '/inside-project'
-      fullPath: '/inside-project'
-      preLoaderRoute: typeof InsideProjectRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/privacy-policy': {
@@ -261,9 +221,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutUsRoute: AboutUsRoute,
   AiDevAutomationPlaybookRoute: AiDevAutomationPlaybookRoute,
   AiDevAutomationPlaybookFormRoute: AiDevAutomationPlaybookFormRoute,
-  BlogsRoute: BlogsRoute,
   ContactUsRoute: ContactUsRoute,
-  InsideProjectRoute: InsideProjectRoute,
   PrivacyPolicyRoute: PrivacyPolicyRoute,
   ProjectsRoute: ProjectsRoute,
   ServicesRoute: ServicesRoute,

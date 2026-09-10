@@ -8,17 +8,15 @@ const navigation = [
   ["Projects", "/projects"],
   ["Services", "/services"],
   ["About Us", "/about-us"],
-  ["Blogs", "/blogs"],
+  ["Contact Us", "/contact-us"],
 ] as const;
 
 export function Brand() {
   return (
     <Link to="/" className="site-brand" aria-label="DEMAze Technologies home">
-      <span className="brand-mark" aria-hidden="true">
-        <i />
-        <i />
-        <i />
-      </span>
+      {/* Same mark as the header, so the brand doesn't shift between a photo
+          logo up top and a hand-drawn placeholder down here. */}
+      <img src="/demaze-logo-mark.png" alt="" className="brand-mark" width={373} height={420} />
       <strong>demaze</strong>
       <small>technologies</small>
     </Link>
@@ -114,11 +112,9 @@ export function SiteHeader({ overlay = false }: { overlay?: boolean }) {
               onClick={() => setOpen(false)}
             >
               {label}
+              {to === "/contact-us" && <ArrowUpRight />}
             </Link>
           ))}
-          <Link to="/contact-us" onClick={() => setOpen(false)}>
-            Contact Us <ArrowUpRight />
-          </Link>
         </nav>
       )}
     </header>
@@ -160,7 +156,6 @@ export function SiteFooter() {
               {label}
             </Link>
           ))}
-          <Link to="/contact-us">Contact Us</Link>
           <Link to="/privacy-policy">Privacy</Link>
           <Link to="/terms-of-service">Terms</Link>
         </div>
@@ -214,7 +209,7 @@ export function PageLayout({
     const page = pageRef.current;
     if (!page || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const items = page.querySelectorAll<HTMLElement>(
-      ".section-heading, .project-card, .industry-grid article, .values-grid article, .process-grid article, .founder-story, .tech-band, .faq-list, .about-split, .benefit-row article, .featured-article, .contact-options > a, .contact-form, .playbook-form, .case-visual, .case-columns > div",
+      ".section-heading, .project-card, .industry-grid article, .values-grid article, .process-grid article, .founder-story, .tech-band, .faq-list, .about-split, .benefit-row article, .contact-options > a, .contact-form, .playbook-form",
     );
     const revealItems = Array.from(items).filter((item) => !item.closest(".motion-stack"));
     revealItems.forEach((item, index) => {

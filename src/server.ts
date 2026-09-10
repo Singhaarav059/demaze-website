@@ -14,6 +14,9 @@ type ServerEntry = {
 const CSP = [
   "default-src 'self'",
   "script-src 'self' 'unsafe-inline'",
+  // Vite's dev client (HMR, the TanStack Router devtools panel) spawns blob:
+  // workers; without this they're silently blocked by the script-src fallback.
+  "worker-src 'self' blob:",
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data:",
   "font-src 'self'",

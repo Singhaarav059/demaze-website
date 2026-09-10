@@ -66,8 +66,10 @@ function AboutPage() {
                   "Future-Ready Architecture",
                   "Automation Excellence",
                   "Strategic Partnership",
+                  "Cutting-Edge Technology",
                   "Business Intelligence",
                   "Agile Development",
+                  "End-to-End Solutions",
                 ].map((x) => (
                   <span key={x}>{x}</span>
                 ))}

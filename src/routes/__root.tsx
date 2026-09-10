@@ -23,6 +23,7 @@ const organizationData = {
   "@type": "Organization",
   name: "DEMAze Technologies",
   url: "https://www.demazetech.com",
+  logo: "https://www.demazetech.com/demaze-logo.png",
   email: "contact@demazetech.com",
   address: { "@type": "PostalAddress", addressLocality: "Ahmedabad", addressCountry: "IN" },
   sameAs: [

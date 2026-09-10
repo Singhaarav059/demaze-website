@@ -369,9 +369,9 @@ export function FounderStory() {
       />
       <blockquote>
         <p>
-          “We harness your vision and data to build AI-driven solutions that help your brand stand
-          out and grow revenue. When you thrive, we thrive, and we’re with you, executing every step
-          of the way.”
+          “Through the strategic use of your vision and data, we design AI solutions that make your
+          brand stand out and drive revenue growth, leading execution with focus and
+          accountability.”
         </p>
         <footer>
           <strong>Krupal Chaudhary</strong>
