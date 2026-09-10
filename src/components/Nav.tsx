@@ -5,10 +5,19 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
 
+/**
+ * Redesigned header. Logo links home, a centred nav marks the active route via
+ * usePathname, and a solid pink "Book a call" pill sits on the right. The
+ * frosted [data-scrolled] state is toggled by SiteMotion (one place owns the
+ * scroll listener), so this component only renders markup and stays fully
+ * usable without JavaScript. Below 820px the desktop nav collapses into a
+ * details/summary disclosure that still navigates.
+ */
 const links = [
-  { href: "/projects", label: "Work" },
-  { href: "/services", label: "Expertise" },
-  { href: "/about-us", label: "Studio" },
+  { href: "/projects", label: "Projects" },
+  { href: "/services", label: "Services" },
+  { href: "/about-us", label: "About Us" },
+  { href: "/contact-us", label: "Contact Us" },
 ];
 
 export default function Nav() {
@@ -38,68 +47,71 @@ export default function Nav() {
     pathname === href || pathname.startsWith(`${href}/`);
 
   return (
-    <header className="site-nav">
-      <div className="shell nav-inner">
-        <Link href="/" className="brand" aria-label="Demaze Technologies home">
-          <Image
-            src="/demaze-logo.png"
-            alt="Demaze"
-            width={224}
-            height={70}
-            sizes="132px"
-            priority
-          />
-        </Link>
-        <nav className="desktop-nav" aria-label="Main navigation">
+    <header className="site-header">
+      <Link
+        href="/"
+        className="header-brand"
+        aria-label="Demaze Technologies home"
+      >
+        <Image
+          src="/demaze-logo.png"
+          alt="Demaze"
+          width={224}
+          height={70}
+          sizes="96px"
+          priority
+        />
+      </Link>
+      <nav className="header-nav" aria-label="Main navigation">
+        {links.map(({ href, label }) => (
+          <Link
+            key={href}
+            href={href}
+            aria-current={current(href) ? "page" : undefined}
+          >
+            {label}
+          </Link>
+        ))}
+      </nav>
+      <Link href="/contact-us" className="pill-button header-cta">
+        Book a call <span aria-hidden>↗</span>
+      </Link>
+      <details
+        className="header-menu"
+        ref={menu}
+        onBlur={(event) => {
+          if (!event.currentTarget.contains(event.relatedTarget))
+            event.currentTarget.open = false;
+        }}
+      >
+        <summary>
+          Menu <span aria-hidden>+</span>
+        </summary>
+        <nav className="header-menu-panel" aria-label="Mobile navigation">
           {links.map(({ href, label }) => (
             <Link
               key={href}
               href={href}
               aria-current={current(href) ? "page" : undefined}
+              onClick={() => {
+                if (menu.current) menu.current.open = false;
+              }}
             >
               {label}
+              <span aria-hidden>↗</span>
             </Link>
           ))}
+          <Link
+            href="/contact-us"
+            className="pill-button"
+            onClick={() => {
+              if (menu.current) menu.current.open = false;
+            }}
+          >
+            Book a call <span aria-hidden>↗</span>
+          </Link>
         </nav>
-        <Link href="/contact-us" className="nav-cta">
-          Let’s talk <span aria-hidden>↗</span>
-        </Link>
-        <details
-          className="mobile-nav"
-          ref={menu}
-          onBlur={(event) => {
-            if (!event.currentTarget.contains(event.relatedTarget))
-              event.currentTarget.open = false;
-          }}
-        >
-          <summary>
-            Menu <span aria-hidden>+</span>
-          </summary>
-          <nav aria-label="Mobile navigation">
-            {[...links, { href: "/contact-us", label: "Let’s talk" }].map(
-              ({ href, label }, i) => (
-                <Link
-                  key={href}
-                  href={href}
-                  aria-current={current(href) ? "page" : undefined}
-                  onClick={() => {
-                    if (menu.current) menu.current.open = false;
-                  }}
-                >
-                  <span className="eyebrow">0{i + 1}</span>
-                  {label}
-                  <span aria-hidden>↗</span>
-                </Link>
-              ),
-            )}
-            <p>
-              AI & software engineering
-              <br />
-              Ahmedabad, India. Working worldwide.
-            </p>
-          </nav>
-        </details>
-      </div>
+      </details>
     </header>
   );
 }

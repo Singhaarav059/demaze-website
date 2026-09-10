@@ -5,11 +5,13 @@ import {
   Nanum_Pen_Script,
   JetBrains_Mono,
   Inter,
+  DM_Sans,
+  Space_Grotesk,
 } from "next/font/google";
 import "./globals.css";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
-import MotionControl from "@/components/MotionControl";
+import SiteMotion from "@/components/SiteMotion";
 import { pageMeta, site, siteUrl } from "@/content/site";
 
 /**
@@ -55,6 +57,25 @@ const inter = Inter({
   subsets: ["latin"],
   weight: ["400", "500"],
   variable: "--font-inter",
+});
+
+/**
+ * The redesign pairing. DM Sans carries body, UI, nav and buttons; Space
+ * Grotesk is the display voice reserved for h1/h2/h3, metric values and the
+ * founder quote. Both are exposed as CSS variables the @theme token block maps
+ * to --font-dm-sans / --font-space-grotesk so semantic classes can reference
+ * them without importing the font objects.
+ */
+const dmSans = DM_Sans({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-dm-sans-var",
+});
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+  variable: "--font-space-grotesk-var",
 });
 
 export const metadata: Metadata = {
@@ -111,9 +132,10 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${manrope.variable} ${sourceSerif.variable} ${nanumPen.variable} ${jetbrains.variable} ${inter.variable}`}
+      className={`${manrope.variable} ${sourceSerif.variable} ${nanumPen.variable} ${jetbrains.variable} ${inter.variable} ${dmSans.variable} ${spaceGrotesk.variable}`}
     >
       <body>
+        <div id="scroll-progress" aria-hidden />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
@@ -124,7 +146,7 @@ export default function RootLayout({
         <Nav />
         {children}
         <Footer />
-        <MotionControl />
+        <SiteMotion />
       </body>
     </html>
   );
