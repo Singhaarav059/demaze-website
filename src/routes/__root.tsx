@@ -11,6 +11,22 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { PrivacyAnalytics } from "../components/privacy-analytics";
+import { Button } from "../components/ui/button";
+
+const organizationData = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "DEMAze Technologies",
+  url: "https://www.demazetech.com",
+  email: "contact@demazetech.com",
+  address: { "@type": "PostalAddress", addressLocality: "Ahmedabad", addressCountry: "IN" },
+  sameAs: [
+    "https://www.linkedin.com/in/krupalchaudhary",
+    "https://www.instagram.com/demaze_technologies",
+    "https://x.com/growwithkrupal",
+  ],
+};
 
 function NotFoundComponent() {
   return (
@@ -51,21 +67,17 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
           Something went wrong on our end. You can try refreshing or head back home.
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-2">
-          <button
+          <Button
             onClick={() => {
               router.invalidate();
               reset();
             }}
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
           >
             Try again
-          </button>
-          <a
-            href="/"
-            className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
-          >
-            Go home
-          </a>
+          </Button>
+          <Button variant="outline" asChild>
+            <Link to="/">Go home</Link>
+          </Button>
         </div>
       </div>
     </div>
@@ -83,7 +95,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:title", content: "DEMAze Technologies" },
       { property: "og:description", content: "AI engineering and product development partner." },
       { property: "og:type", content: "website" },
+      { property: "og:image", content: "https://www.demazetech.com/social-preview.jpg" },
+      {
+        property: "og:image:alt",
+        content: "DEMAze Technologies, AI engineering and product development",
+      },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: "https://www.demazetech.com/social-preview.jpg" },
     ],
     links: [
       {
@@ -91,6 +109,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: appCss,
       },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "manifest", href: "/manifest.webmanifest" },
       {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap",
@@ -110,6 +129,10 @@ function RootShell({ children }: { children: ReactNode }) {
         <HeadContent />
       </head>
       <body>
+        <a className="skip-link" href="#main-content">
+          Skip to main content
+        </a>
+        <script type="application/ld+json">{JSON.stringify(organizationData)}</script>
         {children}
         <Scripts />
       </body>
@@ -124,6 +147,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
+      <PrivacyAnalytics />
     </QueryClientProvider>
   );
 }

@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowUpRight, Menu, X } from "lucide-react";
 import { useEffect, useRef, useState, type ReactNode } from "react";
-const footerArt = "/footer.png";
+import footerArt from "@/assets/original/footer.png";
 import { Button } from "@/components/ui/button";
 
 const navigation = [
@@ -27,6 +27,33 @@ export function Brand() {
 
 export function SiteHeader({ overlay = false }: { overlay?: boolean }) {
   const [open, setOpen] = useState(false);
+  const menuRef = useRef<HTMLElement>(null);
+  useEffect(() => {
+    if (!open) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    menuRef.current?.querySelector<HTMLAnchorElement>("a")?.focus();
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpen(false);
+      if (event.key !== "Tab" || !menuRef.current) return;
+      const links = Array.from(menuRef.current.querySelectorAll<HTMLAnchorElement>("a"));
+      const first = links[0];
+      const last = links.at(-1);
+      if (!first || !last) return;
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [open]);
   return (
     <header className={`site-header ${overlay ? "site-header-overlay" : ""}`}>
       <Link to="/" className="header-logo" aria-label="DEMAze Technologies home">
@@ -34,7 +61,7 @@ export function SiteHeader({ overlay = false }: { overlay?: boolean }) {
       </Link>
       <nav className="desktop-nav" aria-label="Main navigation">
         {navigation.map(([label, to]) => (
-          <Link key={to} to={to} activeProps={{ className: "active" }}>
+          <Link key={to} to={to} activeProps={{ className: "active", "aria-current": "page" }}>
             {label}
           </Link>
         ))}
@@ -49,12 +76,19 @@ export function SiteHeader({ overlay = false }: { overlay?: boolean }) {
         variant="ghost"
         size="icon"
         aria-label={open ? "Close menu" : "Open menu"}
+        aria-expanded={open}
+        aria-controls="mobile-navigation"
         onClick={() => setOpen(!open)}
       >
         {open ? <X /> : <Menu />}
       </Button>
       {open && (
-        <nav className="mobile-nav" aria-label="Mobile navigation">
+        <nav
+          ref={menuRef}
+          id="mobile-navigation"
+          className="mobile-nav"
+          aria-label="Mobile navigation"
+        >
           {navigation.map(([label, to]) => (
             <Link key={to} to={to} onClick={() => setOpen(false)}>
               {label}
@@ -105,23 +139,40 @@ export function SiteFooter() {
             </Link>
           ))}
           <Link to="/contact-us">Contact Us</Link>
+          <Link to="/privacy-policy">Privacy</Link>
+          <Link to="/terms-of-service">Terms</Link>
         </div>
         <div className="footer-links">
           <span>Connect</span>
           <a href="mailto:contact@demazetech.com">Email</a>
-          <a href="https://www.linkedin.com/in/krupalchaudhary" target="_blank" rel="noreferrer">
+          <a
+            href="https://www.linkedin.com/in/krupalchaudhary"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="LinkedIn, opens in a new tab"
+          >
             LinkedIn
           </a>
-          <a href="https://www.instagram.com/demaze_technologies" target="_blank" rel="noreferrer">
+          <a
+            href="https://www.instagram.com/demaze_technologies"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Instagram, opens in a new tab"
+          >
             Instagram
           </a>
-          <a href="https://x.com/growwithkrupal" target="_blank" rel="noreferrer">
+          <a
+            href="https://x.com/growwithkrupal"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="X, opens in a new tab"
+          >
             X
           </a>
         </div>
       </div>
       <div className="footer-base section-wrap">
-        <span>DEMAze Technologies © 2025. All rights reserved.</span>
+        <span>DEMAze Technologies © 2026. All rights reserved.</span>
         <span>Ahmedabad, India</span>
       </div>
     </footer>
@@ -141,9 +192,10 @@ export function PageLayout({
     const page = pageRef.current;
     if (!page || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const items = page.querySelectorAll<HTMLElement>(
-      ".section-heading, .project-card, .service-card, .industry-grid article, .values-grid article, .process-grid article, .founder-story, .tech-band, .faq-list, .about-split, .benefit-row article, .featured-article, .contact-options > a, .contact-form, .playbook-form, .case-visual, .case-columns > div",
+      ".section-heading, .project-card, .industry-grid article, .values-grid article, .process-grid article, .founder-story, .tech-band, .faq-list, .about-split, .benefit-row article, .featured-article, .contact-options > a, .contact-form, .playbook-form, .case-visual, .case-columns > div",
     );
-    items.forEach((item, index) => {
+    const revealItems = Array.from(items).filter((item) => !item.closest(".motion-stack"));
+    revealItems.forEach((item, index) => {
       item.classList.add("scroll-reveal");
       item.style.setProperty("--reveal-delay", `${Math.min(index % 4, 3) * 55}ms`);
     });
@@ -157,7 +209,7 @@ export function PageLayout({
       },
       { rootMargin: "0px 0px -9%", threshold: 0.08 },
     );
-    items.forEach((item) => observer.observe(item));
+    revealItems.forEach((item) => observer.observe(item));
     return () => observer.disconnect();
   }, []);
 

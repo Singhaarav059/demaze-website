@@ -18,14 +18,14 @@ export const Route = createFileRoute("/projects")({
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
-    links: [{ rel: "canonical", href: "/projects" }],
+    links: [{ rel: "canonical", href: "https://www.demazetech.com/projects" }],
   }),
   component: ProjectsPage,
 });
 function ProjectsPage() {
   return (
     <PageLayout>
-      <main>
+      <main id="main-content">
         <PageIntro
           eyebrow="Our work"
           title={

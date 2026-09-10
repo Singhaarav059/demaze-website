@@ -1,0 +1,10 @@
+{
+  "name": "DEMAze Technologies",
+  "short_name": "DEMAze",
+  "description": "AI engineering and product development partner.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fdfcfb",
+  "theme_color": "#e91867",
+  "icons": [{ "src": "/favicon.ico", "sizes": "48x48", "type": "image/x-icon" }]
+}

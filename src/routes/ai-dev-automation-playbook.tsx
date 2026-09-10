@@ -19,14 +19,14 @@ export const Route = createFileRoute("/ai-dev-automation-playbook")({
       { property: "og:type", content: "article" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
-    links: [{ rel: "canonical", href: "/ai-dev-automation-playbook" }],
+    links: [{ rel: "canonical", href: "https://www.demazetech.com/ai-dev-automation-playbook" }],
   }),
   component: PlaybookPage,
 });
 function PlaybookPage() {
   return (
     <PageLayout>
-      <main>
+      <main id="main-content">
         <section className="resource-hero section-wrap">
           <div>
             <p className="section-kicker">Learning resources</p>

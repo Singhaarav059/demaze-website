@@ -6,6 +6,7 @@ import {
   TechnologyBand,
 } from "@/components/content-sections";
 import { PageIntro, PageLayout } from "@/components/site-shell";
+import { ScrollFocusStack } from "@/components/scroll-focus-stack";
 export const Route = createFileRoute("/services")({
   head: () => ({
     meta: [
@@ -23,14 +24,14 @@ export const Route = createFileRoute("/services")({
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
-    links: [{ rel: "canonical", href: "/services" }],
+    links: [{ rel: "canonical", href: "https://www.demazetech.com/services" }],
   }),
   component: ServicesPage,
 });
 function ServicesPage() {
   return (
     <PageLayout>
-      <main>
+      <main id="main-content">
         <PageIntro
           eyebrow="Services"
           title={
@@ -40,19 +41,21 @@ function ServicesPage() {
           }
           copy="End-to-end product engineering that turns complex ideas into secure, useful, scalable systems."
         />
-        <section className="content-section section-wrap">
-          <ServicesGrid detailed />
-        </section>
-        <section className="content-section wash-lavender">
-          <div className="section-wrap">
-            <SectionHeading eyebrow="Platforms & partners" title="A modern technology toolkit." />
-            <TechnologyBand />
-          </div>
-        </section>
-        <section className="content-section section-wrap">
-          <SectionHeading eyebrow="Industries" title="Solutions grounded in context." />
-          <IndustryGrid />
-        </section>
+        <ScrollFocusStack className="interior-motion-stack">
+          <section className="content-section section-wrap motion-chapter motion-chapter-long">
+            <ServicesGrid detailed />
+          </section>
+          <section className="content-section wash-lavender motion-chapter">
+            <div className="section-wrap">
+              <SectionHeading eyebrow="Platforms & partners" title="A modern technology toolkit." />
+              <TechnologyBand />
+            </div>
+          </section>
+          <section className="content-section section-wrap motion-chapter">
+            <SectionHeading eyebrow="Industries" title="Solutions grounded in context." />
+            <IndustryGrid />
+          </section>
+        </ScrollFocusStack>
       </main>
     </PageLayout>
   );

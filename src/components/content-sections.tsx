@@ -18,7 +18,7 @@ import {
   technologies,
   values,
 } from "@/lib/site-data";
-const founder = "/founder.jpeg";
+import founder from "@/assets/original/founder.jpeg";
 
 export function SectionHeading({
   eyebrow,
@@ -155,16 +155,120 @@ function AnimatedServiceVisual({
 }
 
 export function ServicesGrid({ detailed = false }: { detailed?: boolean }) {
+  const gridRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const grid = gridRef.current;
+    if (!grid) return;
+
+    const cards = Array.from(grid.querySelectorAll<HTMLElement>(".service-card"));
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const compactLayout = window.matchMedia("(max-width: 700px)");
+    const stickyStage =
+      grid.closest<HTMLElement>(".motion-stage") ?? grid.closest<HTMLElement>(".stack-services");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) =>
+          entry.target.classList.toggle("is-service-visible", entry.isIntersecting),
+        );
+      },
+      { rootMargin: "0px 0px -8%", threshold: 0.12 },
+    );
+    cards.forEach((card) => observer.observe(card));
+
+    let frame = 0;
+    let currentProgress = 0;
+    let targetProgress = 0;
+    const paint = () => {
+      frame = 0;
+      if (reducedMotion.matches || compactLayout.matches) {
+        cards.forEach((card) => {
+          card.classList.remove("is-service-active");
+          card.style.removeProperty("--service-focus");
+          card.style.removeProperty("--service-depth");
+          card.style.removeProperty("--service-scroll-y");
+        });
+        grid.style.removeProperty("--service-light-x");
+        grid.style.removeProperty("--service-light-y");
+        return;
+      }
+
+      currentProgress += (targetProgress - currentProgress) * 0.11;
+      if (Math.abs(targetProgress - currentProgress) < 0.001) currentProgress = targetProgress;
+      const activeIndex = Math.min(cards.length - 1, Math.round(currentProgress));
+      const lowerIndex = Math.floor(currentProgress);
+      const upperIndex = Math.min(cards.length - 1, lowerIndex + 1);
+      const blend = currentProgress - lowerIndex;
+      const lowerBounds = cards[lowerIndex]?.getBoundingClientRect();
+      const upperBounds = cards[upperIndex]?.getBoundingClientRect();
+      const gridBounds = grid.getBoundingClientRect();
+
+      if (lowerBounds && upperBounds) {
+        const lowerX = lowerBounds.left - gridBounds.left + lowerBounds.width / 2;
+        const upperX = upperBounds.left - gridBounds.left + upperBounds.width / 2;
+        const lowerY = lowerBounds.top - gridBounds.top + lowerBounds.height / 2;
+        const upperY = upperBounds.top - gridBounds.top + upperBounds.height / 2;
+        grid.style.setProperty("--service-light-x", `${lowerX + (upperX - lowerX) * blend}px`);
+        grid.style.setProperty("--service-light-y", `${lowerY + (upperY - lowerY) * blend}px`);
+      }
+
+      cards.forEach((card, index) => {
+        const signedDistance = index - currentProgress;
+        const distance = Math.min(Math.abs(signedDistance), 1);
+        const focus = 1 - distance;
+        card.style.setProperty("--service-focus", focus.toFixed(3));
+        card.style.setProperty("--service-depth", distance.toFixed(3));
+        card.style.setProperty("--service-scroll-y", `${(signedDistance * 10).toFixed(2)}px`);
+        card.classList.toggle("is-service-active", index === activeIndex);
+      });
+
+      if (currentProgress !== targetProgress) frame = window.requestAnimationFrame(paint);
+    };
+    const measure = () => {
+      const bounds = (stickyStage ?? grid).getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+      const start = stickyStage ? viewportHeight * 0.18 : viewportHeight * 0.72;
+      const travel = stickyStage
+        ? Math.max((stickyStage.offsetHeight - viewportHeight) * 0.92, 1)
+        : Math.max(grid.offsetHeight * 0.72, 1);
+      const normalized = Math.max(0, Math.min(1, (start - bounds.top) / travel));
+      targetProgress = normalized * (cards.length - 1);
+      grid.style.setProperty("--service-scroll", normalized.toFixed(3));
+      if (!frame) frame = window.requestAnimationFrame(paint);
+    };
+
+    measure();
+    window.addEventListener("scroll", measure, { passive: true });
+    window.addEventListener("resize", measure, { passive: true });
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("scroll", measure);
+      window.removeEventListener("resize", measure);
+      if (frame) window.cancelAnimationFrame(frame);
+    };
+  }, []);
+
   return (
-    <div className={`service-grid ${detailed ? "service-grid-detailed" : ""}`}>
+    <div
+      ref={gridRef}
+      className={`service-grid service-spatial-grid ${detailed ? "service-grid-detailed" : ""}`}
+    >
+      <span className="service-grid-lines" aria-hidden="true" />
       {services.map((service, index) => (
-        <article id={service.id} className="service-card" key={service.title}>
+        <article
+          id={service.id}
+          className="service-card"
+          data-service-index={index + 1}
+          key={service.title}
+        >
           <div className="service-card-top">
             <small>{service.number}</small>
             <AnimatedServiceVisual image={service.image} title={service.title} index={index} />
           </div>
-          <h3>{service.title}</h3>
-          <p>{service.description}</p>
+          <div className="service-card-copy">
+            <h3>{service.title}</h3>
+            <p>{service.description}</p>
+          </div>
           {detailed && (
             <ul>
               {service.items.map((item) => (
@@ -186,7 +290,7 @@ export function TechnologyBand() {
     <div className="tech-band">
       {technologies.map(([name, image]) => (
         <div key={name}>
-          <img src={image} alt="" loading="lazy" />
+          <img src={image} alt={`${name} logo`} loading="lazy" />
           <span>{name}</span>
         </div>
       ))}

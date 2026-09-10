@@ -14,9 +14,11 @@ import {
   ValuesGrid,
 } from "@/components/content-sections";
 import { PageLayout } from "@/components/site-shell";
-const robotsVideo = "/demaze-robot-studio.mp4";
-const robotsPoster = "/demaze-robot-studio-poster.jpg";
+import { ScrollFocusStack } from "@/components/scroll-focus-stack";
+import robotsVideo from "@/assets/demaze-robot-studio.mp4";
+import robotsPoster from "@/assets/demaze-robot-studio-poster.jpg";
 import robotsVideoWebm from "@/assets/demaze-robot-studio.webm";
+import { HeroVideo } from "@/components/hero-video";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -36,7 +38,7 @@ export const Route = createFileRoute("/")({
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
-    links: [{ rel: "canonical", href: "/" }],
+    links: [{ rel: "canonical", href: "https://www.demazetech.com/" }],
   }),
   component: Home,
 });
@@ -45,7 +47,7 @@ function Home() {
   return (
     <div>
       <PageLayout overlayHeader>
-        <main>
+        <main id="main-content">
           <section className="home-hero section-wrap">
             <div className="hero-copy animate-rise">
               <p className="eyebrow">
@@ -70,15 +72,10 @@ function Home() {
                 </Link>
               </div>
             </div>
-            <div className="hero-visual animate-visual" aria-label="Animated DEMAze robot studio">
-              <video poster={robotsPoster} autoPlay loop muted playsInline preload="metadata">
-                <source src={robotsVideoWebm} type="video/webm" />
-                <source src={robotsVideo} type="video/mp4" />
-              </video>
-            </div>
+            <HeroVideo poster={robotsPoster} webm={robotsVideoWebm} mp4={robotsVideo} />
           </section>
           <MetricsStrip />
-          <div className="home-stack">
+          <ScrollFocusStack className="home-stack">
             <section className="content-section stack-chapter stack-work">
               <div className="section-wrap">
                 <span className="chapter-doodle" aria-hidden="true" />
@@ -161,7 +158,7 @@ function Home() {
                 <FaqSection />
               </div>
             </section>
-          </div>
+          </ScrollFocusStack>
         </main>
       </PageLayout>
     </div>

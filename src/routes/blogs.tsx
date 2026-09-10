@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowUpRight } from "lucide-react";
 import { PageIntro, PageLayout } from "@/components/site-shell";
 import { Button } from "@/components/ui/button";
-const blogImage = "/project-investigation.png";
+import blogImage from "@/assets/original/project-investigation.png";
 export const Route = createFileRoute("/blogs")({
   head: () => ({
     meta: [
@@ -17,14 +17,14 @@ export const Route = createFileRoute("/blogs")({
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
-    links: [{ rel: "canonical", href: "/blogs" }],
+    links: [{ rel: "canonical", href: "https://www.demazetech.com/blogs" }],
   }),
   component: BlogsPage,
 });
 function BlogsPage() {
   return (
     <PageLayout>
-      <main>
+      <main id="main-content">
         <PageIntro
           eyebrow="Blogs"
           title={

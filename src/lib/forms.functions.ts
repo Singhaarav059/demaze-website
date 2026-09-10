@@ -9,12 +9,14 @@ const contactSchema = z.object({
   subject: z.string().trim().max(160),
   message: z.string().trim().min(1).max(2000),
   website: z.string().max(0),
+  startedAt: z.number().int().positive(),
 });
 
 const playbookSchema = z.object({
   name: z.string().trim().min(1).max(100),
   email: z.string().trim().email().max(255),
   website: z.string().max(0),
+  startedAt: z.number().int().positive(),
 });
 
 function publicClient() {
@@ -34,18 +36,22 @@ function publicClient() {
 }
 
 export const submitContact = createServerFn({ method: "POST" })
-  .inputValidator((input) => contactSchema.parse(input))
+  .validator((input) => contactSchema.parse(input))
   .handler(async ({ data }) => {
-    const { website: _honeypot, ...submission } = data;
+    if (Date.now() - data.startedAt < 1800 || Date.now() - data.startedAt > 3_600_000)
+      throw new Error("Invalid submission timing.");
+    const { website: _honeypot, startedAt: _startedAt, ...submission } = data;
     const { error } = await publicClient().from("contact_submissions").insert(submission);
     if (error) throw new Error("We could not send your enquiry. Please try again.");
     return { ok: true };
   });
 
 export const requestPlaybook = createServerFn({ method: "POST" })
-  .inputValidator((input) => playbookSchema.parse(input))
+  .validator((input) => playbookSchema.parse(input))
   .handler(async ({ data }) => {
-    const { website: _honeypot, ...submission } = data;
+    if (Date.now() - data.startedAt < 1800 || Date.now() - data.startedAt > 3_600_000)
+      throw new Error("Invalid submission timing.");
+    const { website: _honeypot, startedAt: _startedAt, ...submission } = data;
     const { error } = await publicClient().from("playbook_downloads").insert(submission);
     if (error) throw new Error("We could not save your request. Please try again.");
     return { ok: true };

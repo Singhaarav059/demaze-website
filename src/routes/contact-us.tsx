@@ -19,14 +19,14 @@ export const Route = createFileRoute("/contact-us")({
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
-    links: [{ rel: "canonical", href: "/contact-us" }],
+    links: [{ rel: "canonical", href: "https://www.demazetech.com/contact-us" }],
   }),
   component: ContactPage,
 });
 function ContactPage() {
   return (
     <PageLayout>
-      <main>
+      <main id="main-content">
         <PageIntro
           eyebrow="Contact"
           title={
@@ -36,7 +36,7 @@ function ContactPage() {
           }
           copy="Tell us what you’re building, improving, or trying to understand. We’ll start with the useful questions."
         />
-        <section className="contact-layout section-wrap">
+        <section id="project-enquiry" className="contact-layout section-wrap">
           <div className="contact-options">
             <a href="mailto:contact@demazetech.com">
               <Mail />
@@ -45,17 +45,18 @@ function ContactPage() {
                 <strong>contact@demazetech.com</strong>
               </span>
             </a>
-            <a href="https://calendly.com/" target="_blank" rel="noreferrer">
+            <a href="#project-enquiry">
               <Calendar />
               <span>
                 <small>Prefer a conversation?</small>
-                <strong>Book with Calendly</strong>
+                <strong>Send a meeting request</strong>
               </span>
             </a>
             <a
               href="https://www.google.com/maps/search/?api=1&query=A+804+Ganesh+Glory+11+Jagatpur+Road+Gota+Ahmedabad"
               target="_blank"
               rel="noreferrer"
+              aria-label="Office location, opens in a new tab"
             >
               <MapPin />
               <span>

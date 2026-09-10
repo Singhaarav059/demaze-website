@@ -17,14 +17,16 @@ export const Route = createFileRoute("/ai-dev-automation-playbook-form")({
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
-    links: [{ rel: "canonical", href: "/ai-dev-automation-playbook-form" }],
+    links: [
+      { rel: "canonical", href: "https://www.demazetech.com/ai-dev-automation-playbook-form" },
+    ],
   }),
   component: PlaybookFormPage,
 });
 function PlaybookFormPage() {
   return (
     <PageLayout>
-      <main>
+      <main id="main-content">
         <section className="download-layout section-wrap">
           <div>
             <p className="section-kicker">Download guide</p>
