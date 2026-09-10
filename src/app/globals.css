@@ -372,6 +372,11 @@ html:not([data-js]) .hero-card {
   filter: none;
   animation: none;
 }
+.hero-eyebrow {
+  color: var(--color-ink);
+  opacity: 0.55;
+  margin: 0 0 16px;
+}
 .hero-card h1 {
   font-family: var(--font-inter);
   font-weight: 500;
@@ -473,8 +478,8 @@ html:not([data-js]) .headline-underline path {
 .hero-block {
   position: relative;
   border-radius: 22px;
-  padding: 20px 22px;
-  min-height: 128px;
+  padding: 22px 24px;
+  min-height: 190px;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -482,9 +487,10 @@ html:not([data-js]) .headline-underline path {
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
 }
-.hero-block > *:not(.stat-doodle) {
+.hero-block-copy {
   position: relative;
   z-index: 1;
+  max-width: 62%;
 }
 .hero-block-mint {
   background: color-mix(in srgb, var(--color-mint) 92%, transparent);
@@ -505,6 +511,83 @@ html:not([data-js]) .headline-underline path {
   color: var(--color-ink);
   opacity: 0.65;
   margin-top: 4px;
+}
+.hero-stat-checklist {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.hero-stat-checklist li {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-inter);
+  font-size: 12.5px;
+  color: var(--color-ink);
+  opacity: 0.72;
+}
+.check-mark {
+  width: 13px;
+  height: 13px;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.75;
+}
+.hero-mascot {
+  position: absolute;
+  z-index: 0;
+  right: -8px;
+  bottom: -8px;
+  width: 46%;
+  max-width: 168px;
+  pointer-events: none;
+  animation: hero-mascot-float 6.2s ease-in-out infinite;
+}
+.hero-mascot img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.hero-mascot-reverse {
+  animation-name: hero-mascot-float-reverse;
+  animation-duration: 6.6s;
+}
+@keyframes hero-mascot-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+@keyframes hero-mascot-float-reverse {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(8px);
+  }
+}
+.hero-mascot[data-motion="paused"] {
+  animation-play-state: paused;
+}
+.hero-mascot[data-motion="off"],
+html:not([data-js]) .hero-mascot {
+  animation: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-mascot {
+    animation: none;
+  }
 }
 @keyframes hero-card-in {
   to {
@@ -558,6 +641,19 @@ html:not([data-js]) .headline-underline path {
   }
   .hero-block-butter {
     background: var(--color-butter);
+  }
+  .hero-block-copy {
+    max-width: 100%;
+  }
+  /* The checklist reads fine at the desktop card's width but wraps to a
+     ragged, oversized column once two blocks share a phone-width row --
+     the stat value/label/mascot alone already carry the block on mobile. */
+  .hero-stat-checklist {
+    display: none;
+  }
+  .hero-mascot {
+    width: 38%;
+    max-width: 96px;
   }
 }
 .system-study {
