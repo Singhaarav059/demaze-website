@@ -2,34 +2,23 @@ import Image from "next/image";
 import Link from "next/link";
 import WorkCard from "@/components/WorkCard";
 import EvidenceStory from "@/components/EvidenceStory";
-import HeroBackgroundVideo from "@/components/HeroBackgroundVideo";
 import ScrollStory from "@/components/ScrollStory";
 import { homeCopy } from "@/content/editorial";
 import { projects } from "@/content/projects";
 import { serviceCategories } from "@/content/services";
-import { site } from "@/content/site";
+import { heroStats, heroTrustLogos, site } from "@/content/site";
 
 const selected = [projects[1], projects[2], projects[3], projects[13]];
-
-const checkMark = (
-  <svg className="check-mark" viewBox="0 0 14 14" aria-hidden>
-    <path d="M2.5 7.2 5.6 10.3 11.5 3.8" />
-  </svg>
-);
-
-const heroChecklists = [
-  ["AI tools", "Internal platforms", "Customer products", "Automation systems"],
-  ["Revenue enablement", "Cost efficiencies", "Faster operations", "Long-term partnerships"],
-];
 
 export default function Home() {
   return (
     <main id="main-content" tabIndex={-1}>
       <section className="shell hero-section">
-        <HeroBackgroundVideo />
         <div className="hero-grid">
           <div className="hero-card">
-            <p className="eyebrow hero-eyebrow">AI &amp; Software Engineering Studio</p>
+            <p className="eyebrow hero-eyebrow">
+              AI &amp; Software Engineering Studio
+            </p>
             <h1>
               Complexity,
               <br />
@@ -55,66 +44,45 @@ export default function Home() {
                 Have a challenge?
               </Link>
             </div>
-          </div>
-          <div className="hero-blocks">
-            <div className="hero-block hero-block-mint">
-              <div className="hero-block-copy">
-                <p className="hero-stat-value">
-                  {site.stats[0].value}
-                  {site.stats[0].suffix}
-                </p>
-                <p className="hero-stat-label">{site.stats[0].label}</p>
-                <ul className="hero-stat-checklist">
-                  {heroChecklists[0].map((item) => (
-                    <li key={item}>
-                      {checkMark}
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="hero-mascot" data-animated-visual aria-hidden>
-                <Image
-                  src="/hero-stat-mascot-projects.png"
-                  alt=""
-                  width={1536}
-                  height={1024}
-                  sizes="190px"
-                />
-              </div>
-            </div>
-            <div className="hero-block hero-block-butter">
-              <div className="hero-block-copy">
-                <p className="hero-stat-value">
-                  {site.stats[1].prefix}
-                  {site.stats[1].value}
-                  {site.stats[1].suffix}
-                </p>
-                <p className="hero-stat-label">{site.stats[1].label}</p>
-                <ul className="hero-stat-checklist">
-                  {heroChecklists[1].map((item) => (
-                    <li key={item}>
-                      {checkMark}
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div
-                className="hero-mascot hero-mascot-reverse"
-                data-animated-visual
-                aria-hidden
-              >
-                <Image
-                  src="/hero-stat-mascot-value.png"
-                  alt=""
-                  width={1536}
-                  height={1024}
-                  sizes="190px"
-                />
-              </div>
+            <div className="hero-trust">
+              <p className="eyebrow hero-trust-label">
+                Trusted by forward-thinking teams
+              </p>
+              {/* The greyed wordmarks are decorative placeholders, so the row
+                  is aria-hidden and the plain brand names are exposed once,
+                  off-screen, for assistive technology. */}
+              <ul className="hero-trust-logos" aria-hidden>
+                {heroTrustLogos.map((brand) => (
+                  <li className="hero-trust-logo" key={brand}>
+                    {brand}
+                  </li>
+                ))}
+              </ul>
+              <p className="visually-hidden">
+                Trusted by {heroTrustLogos.join(", ")}.
+              </p>
             </div>
           </div>
+          <div className="hero-visual">
+            <div className="hero-visual-float" data-animated-visual aria-hidden>
+              <Image
+                src="/hero-stat-mascot-projects.png"
+                alt=""
+                width={1536}
+                height={1024}
+                sizes="(max-width: 820px) 80vw, 46vw"
+                priority
+              />
+            </div>
+          </div>
+        </div>
+        <div className="hero-statbar">
+          {heroStats.map((stat) => (
+            <div className="hero-statbar-item" key={stat.label}>
+              <span className="hero-statbar-value">{stat.display}</span>
+              <span className="hero-statbar-label">{stat.label}</span>
+            </div>
+          ))}
         </div>
       </section>
 

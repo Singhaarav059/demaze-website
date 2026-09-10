@@ -298,66 +298,26 @@ main:focus {
 }
 
 .hero-section {
-  /* Top clearance from the nav only -- ScrollStory already carries its own
-     top padding, so the section's bottom edge sits flush with the video. */
-  padding-block: 32px 0;
+  /* Light lavender-to-white wash behind a single-viewport composition. The
+     top pad clears the fixed nav; ScrollStory below carries its own top
+     padding, so the section just needs its own bottom breathing room. */
+  padding-block: 56px 40px;
   position: relative;
-}
-.hero-video-frame {
-  /* In-flow at the video's own native ratio (1280x720) so it always shows
-     the whole frame -- no object-fit crop, no transform zoom -- and the
-     section's height simply follows from that instead of an independent
-     viewport-driven number. */
-  position: relative;
-  width: 100%;
-  aspect-ratio: 1280 / 720;
-  pointer-events: none;
-  border-radius: 36px;
-  overflow: hidden;
-  background: #bfe6e6;
-  box-shadow: 0 40px 80px -44px rgba(20, 20, 40, 0.4);
-}
-.hero-video {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-.hero-video-scrim {
-  /* A whisper of atmospheric falloff at the edges, not a wash over the
-     characters -- the panels below carry legibility, not this. */
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    120% 95% at 50% 0%,
-    rgba(18, 40, 46, 0) 45%,
-    rgba(12, 26, 32, 0.22) 100%
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--color-lavender) 70%, #fff),
+    var(--color-paper)
   );
 }
 .hero-grid {
-  /* Matches hero-video-frame's own box exactly: absolute children's
-     containing block ignores the parent's padding, so the top inset has
-     to repeat hero-section's padding-top by hand. */
-  position: absolute;
-  inset: 32px 0 0 0;
-  z-index: 1;
   display: grid;
-  grid-template-columns: minmax(0, 54%) minmax(0, 280px);
-  grid-template-rows: 1fr;
-  justify-content: space-between;
-  padding: 36px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 46%);
+  align-items: center;
+  gap: 48px;
 }
 .hero-card {
-  /* Translucent, not opaque: the video reads faintly through the blur so
-     the panel feels like part of the same composition, not a lid on it. */
-  align-self: start;
-  max-width: 560px;
-  background: color-mix(in srgb, var(--color-lavender) 80%, transparent);
-  backdrop-filter: blur(22px) saturate(1.15);
-  -webkit-backdrop-filter: blur(22px) saturate(1.15);
-  border-radius: 32px;
-  padding: 44px 40px;
+  align-self: center;
+  max-width: 620px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -373,8 +333,10 @@ html:not([data-js]) .hero-card {
   animation: none;
 }
 .hero-eyebrow {
+  /* Ink held at 0.7 stays well clear of the contrast floor on the lavender
+     wash; a low-opacity light grey would not, so it is avoided here. */
   color: var(--color-ink);
-  opacity: 0.55;
+  opacity: 0.7;
   margin: 0 0 16px;
 }
 .hero-card h1 {
@@ -465,129 +427,111 @@ html:not([data-js]) .headline-underline path {
   display: inline-flex;
   align-items: center;
 }
-.hero-blocks {
-  align-self: end;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  animation-timeline: scroll(nearest block);
-  animation-name: hero-blocks-parallax;
-  animation-fill-mode: both;
-  animation-range: entry 0% cover 100%;
+.hero-trust {
+  margin-top: 40px;
 }
-.hero-block {
-  position: relative;
-  border-radius: 22px;
-  padding: 22px 24px;
-  min-height: 190px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  overflow: hidden;
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-}
-.hero-block-copy {
-  position: relative;
-  z-index: 1;
-  max-width: 62%;
-}
-.hero-block-mint {
-  background: color-mix(in srgb, var(--color-mint) 92%, transparent);
-}
-.hero-block-butter {
-  background: color-mix(in srgb, var(--color-butter) 92%, transparent);
-}
-.hero-stat-value {
-  font-family: var(--font-inter);
-  font-weight: 500;
-  font-size: clamp(28px, 3vw, 40px);
-  letter-spacing: -0.03em;
+.hero-trust-label {
   color: var(--color-ink);
+  opacity: 0.6;
+  margin: 0 0 14px;
 }
-.hero-stat-label {
-  font-family: var(--font-inter);
-  font-size: 13px;
-  color: var(--color-ink);
-  opacity: 0.65;
-  margin-top: 4px;
-}
-.hero-stat-checklist {
+.hero-trust-logos {
   list-style: none;
-  margin: 12px 0 0;
+  margin: 0;
   padding: 0;
   display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-.hero-stat-checklist li {
-  display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 7px;
-  font-family: var(--font-inter);
-  font-size: 12.5px;
-  color: var(--color-ink);
-  opacity: 0.72;
+  gap: 14px 28px;
 }
-.check-mark {
-  width: 13px;
-  height: 13px;
-  flex: none;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+.hero-trust-logo {
+  /* Placeholder wordmarks, not official brand logos: a single muted-ink
+     treatment reads as an intentional monochrome row until the user drops
+     in real SVGs. */
+  font-family: var(--font-inter);
+  font-weight: 600;
+  font-size: 17px;
+  letter-spacing: -0.01em;
+  color: var(--color-muted);
   opacity: 0.75;
 }
-.hero-mascot {
+.visually-hidden {
   position: absolute;
-  z-index: 0;
-  right: -8px;
-  bottom: -8px;
-  width: 46%;
-  max-width: 168px;
-  pointer-events: none;
-  animation: hero-mascot-float 6.2s ease-in-out infinite;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
-.hero-mascot img {
+.hero-visual {
+  align-self: center;
+  justify-self: end;
+  width: 100%;
+  max-width: 620px;
+}
+.hero-visual-float {
+  /* The finished, correctly-positioned composition is the default; the float
+     is a gentle ambient loop layered on top, gated by the motion system. */
+  display: block;
+  animation: hero-visual-float 6.4s ease-in-out infinite;
+}
+.hero-visual-float img {
   width: 100%;
   height: auto;
   display: block;
 }
-.hero-mascot-reverse {
-  animation-name: hero-mascot-float-reverse;
-  animation-duration: 6.6s;
-}
-@keyframes hero-mascot-float {
+@keyframes hero-visual-float {
   0%,
   100% {
     transform: translateY(0);
   }
   50% {
-    transform: translateY(-8px);
+    transform: translateY(-10px);
   }
 }
-@keyframes hero-mascot-float-reverse {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(8px);
-  }
-}
-.hero-mascot[data-motion="paused"] {
+.hero-visual-float[data-motion="paused"] {
   animation-play-state: paused;
 }
-.hero-mascot[data-motion="off"],
-html:not([data-js]) .hero-mascot {
+.hero-visual-float[data-motion="off"],
+html:not([data-js]) .hero-visual-float {
   animation: none;
 }
 @media (prefers-reduced-motion: reduce) {
-  .hero-mascot {
+  .hero-visual-float {
     animation: none;
   }
+}
+.hero-statbar {
+  margin-top: 56px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  background: var(--color-paper);
+  border: 1px solid var(--color-line);
+  border-radius: 24px;
+  padding: 32px 40px;
+  box-shadow: 0 30px 60px -44px rgba(20, 20, 40, 0.35);
+}
+.hero-statbar-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: center;
+}
+.hero-statbar-value {
+  font-family: var(--font-inter);
+  font-weight: 600;
+  font-size: clamp(30px, 3.4vw, 44px);
+  letter-spacing: -0.03em;
+  color: var(--color-ink);
+}
+.hero-statbar-label {
+  font-family: var(--font-inter);
+  font-size: 14px;
+  color: var(--color-muted);
 }
 @keyframes hero-card-in {
   to {
@@ -596,64 +540,30 @@ html:not([data-js]) .hero-mascot {
     filter: blur(0);
   }
 }
-@keyframes hero-blocks-parallax {
-  to {
-    transform: translateY(-56px);
-  }
-}
 @media (max-width: 820px) {
   .hero-section {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    padding-block: 28px 48px;
+    padding-block: 32px 40px;
   }
-  /* Lets hero-card and hero-blocks flow as direct children of the
-     flex column below, in headline -> visual -> stats order, without
-     restructuring the markup. */
   .hero-grid {
-    display: contents;
+    grid-template-columns: 1fr;
+    gap: 32px;
   }
-  .hero-video-frame {
-    order: 2;
-    border-radius: 26px;
-  }
+  /* Headline, intro and CTAs lead; the visual follows below the copy. */
   .hero-card {
     order: 1;
     max-width: none;
-    padding: 32px 28px;
-    background: var(--color-lavender);
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
+    text-align: left;
   }
-  .hero-blocks {
-    order: 3;
-    flex-direction: row;
+  .hero-visual {
+    order: 2;
+    justify-self: center;
+    max-width: 420px;
   }
-  .hero-block {
-    flex: 1;
-    min-height: 140px;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-  }
-  .hero-block-mint {
-    background: var(--color-mint);
-  }
-  .hero-block-butter {
-    background: var(--color-butter);
-  }
-  .hero-block-copy {
-    max-width: 100%;
-  }
-  /* The checklist reads fine at the desktop card's width but wraps to a
-     ragged, oversized column once two blocks share a phone-width row --
-     the stat value/label/mascot alone already carry the block on mobile. */
-  .hero-stat-checklist {
-    display: none;
-  }
-  .hero-mascot {
-    width: 38%;
-    max-width: 96px;
+  .hero-statbar {
+    margin-top: 32px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px 16px;
+    padding: 28px 24px;
   }
 }
 .system-study {
