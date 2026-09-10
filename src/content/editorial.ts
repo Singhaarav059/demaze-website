@@ -172,22 +172,59 @@ export const homeWhyChooseUs: { no: string; title: string; copy: string }[] = [
   {
     no: "01",
     title: "Innovation at Our Core",
-    copy: "We continuously explore emerging technologies to keep clients ahead.",
+    copy: "We continuously explore emerging technologies and challenge conventional approaches to create solutions that keep our clients ahead.",
   },
   {
     no: "02",
     title: "Client Success Obsession",
-    copy: "Your outcomes guide every decision, first idea through long-term growth.",
+    copy: "Your outcomes guide every decision. We work as an accountable extension of your team from first idea through long-term growth.",
   },
   {
     no: "03",
     title: "Technology for Good",
-    copy: "Thoughtful technology should simplify work and create sustainable value.",
+    copy: "We believe thoughtfully designed technology should make work simpler, improve lives, and create sustainable value.",
   },
   {
     no: "04",
     title: "Continuous Learning",
-    copy: "We invest in learning so every solution benefits from current thinking.",
+    copy: "We invest in learning, experimentation, and knowledge sharing so every solution benefits from current thinking.",
+  },
+];
+
+/**
+ * The five home/about FAQs, mirrored verbatim from the prior site's content
+ * (`site-data.ts` faqs), normalized to straight punctuation for the copy gate.
+ * Rendered by the FaqSection on the home page after How We Work.
+ */
+export const faqs: { question: string; answer: string }[] = [
+  {
+    question:
+      "What makes Demaze different from other development companies?",
+    answer:
+      "We combine AI expertise, product engineering, and accountable long-term partnership instead of treating delivery as a one-time handoff.",
+  },
+  {
+    question:
+      "How long does it typically take to develop a custom solution?",
+    answer:
+      "Timelines depend on scope, integrations, and validation needs. Discovery establishes a practical roadmap and delivery milestones before development begins.",
+  },
+  {
+    question: "Do you work with startups or only established enterprises?",
+    answer:
+      "We partner with both growing startups and established organizations when technology can create measurable operational or customer value.",
+  },
+  {
+    question:
+      "What ongoing support do you provide after project completion?",
+    answer:
+      "We support launch, monitoring, optimization, scaling, and continued product development according to each engagement.",
+  },
+  {
+    question:
+      "How do you ensure the security and confidentiality of our project?",
+    answer:
+      "Security is considered throughout architecture, development, access control, testing, and deployment, with confidentiality aligned to the engagement.",
   },
 ];
 
@@ -195,22 +232,22 @@ export const homeHowWeWork: { no: string; title: string; copy: string }[] = [
   {
     no: "01",
     title: "Discover & Define",
-    copy: "Focused discovery, research, and clear success metrics.",
+    copy: "We understand your vision, challenges, and goals through focused discovery, research, and clear success metrics.",
   },
   {
     no: "02",
     title: "Design & Prototype",
-    copy: "User-focused designs and interactive prototypes before development.",
+    copy: "Ideas become user-focused designs and interactive prototypes, creating clarity before development begins.",
   },
   {
     no: "03",
     title: "Build & Integrate",
-    copy: "Scalable, secure, high-performance products with continuous feedback.",
+    copy: "Our engineers develop scalable, secure, high-performance products with continuous feedback and seamless integration.",
   },
   {
     no: "04",
     title: "Launch & Scale",
-    copy: "Confident launches and support for long-term optimization.",
+    copy: "After testing and refinement, we launch confidently and support optimization and evolution for long-term growth.",
   },
 ];
 

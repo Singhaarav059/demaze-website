@@ -31,28 +31,28 @@ export const serviceCategories = [
     key: "ecommerce",
     name: "E-commerce",
     summary:
-      "We build intelligent eCommerce platforms that elevate shopping experiences, improve conversions, and drive growth. From multi-vendor marketplaces to subscription commerce and AI-powered personalization, our solutions help retailers thrive in the digital-first era.",
+      "We build intelligent eCommerce platforms that elevate shopping experiences, improve conversions, and drive growth. From marketplaces to subscription commerce and AI personalization, our solutions help retailers thrive.",
     items: [
       "D2C / Multi-Vendor Marketplace",
-      "AI-Powered Personalization & Recommendation",
-      "Subscription / Rental & Recurring Billing Models",
+      "AI-Powered Personalization",
+      "Subscription & Recurring Billing",
       "Checkout, Payment & Fraud Protection",
-      "Inventory, Fulfillment & Logistics Integration",
-      "UI/UX for Storefront & Customer Experience",
+      "Inventory & Logistics Integration",
+      "Storefront UI/UX",
     ],
   },
   {
     key: "cloud",
     name: "Cloud",
     summary:
-      "We design cloud architectures that ensure scalability, security, and resilience for modern businesses. From cloud migration to DevOps automation and disaster recovery, our services help you optimize performance and reduce costs.",
+      "We design cloud architectures that ensure scalability, security, and resilience. From migration to DevOps automation and disaster recovery, our services improve performance and reduce cost.",
     items: [
       "Cloud Migration & Modernization",
-      "Cloud Native App Development",
-      "Multi-Cloud & Hybrid Cloud Architecture",
-      "Cloud Security, Compliance & Governance",
-      "Observability, Monitoring & Performance Optimization",
-      "Disaster Recovery, Backup & Business Continuity",
+      "Cloud-Native App Development",
+      "Multi-Cloud & Hybrid Architecture",
+      "Security, Compliance & Governance",
+      "Observability & Performance",
+      "Disaster Recovery & Continuity",
     ],
   },
 ];
@@ -69,12 +69,12 @@ export const platformTabs = [
 export const techStackFlat = [
   "Langchain",
   "Python",
-  "Tensorflow",
+  "TensorFlow",
   "OpenAI",
   "Hugging Face",
   "Pinecone Database",
   "Apache Kafka",
-  "Elastic Search",
+  "Elasticsearch",
 ];
 
 /**

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import {
+  faqs,
   homeHero,
   homeHowWeWork,
   homeSections,
@@ -273,6 +274,31 @@ export default function Home() {
                 <h3 className="home-quad-title">{item.title}</h3>
                 <p className="home-quad-copy">{item.copy}</p>
               </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ ------------------------------------------------------------- */}
+      <section className="home-faq">
+        <div className="home-faq-inner">
+          <header className="home-section-head" data-reveal>
+            <p className="eyebrow-dot">FAQ</p>
+            <h2 className="home-section-heading">
+              Good questions, clear answers.
+            </h2>
+          </header>
+          <div className="home-faq-list">
+            {faqs.map((faq) => (
+              <details className="home-faq-item" data-reveal key={faq.question}>
+                <summary className="home-faq-question">
+                  <span>{faq.question}</span>
+                  <span className="home-faq-icon" aria-hidden>
+                    +
+                  </span>
+                </summary>
+                <p className="home-faq-answer">{faq.answer}</p>
+              </details>
             ))}
           </div>
         </div>
